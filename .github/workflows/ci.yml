@@ -24,8 +24,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'   # Use Eclipse Temurin distribution of OpenJDK
-          java-version: '17'        # Specify the Java version you need, e.g., 8, 11, 17, etc.
+          distribution: 'cornetto'   # Use Eclipse Temurin distribution of OpenJDK
+          java-version: '21'        # Specify the Java version you need, e.g., 8, 11, 17, etc.
 
       # Set up Gradle (necessary for caching and dependency installation)
       - name: Set up Gradle
