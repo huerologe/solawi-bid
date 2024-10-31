@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
-    // kotlin("plugin.serialization")
+    alias(libs.plugins.mpp)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.serialization)
 
 }
 
@@ -14,14 +14,15 @@ repositories {
     google()
 }
 
-group = project.extra["solawiBid.group"] as String
-version = project.extra["solawiBid.version"] as String
+group = libs.versions.solytonGroup
+version = libs.versions.solawi
+/*
 val kotlinxCoroutinesCore:String by project
 val composeCompiler:String by project
 val ktorClientCoreJs:String by project
 val ktorClientJs:String by project
 val ktorVersion: String by project
-
+*/
 kotlin {
     js(IR) {
         browser()
@@ -34,16 +35,19 @@ kotlin {
 
             dependencies {
                 // kotlin coroutines
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesCore")
+                implementation(libs.kotlinx.coroutines.core)
 
                 // ktor client
-                implementation("io.ktor:ktor-client-core:$ktorClientCoreJs")
-                implementation("io.ktor:ktor-client-js:$ktorClientJs")
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.js)
+                //"io.ktor:ktor-client-js:$ktorClientJs")
+
+                // own dependencies
+                api(project(":solawi-bid-api-data"))
 
                 // Serialization
-                // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-                //api(project(":solawi-bid-api-data"))
-                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.ktor.client.serialization)
 
                 // dotenv
                 implementation(npm("dotenv", "16.0.1"))
@@ -58,25 +62,12 @@ kotlin {
             kotlin.srcDir("src/jsTest/kotlin")
 
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesCore")
+                implementation(libs.kotlinx.coroutines.core)
                 implementation(kotlin("test-js"))
                 implementation(compose.html.testUtils)
 
             }
         }
-/*
-        val uiTest by getting {
-            kotlin.srcDir("src/uiTest/kotlin")
-
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesCore")
-                implementation(kotlin("test-js"))
-                implementation(compose.html.testUtils)
-
-            }
-        }
-
- */
     }
 
 
