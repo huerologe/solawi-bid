@@ -1,0 +1,77 @@
+:root{
+    --button-padding: 4px 8px;
+    --button-border-radius: 5px;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+Button {
+    background-color: white;
+    border-radius: var(--button-border-radius);
+    padding: var(--button-padding);
+    cursor: pointer;
+}
+
+Select {
+    background-color: white;
+    color: black;
+    /* font-size: 1rem; */
+    border-radius: 5px;
+    /* appearance: none; */
+    outline: 0;
+    /*box-shadow: none;*/
+    border-radius: var(--button-border-radius);
+    border: 1px solid #000;
+    padding: var(--button-padding);
+    cursor: pointer;
+}
+
+.select {
+    position: relative;
+    display: flex;
+    background-color: white;
+    color: black;
+}
+
+
+option {
+    background-color: white;
+    width: 100%;
+    color: black;
+    padding: var(--button-padding);
+}
+
+Input[type="number"] {
+    padding: var(--button-padding);
+    border-radius:var(--button-border-radius);
+}
+
+
+.loading-page {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 10000;
+  margin: -76px 0 0 -76px;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
