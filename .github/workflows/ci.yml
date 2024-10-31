@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-backend:
-    runs-on: ubuntu
+  test:
+    runs-on: ubuntu-latest
     steps:
       # Check out the code from the repository
       - name: Checkout code
@@ -25,13 +25,13 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'   # Use Eclipse Temurin distribution of OpenJDK
-          java-version: '17'        # Specify the Java version you need, e.g., 8, 11, 17, etc.
+          java-version: '21'        # Specify the Java version you need, e.g., 8, 11, 17, etc.
 
       # Set up Gradle (necessary for caching and dependency installation)
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 'latest'  # Or specify a version, like '7.5'
+          gradle-version: '8.10.2'  # Or specify a version, like '7.5'
 
       # Cache Gradle dependencies for faster builds
       - name: Cache Gradle dependencies
@@ -44,6 +44,7 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - run: ls
       # Run Gradle tests
       - name: Run tests
-        run: ./gradlew dbFunctionalTest
+        run: ./gradlew unitTest dbSchemaTest dbFunctionalTest apiTest
