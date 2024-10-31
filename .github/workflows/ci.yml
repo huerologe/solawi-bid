@@ -47,4 +47,4 @@ jobs:
       - run: ls
       # Run Gradle tests
       - name: Run tests
-        run: ./gradlew dbFunctionalTest
+        run: ./gradlew unitTest dbSchemaTest dbFunctionalTest apiTest
