@@ -14,8 +14,9 @@ jupiter = "5.9.3"
 h2 = "2.2.220"
 sl4j = "2.0.7"
 ktor-client-js="1.5.1"
-ktor-client-core-js="1.6.8"
+ktor-client-core="1.6.8"
 kotlin-serialization-json="1.6.3"
+kotlinx-coroutines-core = "1.6.4"
 # evoleq-exposedx-migrations = "1"
 [libraries]
 exposed-core = {  module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed"}
@@ -28,7 +29,13 @@ h2 = {  module = "com.h2database:h2", version.ref = "h2"}
 mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "mysql-connector" }
 
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json"}
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client-core"}
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor-client-js"}
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor"}
+
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm" ,version.ref = "ktor"}
 ktor-server-netty-jvm ={ module = "io.ktor:ktor-server-netty-jvm" ,version.ref = "ktor"}
