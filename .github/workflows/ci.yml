@@ -31,7 +31,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 'latest'  # Or specify a version, like '7.5'
+          gradle-version: '8.10.2'  # Or specify a version, like '7.5'
 
       # Cache Gradle dependencies for faster builds
       - name: Cache Gradle dependencies
