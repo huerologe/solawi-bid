@@ -6,3 +6,4 @@ hanoi
 *.iml
 build
 kotlin-js-store
+gradle-wrapper.jar
