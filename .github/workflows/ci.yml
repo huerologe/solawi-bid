@@ -44,6 +44,7 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - run: ls
       # Run Gradle tests
       - name: Run tests
         run: ./gradlew build dbFunctionalTest
