@@ -29,7 +29,7 @@ jobs:
 
       # Set up Gradle (necessary for caching and dependency installation)
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'  # Or specify a version, like '7.5'
 
