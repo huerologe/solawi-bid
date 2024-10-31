@@ -1,0 +1,8 @@
+.env
+!.env.dist
+hanoi
+.gradle
+.idea
+*.iml
+build
+kotlin-js-store
