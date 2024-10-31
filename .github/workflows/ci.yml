@@ -46,4 +46,4 @@ jobs:
 
       # Run Gradle tests
       - name: Run tests
-        run: ./gradlew dbFunctionalTest
+        run: ./gradlew build dbFunctionalTest
