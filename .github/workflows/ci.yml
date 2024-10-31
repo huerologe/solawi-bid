@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-backend:
-    runs-on: ubuntu
+  test:
+    runs-on: ubuntu-latest
     steps:
       # Check out the code from the repository
       - name: Checkout code
