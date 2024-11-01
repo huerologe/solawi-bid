@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.mpp)
     alias(libs.plugins.compose)
     alias(libs.plugins.serialization)
-
+    id("org.evoleq.math.cat.gradle.optics")
 }
 
 repositories {
@@ -66,6 +66,11 @@ kotlin {
 
 
 }
+optics{
+    sourceSet = "jsMain"
+    defaultPackage = "org.solyton.solawi.bid.data"
+}
+
 compose {
      //kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompiler")
 }

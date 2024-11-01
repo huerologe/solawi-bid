@@ -1,12 +1,5 @@
 package org.evoleq.exposedx.migration
-/*
-open class MigrationPluginExtension {
-    var domain: String = ""
-    var module: String = ""
-    var migrations: String = ""
-    var sourceSet: String = "main"
-}
-*/
+
 
 import org.gradle.api.Action
 import org.gradle.api.NamedDomainObjectContainer
