@@ -1,29 +1,11 @@
 package org.evoleq.math.cat.gradle.optics
 
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import javax.swing.*
 import java.awt.*
 
-class OpticsPlugin : Plugin<Project> {
 
-    private val optics = "optics"
-    private lateinit var extension: OpticsExtension
-
-    override fun apply(project: Project) {
-
-        extension = project.extensions.create(optics, OpticsExtension::class.java)
-        project.task("generateOptics") {
-            group = optics
-            doLast {
-
-                // Call the function to show the dialog and collect data
-                showClassDialog(project)
-            }
-        }
-    }
-
-    private fun showClassDialog(project: Project) {
+    fun showGenerateOpticsDialog(project: Project, extension: OpticsExtension) {
         // Create the main panel
         val panel = JPanel(GridBagLayout())
         val constraints = GridBagConstraints()
@@ -111,7 +93,7 @@ class OpticsPlugin : Plugin<Project> {
         }
     }
 
-    private fun addPropertyRow(propertiesPanel: JPanel) {
+    fun addPropertyRow(propertiesPanel: JPanel) {
         // Create a panel for each property row
         val rowPanel = JPanel(GridBagLayout())
         val constraints = GridBagConstraints()
@@ -156,7 +138,7 @@ class OpticsPlugin : Plugin<Project> {
         propertiesPanel.add(rowPanel)
     }
 
-    private fun gatherProperties(propertiesPanel: JPanel): List<Map<String, String>> {
+    fun gatherProperties(propertiesPanel: JPanel): List<Map<String, String>> {
         val properties = mutableListOf<Map<String, String>>()
 
         for (component in propertiesPanel.components) {
@@ -178,4 +160,4 @@ class OpticsPlugin : Plugin<Project> {
 
         return properties
     }
-}
+
