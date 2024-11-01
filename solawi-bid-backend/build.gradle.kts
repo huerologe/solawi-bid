@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.exposed.crypt)
     implementation(libs.exposed.dao)
     implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.joda.time)
     // mysql connector
     implementation(libs.mysql.connector.java)
 
