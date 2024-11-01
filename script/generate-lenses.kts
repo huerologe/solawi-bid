@@ -112,8 +112,6 @@ val members: List<String> = input1.drop(1).filter {item ->
             focusName = spilt[1],
             focusType = spilt[2]
         )
-
-
 }.map{
     lensDescriptor -> when(lensDescriptor.modifier) {
         is Modifier.Ignore -> "ignore"

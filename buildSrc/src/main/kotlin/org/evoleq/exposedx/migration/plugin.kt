@@ -2,7 +2,6 @@ package org.evoleq.exposedx.migration
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 
 class MigrationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
