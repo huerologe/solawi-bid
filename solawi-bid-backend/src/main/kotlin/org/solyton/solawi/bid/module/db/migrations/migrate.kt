@@ -12,7 +12,7 @@ interface DbConf {
 }
 object Config {
     object H2 : DbConf {
-        override val url: String = "jdbc:h2:mem:test"
+        override val url: String = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
         override val driver: String = "org.h2.Driver"
         override val user: String = "root"
         override val password: String = ""
