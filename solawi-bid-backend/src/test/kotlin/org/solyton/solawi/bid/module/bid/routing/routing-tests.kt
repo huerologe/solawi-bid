@@ -43,9 +43,12 @@ class RoutingTests {
                    )
                 )
             }
-            assertTrue { response.status == HttpStatusCode.OK }
+
+
+
+            assertTrue("Status not OK") { response.status == HttpStatusCode.OK }
             val x = response.bodyAsText()
-            assertTrue { x.isNotEmpty() }
+            assertTrue("Message has empty body") { x.isNotEmpty() }
         }
     }
 }

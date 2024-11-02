@@ -35,11 +35,11 @@ class Migration1712001749830(
 
         val smith = User.new {
             username = "schmidt@alpha-structure.com"
-            password = "pass1234"
+            password = "\$2a\$10\$5EENEnXKE4oNT0AejWzy8Oa09DkBDiQTnk2LyqtqpBa3DrZijo51O"
         }
         val sulz = User.new {
             username = "florian.schmidt@sulzer.de"
-            password = "pass1234"
+            password = "\$2a\$10\$5EENEnXKE4oNT0AejWzy8Oa09DkBDiQTnk2LyqtqpBa3DrZijo51O"
         }
     }
 

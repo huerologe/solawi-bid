@@ -20,6 +20,6 @@ class User(id: EntityID<UUID>) : UUIDEntity(id) {
     var username by Users.username
     var password by Users.password
 
-    // var rights by Right via UserRoleContexts
+    // var rights by Right via RoleRightContexts
 }
 

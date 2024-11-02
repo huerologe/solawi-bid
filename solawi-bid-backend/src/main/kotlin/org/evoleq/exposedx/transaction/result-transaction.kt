@@ -10,6 +10,6 @@ fun <T : Any> resultTransaction(database: Database, statement: Transaction.() ->
     try {
         Result.Success(statement())
     } catch (e: Throwable) {
-        Result.Failure(e.message?: NoMessageProvided)
+        Result.Failure.Exception(e)
     }
 }

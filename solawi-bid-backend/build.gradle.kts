@@ -44,10 +44,24 @@ dependencies {
     implementation(libs.ktor.server.netty.jvm)
     implementation(libs.ktor.server.cors)
     implementation(libs.ktor.server.content.negotiation)
+    implementation("io.ktor:ktor-server-auth:2.3.12") // Replace with the latest Ktor version
+    implementation("io.ktor:ktor-server-auth-jwt:2.3.12")
+//    implementation("io.ktor:ktor-auth:2.3.12")
+//    implementation("io.ktor:ktor-auth-jwt:2.3.12")
+    implementation("com.auth0:java-jwt:4.0.0")
     implementation(libs.logback)
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.junit.jupiter)
+
+    // bcrypt
+    implementation ("org.mindrot:jbcrypt:0.4")
+
+    // jwt
+    implementation ("io.jsonwebtoken:jjwt-api:0.11.5") // JWT API
+    implementation ("io.jsonwebtoken:jjwt-impl:0.11.5") // JWT implementation
+    implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5") // JWT Jackson support (for JSON processing)
+
 
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
 

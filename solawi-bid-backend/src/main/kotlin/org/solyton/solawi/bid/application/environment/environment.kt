@@ -37,7 +37,7 @@ data class Environment(
     val jwt: JWT
 )
 data class JWT(
-    val domain:String,
+    val domain:String, // issuer
     val audience: String,
     val realm: String,
     val secret: String
