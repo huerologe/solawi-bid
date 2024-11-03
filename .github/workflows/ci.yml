@@ -43,26 +43,19 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
-      - name: Run unit tests
-        run: ./gradlew unitTest
-      - name: Run schema tests
-        run: ./gradlew dbSchemaTest
-      - name: Run dbFunctional tests
-        run: ./gradlew dbFunctionalTest
-      - name: Run api tests
-        run: ./gradlew apiTest
-      - name: Upload api test report
-        uses: actions/upload-artifact@v4
+
+      - name: Build without tests
+        run: ./gradlew build -x test
+
+      - uses: ./.github/actions/test
         with:
-          name: api-test-report
-          path: solawi-bid-backend/build/reports/tests/apiTest
-      - name: Display api test results
-        run: |
-          echo "## Api Test Report"
-          echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"
-      - name: Upload test results
-        uses: dorny/test-reporter@v1.9.1 # Check for the latest version
+          testSuite: unitTest
+      - uses: ./.github/actions/test
         with:
-          name: APi Test Results
-          path: solawi-bid-backend/build/reports/tests/apiTest/ # Path to the JUnit XML reports
-          reporter: java-junit
+          testSuite: schemaTest
+      - uses: ./.github/actions/test
+        with:
+          testSuite: dbFunctionalTest
+      - uses: ./.github/actions/test
+        with:
+          testSuite: apiTest
