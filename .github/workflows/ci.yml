@@ -59,4 +59,10 @@ jobs:
       - name: Display api test results
         run: |
           echo "## Api Test Report"
-          echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"    
+          echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"
+      - name: Upload test results
+        uses: dorny/test-reporter@v1.9.1 # Check for the latest version
+        with:
+          name: APi Test Results
+          path: solawi-bid-backend/build/reports/tests/apiTest/ # Path to the JUnit XML reports
+          reporter: junit
