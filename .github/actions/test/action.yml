@@ -32,14 +32,16 @@ runs:
     - name: Upload api test report
       uses: actions/upload-artifact@v4
       with:
-        name: ${{inputs.reportName}}-Test-Report-${{inputs.runId}}
+        name: ${{inputs.reportName}}-Test-Report
+        #-${{inputs.runId}}
         path: solawi-bid-backend/build/test-results/${{inputs.testSuite}}
       if: always()
     - name: Upload test results
       uses: dorny/test-reporter@v1.9.1 # Check for the latest version
       with:
         name: APi Test Results
-        artifact: ${{inputs.reportName}}-Test-Report-${{inputs.runId}}
+        artifact: ${{inputs.reportName}}-Test-Report
+        #-${{inputs.runId}}
         #solawi-bid-backend/build/test-results/${{inputs.testSuite}}/
         path: "*.xml" # Path to the JUnit XML reports
         reporter: java-junit
