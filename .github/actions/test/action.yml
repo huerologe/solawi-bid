@@ -27,9 +27,9 @@ runs:
         echo "See detailed reports here: [${{inputs.reportName}} Test Report](solawi-bid-backend/build/reports/tests/${{inputs.testSuite}}/index.html)"
       if: always()
 
-    #- name: Upload test results
-    #  uses: dorny/test-reporter@v1.9.1 # Check for the latest version
-    #  with:
-    #    name: APi Test Results
-    #    path: solawi-bid-backend/build/reports/tests/apiTest/index.html # Path to the JUnit XML reports
-    #    reporter: java-junit
+    - name: Upload test results
+      uses: dorny/test-reporter@v1.9.1 # Check for the latest version
+      with:
+        name: APi Test Results
+        path: solawi-bid-backend/build/reports/tests/${{inputs.testSuite}}/index.html # Path to the JUnit XML reports
+        reporter: java-junit
