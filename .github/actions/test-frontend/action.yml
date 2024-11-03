@@ -11,7 +11,7 @@ runs:
           frontend:
             - "solawi-bid-frontend/**"
             - "solawi-bid-api-data/**"
-            - ".github/**"
+            # - ".github/**"
             - "gradle"
 
     - name: Build frontend without tests
