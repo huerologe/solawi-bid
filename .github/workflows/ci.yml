@@ -56,26 +56,22 @@ jobs:
         with:
           testSuite: unitTest
           reportName: Unit
-          runId: ${{github.run_id}}
         if: always()
       - name: Run schema tests
         uses: ./.github/actions/test
         with:
           testSuite: schemaTest
           reportName: Schema
-          runId: ${{github.run_id}}
         if: always()
       - name: Run db functional tests
         uses: ./.github/actions/test
         with:
           testSuite: dbFunctionalTest
-          reportName: Db Functional
-          runId: ${{github.run_id}}
+          reportName: DbFunctional
         if: always()
       - name: Run api tests
         uses: ./.github/actions/test
         with:
           testSuite: apiTest
           reportName: Api
-          runId: ${{github.run_id}}
         if: always()
