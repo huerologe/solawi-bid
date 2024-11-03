@@ -13,33 +13,32 @@ runs:
             - "solawi-bid-api-data/**"
             - ".github/**"
 
-    -
-      name: Build backend without tests
+    - name: Build backend without tests
       shell: bash
       run: ./gradlew solawi-bid-backend:build -x test
-      if: steps.changes.outputs.backend = "true"
+      if: steps.changes.outputs.backend == "true"
 
     - name: Run unit tests
       uses: ./.github/actions/test
       with:
         testSuite: unitTest
         reportName: Unit
-      if: steps.changes.outputs.backend = "true"
+      if: steps.changes.outputs.backend == "true"
     - name: Run schema tests
       uses: ./.github/actions/test
       with:
         testSuite: schemaTest
         reportName: Schema
-      if: steps.changes.outputs.backend = "true"
+      if: steps.changes.outputs.backend == "true"
     - name: Run db functional tests
       uses: ./.github/actions/test
       with:
         testSuite: dbFunctionalTest
         reportName: DbFunctional
-      if: steps.changes.outputs.backend = "true"
+      if: steps.changes.outputs.backend == "true"
     - name: Run api tests
       uses: ./.github/actions/test
       with:
         testSuite: apiTest
         reportName: Api
-      if: steps.changes.outputs.backend = "true"
+      if: steps.changes.outputs.backend == "true"
