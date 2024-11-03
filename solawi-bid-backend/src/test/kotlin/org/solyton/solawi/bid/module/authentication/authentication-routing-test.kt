@@ -31,10 +31,10 @@ class AuthenticationRoutingTest {
 
     companion object {
         @JvmStatic
-        fun testCases(): Stream<Arguments> = listOf(
-            TestCases( group = "before-login", *beforeLogin),
-            TestCases(group = "after-login", *afterLogin)
-        ).flatten().map { Arguments.of(it.group, it.testCase) }.stream()
+        fun testCases(): Stream<Arguments> = flatten(
+            TestCases(group = "before-login", testCases = beforeLogin),
+            TestCases(group = "after-login", testCases = afterLogin)
+        ).map { Arguments.of(it.group, it.testCase) }.stream()
 
         val beforeLogin = arrayOf(
             "before-login",

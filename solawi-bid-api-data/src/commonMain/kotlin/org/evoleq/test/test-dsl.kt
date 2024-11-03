@@ -50,3 +50,6 @@ fun List<TestCases>.flatten(): List<TestCase> = map {
 
 @MathDsl
 fun TestCases(group: String, vararg testCases: String) = TestCases(group, listOf(*testCases))
+
+@MathDsl
+fun flatten(vararg testCases: TestCases): List<TestCase> = testCases.toList().flatten()
