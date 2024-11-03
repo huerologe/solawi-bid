@@ -1,8 +1,8 @@
 package lib.optics.transform
 
-import org.evoleq.maths.Maths
 import lib.optics.iso.Iso
 import lib.optics.storage.Storage
+import org.evoleq.maths.Maths
 
 
 @Maths

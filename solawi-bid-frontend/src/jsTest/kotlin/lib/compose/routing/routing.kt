@@ -1,6 +1,6 @@
 package lib.compose.routing
 
-import lib.parser.*
+import lib.parser.Result
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi

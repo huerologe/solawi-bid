@@ -24,6 +24,16 @@ operator fun HashMap<KClass<*>, KSerializer<*>>.get(className: String): KSeriali
     return serializers[clazz]!!
 }
 
+//@KtorDsl
+@Suppress("FunctionName","UNCHECKED_CAST")
+inline fun <reified T> Serializer(): KSerializer<T> {
+    return serializers[T::class]!! as KSerializer<T>
+}
+
+
+@Suppress("FunctionName","UNCHECKED_CAST")
+inline fun <reified T : Any> ResultSerializer(): KSerializer<Result<T>> =
+    Result.serializer(Serializer())
 
 object ResultSerializer : KSerializer<Result<*>> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Result") {

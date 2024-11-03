@@ -5,14 +5,12 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.jodatime.datetime
-import org.joda.time.DateTime
 import java.util.*
-
 
 
 object Tokens : UUIDTable("tokens") {
     val userId = reference("user_id", Users)
-    val refreshToken = varchar("refresh_token", 256)
+    val refreshToken = uuid("refresh_token")
     val expiresAt = datetime("expires_at")
     /*
     val tokenValue = varchar("token_value", 255).uniqueIndex() // The actual token value
@@ -28,7 +26,7 @@ object Tokens : UUIDTable("tokens") {
 class Token(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Token>(Tokens)
 
-    var user by User referencedOn Users.id
+    var user by User referencedOn Tokens.userId
     var refreshToken by Tokens.refreshToken
     var expiresAt by Tokens.expiresAt
     /*

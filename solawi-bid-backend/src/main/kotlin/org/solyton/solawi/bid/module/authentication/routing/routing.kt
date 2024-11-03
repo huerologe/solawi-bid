@@ -2,12 +2,12 @@ package org.solyton.solawi.bid.module.authentication.routing
 
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.evoleq.math.state.runOn
 import org.evoleq.math.state.times
+import org.evoleq.util.Base
 import org.evoleq.util.Receive
 import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
@@ -21,13 +21,13 @@ import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 fun Routing.authentication(environment: Environment) {
     // Login endpoint
     post("/login") {
-        Receive<Login>() * Login(jwt = environment.jwt) * Respond()
+        Receive<Login>() * Login(jwt = environment.jwt) * Respond() runOn Base(call, environment)
 
     }
 
     // Refresh token endpoint
     post("/refresh") {
-        Receive<RefreshToken>() * Refresh(jwt = environment.jwt) * Respond()
+        Receive<RefreshToken>() * Refresh(jwt = environment.jwt) * Respond() runOn Base(call, environment)
     }
 
     // Logout endpoint

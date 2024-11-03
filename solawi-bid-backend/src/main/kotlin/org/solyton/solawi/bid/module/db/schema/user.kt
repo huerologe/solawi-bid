@@ -9,7 +9,7 @@ import java.util.*
 
 object Users : UUIDTable("users") {
     val username = varchar("username", 50).index()
-    val password = varchar("varchar", 50)
+    val password = varchar("varchar", 500)
    // val profile = reference("profile", Profiles)
 }
 

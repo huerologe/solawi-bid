@@ -15,7 +15,7 @@ import org.solyton.solawi.bid.application.environment.JWT as JWTDATA
 fun Application.installAuthentication(jwt: JWTDATA)  {
         install(Authentication) {
             jwt("auth-jwt") {
-                val signingKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)//jwt.secret.toByteArray())//
+                val signingKey: SecretKey = Keys.hmacShaKeyFor(jwt.secret.toByteArray())//
                 val algorithm = Algorithm.HMAC256(signingKey.encoded)
                 verifier(
                     JWT.require(algorithm)
@@ -32,3 +32,7 @@ fun Application.installAuthentication(jwt: JWTDATA)  {
             }
         }
     }
+fun main() {
+    val signingKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256)
+    println("<<<<<<< key = ${signingKey.encoded}")
+}

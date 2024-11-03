@@ -1,6 +1,5 @@
 package org.evoleq.maths.state
 
-import lib.maths.*
 import org.evoleq.maths.Maths
 import org.evoleq.maths.evaluate
 import org.evoleq.maths.mapFirst

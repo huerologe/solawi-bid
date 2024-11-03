@@ -3,6 +3,7 @@ package org.solyton.solawi.bid.module.authentication.service
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.security.Keys
 import org.solyton.solawi.bid.application.environment.JWT
 import java.util.*
 
@@ -16,8 +17,8 @@ fun generateAccessToken(userId: String, jwt: JWT): String {
         .setIssuer(jwt.domain)
         .setAudience(jwt.audience)
         .setExpiration(Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
-        .signWith(SignatureAlgorithm.HS256, jwt.secret)
+        .signWith(Keys.hmacShaKeyFor(jwt.secret.toByteArray()), SignatureAlgorithm.HS256)
         .compact()
 }
 
-fun generateRefreshToken() = UUID.randomUUID().toString()
+fun generateRefreshToken():UUID = UUID.randomUUID()

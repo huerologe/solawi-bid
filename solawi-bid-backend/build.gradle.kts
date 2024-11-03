@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.serialization)
     alias(libs.plugins.shadow)
     //id("com.github.johnrengelman.shadow") version "8.1.0"
-    id("org.evoleq.exposedx.migration") apply true
+    id("org.evoleq.exposedx.migration")
     //alias(libs)
     // id("jacoco") // JaCoCo plugin
 }
@@ -159,6 +159,13 @@ migrations {
     migration("bidApiTest") {
         domain = "org.solyton.solawi.bid"
         module = "bid/routing"
+        migrations = "migrations"
+        sourceSet = "test"
+    }
+
+    migration("authenticationApiTest") {
+        domain = "org.solyton.solawi.bid"
+        module = "authentication/routing"
         migrations = "migrations"
         sourceSet = "test"
     }

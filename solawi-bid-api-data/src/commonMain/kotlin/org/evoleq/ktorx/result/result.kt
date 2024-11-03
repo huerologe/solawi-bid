@@ -5,7 +5,7 @@ import org.evoleq.math.MathDsl
 
 
 @Serializable(with = ResultSerializer::class)
-sealed class Result<out T>{
+sealed class Result<out T : Any>{
     @Serializable
     data class Success<out T: Any>(@Serializable val data: T): Result<T>()
     @Serializable

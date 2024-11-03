@@ -1,7 +1,5 @@
 package org.evoleq.exposedx.migration
 
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import java.io.File
 import java.util.*

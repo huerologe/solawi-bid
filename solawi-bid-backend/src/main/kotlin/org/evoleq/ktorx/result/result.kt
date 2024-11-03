@@ -4,9 +4,6 @@ package org.evoleq.ktorx.result
 // code now hosted in solawi-bid-api-data
 
 
-import kotlinx.serialization.Serializable
-import org.evoleq.math.MathDsl
-
 /*
 @Serializable
 sealed class Result<out T> {

@@ -4,7 +4,6 @@ import io.ktor.util.*
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bind
-import org.evoleq.ktorx.result.map
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
@@ -15,18 +14,19 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import org.solyton.solawi.bid.application.environment.JWT
 import org.solyton.solawi.bid.module.authentication.data.api.AccessToken
+import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
+import org.solyton.solawi.bid.module.authentication.data.api.Login
+import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
+import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
 import org.solyton.solawi.bid.module.authentication.service.generateAccessToken
 import org.solyton.solawi.bid.module.authentication.service.generateRefreshToken
 import org.solyton.solawi.bid.module.db.schema.Token
 import org.solyton.solawi.bid.module.db.schema.Tokens
 import org.solyton.solawi.bid.module.db.schema.User
 import org.solyton.solawi.bid.module.db.schema.Users
-import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
-import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
-import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
 import org.solyton.solawi.bid.module.user.exception.UserManagementException
 import org.solyton.solawi.bid.module.user.service.credentialsAreOK
+import java.util.*
 
 
 /**
@@ -58,10 +58,6 @@ fun Refresh(jwt: JWT) = KlAction<Result<RefreshToken>, Result<AccessToken>> {
     }
 }
 
-
-
-
-
 fun Transaction.login(login: Login, jwt: JWT): LoggedIn {
     val user = User.find{ Users.username eq login.username }.firstOrNull()
         ?: throw UserManagementException.UserDoesNotExist(login.username)
@@ -80,19 +76,21 @@ fun Transaction.login(login: Login, jwt: JWT): LoggedIn {
 // Generate refresh token and save to the database
 fun Transaction.generateAndStoreRefreshToken(user: User): String {
     val refreshToken = generateRefreshToken()
-    Token.new {
-        this.user = user
-        this.refreshToken = refreshToken
-        expiresAt = DateTime.now().plusDays(7)
+    return transaction {
+        Token.new {
+            this.user = user
+            this.refreshToken = refreshToken
+            expiresAt = DateTime.now().plusDays(7)
+        }
+        refreshToken.toString()
     }
-    return refreshToken
 }
 
 // Validate refresh token
 fun Transaction.validateRefreshToken(refreshToken: String): Boolean {
     return transaction {
 
-        Token.find { Tokens.refreshToken eq refreshToken }
+        Token.find { Tokens.refreshToken eq UUID.fromString(refreshToken) }
             .singleOrNull()
             ?.let {
                 DateTime.now() < it.expiresAt // Ensure token is not expired
@@ -104,7 +102,7 @@ fun Transaction.validateRefreshToken(refreshToken: String): Boolean {
 // Revoke a refresh token
 fun revokeRefreshToken(refreshToken: String) {
     transaction {
-        Tokens.deleteWhere { Tokens.refreshToken eq refreshToken }
+        Tokens.deleteWhere { Tokens.refreshToken eq UUID.fromString(refreshToken) }
     }
 }
 

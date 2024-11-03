@@ -1,7 +1,6 @@
 package lib.compose.storage
 
-import androidx.compose.runtime.*
-import hanoi.towers.api.*
+import androidx.compose.runtime.Composable
 import lib.compose.Markup
 import lib.optics.storage.Storage
 

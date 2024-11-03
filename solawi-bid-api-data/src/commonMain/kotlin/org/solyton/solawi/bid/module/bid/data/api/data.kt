@@ -1,8 +1,6 @@
 package org.solyton.solawi.bid.module.bid.data.api
 
 import kotlinx.serialization.Serializable
-import org.evoleq.serializationx.UUIDSerializer
-import com.benasher44.uuid.Uuid //as UUID
 
 
 @Serializable

@@ -1,9 +1,6 @@
 package org.evoleq.math.state
 
 import kotlinx.coroutines.runBlocking
-import org.evoleq.math.state.State
-import org.evoleq.math.state.applyTo
-import org.evoleq.math.state.bind
 import org.evoleq.math.x
 import kotlin.test.Test
 import kotlin.test.assertEquals

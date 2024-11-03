@@ -1,9 +1,8 @@
 package org.evoleq.math.crypto
 
-import java.util.Base64
+import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import java.net.URLEncoder
 
 fun generateSecureLink(roundId: String, auctionId: String, secretKey: String): String {
     // Concatenate and encode the parameters

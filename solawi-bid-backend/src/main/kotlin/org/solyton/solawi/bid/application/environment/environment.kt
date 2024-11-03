@@ -1,7 +1,6 @@
 package org.solyton.solawi.bid.application.environment
 
 import io.ktor.server.application.*
-import org.jetbrains.exposed.sql.DatabaseConfig
 
 
 fun Application.setupEnvironment(): Environment = with(environment.config){

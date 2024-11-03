@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.jodatime.datetime
 import org.joda.time.DateTime
-import java.util.UUID
+import java.util.*
 
 object Sessions : UUIDTable("sessions"){
     val userId = reference("user_id",Users) // Foreign key to users table

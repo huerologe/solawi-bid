@@ -6,7 +6,10 @@ import org.solyton.solawi.bid.DbFunctional
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.api.PreRound
 import org.solyton.solawi.bid.module.bid.data.toApiType
-import org.solyton.solawi.bid.module.db.schema.*
+import org.solyton.solawi.bid.module.db.schema.AuctionBidders
+import org.solyton.solawi.bid.module.db.schema.Auctions
+import org.solyton.solawi.bid.module.db.schema.Bidders
+import org.solyton.solawi.bid.module.db.schema.Rounds
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

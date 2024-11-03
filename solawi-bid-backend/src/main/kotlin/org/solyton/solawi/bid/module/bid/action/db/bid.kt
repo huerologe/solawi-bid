@@ -10,7 +10,6 @@ import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.solyton.solawi.bid.module.bid.data.api.Bid
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
