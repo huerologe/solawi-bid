@@ -17,38 +17,52 @@ import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.evoleq.test.*
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import org.solyton.solawi.bid.Api
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import java.io.File
+import java.util.stream.Stream
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 class AuthenticationRoutingTest {
 
-    val beforeLogin = arrayOf(
-        "before-login",
-        "login-with-wrong-username",
-        "login-with-wrong-password",
-    )
-    val afterLogin = listOf(
-        "login",
-        "use-right-token",
-        "use-wrong-token",
-        "refresh-token",
-        "use-old-token",
-        "use-new-token",
-        "revoke-token",
-        "use-revoked-tokens",
-        "token-expiration" // ???
-    )
+    companion object {
+        @JvmStatic
+        fun testCases(): Stream<Arguments> = listOf(
+            TestCases( group = "before-login", *beforeLogin),
+            TestCases(group = "after-login", *afterLogin)
+        ).flatten().map { Arguments.of(it.group, it.testCase) }.stream()
+
+        val beforeLogin = arrayOf(
+            "before-login",
+            "login-with-wrong-username",
+            "login-with-wrong-password",
+        )
+        val afterLogin = arrayOf(
+            "login",
+            "use-right-token",
+            "use-wrong-token",
+             "refresh-token",
+             "use-old-token",
+             "use-new-token",
+             "revoke-token",
+             "use-revoked-tokens",
+            // "token-expiration" // ???
+        )
+    }
+
+
     fun beforeLogin(state: String) = beforeLogin.contains(state)
     fun afterLogin(state: String) = afterLogin.contains(state)
 
 
     @Api@ParameterizedTest
+    /*
     @ValueSource(strings = [
         "before-login",
         "login-with-wrong-username",
@@ -63,7 +77,10 @@ class AuthenticationRoutingTest {
         // "use-revoked-tokens"
         // "token-expiration" ???
     ])
-    fun login(case: String) = runBlocking {
+
+     */
+    @MethodSource("testCases")
+    fun login(group: String, case: String) = runBlocking {
         testApplication() {
             setup {
                 environment {
@@ -81,11 +98,12 @@ class AuthenticationRoutingTest {
                     }
                 }
             }
-            test(case) {
+
+            test(group,case) {
                 val rightUsername = "developer@alpha-structure.com"
                 val rightPassword = "pass1234"
 
-                testGroup(::beforeLogin) {
+                testGroup("before-login"){//::beforeLogin) {
                     testCase("before-login") {
                         val beforeLoginResponse = testCall()
                         assertFalse("Status is OK") { beforeLoginResponse.status == HttpStatusCode.OK }
@@ -102,7 +120,8 @@ class AuthenticationRoutingTest {
                         assertTrue("Status in not Unauthorized"){loginResponse.status == HttpStatusCode.Unauthorized}
                     }
                 }
-                testGroup(::afterLogin) {
+
+                testGroup("after-login") {//::afterLogin) {
                     val loginResponse = login(rightUsername, rightPassword)
                     testCase("login") {
                         val x = loginResponse.bodyAsText()
@@ -128,22 +147,22 @@ class AuthenticationRoutingTest {
                         assertTrue("Status not OK") { positiveResponse.status == HttpStatusCode.OK }
                     }
                     // Refresh token and check access with new token and old token
-                    testCase("refresh-token"){
+                    testCase("refresh-token", true){
                         kotlin.test.fail("Not implemented yet!")
                     }
                     // new token  -> expect success
-                    testCase("use-new-token") {
+                    testCase("use-new-token",true) {
                         kotlin.test.fail("Not implemented yet!")
                     }
                     // old token -> expect fail
-                    testCase( "use-old-token") {
+                    testCase( "use-old-token", true) {
                         kotlin.test.fail("Not implemented yet!")
                     }
                     // Revoke token and check access. Expect no token work anymore
-                    testCase("revoke-token") {
+                    testCase("revoke-token", true) {
                         kotlin.test.fail("Not implemented yet!")
                     }
-                    testCase("use-revoked-tokens") {
+                    testCase("use-revoked-tokens",true) {
                         kotlin.test.fail("Not implemented yet!")
                     }
                 }

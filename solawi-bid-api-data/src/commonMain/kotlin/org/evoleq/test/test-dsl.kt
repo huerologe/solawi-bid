@@ -24,7 +24,8 @@ suspend fun <T : Any> Any.parameters(test: suspend Any.() -> Array<T>): Array<T>
 
 data class TestCase(
     val group: String,
-    val testCase: String
+    val testCase: String,
+    val skipped: Boolean = false
 )
 
 data class TestCases(
@@ -40,8 +41,8 @@ suspend fun TestCase.testGroup(group: String, test: suspend Any.() -> Unit) =
 suspend fun test(group: String, case: String, test: suspend TestCase.() -> Unit): Unit = with(TestCase(group,case)){test()}
 
 @MathDsl
-suspend fun TestCase.testCase(case: String, test: suspend Any.() -> Unit) =
-    if(case == testCase) test() else Unit
+suspend fun TestCase.testCase(case: String,skipped: Boolean = false, test: suspend Any.() -> Unit) =
+    if(!skipped && case == testCase) test() else Unit
 
 @MathDsl
 fun List<TestCases>.flatten(): List<TestCase> = map {
