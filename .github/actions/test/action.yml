@@ -17,7 +17,7 @@ runs:
     - name: Upload api test report
       uses: actions/upload-artifact@v4
       with:
-        name: api-test-report
+        name: ${{inputs.reportName}}-Test-Report
         path: solawi-bid-backend/build/reports/tests/${{inputs.testSuite}}
       if: always()
     - name: Display api test results
