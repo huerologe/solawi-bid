@@ -43,8 +43,20 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
-
-      - run: ls
-      # Run Gradle tests
-      - name: Run tests
-        run: ./gradlew unitTest dbSchemaTest dbFunctionalTest apiTest
+      - name: Run unit tests
+        run: ./gradlew unitTest
+      - name: Run schema tests
+        run: ./gradlew dbSchemaTest
+      - name: Run dbFunctional tests
+        run: ./gradlew dbFunctionalTest
+      - name: Run api tests
+        run: ./gradlew apiTest
+      - name: Upload api test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-report
+          path: solawi-bid-backend/build/reports/tests/apiTest
+      - name: Display api test results
+        run: |
+          echo "## Api Test Report"
+          echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"    
