@@ -29,3 +29,6 @@ jobs:
 
       - name: Run Backend tests
         uses: ./.github/actions/test-backend
+
+      - name: Run Frontend tests
+        uses: ./.github/actions/test-frontend

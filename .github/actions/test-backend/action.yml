@@ -12,6 +12,7 @@ runs:
             - "solawi-bid-backend/**"
             - "solawi-bid-api-data/**"
             - ".github/**"
+            - "gradle"
 
     - name: Build backend without tests
       shell: bash
