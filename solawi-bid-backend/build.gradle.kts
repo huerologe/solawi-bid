@@ -102,7 +102,11 @@ tasks.register<Test>("dbFunctionalTest"  ) {
     useJUnitPlatform() {
         includeTags("dbFunctional")
     }
+    reports {
+        junitXml.required = true
+        html.required = true
 
+    }
 //    finalizedBy(tasks.jacocoTestReport)
 }
 
@@ -111,6 +115,10 @@ tasks.register<Test>("apiTest") {
     useJUnitPlatform() {
         includeTags("api")
     }
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
 //    finalizedBy(tasks.jacocoTestReport)
 }
 
@@ -118,6 +126,11 @@ tasks.register<Test>("unitTest") {
     group = "verification"
     useJUnitPlatform() {
         includeTags("unit")
+
+    }
+    reports {
+        junitXml.required = true
+        html.required = true
     }
 //    finalizedBy(tasks.jacocoTestReport)
 }
@@ -125,9 +138,15 @@ tasks.register<Test>("schemaTest") {
     group = "verification"
     useJUnitPlatform() {
         includeTags("schema")
+
+    }
+    reports {
+        junitXml.required = true
+        html.required = true
     }
 //    finalizedBy(tasks.jacocoTestReport)
 }
+
 /*
 tasks.jacocoTestReport {
     reports {

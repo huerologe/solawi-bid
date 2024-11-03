@@ -7,6 +7,10 @@ on:
   pull_request:
       branches:
         - main
+permissions:
+  contents: read
+  actions: read
+  checks: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -44,7 +48,30 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      - run: ls
-      # Run Gradle tests
-      - name: Run tests
-        run: ./gradlew unitTest dbSchemaTest dbFunctionalTest apiTest
+      - name: Build backend without tests
+        run: ./gradlew solawi-bid-backend:build -x test
+
+      - name: Run unit tests
+        uses: ./.github/actions/test
+        with:
+          testSuite: unitTest
+          reportName: Unit
+        if: always()
+      - name: Run schema tests
+        uses: ./.github/actions/test
+        with:
+          testSuite: schemaTest
+          reportName: Schema
+        if: always()
+      - name: Run db functional tests
+        uses: ./.github/actions/test
+        with:
+          testSuite: dbFunctionalTest
+          reportName: DbFunctional
+        if: always()
+      - name: Run api tests
+        uses: ./.github/actions/test
+        with:
+          testSuite: apiTest
+          reportName: Api
+        if: always()
