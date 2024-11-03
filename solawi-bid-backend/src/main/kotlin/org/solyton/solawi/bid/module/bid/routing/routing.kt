@@ -16,40 +16,45 @@ import org.solyton.solawi.bid.module.bid.data.api.Bid
 
 
 @KtorDsl
-fun Routing.bid(environment: Environment) = route("bid"){
+fun Routing.bid(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
+    authenticate {
+        route("bid") {
 
-    get("all") {
-        call.respond(Result.Success("not impl yet!"))
-        // getAllUsers() runOn Base(call, environment)
+            get("all") {
+                call.respond(Result.Success("not impl yet!"))
+                // getAllUsers() runOn Base(call, environment)
 
+            }
+
+            post("send") {
+                // send bid
+                // params: Crypto Link, bid-amount
+                //
+                (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
+            }
+        }
     }
-
-    post("send") {
-        // send bid
-        // params: Crypto Link, bid-amount
-        //
-        (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
-    }
-}
-
 @KtorDsl
-fun Routing.auction(environment: Environment) = route("auction"){
-    post("create") {
+fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
+    authenticate{
+        route("auction"){
+            post("create") {
 
-    }
-    post("update") {
+            }
+            post("update") {
 
-    }
-    delete(":id") {
+            }
+            delete(":id") {
 
-    }
-    get("results") {
+            }
+            get("results") {
 
-    }
-    get("all"){
+            }
+            get("all"){
 
+            }
+        }
     }
-}
 
 @KtorDsl
 fun Routing.round(environment: Environment) = route("round") {

@@ -1,7 +1,5 @@
 package org.solyton.solawi.bid.module.user.action
 
-import org.solyton.solawi.bid.module.user.data.api.User
-import org.solyton.solawi.bid.module.db.schema.User as UserEntity
 import io.ktor.server.response.*
 import org.evoleq.math.state.bind
 import org.evoleq.math.state.map
@@ -10,6 +8,8 @@ import org.evoleq.util.ApiAction
 import org.evoleq.util.DbAction
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.solyton.solawi.bid.module.user.data.api.User
+import org.solyton.solawi.bid.module.db.schema.User as UserEntity
 
 /**
  * Get all users in the database

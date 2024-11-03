@@ -47,7 +47,7 @@ class Migration1730372270554(
         val round = Round.new {
             this.auction = auction
             link = "test-link"
-            // state = RoundState.Started.toString()
+            //state = RoundState.Started.toString()
         }
         auction.rounds+round
         // invite bidders to the auction
@@ -61,6 +61,7 @@ class Migration1730372270554(
             it[AuctionBidders.bidderId] = bidder.id
         }
         auction.bidders+bidder
+
     }
 
     /**

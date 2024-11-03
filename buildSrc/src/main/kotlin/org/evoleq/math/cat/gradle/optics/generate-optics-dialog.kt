@@ -1,11 +1,14 @@
 package org.evoleq.math.cat.gradle.optics
 
 import org.gradle.api.Project
+import java.awt.Dimension
+import java.awt.GridBagConstraints
+import java.awt.GridBagLayout
+import java.awt.Insets
 import javax.swing.*
-import java.awt.*
 
 
-    fun showGenerateOpticsDialog(project: Project, extension: OpticsExtension) {
+fun showGenerateOpticsDialog(project: Project, extension: OpticsExtension) {
         // Create the main panel
         val panel = JPanel(GridBagLayout())
         val constraints = GridBagConstraints()

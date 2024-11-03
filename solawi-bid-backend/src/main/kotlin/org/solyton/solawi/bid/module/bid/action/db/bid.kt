@@ -1,6 +1,8 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
 import org.evoleq.exposedx.transaction.resultTransaction
+import org.evoleq.ktorx.result.Result
+import org.evoleq.ktorx.result.bind
 import org.evoleq.ktorx.result.map
 import org.evoleq.math.MathDsl
 import org.evoleq.math.x
@@ -8,19 +10,17 @@ import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.solyton.solawi.bid.module.bid.data.api.Bid
-import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 
 @MathDsl
-val StoreBid = KlAction { bid: Bid ->  DbAction {
-    database -> resultTransaction(database) {
-        storeBid(bid)
-    } map { it.toApiType() } x database
+val StoreBid = KlAction { bid: Result<Bid> ->  DbAction {
+    database -> bid bind {data -> resultTransaction(database) {
+        storeBid(data)
+    }  map { it.toApiType() } } x database
 } }
 
 fun Transaction.storeBid(bid: Bid): BidRoundEntity {

@@ -26,6 +26,9 @@ exposed-jdbc = {  module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "
 # evoleq-exposedx-migrations = { module = "org.evoleq.exposedx.migration", version.ref = "evoleq-exposedx-migrations" }
 h2 = {  module = "com.h2database:h2", version.ref = "h2"}
 
+exposed-joda-time = { module = "org.jetbrains.exposed:exposed-jodatime", version.ref = "exposed"}
+exposed-java-time = { module = "org.jetbrains.exposed:exposed-javatime", version.ref = "exposed"}
+
 mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "mysql-connector" }
 
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

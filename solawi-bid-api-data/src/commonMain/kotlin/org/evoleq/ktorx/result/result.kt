@@ -5,11 +5,15 @@ import org.evoleq.math.MathDsl
 
 
 @Serializable(with = ResultSerializer::class)
-sealed class Result<out T> {
+sealed class Result<out T : Any>{
     @Serializable
     data class Success<out T: Any>(@Serializable val data: T): Result<T>()
     @Serializable
-    data class Failure(val message: String): Result<Nothing>()
+    sealed class Failure: Result<Nothing>() {
+        @Serializable
+        data class Message( val value: String): Failure()
+        data class Exception(val value: Throwable): Failure()
+    }
 }
 
 /**
@@ -21,9 +25,12 @@ infix fun <S: Any,T: Any> Result<S>.map(f: (S)->T): Result<T> =
         is Result.Success<S> -> try{
             Result.Success(f(data))
         } catch (e:Throwable) {
-            Result.Failure(e.message?: "No message provided; source ${e::class}")
+            Result.Failure.Exception(e)//.message?: "No message provided; source ${e::class}")
         }
-        is Result.Failure -> Result.Failure(message)
+        is Result.Failure -> when(this){
+            is Result.Failure.Message -> Result.Failure.Message(value)
+            is Result.Failure.Exception -> Result.Failure.Exception(value)
+        }
     }
 
 /**

@@ -24,6 +24,16 @@ operator fun HashMap<KClass<*>, KSerializer<*>>.get(className: String): KSeriali
     return serializers[clazz]!!
 }
 
+//@KtorDsl
+@Suppress("FunctionName","UNCHECKED_CAST")
+inline fun <reified T> Serializer(): KSerializer<T> {
+    return serializers[T::class]!! as KSerializer<T>
+}
+
+
+@Suppress("FunctionName","UNCHECKED_CAST")
+inline fun <reified T : Any> ResultSerializer(): KSerializer<Result<T>> =
+    Result.serializer(Serializer())
 
 object ResultSerializer : KSerializer<Result<*>> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Result") {
@@ -43,9 +53,15 @@ object ResultSerializer : KSerializer<Result<*>> {
                 compositeEncoder.encodeStringElement(descriptor, 1, typeName)
                 compositeEncoder.encodeSerializableElement(descriptor, 2, serializers[value.data::class]!! as KSerializer<Any>,value.data)
             }
-            is Result.Failure -> {
+            is Result.Failure.Message -> {
+
                 compositeEncoder.encodeStringElement(descriptor, 0, "Failure")
-                compositeEncoder.encodeStringElement(descriptor, 3, value.message)
+                compositeEncoder.encodeStringElement(descriptor, 3, value.value)
+            }
+            is Result.Failure.Exception -> {
+
+                compositeEncoder.encodeStringElement(descriptor, 0, "Failure")
+                compositeEncoder.encodeStringElement(descriptor, 3, value.value.message?: "No message provided")
             }
         }
         compositeEncoder.endStructure(descriptor)
@@ -72,7 +88,7 @@ object ResultSerializer : KSerializer<Result<*>> {
 
         return when (type) {
             "Success" -> Result.Success(data ?: "")
-            "Failure" -> Result.Failure(message ?: "Unknown message")
+            "Failure" -> Result.Failure.Message(message ?: "Unknown message")
             else -> throw SerializationException("Unknown type $type")
         }
     }

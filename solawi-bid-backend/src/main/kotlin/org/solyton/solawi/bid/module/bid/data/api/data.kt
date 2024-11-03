@@ -2,10 +2,6 @@ package org.solyton.solawi.bid.module.bid.data.api
 
 // data hosted in other module (solawi-bid-api-data)
 
-import kotlinx.serialization.Serializable
-import org.evoleq.serializationx.UUIDSerializer
-import java.util.*
-
 //import com.benasher44.uuid.Uuid as UUID
 
 /*

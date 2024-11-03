@@ -3,36 +3,34 @@ package org.solyton.solawi.bid.module.bid.routing
 import com.typesafe.config.ConfigFactory
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.server.testing.*
 import io.ktor.http.*
 import io.ktor.server.config.*
-import io.ktor.utils.io.*
-import kotlinx.coroutines.launch
+import io.ktor.server.testing.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import org.evoleq.ktorx.result.serializers
+import org.evoleq.ktorx.result.Result
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
-import org.solyton.solawi.bid.application.solawiBid
 import org.solyton.solawi.bid.module.bid.data.api.Bid
-import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
-import org.solyton.solawi.bid.module.db.migrations.dbMigrations
+import org.solyton.solawi.bid.module.db.BidRoundException
 import java.io.File
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
-class RoutingTests {
+class BidRoutingTests {
 
-    @Api@Test fun storeBid() = runBlocking{
+    @Api@Test
+    fun storeBid() = runBlocking{
         testApplication {
             environment {
                 // Load the HOCON file explicitly with the file path
-                val configFile = File("src/main/resources/application.conf")
+                val configFile = File("src/test/resources/bid.api.test.conf")
                 config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
-                //config = HoconApplicationConfig(ConfigFactory.load(ConfigResolveOptions.defaults()))
+
             }
             application {
-                 solawiBid(bidRoutingMigrations)
+
             }
             val response = client.post("/bid/send") {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
@@ -43,9 +41,10 @@ class RoutingTests {
                    )
                 )
             }
-            assertTrue { response.status == HttpStatusCode.OK }
-            val x = response.bodyAsText()
-            assertTrue { x.isNotEmpty() }
+            assertTrue("Wrong status: ${response.status}, expected ${HttpStatusCode.Conflict}"){response.status == HttpStatusCode.Conflict }
+            val result = Json.decodeFromString(Result.Failure.Message.serializer(),response.bodyAsText())
+            assertIs<Result.Failure.Message>(result)
+            assertEquals(BidRoundException.RoundNotStarted.message, result.value)
         }
     }
 }

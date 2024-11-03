@@ -3,10 +3,9 @@ package org.solyton.solawi.bid.module.bid.data
 import org.solyton.solawi.bid.module.bid.data.api.Auction
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Round
-
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
-import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
+import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 
 
 fun AuctionEntity.toApiType(): Auction = Auction(

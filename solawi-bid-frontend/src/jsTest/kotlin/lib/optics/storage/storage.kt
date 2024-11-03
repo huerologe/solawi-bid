@@ -2,7 +2,7 @@ package lib.optics.storage
 
 import lib.optics.P
 import lib.optics.W
-import lib.optics.lens.*
+import lib.optics.lens.Lens
 import lib.optics.transform.times
 import kotlin.test.Test
 import kotlin.test.assertEquals

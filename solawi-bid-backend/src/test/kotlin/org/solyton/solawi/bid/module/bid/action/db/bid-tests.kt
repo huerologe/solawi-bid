@@ -10,7 +10,6 @@ import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.bid.setupBidProcess
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
-import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

@@ -4,7 +4,6 @@ import hanoi.towers.application.Application
 import io.ktor.http.*
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest
-import kotlin.test.Test
 import kotlin.test.assertTrue
 
 class MainTest {

@@ -1,7 +1,6 @@
 package org.solyton.solawi.bid.application.environment
 
 import io.ktor.server.application.*
-import org.jetbrains.exposed.sql.DatabaseConfig
 
 
 fun Application.setupEnvironment(): Environment = with(environment.config){
@@ -37,7 +36,7 @@ data class Environment(
     val jwt: JWT
 )
 data class JWT(
-    val domain:String,
+    val domain:String, // issuer
     val audience: String,
     val realm: String,
     val secret: String
