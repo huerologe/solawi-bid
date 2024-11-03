@@ -16,7 +16,7 @@ runs:
     - name: Build backend without tests
       shell: bash
       run: ./gradlew solawi-bid-backend:build -x test
-      if: steps.changes.outputs.backend == "true"
+      if: steps.changes.outputs.backend == 'true'
 
     - name: Run unit tests
       uses: ./.github/actions/test
