@@ -65,4 +65,4 @@ jobs:
         with:
           name: APi Test Results
           path: solawi-bid-backend/build/reports/tests/apiTest/ # Path to the JUnit XML reports
-          reporter: junit
+          reporter: java-junit
