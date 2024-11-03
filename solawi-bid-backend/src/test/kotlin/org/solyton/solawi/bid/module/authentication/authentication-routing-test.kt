@@ -55,30 +55,7 @@ class AuthenticationRoutingTest {
             // "token-expiration" // ???
         )
     }
-
-
-    fun beforeLogin(state: String) = beforeLogin.contains(state)
-    fun afterLogin(state: String) = afterLogin.contains(state)
-
-
     @Api@ParameterizedTest
-    /*
-    @ValueSource(strings = [
-        "before-login",
-        "login-with-wrong-username",
-        "login-with-wrong-password",
-        "login",
-        "use-right-token",
-        "use-wrong-token",
-        // "refresh-token",
-        // "use-old-token",
-        // "use-new-token",
-        // "revoke-token",
-        // "use-revoked-tokens"
-        // "token-expiration" ???
-    ])
-
-     */
     @MethodSource("testCases")
     fun login(group: String, case: String) = runBlocking {
         testApplication() {
@@ -103,7 +80,7 @@ class AuthenticationRoutingTest {
                 val rightUsername = "developer@alpha-structure.com"
                 val rightPassword = "pass1234"
 
-                testGroup("before-login"){//::beforeLogin) {
+                testGroup("before-login"){
                     testCase("before-login") {
                         val beforeLoginResponse = testCall()
                         assertFalse("Status is OK") { beforeLoginResponse.status == HttpStatusCode.OK }
@@ -121,7 +98,7 @@ class AuthenticationRoutingTest {
                     }
                 }
 
-                testGroup("after-login") {//::afterLogin) {
+                testGroup("after-login") {
                     val loginResponse = login(rightUsername, rightPassword)
                     testCase("login") {
                         val x = loginResponse.bodyAsText()
