@@ -24,7 +24,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
-class RoutingTest {
+class AuthenticationRoutingTest {
 
     @Api@ParameterizedTest
     @ValueSource(strings = [

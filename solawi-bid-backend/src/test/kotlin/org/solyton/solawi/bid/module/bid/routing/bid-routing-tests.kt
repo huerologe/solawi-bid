@@ -11,17 +11,14 @@ import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
-import org.solyton.solawi.bid.application.environment.setupEnvironment
-import org.solyton.solawi.bid.application.pipeline.installDatabase
 import org.solyton.solawi.bid.module.bid.data.api.Bid
-import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
 import org.solyton.solawi.bid.module.db.BidRoundException
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
-class RoutingTests {
+class BidRoutingTests {
 
     @Api@Test
     fun storeBid() = runBlocking{
