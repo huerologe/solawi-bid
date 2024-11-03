@@ -11,3 +11,8 @@ suspend fun String.testGroup(group: (String)->Boolean, test: suspend Any.() -> U
 
 @MathDsl
 suspend fun test(case: String, test: suspend String.() -> Unit): Unit = with(case){test()}
+
+@MathDsl
+suspend fun Any.setup(test: suspend Any.() -> Unit): Unit = test()
+@MathDsl
+suspend fun <T : Any> Any.parameters(test: suspend Any.() -> Array<T>): Array<T> = test()

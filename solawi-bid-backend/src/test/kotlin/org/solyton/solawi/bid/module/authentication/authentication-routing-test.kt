@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.http.parameters
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.config.*
@@ -14,9 +15,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
-import org.evoleq.test.test
-import org.evoleq.test.testCase
-import org.evoleq.test.testGroup
+import org.evoleq.test.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.solyton.solawi.bid.Api
@@ -66,18 +65,18 @@ class AuthenticationRoutingTest {
     ])
     fun login(case: String) = runBlocking {
         testApplication() {
-            environment {
-                // Load the HOCON file explicitly with the file path
-                val configFile = File("src/test/resources/authentication.api.test.conf")
-                config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
-            }
-            application {
-
-                // authenticationTest(authenticationRoutingMigrations)
-                routing {
-                    authenticate("auth-jwt") {
-                        get("test") {
-                            call.respond(HttpStatusCode.OK, Result.Success("OK"))
+            setup {
+                environment {
+                    // Load the HOCON file explicitly with the file path
+                    val configFile = File("src/test/resources/authentication.api.test.conf")
+                    config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
+                }
+                application {
+                    routing {
+                        authenticate("auth-jwt") {
+                            get("test") {
+                                call.respond(HttpStatusCode.OK, Result.Success("OK"))
+                            }
                         }
                     }
                 }
@@ -85,7 +84,6 @@ class AuthenticationRoutingTest {
             test(case) {
                 val rightUsername = "developer@alpha-structure.com"
                 val rightPassword = "pass1234"
-
 
                 testGroup(::beforeLogin) {
                     testCase("before-login") {
@@ -119,6 +117,7 @@ class AuthenticationRoutingTest {
                     // Check access with and without token
                     val accessToken = loggedInResult.data.accessToken
                     val refreshToken = loggedInResult.data.refreshToken
+
                     testCase( "use-wrong-token") {
                         val negativeResponse = testCall("1$accessToken")
                         assertFalse("Status is OK") { negativeResponse.status == HttpStatusCode.OK }
