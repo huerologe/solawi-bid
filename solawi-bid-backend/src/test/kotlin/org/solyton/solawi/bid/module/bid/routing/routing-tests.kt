@@ -45,7 +45,7 @@ class RoutingTests {
                    )
                 )
             }
-            assertTrue("Round started"){response.status == HttpStatusCode.Conflict }
+            assertTrue("Wrong status: ${response.status}"){response.status == HttpStatusCode.Conflict }
             val result = Json.decodeFromString(Result.Failure.Message.serializer(),response.bodyAsText())
             assertIs<Result.Failure.Message>(result)
             assertEquals(BidRoundException.RoundNotStarted.message, result.value)
