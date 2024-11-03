@@ -5,22 +5,19 @@ import org.evoleq.math.MathDsl
 @MathDsl
 suspend fun String.testCase(name: String, test: suspend Any.()->Unit): Unit =
     if(name == this) test() else Unit
+
 @MathDsl
 suspend fun String.testGroup(group: (String)->Boolean, test: suspend Any.() -> Unit) =
     if(group(this)) test() else Unit
 
-
-
 @MathDsl
 suspend fun test(case: String, test: suspend String.() -> Unit): Unit = with(case){test()}
 
-
-
 @MathDsl
 suspend fun Any.setup(test: suspend Any.() -> Unit): Unit = test()
+
 @MathDsl
 suspend fun <T : Any> Any.parameters(test: suspend Any.() -> Array<T>): Array<T> = test()
-
 
 data class TestCase(
     val group: String,
@@ -51,4 +48,5 @@ fun List<TestCases>.flatten(): List<TestCase> = map {
     }
 }.flatten()
 
+@MathDsl
 fun TestCases(group: String, vararg testCases: String) = TestCases(group, listOf(*testCases))
