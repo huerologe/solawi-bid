@@ -17,7 +17,7 @@ import org.solyton.solawi.bid.module.db.schema.Users
  *
  * Description: ...
  */
-class Migration1730372270554(
+class Migration1730372270555(
     override val database: Database
 ) : Migration {
 
@@ -25,7 +25,7 @@ class Migration1730372270554(
      * Id of the migration, do not change!
      */
     override val id: Long
-        get() = 1730372270554
+        get() = 1730372270555
 
     /**
      * Upwards migration

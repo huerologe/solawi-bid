@@ -45,7 +45,7 @@ class RoutingTest {
         testApplication() {
             environment {
                 // Load the HOCON file explicitly with the file path
-                val configFile = File("src/test/resources/authentication.test.conf")
+                val configFile = File("src/test/resources/authentication.api.test.conf")
                 config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
             }
             application {

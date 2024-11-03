@@ -28,12 +28,11 @@ class RoutingTests {
         testApplication {
             environment {
                 // Load the HOCON file explicitly with the file path
-                val configFile = File("src/test/resources/bid.test.conf")
+                val configFile = File("src/test/resources/bid.api.test.conf")
                 config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
 
             }
             application {
-                installDatabase(setupEnvironment(),bidRoutingMigrations)
 
             }
             val response = client.post("/bid/send") {
@@ -45,7 +44,7 @@ class RoutingTests {
                    )
                 )
             }
-            assertTrue("Wrong status: ${response.status}"){response.status == HttpStatusCode.Conflict }
+            assertTrue("Wrong status: ${response.status}, expected ${HttpStatusCode.Conflict}"){response.status == HttpStatusCode.Conflict }
             val result = Json.decodeFromString(Result.Failure.Message.serializer(),response.bodyAsText())
             assertIs<Result.Failure.Message>(result)
             assertEquals(BidRoundException.RoundNotStarted.message, result.value)

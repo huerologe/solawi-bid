@@ -8,6 +8,6 @@ import org.jetbrains.exposed.sql.Database
  */
 val authenticationRoutingMigrations: ArrayList<Database.()-> Migration> by lazy{
     arrayListOf<Database.()-> Migration>(
-        { Migration1730372270554(this) }
+        { Migration1730372270555(this) }
     )
 }

@@ -61,6 +61,7 @@ class Migration1730372270554(
             it[AuctionBidders.bidderId] = bidder.id
         }
         auction.bidders+bidder
+
     }
 
     /**
