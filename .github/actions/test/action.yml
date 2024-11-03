@@ -7,6 +7,9 @@ inputs:
   testSuite:
     description: name of the test suite
     required: true
+  runId:
+    description: id of the run
+    required: true
 runs:
   using: composite
   steps:
