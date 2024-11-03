@@ -31,5 +31,7 @@ runs:
       uses: dorny/test-reporter@v1.9.1 # Check for the latest version
       with:
         name: APi Test Results
-        path: solawi-bid-backend/build/test-results/${{inputs.testSuite}}/*.xml # Path to the JUnit XML reports
+        artifact: ${{inputs.reportName}}-Test-Report
+        #solawi-bid-backend/build/test-results/${{inputs.testSuite}}/
+        path: "*.xml" # Path to the JUnit XML reports
         reporter: java-junit
