@@ -51,19 +51,23 @@ jobs:
         uses: ./.github/actions/test
         with:
           testSuite: unitTest
+          reportName: Unit
         if: always()
       - name: Run schema tests
         uses: ./.github/actions/test
         with:
           testSuite: schemaTest
+          reportName: Schema
         if: always()
       - name: Run db functional tests
         uses: ./.github/actions/test
         with:
           testSuite: dbFunctionalTest
+          reportName: Db Functional
         if: always()
       - name: Run api tests
         uses: ./.github/actions/test
         with:
           testSuite: apiTest
+          reportName: Api
         if: always()

@@ -1,6 +1,9 @@
 name: Test
 description: Run tests and upload report
 inputs:
+  reportName:
+    description: name of the report
+    required: true
   testSuite:
     description: name of the test suite
     required: true
@@ -21,7 +24,7 @@ runs:
       shell: bash
       run: |
         echo "## Api Test Report"
-        echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"
+        echo "See detailed reports here: [${{input.reportName}} Test Report](solawi-bid-backend/build/reports/tests/${{inputs.testSuite}}/index.html)"
       if: always()
 
     #- name: Upload test results
