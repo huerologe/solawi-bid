@@ -4,7 +4,6 @@ import com.typesafe.config.ConfigFactory
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.http.parameters
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.config.*
@@ -19,7 +18,6 @@ import org.evoleq.test.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.junit.jupiter.params.provider.ValueSource
 import org.solyton.solawi.bid.Api
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
