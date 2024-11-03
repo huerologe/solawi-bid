@@ -10,16 +10,19 @@ runs:
     - name: Run api tests
       run: ./gradlew ${{inputs.testSuite}}
       shell: bash
+      if: always()
     - name: Upload api test report
       uses: actions/upload-artifact@v4
       with:
         name: api-test-report
         path: solawi-bid-backend/build/reports/tests/${{inputs.testSuite}}
+      if: always()
     - name: Display api test results
       shell: bash
       run: |
         echo "## Api Test Report"
         echo "See detailed reports here: [Api Test Report](solawi-bid-backend/build/reports/tests/apiTest/index.html)"
+      if: always()
 
     #- name: Upload test results
     #  uses: dorny/test-reporter@v1.9.1 # Check for the latest version
