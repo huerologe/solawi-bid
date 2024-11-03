@@ -46,6 +46,7 @@ ktor-server-cors = { module = "io.ktor:ktor-server-cors" ,version.ref = "ktor"}
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" ,version.ref = "ktor"}
 ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm " ,version.ref = "ktor"}
 ktor-server-cio = { module = "io.ktor:ktor-server-cio-jvm" }
+ktor-client-cio = { module = "kio.ktor:ktor-client-cio-js", version.ref = "ktor"}
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter"}
 

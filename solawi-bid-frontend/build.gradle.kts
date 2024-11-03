@@ -34,7 +34,6 @@ kotlin {
                 // ktor client
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.js)
-                //"io.ktor:ktor-client-js:$ktorClientJs")
 
                 // own dependencies
                 api(project(":solawi-bid-api-data"))
