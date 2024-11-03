@@ -14,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
+import org.evoleq.test.test
 import org.evoleq.test.testCase
 import org.evoleq.test.testGroup
 import org.junit.jupiter.params.ParameterizedTest
@@ -81,28 +82,11 @@ class AuthenticationRoutingTest {
                     }
                 }
             }
-            suspend fun testCall(accessToken: String? = null) = client.get("test") {
-                header(HttpHeaders.ContentType, ContentType.Application.Json)
-                if (accessToken != null) {
-                    header(HttpHeaders.Authorization, "Bearer $accessToken")
-                }
-            }
-            val rightUsername = "developer@alpha-structure.com"
-            val rightPassword = "pass1234"
+            test(case) {
+                val rightUsername = "developer@alpha-structure.com"
+                val rightPassword = "pass1234"
 
-            suspend fun login(username: String, password: String) = client.post("/login") {
-                header(HttpHeaders.ContentType, ContentType.Application.Json)
-                setBody(
-                    Json.encodeToString(
-                        Login.serializer(),
-                        Login(
-                            username = username,
-                            password = password
-                        )
-                    )
-                )
-            }
-            with(case) {
+
                 testGroup(::beforeLogin) {
                     testCase("before-login") {
                         val beforeLoginResponse = testCall()
@@ -164,8 +148,27 @@ class AuthenticationRoutingTest {
                         kotlin.test.fail("Not implemented yet!")
                     }
                 }
-
             }
         }
+    }
+
+    suspend fun ApplicationTestBuilder.testCall(accessToken: String? = null) = client.get("test") {
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        if (accessToken != null) {
+            header(HttpHeaders.Authorization, "Bearer $accessToken")
+        }
+    }
+
+    suspend fun ApplicationTestBuilder.login(username: String, password: String) = client.post("/login") {
+        header(HttpHeaders.ContentType, ContentType.Application.Json)
+        setBody(
+            Json.encodeToString(
+                Login.serializer(),
+                Login(
+                    username = username,
+                    password = password
+                )
+            )
+        )
     }
 }
