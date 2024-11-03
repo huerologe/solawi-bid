@@ -45,17 +45,21 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Build without tests
-        run: ./gradlew build -x test
+        run: ./gradlew solawi-bid-backend:build -x test
 
-      - uses: ./.github/actions/test
+      - name: Run unit tests
+        uses: ./.github/actions/test
         with:
           testSuite: unitTest
-      - uses: ./.github/actions/test
+      - name: Run schema tests
+        uses: ./.github/actions/test
         with:
           testSuite: schemaTest
-      - uses: ./.github/actions/test
+      - name: Run db functional tests
+        uses: ./.github/actions/test
         with:
           testSuite: dbFunctionalTest
-      - uses: ./.github/actions/test
+      - name: Run api tests
+        uses: ./.github/actions/test
         with:
           testSuite: apiTest
