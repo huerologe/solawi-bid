@@ -147,6 +147,19 @@ tasks.register<Test>("schemaTest") {
 //    finalizedBy(tasks.jacocoTestReport)
 }
 
+tasks.register<Test>("testFrameworkTest") {
+    group = "verification"
+    useJUnitPlatform() {
+        includeTags("testFramework")
+
+    }
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
+//    finalizedBy(tasks.jacocoTestReport)
+}
+
 /*
 tasks.jacocoTestReport {
     reports {

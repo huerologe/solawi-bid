@@ -24,3 +24,8 @@ annotation class DbFunctional
 @org.junit.jupiter.api.Tag("schema")
 annotation class Schema
 
+@Target(CLASS, FUNCTION)
+@Retention(RUNTIME)
+@org.junit.jupiter.api.Tag("testFramework")
+annotation class TestFramework
+
