@@ -14,6 +14,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
+import org.evoleq.test.testCase
+import org.evoleq.test.testGroup
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.solyton.solawi.bid.Api
@@ -25,6 +27,26 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 class AuthenticationRoutingTest {
+
+    val beforeLogin = arrayOf(
+        "before-login",
+        "login-with-wrong-username",
+        "login-with-wrong-password",
+    )
+    val afterLogin = listOf(
+        "login",
+        "use-right-token",
+        "use-wrong-token",
+        "refresh-token",
+        "use-old-token",
+        "use-new-token",
+        "revoke-token",
+        "use-revoked-tokens",
+        "token-expiration" // ???
+    )
+    fun beforeLogin(state: String) = beforeLogin.contains(state)
+    fun afterLogin(state: String) = afterLogin.contains(state)
+
 
     @Api@ParameterizedTest
     @ValueSource(strings = [
@@ -41,7 +63,7 @@ class AuthenticationRoutingTest {
         // "use-revoked-tokens"
         // "token-expiration" ???
     ])
-    fun login(state: String) = runBlocking {
+    fun login(case: String) = runBlocking {
         testApplication() {
             environment {
                 // Load the HOCON file explicitly with the file path
@@ -80,68 +102,69 @@ class AuthenticationRoutingTest {
                     )
                 )
             }
-            if (state == "before-login") {
-                val beforeLoginResponse = testCall()
-                assertFalse("Status is OK") { beforeLoginResponse.status == HttpStatusCode.OK }
-                assertTrue("Status is not Unauthorized") { beforeLoginResponse.status == HttpStatusCode.Unauthorized }
-            }
-            else if(state == "login-with-wrong-username"){
-                val loginResponse = login("unknown-user", rightPassword)
-                assertTrue("Status is OK but should not"){loginResponse.status != HttpStatusCode.OK}
-                assertTrue("Status in not Unauthorized"){loginResponse.status == HttpStatusCode.Unauthorized}
-            }
-            else if(state == "login-with-wrong-password"){
-                val loginResponse = login(rightUsername, "wrong-password")
-                assertTrue("Status is OK but should not"){loginResponse.status != HttpStatusCode.OK}
-                assertTrue("Status in not Unauthorized"){loginResponse.status == HttpStatusCode.Unauthorized}
-            }
-            else {
+            with(case) {
+                testGroup(::beforeLogin) {
+                    testCase("before-login") {
+                        val beforeLoginResponse = testCall()
+                        assertFalse("Status is OK") { beforeLoginResponse.status == HttpStatusCode.OK }
+                        assertTrue("Status is not Unauthorized") { beforeLoginResponse.status == HttpStatusCode.Unauthorized }
+                    }
+                    testCase( "login-with-wrong-username"){
+                        val loginResponse = login("unknown-user", rightPassword)
+                        assertTrue("Status is OK but should not"){loginResponse.status != HttpStatusCode.OK}
+                        assertTrue("Status in not Unauthorized"){loginResponse.status == HttpStatusCode.Unauthorized}
+                    }
+                    testCase("login-with-wrong-password"){
+                        val loginResponse = login(rightUsername, "wrong-password")
+                        assertTrue("Status is OK but should not"){loginResponse.status != HttpStatusCode.OK}
+                        assertTrue("Status in not Unauthorized"){loginResponse.status == HttpStatusCode.Unauthorized}
+                    }
+                }
+                testGroup(::afterLogin) {
+                    val loginResponse = login(rightUsername, rightPassword)
+                    testCase("login") {
+                        val x = loginResponse.bodyAsText()
+                        assertTrue("Status not OK") { loginResponse.status == HttpStatusCode.OK }
+                        assertTrue("Message has empty body") { x.isNotEmpty() }
+                    }
 
-                val loginResponse = login(rightUsername, rightPassword)
-                if(state == "login") {
-                    val x = loginResponse.bodyAsText()
-                    assertTrue("Status not OK") { loginResponse.status == HttpStatusCode.OK }
-                    assertTrue("Message has empty body") { x.isNotEmpty() }
-                }
-                // User is logged in and has a tokens :-)
-                val loggedInResult = Json.decodeFromString(ResultSerializer<LoggedIn>(), loginResponse.bodyAsText())
-                assertIs<Result.Success<LoggedIn>>(loggedInResult)
+                    // User is logged in and has a tokens :-)
+                    val loggedInResult = Json.decodeFromString(ResultSerializer<LoggedIn>(), loginResponse.bodyAsText())
+                    assertIs<Result.Success<LoggedIn>>(loggedInResult)
 
-                // Check access with and without token
-                val accessToken = loggedInResult.data.accessToken
-                val refreshToken = loggedInResult.data.refreshToken
-                if(state == "use-wrong-token") {
-                    val negativeResponse = testCall("1$accessToken")
-                    assertFalse("Status is OK") { negativeResponse.status == HttpStatusCode.OK }
-                    assertTrue("Status is not Unauthorized") { negativeResponse.status == HttpStatusCode.Unauthorized }
-                }
-                if(state == "use-right-token") {
-                    val positiveResponse = testCall(accessToken)
-                    assertTrue("Status not OK") { positiveResponse.status == HttpStatusCode.OK }
-                }
-                // Refresh token and check access with new token and old token
-                if(state == "refresh-token") {
-                    kotlin.test.fail("Not implemented yet!")
-                }
-                // new token  -> expect success
-                if(state == "use-new-token") {
-                    kotlin.test.fail("Not implemented yet!")
-                }
-                // old token -> expect fail
-                if(state == "use-old-token") {
-                    kotlin.test.fail("Not implemented yet!")
-                }
-
-                // Revoke token and check access. Expect no token work anymore
-                if(state == "revoke-token") {
-                    kotlin.test.fail("Not implemented yet!")
+                    // Check access with and without token
+                    val accessToken = loggedInResult.data.accessToken
+                    val refreshToken = loggedInResult.data.refreshToken
+                    testCase( "use-wrong-token") {
+                        val negativeResponse = testCall("1$accessToken")
+                        assertFalse("Status is OK") { negativeResponse.status == HttpStatusCode.OK }
+                        assertTrue("Status is not Unauthorized") { negativeResponse.status == HttpStatusCode.Unauthorized }
+                    }
+                    testCase( "use-right-token") {
+                        val positiveResponse = testCall(accessToken)
+                        assertTrue("Status not OK") { positiveResponse.status == HttpStatusCode.OK }
+                    }
+                    // Refresh token and check access with new token and old token
+                    testCase("refresh-token"){
+                        kotlin.test.fail("Not implemented yet!")
+                    }
+                    // new token  -> expect success
+                    testCase("use-new-token") {
+                        kotlin.test.fail("Not implemented yet!")
+                    }
+                    // old token -> expect fail
+                    testCase( "use-old-token") {
+                        kotlin.test.fail("Not implemented yet!")
+                    }
+                    // Revoke token and check access. Expect no token work anymore
+                    testCase("revoke-token") {
+                        kotlin.test.fail("Not implemented yet!")
+                    }
+                    testCase("use-revoked-tokens") {
+                        kotlin.test.fail("Not implemented yet!")
+                    }
                 }
 
-                if(state == "use-revoked-tokens") {
-                    kotlin.test.fail("Not implemented yet!")
-                }
-
-                // Checks with expired tokens
             }
         }
     }
