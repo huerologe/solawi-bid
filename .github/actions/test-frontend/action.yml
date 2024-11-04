@@ -9,10 +9,10 @@ runs:
       with:
         filters: |
           frontend:
-            # - "solawi-bid-frontend/**"
-            # - "solawi-bid-api-data/**"
-            # - ".github/**"
-            # - "gradle" 
+             - "solawi-bid-frontend/**"
+             - "solawi-bid-api-data/**"
+             - ".github/**"
+             - "gradle" 
 
     - name: Build frontend without tests
       shell: bash
