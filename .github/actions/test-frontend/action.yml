@@ -18,3 +18,7 @@ runs:
       shell: bash
       run: ./gradlew solawi-bid-frontend:build -x test
       if: steps.changes.outputs.frontend == 'true'
+    - name: Run tests
+      shell: bash
+      run: ./gradlew solawi-bid-frontend:test # -x build
+      if: steps.changes.outputs.frontend == 'true'
