@@ -11,6 +11,12 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    maven {
+        url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev")
+    }
+    maven {
+        url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    }
     google()
 }
 
@@ -34,6 +40,8 @@ kotlin {
                 // ktor client
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.js)
+                implementation(libs.ktor.http)
+                implementation(libs.ktor.http.cio)
 
                 // own dependencies
                 api(project(":solawi-bid-api-data"))
