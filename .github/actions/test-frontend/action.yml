@@ -31,7 +31,7 @@ runs:
     - name: Upload ${{inputs.reportName}} test results
       uses: dorny/test-reporter@v1.9.1
       with:
-        name: Test Results
+        name: JS Test Results
         artifact: JS-Test-Report
         path: "*.xml"
         reporter: java-junit
