@@ -20,5 +20,19 @@ runs:
       if: steps.changes.outputs.frontend == 'true'
     - name: Run tests
       shell: bash
-      run: ./gradlew solawi-bid-frontend:test # -x build
+      run: ./gradlew solawi-bid-frontend:jsBrowserTest # -x build
+      if: steps.changes.outputs.frontend == 'true'
+    - name: Upload js test report
+      uses: actions/upload-artifact@v4
+      with:
+        name: JS-Test-Report
+        path: solawi-bid-frontend/build/test-results/jsBrowserTest
+      if: steps.changes.outputs.frontend == 'true'
+    - name: Upload ${{inputs.reportName}} test results
+      uses: dorny/test-reporter@v1.9.1
+      with:
+        name: Test Results
+        artifact: JS-Test-Report
+        path: "*.xml"
+        reporter: java-junit
       if: steps.changes.outputs.frontend == 'true'

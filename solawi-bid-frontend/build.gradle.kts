@@ -77,7 +77,12 @@ optics{
     sourceSet = "jsMain"
     defaultPackage = "org.solyton.solawi.bid.data"
 }
-
+tasks.withType<Test>() {
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
+}
 compose {
      //kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompiler")
 }
