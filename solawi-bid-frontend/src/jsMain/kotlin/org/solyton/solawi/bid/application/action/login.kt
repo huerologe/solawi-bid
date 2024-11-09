@@ -1,16 +1,12 @@
 package org.solyton.solawi.bid.application.action
 
 import lib.optics.lens.Lens
-import lib.optics.lens.sX
 import lib.optics.storage.Storage
 import lib.optics.transform.times
 import org.evoleq.ktorx.result.*
 import org.evoleq.math.MathDsl
-import org.evoleq.math.Reader
-import org.evoleq.math.read
 import org.evoleq.maths.state.*
 import org.evoleq.maths.x
-import lib.optics.lens.x as X
 import org.solyton.solawi.bid.application.api.client
 import org.solyton.solawi.bid.application.api.post
 import org.solyton.solawi.bid.application.data.Application
@@ -18,7 +14,7 @@ import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.user.User
-
+/*
 @MathDsl
 @Suppress("FunctionName")
 suspend fun LoginAction() = ReadLogin bind CallLogin bind DispatchLogin
@@ -65,3 +61,5 @@ suspend fun Application.login(login: Login): Result<LoggedIn> = with(
 ) {
     return this(login)
 }
+
+ */
