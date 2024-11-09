@@ -1,6 +1,3 @@
-
-
-
 rootProject.name = "solawi-bid"
 
 include(":solawi-bid-frontend")

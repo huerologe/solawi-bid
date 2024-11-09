@@ -18,6 +18,8 @@ repositories {
 }
 
 
+
+
 configurations.all {
     exclude(group = "org.gradle.api.plugins", module = "MavenPlugin")
 }
@@ -58,9 +60,19 @@ kotlin{
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // Specific for JVM
             }
         }
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test")) // Adds kotlin.test for multiplatform
+            }
+        }
         val jsMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.8.0") // Example for JS
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test")) // Adds kotlin.test for multiplatform
             }
         }
 
