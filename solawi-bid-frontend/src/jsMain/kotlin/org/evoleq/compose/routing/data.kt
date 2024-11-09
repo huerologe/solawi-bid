@@ -1,4 +1,4 @@
-package lib.compose.routing
+package org.evoleq.compose.routing
 
 import androidx.compose.runtime.Composable
 

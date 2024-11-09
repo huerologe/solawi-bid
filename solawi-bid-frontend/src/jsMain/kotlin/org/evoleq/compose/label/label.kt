@@ -1,7 +1,7 @@
-package lib.compose.label
+package org.evoleq.compose.label
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.attributes.forId
 import org.jetbrains.compose.web.css.paddingRight
 import org.jetbrains.compose.web.css.px

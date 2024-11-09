@@ -1,7 +1,7 @@
-package lib.compose.structure
+package org.evoleq.compose.structure
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.w3c.dom.HTMLElement

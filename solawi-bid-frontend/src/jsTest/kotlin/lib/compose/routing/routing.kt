@@ -1,6 +1,7 @@
 package lib.compose.routing
 
 import lib.parser.Result
+import org.evoleq.compose.routing.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
@@ -19,7 +20,8 @@ class RoutingTest {
         val result = RouteParser().run(routeString)
 
         assertEquals(
-            Result(Route(
+            Result(
+                Route(
                 listOf(
                     RouteSegment.Static("aaa"),
                     RouteSegment.Static("bbb"),
@@ -37,35 +39,35 @@ class RoutingTest {
 
      @Test
     fun routesConfiguration() {
-        val routes = routing {
+        val routes = org.evoleq.compose.routing.routing {
             route("x/y/z") {
                 route(":id") {
-                    route("a"){
+                    route("a") {
                         component { Div { Text("Hello") } }
                     }
-                    route("b"){}
-                    route("c"){}
+                    route("b") {}
+                    route("c") {}
                 }
-                route("h/i/j/k"){}
+                route("h/i/j/k") {}
             }
-            route("alfred/E/neumann"){}
+            route("alfred/E/neumann") {}
         }
     }
 
     @Test
     fun matchRoute() {
-        val routes = routing {
-            component{
+        val routes = org.evoleq.compose.routing.routing {
+            component {
                 Div { Text("Root") }
             }
-            route("x"){
-                route(":id"){
-                    component{
+            route("x") {
+                route(":id") {
+                    component {
                         Text("Hello")
                     }
                 }
-                route("y"){
-                    component{
+                route("y") {
+                    component {
 
                     }
                 }
@@ -91,7 +93,7 @@ class RoutingTest {
 
     @Test
     fun compose() = runTest{
-        val routes = routing {
+        val routes = org.evoleq.compose.routing.routing {
             route("x") {
                 component {
                     Div { Text("Hello") }

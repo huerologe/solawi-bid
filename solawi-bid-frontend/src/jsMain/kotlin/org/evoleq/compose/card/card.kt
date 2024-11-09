@@ -1,7 +1,7 @@
-package lib.compose.card
+package org.evoleq.compose.card
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope

@@ -1,4 +1,4 @@
-package lib.compose.dnd
+package org.evoleq.compose.dnd
 
 import androidx.compose.web.events.SyntheticMouseEvent
 import lib.optics.storage.Storage
@@ -39,8 +39,8 @@ data class DragDropEnvironment(
     val onDrag: DragDropEnvironment.(name: String)->Unit = {},
     val allowDrag: (name: String, source: String?)-> Boolean = {_,_->true},
     val allowDrop: (dragged: List<String>, target: String?)->Boolean = {_,_->false},
-    val onDrop: DragDropEnvironment.(source: String?, target: String?)->Unit = {_,_->},
-    val onDropRejected: DragDropEnvironment.(source: String?, target: String?)->Unit = {_,_->}
+    val onDrop: DragDropEnvironment.(source: String?, target: String?)->Unit = { _, _->},
+    val onDropRejected: DragDropEnvironment.(source: String?, target: String?)->Unit = { _, _->}
 )
 
 data class DraggableConfig(

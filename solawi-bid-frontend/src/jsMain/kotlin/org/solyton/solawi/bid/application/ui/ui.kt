@@ -1,7 +1,7 @@
 package org.solyton.solawi.bid.application.ui
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import lib.optics.storage.Storage
 import lib.optics.transform.times
 import org.jetbrains.compose.web.dom.Text

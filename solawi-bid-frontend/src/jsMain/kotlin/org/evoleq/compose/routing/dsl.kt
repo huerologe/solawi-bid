@@ -1,8 +1,8 @@
-package lib.compose.routing
+package org.evoleq.compose.routing
 
 import androidx.compose.runtime.*
 import kotlinx.browser.window
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import org.w3c.dom.Location
 
 interface Configuration<out T> {
@@ -112,7 +112,7 @@ fun navigate(to: String) {
 @RoutingDsl
 @Composable
 @Suppress("FunctionName")
-fun Routing(initPath: String,routes: RoutesConfiguration.()->Unit):  Routes = with(routing(routes)){
+fun Routing(initPath: String,routes: RoutesConfiguration.()->Unit): Routes = with(routing(routes)){
     @Composable
     fun path(): State<String> {
         LaunchedEffect(Unit) {

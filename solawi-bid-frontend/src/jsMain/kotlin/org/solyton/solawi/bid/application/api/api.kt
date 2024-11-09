@@ -4,7 +4,7 @@ import org.evoleq.ktorx.result.Result
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.evoleq.maths.state.KlAppState
+import org.solyton.solawi.bid.application.action.KlAppState
 
 
 data class Api(

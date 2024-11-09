@@ -1,7 +1,7 @@
-package lib.compose.storage
+package org.evoleq.compose.storage
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import lib.optics.storage.Storage
 
 

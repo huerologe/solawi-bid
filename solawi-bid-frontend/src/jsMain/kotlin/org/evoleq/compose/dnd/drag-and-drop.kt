@@ -1,9 +1,9 @@
-package lib.compose.dnd
+package org.evoleq.compose.dnd
 
 import androidx.compose.runtime.*
 import androidx.compose.web.events.SyntheticMouseEvent
 import kotlinx.browser.document
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import lib.optics.storage.Storage
 import lib.optics.storage.add
 import lib.optics.storage.contains
@@ -18,8 +18,8 @@ fun DragDropEnvironment(
     onDrag: DragDropEnvironment.(name: String)->Unit = {},
     allowDrag: (name: String, source: String?)->Boolean = {_,_->true},
     allowDrop: (dragged: List<String>, target: String?)->Boolean = {_,_->false},
-    onDrop: DragDropEnvironment.(source: String?, target: String?)->Unit = {_,_->},
-    onDropRejected: DragDropEnvironment.(source: String?, target: String?)->Unit = {_,_->},
+    onDrop: DragDropEnvironment.(source: String?, target: String?)->Unit = { _, _->},
+    onDropRejected: DragDropEnvironment.(source: String?, target: String?)->Unit = { _, _->},
     content: @Composable DragDropEnvironment.()->Unit
 ) = Div {
 
@@ -52,7 +52,7 @@ fun DragDropEnvironment(
     var mouseX by remember { mutableStateOf(0.0) }
     var mouseY by remember { mutableStateOf(0.0) }
     val coordinatesStorage = Storage(
-        read = {Coordinates(mouseX, mouseY)},
+        read = { Coordinates(mouseX, mouseY) },
         write = {
             mouseX = it.x
             mouseY = it.y
@@ -63,7 +63,7 @@ fun DragDropEnvironment(
     var dY by remember { mutableStateOf(0.0) }
 
     val velocityStorage = Storage(
-        read = {Velocity(dX, dY)},
+        read = { Velocity(dX, dY) },
         write = {
             dX = it.dX
             dY = it.dY
@@ -88,7 +88,8 @@ fun DragDropEnvironment(
         write = {hitTarget = it}
     )
 
-    val dragDropEnvironment = with(DragDropEnvironment(
+    val dragDropEnvironment = with(
+        DragDropEnvironment(
         sources = sourcesStorage,
         targets = targetsStorage,
         draggables = draggablesStorage,

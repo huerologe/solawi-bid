@@ -1,10 +1,10 @@
 package org.solyton.solawi.bid.application
 
-import lib.compose.Markup
-import lib.compose.storage.Store
+import org.evoleq.compose.Markup
+import org.evoleq.compose.storage.Store
 import org.jetbrains.compose.web.renderComposable
 import org.solyton.solawi.bid.application.ui.UI
-import org.solyton.solawi.bid.application.data.Storage
+import org.solyton.solawi.bid.application.storage.Storage
 
 @Markup
 @Suppress("FunctionName")

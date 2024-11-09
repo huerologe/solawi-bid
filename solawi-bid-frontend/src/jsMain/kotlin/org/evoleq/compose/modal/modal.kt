@@ -1,7 +1,7 @@
-package lib.compose.modal
+package org.evoleq.compose.modal
 
 import androidx.compose.runtime.Composable
-import lib.compose.Markup
+import org.evoleq.compose.Markup
 import lib.language.Block
 import lib.language.get
 import lib.optics.storage.Storage
