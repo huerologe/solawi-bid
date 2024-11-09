@@ -24,7 +24,7 @@ class ParserTest {
     @Test fun apply() {
         val parser = ReturnParser{x: Int -> "$x"}
 
-        val result = parser.apply()(Parser{s -> Result(s.length, "")}).run("asdfg").result
+        val result = parser.apply()(Parser{ s -> Result(s.length, "") }).run("asdfg").result
         assertEquals("5", result)
     }
 

@@ -35,10 +35,10 @@ fun <T> Result<List<T>>.interchange(): List<Result<T>> = try{
 
 
 interface Parser<T> {
-    val run: (String)->Result<T>
+    val run: (String)-> Result<T>
 
     companion object {
-        fun <T> ret(): (T)->Parser<T> = { t -> ReturnParser(t) }
+        fun <T> ret(): (T)-> Parser<T> = { t -> ReturnParser(t) }
 
 
     }
@@ -46,7 +46,7 @@ interface Parser<T> {
 
 
 @Suppress("FunctionName")
-fun <T> Parser(run: (String)->Result<T>): Parser<T> = object : Parser<T> {
+fun <T> Parser(run: (String)-> Result<T>): Parser<T> = object : Parser<T> {
     override val run: (String) -> Result<T> = run
 }
 
@@ -56,7 +56,7 @@ fun <T> ReturnParser(result: T): Parser<T> = Parser<T> {
 }
 
 @Suppress("FunctionName")
-fun <T> Fail():Parser<T> = Parser { s-> Result(null, s) }
+fun <T> Fail(): Parser<T> = Parser { s-> Result(null, s) }
 
 @Suppress("FunctionName")
 fun <T> Succeed(t: T): Parser<T> = ReturnParser(t)
@@ -74,7 +74,7 @@ fun <T> Parser<Parser<T>>.mult(): Parser<T> = Parser{
     }
 }
 
-fun <S, T> Parser<(S)->T>.apply() :(Parser<S>)->Parser<T> = {
+fun <S, T> Parser<(S) -> T>.apply() :(Parser<S>)-> Parser<T> = {
         parser -> this * {f-> parser map f}
 }
 
@@ -108,7 +108,7 @@ infix fun <T> Parser<T>.then(next: Parser<T>): Parser<List<T>> = seqA(this,next)
 infix fun <T> Parser<T>.o(previous: Parser<T>): Parser<List<T>> = seqA(previous,this)
 
 
-operator fun <S, T> Parser<S>.times(kleisli: (S)->Parser<T>): Parser<T> = (this map kleisli).mult()
+operator fun <S, T> Parser<S>.times(kleisli: (S)-> Parser<T>): Parser<T> = (this map kleisli).mult()
 
 @Suppress("FunctionName")
 infix fun <S> Parser<S>.OR(other: Parser<S>): Parser<S> = Parser {

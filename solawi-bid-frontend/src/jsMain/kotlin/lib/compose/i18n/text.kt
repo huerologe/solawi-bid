@@ -1,4 +1,4 @@
-package lib.language.compose
+package lib.compose.i18n
 
 import androidx.compose.runtime.Composable
 import lib.compose.Markup

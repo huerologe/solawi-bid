@@ -17,13 +17,13 @@ class IsoTest {
     @Test
     fun multWithLens() {
         val iso = Iso<D1, D2>(
-            {x -> D2(x.name)}
+            {x -> D2(x.name) }
         ) {
             s -> D1(s.name)
         }
 
         val lens = Lens<P, D1>(
-            {p-> D1(p.name)}
+            {p-> D1(p.name) }
         ) {
             x -> {p -> p.copy(name = x.name)}
         }

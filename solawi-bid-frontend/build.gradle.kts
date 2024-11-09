@@ -69,6 +69,35 @@ kotlin {
 
             }
         }
+
+        val commonMain by getting {
+            kotlin.srcDir("src/commonMain/kotlin")
+            dependencies {
+                // kotlin coroutines
+                implementation(libs.kotlinx.coroutines.core)
+
+                // ktor client
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.js)
+                implementation(libs.ktor.http)
+                implementation(libs.ktor.http.cio)
+
+                // own dependencies
+                api(project(":solawi-bid-api-data"))
+
+                // Serialization
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.ktor.client.serialization)
+            }
+
+            val commonTest by getting {
+                kotlin.srcDir("src/commonTest/kotlin")
+                dependencies {
+                    implementation(libs.kotlinx.coroutines.core)
+                    implementation(kotlin("test"))
+                }
+            }
+        }
     }
 
 
@@ -83,6 +112,12 @@ tasks.withType<Test>() {
         html.required = true
     }
 }
+tasks.register<Test>("commonTest") {
+    useJUnitPlatform()  // or your specific test platform
+    testClassesDirs =  files("src/commonTest/kotlin")
+ //   classpath = sourceSets["commonTest"].runtimeClasspath
+}
+
 compose {
      //kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:$composeCompiler")
 }

@@ -15,8 +15,8 @@ fun Params(): Parser<List<Parameter>> = Split(';') map {
 
 @Suppress("FunctionName")
 fun Segment(): Parser<RouteSegment> =
-    (FirstMatches(':') * { Parser{ s -> Result(RouteSegment.Variable(s) as RouteSegment, "") }}) OR
-            Parser { s ->  Result(RouteSegment.Static(s) as RouteSegment,"")}
+    (FirstMatches(':') * { Parser{ s -> Result(RouteSegment.Variable(s) as RouteSegment, "") } }) OR
+            Parser { s ->  Result(RouteSegment.Static(s) as RouteSegment,"") }
 
 @Suppress("FunctionName")
 fun Segments(): Parser<List<RouteSegment>> = Split('/') map { list -> list.map { Segment().run(it).result!! } }

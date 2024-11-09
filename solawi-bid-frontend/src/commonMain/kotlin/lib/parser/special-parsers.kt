@@ -14,14 +14,14 @@ val First: Parser<Char> = Parser {
     }
 }
 
-val FirstMatches: (Char)->Parser<Char> = {symbol:Char -> First * { first:Char ->
+val FirstMatches: (Char)-> Parser<Char> = { symbol:Char -> First * { first:Char ->
     when(symbol == first){
         true -> Parser { s -> Result(first, s) }
         false -> Fail()
     }
 }}
 
-val StartsWith: (String)->Parser<String> = { symbols ->
+val StartsWith: (String)-> Parser<String> = { symbols ->
     symbols.map { FirstMatches(it) }
         .sequenceA()
         .map { list -> list.joinToString("") { "$it" } }
@@ -37,7 +37,7 @@ fun DropAllWhitespace(): Parser<String> = (Whitespace * { DropAllWhitespace() })
 
 val Newline: Parser<String> = First * {
     s -> when("$s" == "\n") {
-        true -> Parser {Result("", it)}
+        true -> Parser { Result("", it) }
         false -> Fail()
     }
 }
@@ -46,13 +46,15 @@ val Newline: Parser<String> = First * {
 fun DropAllNewline(): Parser<String> = (Newline * { DropAllNewline() }) OR Succeed("")
 
 
-val When: ((Char)->Boolean)->Parser<Char> = {
+val When: ((Char)->Boolean)-> Parser<Char> = {
     predicate -> First * { first ->
         when(predicate(first)){
-            true -> Parser { state ->Result(
+            true -> Parser { state ->
+                Result(
                 first,
                 state
-            )}
+            )
+            }
             false -> Fail()
         }
     }
@@ -104,7 +106,7 @@ fun Balance(left: Char, right: Char): Parser<String> = (FirstMatches(left) map {
 fun SplitAtFirst(separator: Char) = seqA(
     CollectWhile { it != separator },
     Drop
-).map {list -> list[0]} * {
+).map { list -> list[0]} * {
         start -> All map { rest -> Pair(start, rest)  }
 }
 
@@ -114,6 +116,6 @@ fun Split(separator: Char): Parser<List<String>> =
     (DropWhile { it == separator } dL seqA(
         CollectWhile { it != separator },
         Drop
-    ).map {list -> list[0]} * {
+    ).map { list -> list[0]} * {
             segment -> Split(separator) map {list -> listOf(segment,*list.toTypedArray()) }
     })
