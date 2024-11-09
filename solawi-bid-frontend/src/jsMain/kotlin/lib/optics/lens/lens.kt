@@ -25,3 +25,13 @@ fun <V, W, P, Q> Lens<V, P>.x(other: Lens<W, Q>): Lens<Pair<V, W>, Pair<P, Q>> =
 ) {
     pXq -> set(pXq.first) X other.set(pXq.second)
 }
+
+
+
+
+@Maths
+infix fun <W, P, Q> Lens<W, P>.sX(other: Lens<W, Q>): Lens<W, Pair<P, Q>> = Lens(
+    get = {w -> get(w) X other.get(w)}
+) {
+        pXq -> set(pXq.first) o other.set(pXq.second)
+}

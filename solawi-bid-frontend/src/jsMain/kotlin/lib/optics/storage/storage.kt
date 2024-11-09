@@ -3,6 +3,8 @@ package lib.optics.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.evoleq.maths.state.State
+import org.evoleq.maths.state.runOn
 import org.evoleq.maths.x
 import kotlin.math.abs
 import kotlin.math.max
@@ -95,4 +97,8 @@ fun <T> Storage<Map<Int, T>>.nextId(): Int = read().keys.fold(1){ acc, next -> w
     abs(acc-next) >= 2 -> min(acc,next) +1
     else -> max(acc, next)
 } }
+
+data class Action<T>( private val state: State<Storage<T>, org.evoleq.ktorx.result.Result<Unit>>) : State<Storage<T>, org.evoleq.ktorx.result.Result<Unit>> by state
+
+suspend fun <T> Storage<T>.dispatch(action: Action<T>) = action runOn this
 

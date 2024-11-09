@@ -20,3 +20,8 @@ fun <T> Storage<T>.lens(): Lens<Unit, T> = Lens(
 
 @Maths
 operator fun <W, P> Storage<W>.times(lens: Lens<W, P>): Storage<P> = (lens() * lens).storage()
+
+operator fun <S, P, Q> Storage<S>.times(product: Lens<Pair<S, S>, Pair<P, Q>>): Storage<Pair<P, Q>> = Storage(
+    read = {},
+    write = {}
+)
