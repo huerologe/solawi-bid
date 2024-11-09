@@ -2,7 +2,7 @@ package org.evoleq.compose.error
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
-import lib.optics.storage.Storage
+import org.evoleq.optics.storage.Storage
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text

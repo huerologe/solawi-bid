@@ -1,7 +1,7 @@
 package org.evoleq.compose.routing
 
 import androidx.compose.runtime.Composable
-import org.evoleq.maths.x
+import org.evoleq.math.x
 
 fun Routes.find(segment: RouteSegment): Routes? = children.find { it.segment == segment }
 

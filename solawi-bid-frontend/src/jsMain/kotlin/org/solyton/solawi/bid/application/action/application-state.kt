@@ -1,9 +1,9 @@
 package org.solyton.solawi.bid.application.action
 
-import lib.optics.storage.Storage
+import org.evoleq.optics.storage.Storage
 import org.evoleq.math.MathDsl
-import org.evoleq.maths.state.KlState
-import org.evoleq.maths.state.State
+import org.evoleq.math.state.KlState
+import org.evoleq.math.state.State
 import org.solyton.solawi.bid.application.data.Application
 
 typealias AppState<T> = State<Application, T>

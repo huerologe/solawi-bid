@@ -2,8 +2,8 @@ package org.solyton.solawi.bid.application.ui
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
-import lib.optics.storage.Storage
-import lib.optics.transform.times
+import org.evoleq.optics.storage.Storage
+import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.env.type

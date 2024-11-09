@@ -1,7 +1,7 @@
 package org.evoleq.compose.dnd
 
 import androidx.compose.web.events.SyntheticMouseEvent
-import lib.optics.storage.Storage
+import org.evoleq.optics.storage.Storage
 import org.jetbrains.compose.web.css.CSSColorValue
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.StyleScope

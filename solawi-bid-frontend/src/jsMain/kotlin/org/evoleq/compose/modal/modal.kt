@@ -2,10 +2,10 @@ package org.evoleq.compose.modal
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
-import lib.language.Block
-import lib.language.get
-import lib.optics.storage.Storage
-import lib.optics.storage.remove
+import org.evoleq.language.Block
+import org.evoleq.language.get
+import org.evoleq.optics.storage.Storage
+import org.evoleq.optics.storage.remove
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLElement

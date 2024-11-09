@@ -43,6 +43,7 @@ kotlin{
 
             dependencies {
                 implementation("com.benasher44:uuid:0.6.0")
+                implementation(libs.kotlinx.coroutines.core)
                 //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
                 implementation(libs.kotlinx.serialization.json)
             }

@@ -4,10 +4,10 @@ import androidx.compose.runtime.*
 import androidx.compose.web.events.SyntheticMouseEvent
 import kotlinx.browser.document
 import org.evoleq.compose.Markup
-import lib.optics.storage.Storage
-import lib.optics.storage.add
-import lib.optics.storage.contains
-import lib.optics.storage.onEach
+import org.evoleq.optics.storage.Storage
+import org.evoleq.optics.storage.add
+import org.evoleq.optics.storage.contains
+import org.evoleq.optics.storage.onEach
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 

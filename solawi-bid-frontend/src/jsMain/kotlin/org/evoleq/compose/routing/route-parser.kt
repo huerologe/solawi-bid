@@ -1,7 +1,7 @@
 package org.evoleq.compose.routing
 
-import lib.parser.*
-import org.evoleq.maths.x
+import org.evoleq.parser.*
+import org.evoleq.math.x
 
 @Suppress("FunctionName")
 fun Param(): Parser<Parameter> = SplitAtFirst('=') map {

@@ -2,10 +2,10 @@
 // Please don't make any changes.
 package org.solyton.solawi.bid.application.data
 
-import lib.optics.Lensify
-import lib.optics.ReadOnly
-import lib.optics.ReadWrite
-import lib.optics.lens.Lens
+import org.evoleq.optics.Lensify
+import org.evoleq.optics.ReadOnly
+import org.evoleq.optics.ReadWrite
+import org.evoleq.optics.lens.Lens
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.module.user.User
 
