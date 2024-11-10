@@ -31,7 +31,7 @@ kotlin {
     sourceSets {
         val jsMain by getting {
             kotlin.srcDir("src/jsMain/kotlin")
-            resources.srcDir("src/main/resources")
+            resources.srcDir("src/jsMain/resources")
 
             dependencies {
                 // kotlin coroutines

@@ -3,15 +3,32 @@
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Running the project
+### Run the backend
+Use the command line to run the backend:
+```shell
+./gradlew runFatJar
+```
+Access the backend on 
+```
+localhost:8081
+```
 
-Use the command line to run:
+### Run the Frontend
+Use the command line to run the frontend:
 
-``` 
+```shell 
 ./gradlew jsBrowserRun
 ```
-
-Instead of manually compiling and executing a Kotlin/JS project every time you want to see the changes you made, you can use the continuous compilation mode:
+Access the frontend on
 ```
+localhost:8080
+```
+in your browser.
+
+
+Hint: 
+Instead of manually compiling and executing a Kotlin/JS project every time you want to see the changes you made, you can use the continuous compilation mode:
+```shell
 ./gradlew jsBrowserRun --continuous
 ```
 
