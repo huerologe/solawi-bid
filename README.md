@@ -43,3 +43,7 @@ Instead of manually compiling and executing a Kotlin/JS project every time you w
 
 
 # solawi-bid
+
+
+ - [Frontend Notes](./solawi-bid-frontend/Notes.md)
+
