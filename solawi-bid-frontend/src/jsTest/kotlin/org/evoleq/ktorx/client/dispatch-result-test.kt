@@ -61,7 +61,7 @@ class DispatchResultTest {
                 } x storage
             }
         }
-        val u = DispatchState(Result.Return(name)) runOn storage
+        val u = DispatchState(result) runOn storage
         assertEquals(Whole(0,name), whole)
 
         val e = DispatchState(Result.Failure.Message("error")) runOn storage
