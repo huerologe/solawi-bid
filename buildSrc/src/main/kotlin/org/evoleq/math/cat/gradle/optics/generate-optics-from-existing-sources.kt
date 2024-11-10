@@ -75,8 +75,7 @@ fun Project.showGenerateOptionsFromExistingSourcesDialog(extension: OpticsExtens
         val index = lines.indexOfFirst { it.startsWith(")") } + 1
         val dataClass: List<String> = lines.take(index).filter { it !in imports && it != packageLine }
 
-        val clazz = """|
-            |// This file has been partially auto generated. 
+        val clazz = """// This file has been partially auto generated. 
             |// Please don't make any changes to the lenses.
             |// Feel free to add or remove annotated properties from
             |// the generator data class. The corresponding lenses 
@@ -92,8 +91,7 @@ fun Project.showGenerateOptionsFromExistingSourcesDialog(extension: OpticsExtens
             | * the class. Make sure that they are annotated with
             | * - @ReadOnly
             | * - @ReadWrite
-            | *
-            | * if you want that a property-lens will be generated
+            | * If you want that a property-lens will be generated
             | * on the next run of the lens generator.
             | * If not, just omit the annotation or annotate it with @Ignore.
             | */
