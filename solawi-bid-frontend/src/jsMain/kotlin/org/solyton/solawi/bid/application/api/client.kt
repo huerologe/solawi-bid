@@ -17,7 +17,7 @@ fun Application.client(loggedIn: Boolean = true) = HttpClient(Js) {
         append("ContentType","Application/Json")
         //append("Context", )
         if(loggedIn) {
-            append("Authorization", "Bearer ${userData.javaWebToken}")
+            append("Authorization", "Bearer ${userData.accessToken}")
         }
     }
 }
