@@ -3,14 +3,14 @@ package org.evoleq.math.cat.gradle.optics
 import java.io.File
 
 val defaultImports by lazy { listOf(
-    "import lib.optics.Lensify",
-    "import lib.optics.lens.Lens"
+    "import org.evoleq.optics.Lensify",
+    "import org.evoleq.optics.lens.Lens"
 ) }
 
 val modifierImports by lazy {  listOf(
-    "import lib.optics.ReadOnly",
-    "import lib.optics.ReadWrite",
-    "import lib.optics.Ignore",
+    "import org.evoleq.optics.ReadOnly",
+    "import org.evoleq.optics.ReadWrite",
+    "import org.evoleq.optics.Ignore",
 )}
 
 
