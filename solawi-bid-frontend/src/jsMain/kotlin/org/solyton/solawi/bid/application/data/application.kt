@@ -7,7 +7,7 @@ import org.evoleq.optics.ReadOnly
 import org.evoleq.optics.ReadWrite
 import org.evoleq.ktorx.api.Api
 import org.evoleq.optics.lens.Lens
-import org.solyton.solawi.bid.api.api as solawiApi
+import org.solyton.solawi.bid.api.solawiApi
 import org.solyton.solawi.bid.module.user.User
 import org.solyton.solawi.bid.application.data.env.Environment
 

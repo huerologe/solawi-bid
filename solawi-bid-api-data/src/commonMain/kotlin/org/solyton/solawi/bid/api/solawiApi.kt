@@ -6,7 +6,7 @@ import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.authentication.data.api.Logout
 import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 
-val api by lazy {
+val solawiApi by lazy {
     Api().post<Login, LoggedIn>(
         key = Login::class,
         url = "login"
