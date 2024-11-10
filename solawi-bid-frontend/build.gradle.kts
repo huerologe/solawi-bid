@@ -37,6 +37,7 @@ kotlin {
                 // kotlin coroutines
                 implementation(libs.kotlinx.coroutines.core)
 
+
                 // ktor client
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.js)
