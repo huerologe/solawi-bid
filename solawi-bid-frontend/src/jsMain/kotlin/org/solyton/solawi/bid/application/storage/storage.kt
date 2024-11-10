@@ -12,7 +12,10 @@ import org.solyton.solawi.bid.module.user.User
 @Composable
 fun Storage(): Storage<Application> {
     // val environment = getEnv()
-    var application by mutableStateOf<Application>(Application(Environment("DEV"), User("", "","", "", )))
+    var application by mutableStateOf<Application>(Application(
+        environment = Environment("DEV"),
+        userData = User("", "","", "", )
+    ))
     val storage = Storage<Application>(
         read = {application},
         write = {data ->

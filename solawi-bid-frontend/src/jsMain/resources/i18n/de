@@ -1,4 +1,26 @@
 de{
+    solyton{
+        authentication{
+            login{
+                fields{
+                    username: "Nutzername"
+                    password: "Passwort"
+                }
+                buttons{
+                    ok: "Login"
+                    password-reset: "Passwort zurücksetzen"
+                    sign-up: "Registrieren"
+                }
+            }
+        }
+        solawi{
+            mainPage{
+                title: "Solawi Bieter App"
+            }
+        }
+    }
+
+
     hanoi{
         navigation{
             main{
