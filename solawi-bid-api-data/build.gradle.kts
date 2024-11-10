@@ -1,24 +1,18 @@
 plugins {
     alias(libs.plugins.mpp)
     alias(libs.plugins.serialization)
-    //kotlin("multiplatform") version "1.9.22"
-    //kotlin("plugin.serialization") version "1.9.22"
      `maven-publish`
 }
 
 
 
-group = libs.versions.solytonGroup// "org.solyton"//project.extra["solawiBid.group"] as String
-version = libs.versions.solawi// versions"0.0.1"//project.extra["solawiBid.version"] as String
-//val ktorVersion: String by project
-val kotlinVersion = libs.versions.kotlin // : String by project
+group = libs.versions.solytonGroup
+version = libs.versions.solawi
+val kotlinVersion = libs.versions.kotlin
 
 repositories {
     mavenCentral()
 }
-
-
-
 
 configurations.all {
     exclude(group = "org.gradle.api.plugins", module = "MavenPlugin")
@@ -44,15 +38,14 @@ kotlin{
             kotlin.srcDir("/src/commonMain/kotlin")
 
             dependencies {
-                implementation("com.benasher44:uuid:0.6.0")
+                implementation(libs.benasher.uuid)
                 implementation(libs.kotlinx.coroutines.core)
-                //implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
                 implementation(libs.kotlinx.serialization.json)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test")) // Adds kotlin.test for multiplatform
+                implementation(libs.kotlin.test.junit) // Adds kotlin.test for multiplatform
             }
         }
         val jvmMain by getting {
@@ -62,17 +55,22 @@ kotlin{
         }
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test")) // Adds kotlin.test for multiplatform
+                implementation(libs.kotlin.test.junit)
             }
         }
         val jsMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.8.0") // Example for JS
+                // ktor client
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.js)
+                implementation(libs.ktor.http)
+                implementation(libs.ktor.http.cio)
             }
         }
         val jsTest by getting {
             dependencies {
-                implementation(kotlin("test")) // Adds kotlin.test for multiplatform
+                implementation(libs.kotlin.test.junit) // Adds kotlin.test for multiplatform
             }
         }
 
