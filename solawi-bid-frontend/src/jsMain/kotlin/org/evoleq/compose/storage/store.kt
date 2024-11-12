@@ -27,6 +27,13 @@ fun initialize(block:@Composable  ()->Unit) {
     block()
 }
 
+@Markup
+@Composable
+fun <P> Storage<P>.onInit(block:  @Composable Storage<P>.()->Unit): Storage<P> {
+    block()
+    return this
+}
+
 /*
 
 Keep as ideas

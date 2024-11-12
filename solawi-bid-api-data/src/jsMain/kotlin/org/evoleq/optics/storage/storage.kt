@@ -25,13 +25,15 @@ fun <P> Storage<P>.onWrite(f: suspend (P) -> Unit): Storage<P> = Storage(
     }
 }
 
-fun <P> Storage<P>.onChange(f: suspend (P) -> Unit): Storage<P> = Storage(
+fun <P> Storage<P>.onChange(f: suspend Storage<P>.(P,P) -> Unit): Storage<P> = Storage(
     read
-) {
-    if(read() != it) {
-        write(it)
-        CoroutineScope(Job()).launch {
-            f(it)
+) { newP -> with(read()) {
+        if (this != newP) {
+            val oldP = this
+            this@onChange.write(newP)
+            CoroutineScope(Job()).launch {
+                this@onChange.f(oldP, newP)
+            }
         }
     }
 }
