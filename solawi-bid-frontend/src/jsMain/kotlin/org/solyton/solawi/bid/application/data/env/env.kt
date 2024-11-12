@@ -22,9 +22,9 @@ import org.evoleq.optics.lens.Lens
  */
 @Lensify data class Environment(
     @ReadOnly val type: String = "DEV",
-    @ReadOnly val frontendUrl: String = "localhost",
+    @ReadOnly val frontendUrl: String = "http://localhost",
     @ReadOnly val frontendPort: Int = 8080,
-    @ReadOnly val backendUrl: String = "localhost",
+    @ReadOnly val backendUrl: String = "http://localhost",
     @ReadOnly val backendPort: Int = 8081,
 )
 

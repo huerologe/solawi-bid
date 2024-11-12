@@ -5,6 +5,8 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.Modal
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.math.x
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
@@ -22,7 +24,6 @@ fun CookieDisclaimer(
     modals: Storage<Modals<Int>>,
     isCookieDisclaimerConfirmed: Storage<Boolean>
 ) = Div {
-    console.log("haha")
     if (!isCookieDisclaimerConfirmed.read()) {
         with(modals.nextId()) {
             val id = this
@@ -55,12 +56,8 @@ fun CookieDisclaimerModal(
     texts = texts
 ) {
     Div {
-        Text("Blub Cookie")
-        /*
         with(texts.component("content")) {
             Text(this["hint"])
         }
-
-         */
     }
 }

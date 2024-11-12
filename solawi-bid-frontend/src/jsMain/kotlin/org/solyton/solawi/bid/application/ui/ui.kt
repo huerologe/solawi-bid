@@ -6,20 +6,20 @@ import org.evoleq.compose.layout.Container
 import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.ModalLayer
 import org.evoleq.compose.routing.Routing
+import org.evoleq.language.Block
 import org.evoleq.language.Lang
+import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Text
-import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.type
-import org.solyton.solawi.bid.application.data.environment
-import org.solyton.solawi.bid.application.data.isCookieDisclaimerConfirmed
-import org.solyton.solawi.bid.application.data.modals
+import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
 @Suppress("FunctionName")
 @Composable fun UI(storage: Storage<Application>) {
-
+    val texts = (storage * i18N * language).read() as Block
     // The whole UI needs to be wrapped in a component
     // which is able to handle the interactive control flow of the application,
     // namely: dialogs, cookie-disclaimers errors, etc
@@ -31,15 +31,13 @@ import org.solyton.solawi.bid.application.data.modals
     ) {
         // The Cookie disclaimer pops up, whenever as user
         // visits the page for the first time or cleared the cookies
-        /*
         CookieDisclaimer(
-            //texts.component("hanoi.cookieDisclaimer")
-            Lang.Block("", listOf()),
+            texts.component("solyton.cookieDisclaimer"),
             storage * modals,
             storage * isCookieDisclaimerConfirmed
         )
 
-         */
+
 
         Container{
 
