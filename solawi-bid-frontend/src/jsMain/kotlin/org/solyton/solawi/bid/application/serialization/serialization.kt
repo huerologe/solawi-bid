@@ -1,6 +1,5 @@
 package org.solyton.solawi.bid.application.serialization
 
-import androidx.compose.runtime.Composable
 import kotlinx.serialization.builtins.serializer
 import org.evoleq.ktorx.result.*
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
@@ -10,7 +9,6 @@ import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 import org.solyton.solawi.bid.module.bid.data.api.Bid
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Bidder
-import org.solyton.solawi.bid.module.user.User
 
 
 fun installSerializers() { if(serializers.isEmpty()) {
