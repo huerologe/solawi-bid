@@ -6,14 +6,17 @@ import org.evoleq.compose.layout.Container
 import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.ModalLayer
 import org.evoleq.compose.routing.Routing
+import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Block
-import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.type
+import org.solyton.solawi.bid.application.ui.page.login.LoginPage
+import org.solyton.solawi.bid.application.ui.page.test.TestPage
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
@@ -44,9 +47,18 @@ import org.solyton.solawi.bid.module.i18n.data.language
             val environment = (storage * environment * type).read()
 
             Text("Environment: $environment")
+            Button(attrs = {
+                onClick { navigate("login") }
+            }) {
 
+            }
             Routing("/") {
-
+                route("login") {
+                    component { LoginPage() }
+                }
+                route("test") {
+                    component { TestPage() }
+                }
             }
 
         }
