@@ -50,11 +50,15 @@ Input[type="number"] {
     border-radius:var(--button-border-radius);
 }
 
+Input[type="text"] {
+    padding: var(--button-padding);
+    border-radius:var(--button-border-radius);
+}
 
 .loading-page {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 45%;
+  top: 45%;
   z-index: 10000;
   margin: -76px 0 0 -76px;
   border: 16px solid #f3f3f3; /* Light grey */
