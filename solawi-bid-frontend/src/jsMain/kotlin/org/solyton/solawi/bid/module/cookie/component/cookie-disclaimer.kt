@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.cookie
+package org.solyton.solawi.bid.module.cookie.component
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup

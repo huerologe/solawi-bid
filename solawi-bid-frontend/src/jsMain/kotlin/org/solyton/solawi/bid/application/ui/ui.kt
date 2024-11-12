@@ -1,7 +1,7 @@
 package org.solyton.solawi.bid.application.ui
 
 import androidx.compose.runtime.Composable
-import org.solyton.solawi.bid.module.cookie.CookieDisclaimer
+import org.solyton.solawi.bid.module.cookie.component.CookieDisclaimer
 import org.evoleq.compose.layout.Container
 import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.ModalLayer
@@ -31,12 +31,15 @@ import org.solyton.solawi.bid.application.data.modals
     ) {
         // The Cookie disclaimer pops up, whenever as user
         // visits the page for the first time or cleared the cookies
+        /*
         CookieDisclaimer(
             //texts.component("hanoi.cookieDisclaimer")
             Lang.Block("", listOf()),
             storage * modals,
             storage * isCookieDisclaimerConfirmed
         )
+
+         */
 
         Container{
 

@@ -1,6 +1,6 @@
 // This file has been auto generated. 
 // Please don't make any changes.
-package org.solyton.solawi.bid.application.data.i18n
+package org.solyton.solawi.bid.module.i18n.data
 
 import org.evoleq.language.Lang
 import org.evoleq.optics.Lensify

@@ -14,4 +14,4 @@ RUN chmod 644 /usr/local/apache2/conf/extra/httpd-vhosts.conf
 RUN chmod 644 /usr/local/apache2/conf/httpd.conf
 
 # Copy website related stuff
-COPY solawi-bid-frontend/build/dist/js/productionExecutable/ /usr/local/apache2/htdocs/hanoi
+COPY solawi-bid-frontend/build/dist/js/productionExecutable/ /usr/local/apache2/htdocs/solawi-bid
