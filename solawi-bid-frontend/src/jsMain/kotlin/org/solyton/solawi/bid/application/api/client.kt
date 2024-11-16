@@ -22,8 +22,9 @@ fun Application.client(loggedIn: Boolean = true) = HttpClient(Js) {
     }
 }
 
-inline fun <reified S: Any, reified T: Any> HttpClient.get(url: String): suspend (S)-> Result<T> = {s:S ->
-    with(post(url){
+inline fun <reified S: Any, reified T: Any> HttpClient.get(url: String, port: Int): suspend (S)-> Result<T> = {s:S ->
+    with(get(url){
+        this.port = port
         if(S::class != Unit::class) {
             val serialized = Json.encodeToString(Serializer(), s)
             setBody(serialized)
@@ -33,11 +34,15 @@ inline fun <reified S: Any, reified T: Any> HttpClient.get(url: String): suspend
     }
 }
 
-inline fun <reified S: Any, reified T: Any> HttpClient.post(url: String): suspend (S)-> Result<T> = {s:S ->
+inline fun <reified S: Any, reified T: Any> HttpClient.post(url: String, port: Int): suspend (S)-> Result<T> = {s:S ->
+    console.log("input = $s", "url = $url", "port = $port")
+
     with(post(url){
+        this.port = port
         if(S::class != Unit::class) {
             val serialized = Json.encodeToString(Serializer(), s)
             setBody(serialized)
+
         }
     }){
         Json.decodeFromString<Result<T>>(Serializer(), bodyAsText())
