@@ -67,7 +67,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(kotlin("test-js"))
                 implementation(compose.html.testUtils)
-
+                implementation(libs.ktor.client.mock) // Ktor Client Mock)
             }
         }
 
