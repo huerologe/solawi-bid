@@ -20,6 +20,8 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<String>(String.serializer())
         add<Boolean>(Boolean.serializer())
         add<Double>(Double.serializer())
+        add(Nothing::class, Unit.serializer())
+
         //...
 
         // Result
@@ -27,6 +29,8 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<Result.Failure>(Result.Failure.serializer())
         add<Result.Failure.Message>(Result.Failure.Message.serializer())
         add(Result.Success::class, ResultSerializer)
+
+
 
         // Authorization
         add<Login>(Login.serializer())

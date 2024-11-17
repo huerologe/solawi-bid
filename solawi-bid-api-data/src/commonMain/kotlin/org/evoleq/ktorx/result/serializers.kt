@@ -1,7 +1,6 @@
 package org.evoleq.ktorx.result
 
 import kotlinx.serialization.KSerializer
-import org.evoleq.math.MathDsl
 import kotlin.reflect.KClass
 
 /**
@@ -22,6 +21,10 @@ operator fun HashMap<KClass<*>, KSerializer<*>>.get(className: String): KSeriali
 @Suppress("FunctionName","UNCHECKED_CAST")
 inline fun <reified T> Serializer(): KSerializer<T> {
     return serializers[T::class]!! as KSerializer<T>
+}
+
+fun <T : Any> Serializer(t: T): KSerializer<T> {
+    return serializers[t::class]!! as KSerializer<T>
 }
 
 

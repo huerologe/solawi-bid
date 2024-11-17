@@ -174,7 +174,7 @@ migrations {
         domain = "org.solyton.solawi.bid"
         module = "db"
         migrations = "migrations"
-        //"main"
+        sourceSet = "main"
     }
 
     migration("dbSchemaTest") {
