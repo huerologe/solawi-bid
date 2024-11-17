@@ -123,7 +123,7 @@ fun String.containsStringsInOrderWithWhitespace(vararg searchStrings: String): B
 fun List<String>.renderOptics(): String = parse().map {  lensDescriptor -> when(lensDescriptor.modifier) {
     is Modifier.Ignore -> ""
     is Modifier.ReadOnly -> readOnlyLens(lensDescriptor).commentReadOnlyLens(lensDescriptor)
-    is Modifier.ReadWrite -> readWriteLens(lensDescriptor).commentReadWriteLens(lensDescriptor)
+    is Modifier.ReadWrite -> readWriteLens(lensDescriptor).commentReadWriteLens(lensDescriptor)+ "\n"+ pseudoLens(lensDescriptor).pseudoLensComment(lensDescriptor)
 }}.joinToString("\n") { it }
 
 
@@ -165,22 +165,6 @@ fun List<String>.parse(): List<LensDescriptor> {
 
 
     return members
-/*
-    val members: List<String> = input1.drop(1).filter {item ->
-        modifiers.map { item.startsWith(it) }.reduce{x,y -> x || y}
-    }.filter{
-            item -> !item.startsWith("${Modifier.Ignore}")
-    }.map{ item: String ->
-        val spilt = item.split(" ")
-        LensDescriptor(
-            type = typeOfTheWhole.name,
-            modifier = Modifier(spilt[0]),
-            focusName = spilt[1],
-            focusType = spilt[2]
-        )
-    }
-
- */
 }
 
 // fun List<String>.parse(): ClassDescriptor
