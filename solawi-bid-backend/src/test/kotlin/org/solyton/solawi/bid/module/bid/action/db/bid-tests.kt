@@ -128,10 +128,10 @@ class BidBests {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private val tables = arrayOf(
         AuctionBidders,
+        BidRounds,
         Auctions,
         Bidders,
         Rounds,
-        BidRounds,
     )
 
     data class BidProcessSetup(
