@@ -17,7 +17,10 @@ import kotlin.test.assertNotEquals
 class AuctionTests {
 
     @DbFunctional@Test fun createAuction() = runSimpleH2Test(
-        Auctions
+        AuctionBidders,
+        Auctions,
+        Bidders,
+        Rounds
     ) {
         val name = "TestAuction"
         val auction = createAuction(name)
@@ -25,9 +28,9 @@ class AuctionTests {
     }
 
     @DbFunctional@Test fun prepareAuction() = runSimpleH2Test(
+        AuctionBidders,
         Auctions,
         Bidders,
-        AuctionBidders,
         Rounds
     ) {
         val name = "TestAuction"
