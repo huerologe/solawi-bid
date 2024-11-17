@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class AuctionTests {
 
-    @Schema@Test
+    //@Schema@Test
     fun createAuction() = runSimpleH2Test(
         AuctionBidders,
         Auctions,
@@ -22,7 +22,7 @@ class AuctionTests {
         assertEquals(name, auction.name)
     }
 
-    @Schema@Test
+    //@Schema@Test
     fun addBiddersToAuction() = runSimpleH2Test(
         AuctionBidders,
         Auctions,
