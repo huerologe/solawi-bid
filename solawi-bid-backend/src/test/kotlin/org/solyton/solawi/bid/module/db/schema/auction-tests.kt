@@ -22,9 +22,9 @@ class AuctionTests {
 
     @Schema@Test
     fun addBiddersToAuction() = runSimpleH2Test(
+        AuctionBidders,
         Auctions,
         Bidders,
-        AuctionBidders
     ) {
         val name = "TestAuction"
         val auction = Auction.new {
