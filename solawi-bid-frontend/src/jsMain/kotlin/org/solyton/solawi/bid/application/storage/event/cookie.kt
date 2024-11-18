@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.application.storage
+package org.solyton.solawi.bid.application.storage.event
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

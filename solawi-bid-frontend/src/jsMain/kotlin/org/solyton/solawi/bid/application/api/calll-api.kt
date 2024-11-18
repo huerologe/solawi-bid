@@ -1,8 +1,5 @@
-package org.solyton.solawi.bid.application.storage
+package org.solyton.solawi.bid.application.api
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.evoleq.ktorx.api.EndPoint
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.Return
@@ -18,19 +15,11 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
-import org.solyton.solawi.bid.application.api.client
-import org.solyton.solawi.bid.application.api.get
-import org.solyton.solawi.bid.application.api.post
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl
 import org.solyton.solawi.bid.module.error.component.ErrorModal
 
-@MathDsl
-fun Storage<Application>.onDispatch(configure: suspend Storage<Application>.()->Unit): Storage<Application> {
-    CoroutineScope(Job()).launch {configure()}
-    return this
-}
 
 @MathDsl
 @Suppress("FunctionName")
@@ -48,36 +37,36 @@ fun <T> Read(reader: Reader<Application, T>): State<Storage<Application>, T> = S
 
 @MathDsl
 @Suppress("FunctionName")
-fun <S : Any,T : Any> Call(action: Action<Application, S, T>/*endPoint: KClass<*>*/): KlState<Storage<Application>, S, Result<T>> = {
-        s -> State{ storage ->
-            val application = storage.read()
-            val call = (storage * api ).read()[action.endPoint]!!
-            val baseUrl = (storage * environment * backendUrl).read()
-            val port = (storage * environment * backendPort).read()
-            val user = (storage * userData).read()
+fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<Application>, S, Result<T>> = {
+    s -> State{ storage ->
+        val application = storage.read()
+        val call = (storage * api ).read()[action.endPoint]!!
+        val baseUrl = (storage * environment * backendUrl).read()
+        val port = (storage * environment * backendPort).read()
+        val user = (storage * userData).read()
 
-            val isLoggedIn = user.accessToken != ""
-            val url = baseUrl + "/" + call.url
+        val isLoggedIn = user.accessToken != ""
+        val url = baseUrl + "/" + call.url
 
-            with(application.client(isLoggedIn)) {
-                when(call) {
-                    is EndPoint.Get -> get<S, T>(url, port, action.serializer, action.deserializer)
-                    is EndPoint.Post -> post<S, T>(url, port, action.serializer, action.deserializer)
-                    is EndPoint.Delete -> TODO()//delete<S, T>(url)
-                    is EndPoint.Head -> TODO()
-                    is EndPoint.Patch -> TODO()// patch<S, T>(url)
+        with(application.client(isLoggedIn)) {
+            when(call) {
+                is EndPoint.Get -> get<S, T>(url, port, action.serializer, action.deserializer)
+                is EndPoint.Post -> post<S, T>(url, port, action.serializer, action.deserializer)
+                is EndPoint.Delete -> TODO()//delete<S, T>(url)
+                is EndPoint.Head -> TODO()
+                is EndPoint.Patch -> TODO()// patch<S, T>(url)
 
-                    is EndPoint.Put -> TODO()
-                }
-            } (s) x storage
-        }
+                is EndPoint.Put -> TODO()
+            }
+        } (s) x storage
     }
+}
 
 
 @MathDsl
 @Suppress("FunctionName")
 fun <T: Any> Dispatch(writer: Writer<Application, T>): KlState<Storage<Application>, Result<T>, Result<Unit>> = {
-        result -> State { storage ->
+    result -> State { storage ->
         console.log("received result: $result")
         when(result) {
             is Result.Success -> Result.Return((storage * writer).dispatch()).apply() on result

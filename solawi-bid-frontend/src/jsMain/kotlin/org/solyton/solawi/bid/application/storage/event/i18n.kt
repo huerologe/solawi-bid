@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.application.storage
+package org.solyton.solawi.bid.application.storage.event
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
