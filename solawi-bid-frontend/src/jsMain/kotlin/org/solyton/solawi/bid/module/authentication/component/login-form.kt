@@ -15,7 +15,7 @@ import org.solyton.solawi.bid.module.authentication.data.*
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun LoginForm(storage: Storage<LoginForm>, dispatchUserData: ()->Unit) {
+fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     val userData = storage * user
     val texts = (storage * texts).read() as Lang.Block
     val loginFields = texts.component("solyton.authentication.login.fields")
@@ -55,7 +55,7 @@ fun LoginForm(storage: Storage<LoginForm>, dispatchUserData: ()->Unit) {
 
                 Button(attrs = {
                     onClick {
-                        dispatchUserData()
+                        login()
                     }
                 }) {
                     Text(buttonTexts["ok"])
