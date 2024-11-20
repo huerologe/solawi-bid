@@ -20,7 +20,7 @@ val LoginForm : Lens<Application, LoginForm> by lazy {
                 pair.first.username,
                 pair.first.password
             ),
-            pair.second.language as Lang.Block
+            (pair.second.language ) as Lang.Block
         )},
         set = {loginForm -> {pair ->
             pair.copy(
