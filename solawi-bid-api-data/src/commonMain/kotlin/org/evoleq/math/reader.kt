@@ -13,3 +13,9 @@ fun <T> Reader<Unit, T>.read(): T = this(Unit)
 
 @MathDsl
 fun <T> Source<T>.emit(): T = this(Unit)
+
+/*
+@MathDsl
+operator fun <E, T> E.times(reader: Reader<E, T>): T = reader(this)
+
+ */

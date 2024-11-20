@@ -25,10 +25,10 @@ val LoginForm : Lens<Application, LoginForm> by lazy {
         )},
         set = {loginForm -> {pair ->
             pair.first{ User(
-                    loginForm.user.username,
-                    loginForm.user.password,
-                    "",
-                    ""
+                loginForm.user.username,
+                loginForm.user.password,
+                "",
+                ""
             ) }
         } }
     )
