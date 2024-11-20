@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.application.data.authentication
 
 import org.evoleq.language.Lang
+import org.evoleq.math.first
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.pX
 import org.evoleq.optics.lens.times
@@ -20,17 +21,15 @@ val LoginForm : Lens<Application, LoginForm> by lazy {
                 pair.first.username,
                 pair.first.password
             ),
-            pair.second.language as Lang.Block
+            (pair.second.language ) as Lang.Block
         )},
         set = {loginForm -> {pair ->
-            pair.copy(
-                first = User(
+            pair.first{ User(
                     loginForm.user.username,
                     loginForm.user.password,
                     "",
                     ""
-                )
-            )
+            ) }
         } }
     )
 }

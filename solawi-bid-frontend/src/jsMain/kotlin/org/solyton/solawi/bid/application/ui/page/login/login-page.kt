@@ -16,14 +16,13 @@ import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.user.accessToken
 import org.solyton.solawi.bid.module.user.refreshToken
+import org.solyton.solawi.bid.application.data.authentication.LoginForm as LoginFormData
 
 @Markup
 @Composable
 @Suppress("FunctionName")
 fun LoginPage(storage: Storage<Application>) {
-    LoginForm(
-        storage * org.solyton.solawi.bid.application.data.authentication.LoginForm
-        ) {
+    LoginForm( storage * LoginFormData ) {
         CoroutineScope(Job()).launch {
             val actions = (storage * actions).read()
             actions.emit(Action(
