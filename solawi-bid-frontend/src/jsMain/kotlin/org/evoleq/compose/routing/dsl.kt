@@ -99,9 +99,12 @@ fun routing(
 fun Location.newPath() = "${pathname}${search}"//.ifBlank{ "/" }
 internal val currentPath: MutableState<String> by lazy{ mutableStateOf(window.location.newPath()) }
 
+/**
+ * Navigate to a new location
+ */
 @RoutingDsl
-fun navigate(to: String) {
-    window.history.pushState(null, "hanoi-towers", to)
+fun navigate(to: String, title: String = "") {
+    window.history.pushState(null, title, to)
     /*
     The history API unfortunately provides no callback to listen for
     [window.history.pushState], so we need to notify subscribers when pushing a new path.
