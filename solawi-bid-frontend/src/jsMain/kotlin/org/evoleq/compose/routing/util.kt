@@ -3,10 +3,19 @@ package org.evoleq.compose.routing
 import androidx.compose.runtime.Composable
 import org.evoleq.math.x
 
+/**
+ * Find routes by segment
+ */
 fun Routes.find(segment: RouteSegment): Routes? = children.find { it.segment == segment }
 
+/**
+ * Find routes by segment-name
+ */
 fun Routes.find(string: String): Routes? = children.find { it.segment.value == string }
 
+/**
+ * Merge route into a bunch of routes
+ */
 fun Routes.merge(route: Route): Routes =
     if(route.segments.isNotEmpty()) {
         val rest = route.segments.drop(1)
@@ -36,7 +45,9 @@ fun Routes.merge(route: Route): Routes =
         this
     }
 
-
+/**
+ * Append some routes to another bunch of routes
+ */
 fun Routes.append(routes: Routes): Routes = Routes(
     segment,
     listOf(
@@ -45,7 +56,9 @@ fun Routes.append(routes: Routes): Routes = Routes(
     )
 )
 
-
+/**
+ * Prepend some routes to another bunch of routes
+ */
 fun Routes.prepend(routes: Routes): Routes = Routes(
     segment,
     listOf(
@@ -54,6 +67,9 @@ fun Routes.prepend(routes: Routes): Routes = Routes(
     )
 )
 
+/**
+ * Append a segment to a route
+ */
 fun Route.append(segment: String): Route = Route(
     listOf(
         *segments.toTypedArray(),
@@ -62,6 +78,9 @@ fun Route.append(segment: String): Route = Route(
     queryParameters
 )
 
+/**
+ * Append a route segment to a route
+ */
 fun Route.append(segment: RouteSegment) = Route(
     listOf(
         *segments.toTypedArray(),
@@ -70,6 +89,9 @@ fun Route.append(segment: RouteSegment) = Route(
     queryParameters
 )
 
+/**
+ * Append a route segment to a composable route
+ */
 fun ComposableRoute.append(segment: RouteSegment) = ComposableRoute(
     listOf(
         *segments.toTypedArray(),
@@ -79,6 +101,9 @@ fun ComposableRoute.append(segment: RouteSegment) = ComposableRoute(
     component
 )
 
+/**
+ * Given a path, find the matching route
+ */
 fun Routes.match(path: String): ComposableRoute? = with(
     path.dropWhile { it == '/' }.dropLastWhile { it == '/' }.split("/").map{it.trim()}.filter { it != "" }
 ) {
@@ -92,7 +117,9 @@ fun Routes.match(path: String): ComposableRoute? = with(
         this@match.match(ComposableRoute(listOf(), listOf()){} x this).first
     }
 }
-
+/**
+ * Given a path, find the matching route
+ */
 tailrec fun Routes.match(pair: Pair<ComposableRoute,List<String>>): Pair<ComposableRoute?, List<String>> {
     val (route, list) = pair
 
@@ -122,8 +149,14 @@ tailrec fun Routes.match(pair: Pair<ComposableRoute,List<String>>): Pair<Composa
     }
 }
 
+/**
+ * Get the value behind a parameter
+ */
 fun ComposableRoute.parameter(name: String): String? = segments.filterIsInstance<RouteSegment.Variable>().find { it.name == name }?.value
 
+/**
+ * Render component with a certain path
+ */
 @RoutingDsl
 @Composable
 fun Routes.compose(path: String): Boolean = with(match(path) ) {

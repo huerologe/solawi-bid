@@ -27,6 +27,7 @@ class RoutesConfiguration : Configuration<Routes> {
 
     lateinit var segment: RouteSegment
     var component: (@Composable ComposableRoute.()->Unit)? = null
+    var wrap: (@Composable ComposableRoute.()->Unit)? = null
 
     val routes: ArrayList<Routes> = arrayListOf()
 
@@ -84,6 +85,11 @@ class RoutesConfiguration : Configuration<Routes> {
     @Markup
     fun component(content: @Composable ComposableRoute.()->Unit) {
         component = content
+    }
+
+    @Markup
+    fun wrap(wrapper: @Composable ComposableRoute.()->Unit) {
+        wrap = wrapper
     }
 }
 
