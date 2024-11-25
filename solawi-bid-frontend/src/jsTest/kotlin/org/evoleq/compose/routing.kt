@@ -148,5 +148,69 @@ class RoutingTest {
         waitForRecompositionComplete()
         assertEquals("<div>ROOT</div>", root.innerHTML)
     }
+
+
+
+
+
+    @Test fun wrapRoutes() = runTest {
+        composition {
+            Routing("/") {
+                component {
+                    Div {
+                        Text("ROOT")
+                    }
+                }
+                route("/x") {
+                    component { Div { Text("x") } }
+                }
+
+                wrap {
+
+
+                    layout {
+
+
+                        {
+                            Div {
+                                Text("hello wrapper")
+                                it()
+                            }
+                        }
+
+
+                    }
+
+
+
+                    route("/y") {
+                        component {
+                            Div { Text("y") }
+                        }
+
+                        route("z") {
+                            component { Div { Text("z") } }
+                        }
+                    }
+                }
+            }
+        }
+        navigate("/x")
+        waitForRecompositionComplete()
+        assertEquals("<div>x</div>", root.innerHTML)
+
+        // Checks that wrap lifts child configurations
+        // and
+        // 1. wraps component y
+        // 2. but leaves component z as defined
+        navigate("/y")
+        waitForRecompositionComplete()
+        assertEquals("<div>hello wrapper<div>y</div></div>", root.innerHTML)
+        navigate("/y/z")
+        waitForRecompositionComplete()
+        assertEquals("<div>z</div>", root.innerHTML)
+
+
+    }
 }
 
