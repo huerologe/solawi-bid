@@ -36,6 +36,7 @@ fun Storage(): Storage<Application> {
     .onInit {
         checkCookie()
         loadLanguage()
+        checkUserData()
     }
     .onChange { oldApplication, newApplication ->
         onCookieDisclaimerConfirmed(oldApplication, newApplication)
@@ -44,8 +45,7 @@ fun Storage(): Storage<Application> {
         pulse++
     }.onDispatch {
         (this@onDispatch * actions).read().collect { action : Action<Application, *, *>->
-           CallApi(action
-            ) runOn this
+           CallApi( action ) runOn this
         }
     }
 }

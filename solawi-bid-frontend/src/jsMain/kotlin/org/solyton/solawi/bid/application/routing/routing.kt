@@ -7,6 +7,7 @@ import org.evoleq.compose.routing.RoutingDsl
 import org.evoleq.compose.routing.navigate
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.navbar.navBar
 import org.solyton.solawi.bid.application.data.userData
@@ -44,6 +45,40 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
 
             route("dashboard") {
                 component { DashboardPage(storage) }
+            }
+
+            route("manage") {
+
+            }
+
+            route("auctions") {
+                component {
+                    Text("Auctions")
+                }
+                route(":auctionId") {
+                    component {
+                        Text("auction: ${queryParameters.find{it.key == "auctionId"}}")
+                    }
+
+                    route("rounds") {
+                        component {
+                            Text("rounds of auction ${queryParameters.find{it.key == "auctionId"}}")
+                        }
+
+                        route(":roundId") {
+                            component{
+                                Text ("round ${queryParameters.find{it.key == "roundId"}}")
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            route("logout") {
+
+                component{Text("Logged out")}
             }
 
             route("test") {
