@@ -31,6 +31,11 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
                 width(400.px)
                 height(300.px)
             }
+            onKeyDown {
+                if(it.key == "Enter") {
+                    login()
+                }
+            }
         }) {
             // Flex {
             Div {
