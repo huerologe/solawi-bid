@@ -1,9 +1,7 @@
 package org.evoleq.compose.routing
 
 import androidx.compose.runtime.*
-import kotlinx.browser.window
 import org.evoleq.compose.Markup
-import org.w3c.dom.Location
 
 interface Configuration<out T> {
     fun configure(): T
@@ -27,7 +25,9 @@ class RoutesConfiguration : Configuration<Routes> {
 
     lateinit var segment: RouteSegment
     var component: (@Composable ComposableRoute.()->Unit)? = null
-    var wrap: (@Composable ComposableRoute.()->Unit)? = null
+    var wrap: (@Composable ComposableRoute.(@Composable ComposableRoute.()->Unit) -> @Composable ComposableRoute.()->Unit)? = null
+    var layoutChildrenOnly: Boolean = true
+    var accessGranted: Boolean = true
 
     val routes: ArrayList<Routes> = arrayListOf()
 
@@ -88,8 +88,38 @@ class RoutesConfiguration : Configuration<Routes> {
     }
 
     @Markup
-    fun wrap(wrapper: @Composable ComposableRoute.()->Unit) {
+    fun wrap(routesConfiguration: RoutesConfiguration.() -> Unit) {
+        //with(RoutesConfiguration()) {
+            val wRC = RoutesConfiguration()
+
+            wRC.routesConfiguration()
+            val wrap = wRC.wrap
+            val wrappedRoutes = wRC.routes.map { r -> Routes(
+                segment = r.segment,
+                children = r.children
+            ) {
+                if(r.component != null && accessGranted) {
+                    if (wrap != null) {
+                        this.wrap(r.component)() }
+                    else {
+                        r.component!!(this)
+                    }
+                }
+            }}
+            this@RoutesConfiguration.routes.addAll(wrappedRoutes)
+
+        //}
+    }
+    @Markup
+    fun layout(childrenOnly: Boolean = true, wrapper: @Composable ComposableRoute.(ch: @Composable ComposableRoute.()->Unit) -> @Composable ComposableRoute.()->Unit) {
+        layoutChildrenOnly = childrenOnly
         wrap = wrapper
+
+    }
+
+    @Markup
+    fun access(claim: ()->Boolean) {
+        accessGranted = claim()
     }
 }
 

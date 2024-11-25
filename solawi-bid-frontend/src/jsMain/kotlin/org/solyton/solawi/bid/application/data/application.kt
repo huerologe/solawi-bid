@@ -18,6 +18,7 @@ import org.solyton.solawi.bid.api.solawiApi
 import org.solyton.solawi.bid.module.user.User
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.module.i18n.data.I18N
+import org.solyton.solawi.bid.module.navbar.data.NavBar
 
 /**
  * Generator class.

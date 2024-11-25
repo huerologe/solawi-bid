@@ -4,15 +4,12 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Container
 import org.evoleq.compose.modal.ModalLayer
-import org.evoleq.compose.routing.Routing
-import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Block
 import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.ui.page.login.LoginPage
-import org.solyton.solawi.bid.application.ui.page.test.TestPage
+import org.solyton.solawi.bid.application.routing.*
 import org.solyton.solawi.bid.module.cookie.component.CookieDisclaimer
 import org.solyton.solawi.bid.module.i18n.data.language
 
@@ -36,21 +33,10 @@ import org.solyton.solawi.bid.module.i18n.data.language
             storage * modals,
             storage * isCookieDisclaimerConfirmed
         )
+        // All pages shall be wrapped in a container
         Container{
-
-            Routing("/") {
-                route("login") {
-                    component { LoginPage(storage) }
-                }
-                val user = (storage * userData).read()
-                if(user.accessToken.isEmpty()) {
-                    navigate("login")
-                }
-                route("test") {
-                    component { TestPage() }
-                }
-            }
-
+            // Routing
+            Routing(storage)
         }
     }
 }

@@ -40,12 +40,11 @@ fun Storage(): Storage<Application> {
     .onChange { oldApplication, newApplication ->
         onCookieDisclaimerConfirmed(oldApplication, newApplication)
         onLocaleChanged(oldApplication, newApplication)
+        onLogin(oldApplication, newApplication)
         pulse++
     }.onDispatch {
         (this@onDispatch * actions).read().collect { action : Action<Application, *, *>->
-            //require(action.reader is Reader<Application, Any>)
-            //require(action.writer is Writer<Application, *>)
-            CallApi(action
+           CallApi(action
             ) runOn this
         }
     }

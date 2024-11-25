@@ -26,11 +26,10 @@ data class ComposableRoute(
 )
 
 sealed class RouteSegment(open val value: String) {
-    object Root : RouteSegment("") {
-        override fun toString(): String = "Root"
-    }
+    data object Root : RouteSegment("")
     data class Static(override val value: String): RouteSegment(value)
     data class Variable(val name: String, override val value: String = ""): RouteSegment(value)
+    data object Empty : RouteSegment("")
 }
 
 data class Routes(
