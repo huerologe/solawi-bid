@@ -1,12 +1,10 @@
 package org.solyton.solawi.bid.application.routing
 
 import androidx.compose.runtime.Composable
-import org.evoleq.compose.routing.Routes
-import org.evoleq.compose.routing.Routing
-import org.evoleq.compose.routing.RoutingDsl
-import org.evoleq.compose.routing.navigate
+import org.evoleq.compose.routing.*
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.navbar.navBar
@@ -57,17 +55,18 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                 }
                 route(":auctionId") {
                     component {
-                        Text("auction: ${queryParameters.find{it.key == "auctionId"}}")
+                        Text("auction: ${parameter("auctionId")}")
                     }
 
                     route("rounds") {
                         component {
-                            Text("rounds of auction ${queryParameters.find{it.key == "auctionId"}}")
+                            Text("rounds of auction ${parameter("auctionId")}")
                         }
 
                         route(":roundId") {
                             component{
-                                Text ("round ${queryParameters.find{it.key == "roundId"}}")
+                                P{Text("auction ${parameter("auctionId")}")}
+                                P{Text ("round ${parameter("roundId")}")}
                             }
                         }
                     }

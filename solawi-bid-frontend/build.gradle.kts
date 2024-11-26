@@ -125,8 +125,9 @@ compose {
 // a temporary workaround for a bug in jsRun invocation - see https://youtrack.jetbrains.com/issue/KT-48273
 afterEvaluate {
     rootProject.extensions.configure<NodeJsRootExtension> {
-        nodeVersion = "16.0.0"
-        versions.webpackDevServer.version = "4.0.0"
-        versions.webpackCli.version = "4.10.0"
+        nodeVersion = "20.0.0"//""16.0.0"
+        versions.webpack.version = "5.75.0"
+        versions.webpackDevServer.version = "4.10.0"//"4.0.0"
+        versions.webpackCli.version = "5.1.0"//""4.10.0"
     }
 }
