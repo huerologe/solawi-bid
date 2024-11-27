@@ -54,13 +54,22 @@ fun <Id, T> Storage<Map<Id, T>>.first(predicate: (Pair<Id, T>)->Boolean): T = re
 fun <Id, T> Storage<Map<Id, T>>.get(id: Id): Source<T> = {
     read()[id]!!
 }
-fun <T> Storage<Map<Int, T>>.nextId(): Int = read().keys.fold(1){ acc, next -> when{
-    abs(acc-next) >= 2 -> min(acc,next) +1
-    else -> max(acc, next)
-} }
+fun <T> Storage<Map<Int, T>>.nextId(): Int = read().nextId()
 
 
-fun <T> Map<Int, T>.nextId(): Int = keys.fold(1){ acc, next -> when{
-    abs(acc-next) >= 2 -> min(acc,next) +1
-    else -> max(acc, next)
-} }
+fun <T> Map<Int, T>.nextId(): Int = keys.sorted().nextId()
+
+fun List<Int>.nextId(min: Int = 1): Int = when {
+    isEmpty() -> 1
+    size == 1 -> when {
+        first() == 1 -> 2
+        else -> min
+    }
+    else -> {
+        val (f,s) = this
+        when {
+            s-f > 1 -> f + 1
+            else -> drop(1).nextId(s+1)
+        }
+    }
+}
