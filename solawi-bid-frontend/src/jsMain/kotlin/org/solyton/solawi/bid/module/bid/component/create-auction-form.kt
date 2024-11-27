@@ -33,6 +33,7 @@ fun AuctionModal(
     onCancel = null,
     texts = texts
 ) {
+
     Div(attrs = {style { formStyle() }}) {
 
         Div(attrs = {style { fieldStyle() }}) {
