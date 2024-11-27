@@ -2,10 +2,7 @@ package org.evoleq.compose.routing
 
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
-
-interface Configuration<out T> {
-    fun configure(): T
-}
+import org.evoleq.configuration.Configuration
 
 // @DslMarker annotation class RoutingDsl
 typealias RoutingDsl = Markup

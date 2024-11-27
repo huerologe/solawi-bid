@@ -5,7 +5,11 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.Modal
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.optics.storage.Storage
+import org.evoleq.optics.storage.nextId
+import org.evoleq.optics.storage.put
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.Text
@@ -27,12 +31,12 @@ fun ErrorModal(
     texts = texts
 ) {
     Div {
-        Text("Hello! Something went wrong")
-        /*
-        with(texts.component("content")) {
-            Text(this["hint"])
-        }
-
-         */
+        Text(texts["content.message"])
     }
+}
+
+
+@Markup
+fun Storage<Modals<Int>>.showErrorModal(texts: Lang.Block) = with(nextId()){
+    put(this to ErrorModal(this, texts, this@showErrorModal))
 }
