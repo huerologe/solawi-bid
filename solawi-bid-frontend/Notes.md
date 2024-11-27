@@ -102,11 +102,21 @@ val Call: KlState<Storage, S, Result<T>> = TODO()
 val Dispatch: KlState<Storage, Result<T>, Unit /* Result<T> */>
 ```
 
-While the first to steps are easy to implement, the third is tricky, because we have to get 'under the result'.
+### 1. Read 
+Tasks: 
+* Read data which is necessary to perform the request, i.e. Login credentials
+* Provide standard headers, tokens etc
+* Provide a configured client 
+
+### 2. Call
+
+Wish:
+* Just write down the action and submit it to the surrounding process
+
+### 3. Dispatch
+
+the third is tricky, because we have to get 'under the result'.
 We can do that using the applicative structure of the Result. The DispatchState below then plays the role of Dispatch from above.
-
-
-
 ```kotlin
 data class Whole(val number: Int, val name: String, val error: String? = null)
 

@@ -39,5 +39,4 @@ fun AuctionPage(storage: Storage<Application>) = Div{
     // render list of auctions
     // each entry offers the opportunity to read details, edit, or delete
     AuctionList(storage * auctions)
-
 }
