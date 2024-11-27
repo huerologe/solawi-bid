@@ -1,0 +1,16 @@
+en{
+    solyton{
+        cookieDisclaimer {
+            title: "Cookie Disclaimer"
+            content {
+                hint: "bla bla bla ..."
+            }
+            okButton {
+                title: "Ok"
+            }
+            cancelButton {
+                title: "Cancel"
+            }
+        }
+    }
+}

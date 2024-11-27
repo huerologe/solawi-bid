@@ -55,6 +55,11 @@ Input[type="text"] {
     border-radius:var(--button-border-radius);
 }
 
+Input[type="password"] {
+    padding: var(--button-padding);
+    border-radius:var(--button-border-radius);
+}
+
 .loading-page {
   position: absolute;
   left: 45%;

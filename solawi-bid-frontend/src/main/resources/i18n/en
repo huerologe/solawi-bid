@@ -30,6 +30,38 @@ en{
                     title: "Cancel"
                 }
             }
+            auction {
+                createDialog {
+                    title: "Auktion erstellen"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Abbrechen"
+                    }
+                }
+                updateDialog {
+                    title: "Auktion bearbeiten"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Abbrechen"
+                    }
+                }
+            }
+            errors {
+                title: "Fehler"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
+                }
+                messages {
+                    loginFailed: "Login failed"
+                }
+            }
             locales {
                 de: "German"
                 en: "English"
