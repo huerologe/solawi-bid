@@ -24,14 +24,13 @@ import org.solyton.solawi.bid.module.i18n.data.language
     ModalLayer<Int>(
         1000,
         storage * modals,
-        true
     ) {
         // The Cookie disclaimer pops up, whenever as user
         // visits the page for the first time or cleared the cookies
         CookieDisclaimer(
             texts.component("solyton.cookieDisclaimer"),
             storage * modals,
-            storage * isCookieDisclaimerConfirmed
+            storage * cookieDisclaimer
         )
         // All pages shall be wrapped in a container
         Container{

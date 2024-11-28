@@ -10,7 +10,17 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLElement
 
-typealias Modals<Id> = Map<Id, @Composable ElementScope<HTMLElement>.() -> Unit>
+typealias Modals<Id> = Map<Id, ModalData>//@Composable ElementScope<HTMLElement>.() -> Unit>
+
+interface ModalType {
+    object Dialog : ModalType
+    object Error : ModalType
+    object CookieDisclaimer : ModalType
+}
+data class ModalData(
+    val type: ModalType,
+    val component: @Composable ElementScope<HTMLElement>.() -> Unit
+)
 
 @Markup
 @Composable
@@ -18,35 +28,77 @@ typealias Modals<Id> = Map<Id, @Composable ElementScope<HTMLElement>.() -> Unit>
 fun <Id> ModalLayer(
     zIndex: Int = 1000,
     modals: Storage<Modals<Id>>,
-    bottomUp: Boolean = false,
     content: @Composable ElementScope<HTMLElement>.()->Unit
 ) {
     if(modals.read().keys.isNotEmpty()) {
-        Div({
-            style {
-                property("z-index", zIndex)
-                position(Position.Absolute)
-                width(100.vw)
-                boxSizing("border-box")
-                display(DisplayStyle.Flex)
-                flexDirection(FlexDirection.Column)
-                height(100.vh)
-                backgroundColor(Color.black)
-                opacity(0.5)
-                if(bottomUp) {
-                    justifyContent(JustifyContent.FlexEnd)
-                }
-            }
-        }){
-            modals.read().values.forEach {
-                it()
-            }
+        ModalBackground(zIndex)
+        SubLayer("CookieDisclaimer",
+            zIndex +1,
+            modals.components(ModalType.CookieDisclaimer)
+        ) {
+            flexDirection(FlexDirection.Column)
+            justifyContent(JustifyContent.FlexEnd)
+            alignItems(AlignItems.Center)
+        }
+        SubLayer("Dialogs",
+            zIndex +2,
+            modals.components(ModalType.Dialog)
+        ) {
+            flexDirection(FlexDirection.Column)
+            alignItems(AlignItems.Center)
+        }
+        SubLayer("Error",
+            zIndex +3,
+            modals.components(ModalType.Error)
+        ) {
+            flexDirection(FlexDirection.Column)
+            alignItems(AlignItems.Center)
         }
     }
     Div {
         content()
     }
 }
+
+@Markup
+@Suppress("FunctionName")
+@Composable
+fun ModalBackground(zIndex: Int) = Div({
+    style {
+        property("z-index", zIndex)
+        position(Position.Absolute)
+        width(100.vw)
+        boxSizing("border-box")
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+        height(100.vh)
+        backgroundColor(Color.black)
+        opacity(0.5)
+    }
+}){}
+
+@Markup
+@Composable
+@Suppress("FunctionName", "UnusedVariable")
+fun SubLayer(name: String, index: Int, modals: List<@Composable ElementScope<HTMLElement>.()->Unit>, styles: StyleScope.()->Unit, ) {
+    if(modals.isNotEmpty()) {Div({
+        style {
+            property("z-index", index)
+            position(Position.Absolute)
+            width(100.vw)
+            height(100.vh)
+            boxSizing("border-box")
+            display(DisplayStyle.Flex)
+            backgroundColor(Color.transparent)
+            styles()
+        }
+    }){
+        modals.forEach {
+            it()
+        }
+    }}
+}
+
 
 @Markup
 @Suppress("FunctionName")

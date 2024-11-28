@@ -1,5 +1,7 @@
 package org.solyton.solawi.bid.application.api
 
+import org.evoleq.compose.modal.ModalData
+import org.evoleq.compose.modal.ModalType
 import org.evoleq.ktorx.api.EndPoint
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.Return
@@ -85,7 +87,7 @@ fun Storage<Application>.failureWriter(): Writer<Unit, Result.Failure> = {
         val modals = this * modals
         val nextId = modals.nextId()
         modals.put(
-            nextId to ErrorModal(nextId, Lang.Block("", listOf()), modals)
+            nextId to ModalData(ModalType.Error,ErrorModal(nextId, Lang.Block("", listOf()), modals))
         )
     }
 }
