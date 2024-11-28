@@ -8,6 +8,7 @@ import org.evoleq.language.component
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.add
+import org.evoleq.optics.storage.remove
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
@@ -32,8 +33,9 @@ fun AuctionPage(storage: Storage<Application>) = Div{
         onClick {
             ((storage * auctions).add(Auction(id= DEFAULT_AUCTION_ID, "", today())))
             (storage * modals).showAuctionModal(
-                storage * auctions * FirstBy{ it.id == DEFAULT_AUCTION_ID },
-                ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog")
+                auction = storage * auctions * FirstBy{ it.id == DEFAULT_AUCTION_ID },
+                texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog"),
+                cancel = {(storage * auctions).remove { it.id == DEFAULT_AUCTION_ID }}
             ) {
                 (storage * modals).showErrorModal(
                     operationNotImplementedTexts

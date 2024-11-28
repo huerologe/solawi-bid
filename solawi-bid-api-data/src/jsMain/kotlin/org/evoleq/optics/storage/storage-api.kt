@@ -9,7 +9,7 @@ import kotlin.math.min
 
 fun <T> Storage<List<T>>.filter(predicate: (T)->Boolean): List<T> = read().filter { predicate(it) }
 
-fun <T> Storage<List<T>>.remove(predicate: (T)->Boolean): Unit = write( read().filter { predicate(it) } )
+fun <T> Storage<List<T>>.remove(predicate: (T)->Boolean): Unit = write( read().filter { !predicate(it) } )
 
 fun <T> Storage<List<T>>.onEach(f: (T)->T): Unit = write( read().map(f) )
 

@@ -12,6 +12,7 @@ import org.evoleq.language.Locale
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
+import org.evoleq.optics.storage.remove
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.DateInput
 import org.jetbrains.compose.web.dom.Div
@@ -32,6 +33,7 @@ fun AuctionModal(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
     auction: Storage<Auction>,
+    cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
     id,
@@ -39,7 +41,9 @@ fun AuctionModal(
     onOk = {
         update()
     },
-    onCancel = null,
+    onCancel = {
+        cancel()
+    },
     texts = texts
 ) {
 
@@ -71,6 +75,7 @@ fun AuctionModal(
 fun Storage<Modals<Int>>.showAuctionModal(
     auction: Storage<Auction>,
     texts: Lang.Block,
+    cancel: ()->Unit,
     update: ()->Unit
 ) = with(nextId()) {
     put(this to AuctionModal(
@@ -78,6 +83,7 @@ fun Storage<Modals<Int>>.showAuctionModal(
         texts,
         this@showAuctionModal,
         auction,
+        cancel,
         update
     ))
 }
