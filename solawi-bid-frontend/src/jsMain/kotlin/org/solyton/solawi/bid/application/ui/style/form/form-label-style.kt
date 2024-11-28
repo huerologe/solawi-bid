@@ -8,7 +8,7 @@ val formPageStyle: StyleScope.()->Unit = {
     alignItems(AlignItems.Center)
     justifyContent(JustifyContent.Center)
     height(100.vh) // Full viewport height
-    width(80.vw) // Full viewport width
+    width(80.vw) // 80% Full viewport width
     backgroundColor(Color.white) //Color("#f7f7f7") Light background color
 }
 
@@ -52,3 +52,7 @@ val formControlBarStyle: StyleScope.()->Unit by lazy { {
     alignItems(AlignItems.FlexEnd)
     //justifyContent(JustifyContent.Right)
 } }
+
+val dateInputStyle: StyleScope.()->Unit by lazy {{
+    backgroundColor(Color.white)
+}}

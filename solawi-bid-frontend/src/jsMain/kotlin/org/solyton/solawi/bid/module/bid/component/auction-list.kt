@@ -1,8 +1,9 @@
 package org.solyton.solawi.bid.module.bid.component
 
 import androidx.compose.runtime.Composable
-import io.ktor.http.*
 import org.evoleq.compose.Markup
+import org.evoleq.compose.date.format
+import org.evoleq.language.Locale
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
@@ -32,20 +33,32 @@ fun AuctionList(auctions: Storage<List<Auction>>, styles: AuctionListStyles = Au
 fun AuctionListItem(auction: Storage<Auction>, styles: AuctionListStyles = AuctionListStyles()) = Div(attrs = {
     style { styles.item(this) }
 }) {
-    // date
-    Div() {
-        val date = (auction * date).read()
-        Text(date.toDateString())
+    Div (attrs = {style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        width(80.percent)
+    }}){
+        // date
+        Div(
+            attrs = { style { width(20.percent) } }
+        ) {
+            val date = (auction * date).read()
+            Text(date.format(Locale.De))
+        }
+        // name
+        Div(attrs = { style { width(80.percent) } }) {
+            val name = (auction * name).read()
+            Text(name)
+        }
     }
-    // name
-    Div() {
-        val name = (auction * name).read()
-        Text(name)
-    }
-
-    Div() {
+    Div(attrs = {style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Row)
+        width(20.percent)
+    }}) {
         Text("Actions")
     }
+
 }
 
 data class AuctionListStyles (
