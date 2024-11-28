@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import org.evoleq.exposedx.NoMessageProvided
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
+import org.evoleq.ktorx.result.Serializer
 import org.evoleq.math.x
 import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
 import org.solyton.solawi.bid.module.db.BidRoundException
@@ -39,7 +40,7 @@ suspend inline fun <reified T : Any>  AuthReceive(): KlAction<JWTPrincipal? ,Res
 @Suppress("FunctionName")
 suspend inline fun <reified T : Any>  Receive(): Action<Result<T>> = ApiAction {
     call -> try{
-        Result.Success(call.receive<T>())
+        Result.Success(Json.decodeFromString(Serializer<T>(), call.receive<String>()))
     } catch (e: Exception) {
         Result.Failure.Exception(e)
     } x call

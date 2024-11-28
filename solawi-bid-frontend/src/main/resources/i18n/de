@@ -1,0 +1,70 @@
+de{
+    solyton{
+        authentication{
+            login{
+                fields{
+                    username: "Nutzername"
+                    password: "Passwort"
+                }
+                buttons{
+                    ok: "Login"
+                    password-reset: "Passwort zurücksetzen"
+                    sign-up: "Registrieren"
+                }
+            }
+        }
+        solawi{
+            mainPage{
+                title: "Solawi Bieter App"
+            }
+        }
+        cookieDisclaimer {
+            title: "Cookie Richtlinie"
+            content {
+                hint: "Wir verwenden Cookies um das User Experience auf unserer Website kontinuierlich zu verbessern. Dazu speichern wir die bevorzugte Sprache des Nutzers."
+            }
+            okButton {
+                title: "Ok"
+            }
+            cancelButton {
+                title: "Abbrechen"
+            }
+        }
+        auction {
+            createDialog {
+                title: "Auktion erstellen"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
+                }
+            }
+            updateDialog {
+                title: "Auktion bearbeiten"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
+                }
+            }
+        }
+        errors {
+            title: "Fehler"
+            okButton {
+                title: "Ok"
+            }
+            cancelButton {
+                title: "Abbrechen"
+            }
+            messages {
+                loginFailed: "Login fehlgeschlagen"
+            }
+        }
+        locales{
+            de: "Deutsch"
+            en: "Englisch"
+        }
+    }
+}

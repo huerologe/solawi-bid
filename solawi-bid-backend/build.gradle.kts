@@ -5,10 +5,8 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.serialization)
     alias(libs.plugins.shadow)
-    //id("com.github.johnrengelman.shadow") version "8.1.0"
     id("org.evoleq.exposedx.migration")
-    //alias(libs)
-    // id("jacoco") // JaCoCo plugin
+    // id("jacoco") // JaCoCo plugin <-
 }
 
 group = libs.versions.solytonGroup
@@ -44,26 +42,24 @@ dependencies {
     implementation(libs.ktor.server.netty.jvm)
     implementation(libs.ktor.server.cors)
     implementation(libs.ktor.server.content.negotiation)
-    implementation("io.ktor:ktor-server-auth:2.3.12") // Replace with the latest Ktor version
-    implementation("io.ktor:ktor-server-auth-jwt:2.3.12")
-//    implementation("io.ktor:ktor-auth:2.3.12")
-//    implementation("io.ktor:ktor-auth-jwt:2.3.12")
-    implementation("com.auth0:java-jwt:4.0.0")
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.auth.jwt)
+    implementation(libs.java.jwt)
     implementation(libs.logback)
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.junit.jupiter)
 
     // bcrypt
-    implementation ("org.mindrot:jbcrypt:0.4")
+    implementation (libs.mindrot.jbcrypt)
 
     // jwt
-    implementation ("io.jsonwebtoken:jjwt-api:0.11.5") // JWT API
-    implementation ("io.jsonwebtoken:jjwt-impl:0.11.5") // JWT implementation
-    implementation ("io.jsonwebtoken:jjwt-jackson:0.11.5") // JWT Jackson support (for JSON processing)
+    implementation (libs.jjwt.api) // JWT API
+    implementation (libs.jjwt.impl) // JWT implementation
+    implementation (libs.jjwt.jackson) // JWT Jackson support (for JSON processing)
 
 
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    implementation(libs.cdimascio.dotenv.kotlin)
 
     // own dependencies
     //implementation("org.solyton:solawi-bid-api-data-jvm:0.0.1")
@@ -178,7 +174,7 @@ migrations {
         domain = "org.solyton.solawi.bid"
         module = "db"
         migrations = "migrations"
-        //"main"
+        sourceSet = "main"
     }
 
     migration("dbSchemaTest") {
@@ -202,3 +198,4 @@ migrations {
         sourceSet = "test"
     }
 }
+

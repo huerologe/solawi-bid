@@ -1,5 +1,6 @@
 cd ..
-./gradlew hanoi-frontend:clean && \
-./gradlew hanoi-frontend:build && \
-docker-compose down --remove-orphans && \
-docker-compose up -d --build hanoi_frontend
+./gradlew solawi-bid-frontend:clean && \
+./gradlew solawi-bid-frontend:build && \
+# -x test -x jsBrowserTest -x jsTest&& \
+docker compose -p solawi-bid down --remove-orphans && \
+docker compose -p solawi-bid up -d --build solawi-bid_frontend

@@ -9,6 +9,8 @@ import org.jetbrains.exposed.sql.Database
 val dbMigrations: ArrayList<Database.()-> Migration> by lazy{
     arrayListOf<Database.()-> Migration>(
         { Migration1712001749830(this) },
-        { Migration1730143239225(this) }
+        { Migration1730143239225(this) },
+        { Migration1731853772782(this) },
+        { Migration1731854081411(this) }
     )
 }

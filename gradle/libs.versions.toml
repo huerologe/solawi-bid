@@ -1,4 +1,5 @@
 [versions]
+benasher-uuid = "0.6.0"
 ktor-plugin = "2.3.12"#"2.1.3"
 ktor = "2.3.12"#"2.3.0"
 kotlin = "1.9.22"
@@ -17,8 +18,16 @@ ktor-client-js="1.5.1"
 ktor-client-core="1.6.8"
 kotlin-serialization-json="1.6.3"
 kotlinx-coroutines-core = "1.6.4"
-# evoleq-exposedx-migrations = "1"
+kotlinx-datetime = "0.6.1"
+java-jwt = "4.0.0"
+jjwt = "0.11.5"
+mindrot-jbcrypt = "0.4"
+cdimascio-dotenv-kotlin =  "6.4.1"
+evoleq-exposedx-migrations = "1"
+
+
 [libraries]
+benasher-uuid = { module = "com.benasher44:uuid", version.ref = "benasher-uuid" }
 exposed-core = {  module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed"}
 exposed-crypt = {  module = "org.jetbrains.exposed:exposed-crypt", version.ref = "exposed"}
 exposed-dao = {  module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed"}
@@ -30,13 +39,17 @@ mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "m
 
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime" , version.ref = "kotlinx-datetime"}
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json"}
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-client-core"}
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor-client-js"}
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor"}
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
 ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm" ,version.ref = "ktor"}
 ktor-server-netty-jvm ={ module = "io.ktor:ktor-server-netty-jvm" ,version.ref = "ktor"}
 ktor-server-cors = { module = "io.ktor:ktor-server-cors" ,version.ref = "ktor"}
@@ -47,6 +60,13 @@ ktor-http-cio = { module = "io.ktor:ktor-http-cio", version.ref = "ktor"}
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter"}
 slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "sl4j"}
+java-jwt = { module = "com.auth0:java-jwt", version.ref = "java-jwt" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+mindrot-jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "mindrot-jbcrypt" }
+cdimascio-dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "cdimascio-dotenv-kotlin" }
+
 
 [plugins]
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -55,3 +75,4 @@ serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref =
 mpp = {id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose = {id = "org.jetbrains.compose", version.ref = "compose"}
 shadow = {id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+# evoleq-exposedx-migrations = { module = "org.evoleq.exposedx.migration", version.ref = "evoleq-exposedx-migrations" }

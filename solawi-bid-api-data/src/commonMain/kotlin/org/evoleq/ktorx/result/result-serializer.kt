@@ -10,30 +10,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.reflect.KClass
 
-/**
- * Store your serializers in a HashMap
- */
-val serializers: HashMap<KClass<*>, KSerializer<*>> by lazy { HashMap() }
-
-/**
- * Ease access to serializers
- */
-operator fun HashMap<KClass<*>, KSerializer<*>>.get(className: String): KSerializer<*> {
-    val clazz = serializers.keys.firstOrNull() { it.simpleName == className }
-        ?: Exception("Unregistered serializer")
-    return serializers[clazz]!!
-}
-
-//@KtorDsl
-@Suppress("FunctionName","UNCHECKED_CAST")
-inline fun <reified T> Serializer(): KSerializer<T> {
-    return serializers[T::class]!! as KSerializer<T>
-}
-
-
-@Suppress("FunctionName","UNCHECKED_CAST")
-inline fun <reified T : Any> ResultSerializer(): KSerializer<Result<T>> =
-    Result.serializer(Serializer())
 
 object ResultSerializer : KSerializer<Result<*>> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Result") {

@@ -66,6 +66,9 @@ fun <S:Any, T:Any> Result<(S)->T>.apply(): (Result<S>)->Result<T> = {
     rS -> this bind {f -> rS map f}
 }
 
+@MathDsl
+fun Result<(Unit)->Unit>.dispatch(): Result<Unit> = map { it(Unit) }
+
 /**
  * Helper
  */

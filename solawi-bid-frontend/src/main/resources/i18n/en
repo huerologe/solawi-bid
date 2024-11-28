@@ -1,0 +1,70 @@
+en{
+    solyton{
+            authentication{
+                login{
+                    fields{
+                        username: "Username"
+                        password: "Password"
+                    }
+                    buttons{
+                        ok: "Login"
+                        password-reset: "Reset password"
+                        sign-up: "Sign up"
+                    }
+                }
+            }
+            solawi{
+                mainPage{
+                    title: "Solawi Auction App"
+                }
+            }
+            cookieDisclaimer {
+                title: "Cookie Disclaimer"
+                content {
+                    hint: "bla bla bla ..."
+                }
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Cancel"
+                }
+            }
+            auction {
+                createDialog {
+                    title: "Auktion erstellen"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Abbrechen"
+                    }
+                }
+                updateDialog {
+                    title: "Auktion bearbeiten"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Abbrechen"
+                    }
+                }
+            }
+            errors {
+                title: "Fehler"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
+                }
+                messages {
+                    loginFailed: "Login failed"
+                }
+            }
+            locales {
+                de: "German"
+                en: "English"
+            }
+        }
+}
