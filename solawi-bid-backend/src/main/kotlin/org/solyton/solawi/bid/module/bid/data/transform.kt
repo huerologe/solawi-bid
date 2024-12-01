@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.data
 
+import kotlinx.datetime.LocalDate
 import org.solyton.solawi.bid.module.bid.data.api.Auction
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Round
@@ -14,6 +15,7 @@ fun List<AuctionEntity>.toApiType(): List<Auction> = map {
 fun AuctionEntity.toApiType(): Auction = Auction(
     id = id.value.toString(),
     name = name,
+    date = LocalDate(date.year, date.monthOfYear, date.dayOfMonth),
     rounds = try{ rounds.map {
         it.toApiType()
     }} catch(e:Exception){

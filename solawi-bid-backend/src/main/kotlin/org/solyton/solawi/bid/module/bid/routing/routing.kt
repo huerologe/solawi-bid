@@ -16,7 +16,7 @@ import org.solyton.solawi.bid.module.bid.action.db.ReadAuctions
 import org.solyton.solawi.bid.module.bid.action.db.StoreBid
 import org.solyton.solawi.bid.module.bid.data.api.Bid
 import org.solyton.solawi.bid.module.bid.data.api.GetAuctions
-import org.solyton.solawi.bid.module.bid.data.api.PreAuction
+import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
 
 
 @KtorDsl
@@ -43,7 +43,7 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
     authenticate{
         route("auction"){
             post("create") {
-                (Receive<PreAuction>() * CreateAuction * Respond()) runOn Base(call, environment)
+                (Receive<CreateAuction>() * CreateAuction * Respond()) runOn Base(call, environment)
             }
             post("update") {
 

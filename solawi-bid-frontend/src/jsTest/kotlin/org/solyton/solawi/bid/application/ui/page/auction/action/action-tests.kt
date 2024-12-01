@@ -38,7 +38,7 @@ class AuctionTests {
         installSerializers()
         val action = readAuctions()
 
-        val apiAuction = ApiAuction("id","name")
+        val apiAuction = ApiAuction("id","name", LocalDate(1,1,1))
         val apiAuctions = ApiAuctions(listOf(apiAuction))
 
         val application = Application(Environment())

@@ -23,7 +23,7 @@ fun AuctionList(auctions: Storage<List<Auction>>, styles: AuctionListStyles = Au
 ) {
     with(auctions.read()) {
         forEach{ auction ->
-            AuctionListItem(auctions * FirstBy<Auction> { it.id == auction.id}, styles)
+            AuctionListItem(auctions * FirstBy<Auction> { it.auctionId == auction.auctionId}, styles)
         }
     }
 }

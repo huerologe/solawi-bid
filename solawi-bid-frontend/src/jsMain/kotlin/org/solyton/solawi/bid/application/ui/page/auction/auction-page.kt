@@ -38,18 +38,18 @@ fun AuctionPage(storage: Storage<Application>) = Div{
         (storage * actions).read().emit(readAuctions())
     }
 
-    val auction = auctions * FirstBy{ it.id == DEFAULT_AUCTION_ID }
+    val auction = auctions * FirstBy{ it.auctionId == DEFAULT_AUCTION_ID }
 
 
     //console.log("auctions = ${(storage * auctions).read().map { "(name = ${it.name}, id = ${it.id})" }}")
 
     Button(attrs = {
         onClick {
-            ((storage * auctions).add(Auction(id= DEFAULT_AUCTION_ID, "", today())))
+            ((storage * auctions).add(Auction(auctionId= DEFAULT_AUCTION_ID, "", today())))
             (storage * modals).showAuctionModal(
                 auction = storage * auction,
                 texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog"),
-                cancel = {(storage * auctions).remove { it.id == DEFAULT_AUCTION_ID }}
+                cancel = {(storage * auctions).remove { it.auctionId == DEFAULT_AUCTION_ID }}
             ) {
                 CoroutineScope(Job()).launch {
                     val actions = (storage * actions).read()

@@ -6,10 +6,11 @@ import io.ktor.http.*
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
-import org.solyton.solawi.bid.module.bid.data.api.PreAuction
+import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
 import java.io.File
 import kotlin.test.assertTrue
 
@@ -31,8 +32,8 @@ class AuctionRoutingTests {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
                 setBody(
                     Json.encodeToString(
-                        PreAuction.serializer(),
-                        PreAuction("test-name")
+                        CreateAuction.serializer(),
+                        CreateAuction("test-name", LocalDate(1,1,1))
                     )
                 )
             }

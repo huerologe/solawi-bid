@@ -40,7 +40,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<Logout>(Logout.serializer())
 
         // Auctions
-        add<PreAuction>(PreAuction.serializer())
+        add<CreateAuction>(CreateAuction.serializer())
         add<Auction>(Auction.serializer())
         add<GetAuctions>(GetAuctions.serializer())
         add<Auctions>(Auctions.serializer())
