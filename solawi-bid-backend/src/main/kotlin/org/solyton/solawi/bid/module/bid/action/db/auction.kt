@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
 import kotlinx.coroutines.coroutineScope
+import kotlinx.datetime.LocalDate
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
@@ -13,6 +14,7 @@ import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.insert
+import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
@@ -26,19 +28,20 @@ import org.solyton.solawi.bid.module.db.schema.Bidder as BidderEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 
 @MathDsl
-val CreateAuction = KlAction<Result<PreAuction>, Result<Auction>> {
-    auction: Result<PreAuction> -> DbAction {
+val CreateAuction = KlAction<Result<CreateAuction>, Result<Auction>> {
+    auction: Result<CreateAuction> -> DbAction {
         database -> auction bindSuspend  { data -> resultTransaction(database) {
             println("Create auction: ${data.name}")
-            createAuction(data.name)
+            createAuction(data.name, data.date)
         } } mapSuspend  {
             it.toApiType()
         } x database
     }
 }
 
-fun Transaction.createAuction(name: String): AuctionEntity = AuctionEntity.new {
+fun Transaction.createAuction(name: String, date: LocalDate): AuctionEntity = AuctionEntity.new {
     this.name = name
+    this.date = DateTime().withDate(date.year, date.monthNumber, date.dayOfMonth)
 }
 
 @MathDsl

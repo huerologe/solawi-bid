@@ -33,7 +33,7 @@ fun Application.installSerializers() {
     serializers[BidRound::class] = BidRound.serializer()
     // Auction
     serializers[Auction::class] = Auction.serializer()
-    serializers[PreAuction::class] = PreAuction.serializer()
+    serializers[CreateAuction::class] = CreateAuction.serializer()
     serializers[GetAuctions::class] = GetAuctions.serializer()
     serializers[Auctions::class] = Auctions.serializer()
 
