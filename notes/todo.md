@@ -46,8 +46,10 @@ This is an ongoing task. There are many parts of the code, which are to be extra
       - [x] Modal (Create)
   - [ ] Api Calls: 
     - [ ] Auctions
-      - [ ] Read Auctions
-      - [ ] Create Auctions
+      - [x] Read Auctions 
+        - Note: 
+          - [ ] Need to adjust types !!! 
+      - [x] Create Auctions
       - [ ] Update Auctions
       - [ ] Delete Auctions
       - [ ] Evaluation
