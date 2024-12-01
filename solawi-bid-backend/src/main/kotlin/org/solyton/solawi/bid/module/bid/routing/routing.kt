@@ -14,8 +14,8 @@ import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.CreateAuction
 import org.solyton.solawi.bid.module.bid.action.db.ReadAuctions
 import org.solyton.solawi.bid.module.bid.action.db.StoreBid
-import org.solyton.solawi.bid.module.bid.data.api.GetAuctions
 import org.solyton.solawi.bid.module.bid.data.api.Bid
+import org.solyton.solawi.bid.module.bid.data.api.GetAuctions
 import org.solyton.solawi.bid.module.bid.data.api.PreAuction
 
 

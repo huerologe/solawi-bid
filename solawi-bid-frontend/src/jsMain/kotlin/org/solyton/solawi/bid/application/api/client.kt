@@ -6,12 +6,9 @@ import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
-import org.evoleq.ktorx.result.ResultSerializer
-import org.evoleq.ktorx.result.Serializer
 import org.evoleq.math.MathDsl
 import org.solyton.solawi.bid.application.data.Application
 

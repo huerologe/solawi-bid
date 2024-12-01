@@ -9,7 +9,6 @@ import org.solyton.solawi.bid.module.bid.data.api.Bid
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Bidder
 import kotlin.test.Test
-import kotlin.test.assertContains
 import kotlin.test.assertTrue
 
 class SerializersTest {

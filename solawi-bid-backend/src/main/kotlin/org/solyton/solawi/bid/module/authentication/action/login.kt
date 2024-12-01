@@ -1,10 +1,8 @@
 package org.solyton.solawi.bid.module.authentication.action
 
 import io.ktor.util.*
-import kotlinx.coroutines.coroutineScope
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
-import org.evoleq.ktorx.result.bind
 import org.evoleq.ktorx.result.bindSuspend
 import org.evoleq.math.x
 import org.evoleq.util.DbAction

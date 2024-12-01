@@ -1,6 +1,5 @@
 package org.evoleq.ktorx.result
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import org.evoleq.math.MathDsl
 

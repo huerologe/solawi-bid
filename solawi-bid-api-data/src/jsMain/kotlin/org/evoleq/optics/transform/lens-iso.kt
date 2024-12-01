@@ -1,9 +1,9 @@
 package org.evoleq.optics.transform
 
-import org.evoleq.optics.iso.Iso
-import org.evoleq.optics.lens.Lens
 import org.evoleq.math.Maths
 import org.evoleq.math.o
+import org.evoleq.optics.iso.Iso
+import org.evoleq.optics.lens.Lens
 
 
 @Maths

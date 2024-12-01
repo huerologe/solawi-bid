@@ -1,6 +1,5 @@
 package org.solyton.solawi.bid.application.api
 
-import kotlinx.coroutines.flow.map
 import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.ktorx.api.EndPoint
@@ -8,7 +7,6 @@ import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.Return
 import org.evoleq.ktorx.result.apply
 import org.evoleq.ktorx.result.on
-import org.evoleq.language.Lang
 import org.evoleq.math.*
 import org.evoleq.math.state.KlState
 import org.evoleq.math.state.State

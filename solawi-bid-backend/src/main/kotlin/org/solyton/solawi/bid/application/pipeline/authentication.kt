@@ -2,7 +2,6 @@ package org.solyton.solawi.bid.application.pipeline
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -11,7 +10,6 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
-import org.evoleq.ktorx.result.ResultSerializer
 import javax.crypto.SecretKey
 import org.solyton.solawi.bid.application.environment.JWT as JWTDATA
 

@@ -1,7 +1,10 @@
 package org.solyton.solawi.bid.application.serialization
 
 import kotlinx.serialization.builtins.serializer
-import org.evoleq.ktorx.result.*
+import org.evoleq.ktorx.result.Result
+import org.evoleq.ktorx.result.ResultSerializer
+import org.evoleq.ktorx.result.add
+import org.evoleq.ktorx.result.serializers
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.authentication.data.api.Logout

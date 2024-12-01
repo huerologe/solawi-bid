@@ -1,9 +1,9 @@
 package org.evoleq.optics.transform
 
 import org.evoleq.math.MathDsl
-import org.evoleq.optics.lens.Lens
 import org.evoleq.math.Writer
 import org.evoleq.math.merge
+import org.evoleq.optics.lens.Lens
 
 operator fun <W, P, Q> Lens<W, P>.times(writer: Writer<P, Q>): Writer<W, Q> = this timesW writer
 

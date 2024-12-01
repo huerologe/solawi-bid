@@ -1,7 +1,10 @@
 package org.solyton.solawi.bid.api
 
 import org.evoleq.ktorx.api.Api
-import org.solyton.solawi.bid.module.authentication.data.api.*
+import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
+import org.solyton.solawi.bid.module.authentication.data.api.Login
+import org.solyton.solawi.bid.module.authentication.data.api.Logout
+import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 import org.solyton.solawi.bid.module.bid.data.api.Auction
 import org.solyton.solawi.bid.module.bid.data.api.GetAuctions
 import org.solyton.solawi.bid.module.bid.data.api.PreAuction

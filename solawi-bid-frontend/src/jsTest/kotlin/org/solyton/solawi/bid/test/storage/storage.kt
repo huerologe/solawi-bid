@@ -3,8 +3,6 @@ package org.solyton.solawi.bid.test.storage
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
 import org.evoleq.optics.storage.Storage
-import org.evoleq.optics.storage.onChange
-import org.evoleq.optics.storage.onWrite
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest

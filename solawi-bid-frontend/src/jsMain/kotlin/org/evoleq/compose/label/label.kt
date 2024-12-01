@@ -4,9 +4,6 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.attributes.forId
 import org.jetbrains.compose.web.css.StyleScope
-import org.jetbrains.compose.web.css.paddingRight
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Text
 
 @Markup

@@ -1,6 +1,5 @@
 package org.evoleq.language
 
-import org.evoleq.language.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

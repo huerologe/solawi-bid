@@ -1,6 +1,5 @@
 package org.solyton.solawi.bid.module.bid.data
 
-import org.evoleq.exposedx.migrations.isNotNull
 import org.solyton.solawi.bid.module.bid.data.api.Auction
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Round

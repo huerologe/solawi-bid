@@ -7,20 +7,19 @@
 package org.solyton.solawi.bid.application.data
 
 import kotlinx.coroutines.flow.MutableSharedFlow
+import org.evoleq.compose.modal.Modals
+import org.evoleq.ktorx.api.Api
 import org.evoleq.optics.Lensify
 import org.evoleq.optics.ReadOnly
 import org.evoleq.optics.ReadWrite
-import org.evoleq.compose.modal.Modals
-import org.evoleq.ktorx.api.Api
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Action
 import org.solyton.solawi.bid.api.solawiApi
-import org.solyton.solawi.bid.module.user.User
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.cookie.data.CookieDisclaimer
 import org.solyton.solawi.bid.module.i18n.data.I18N
-import org.solyton.solawi.bid.module.navbar.data.NavBar
+import org.solyton.solawi.bid.module.user.User
 
 /**
  * Generator class.

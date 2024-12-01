@@ -1,15 +1,14 @@
 package org.solyton.solawi.bid.application.ui.page.auction
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.date.today
 import org.evoleq.language.Lang
 import org.evoleq.language.component
-
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage

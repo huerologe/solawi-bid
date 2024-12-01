@@ -14,10 +14,10 @@ import org.solyton.solawi.bid.application.serialization.installSerializers
 import org.solyton.solawi.bid.module.bid.component.DEFAULT_AUCTION_ID
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.test.storage.TestStorage
-import org.solyton.solawi.bid.module.bid.data.api.Auction as ApiAuction
-import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.solyton.solawi.bid.module.bid.data.api.Auction as ApiAuction
+import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
 
 class AuctionTests {
 
