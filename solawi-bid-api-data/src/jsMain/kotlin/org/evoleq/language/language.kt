@@ -51,7 +51,6 @@ fun Block.component(path: String): Block = with(Segment().run(path)) {
                 true -> this
                 false -> this.component(rest)
             }
-            else -> TODO("No idea during refactoring. But I guess it should not happen that we get here")
         }
     }
 }
