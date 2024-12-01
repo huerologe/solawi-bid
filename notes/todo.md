@@ -82,7 +82,7 @@ Here we list important todos
 - [ ] of Results of an auction
 
 ### Prosumer Management
-Needs to be planned. 
+Needs to be planned soon!!! (2024.12.1)
 
 
 ### Mail Service (needed for Prosumer management, double opt in)
@@ -91,3 +91,7 @@ Needs to be planned.
 
 ### Roles and Rights
 TODO
+
+### Setup E2E Tests
+- [ ] Choose Framework
+- [ ] Make framework functional
