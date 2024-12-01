@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias ContextEntity = Context
+typealias ContextsTable = Contexts
+
 object Contexts : UUIDTable("contexts") {
     val name = varchar("name",50).uniqueIndex()
 }

@@ -6,6 +6,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias UserEntity = User
+typealias UsersTable = Users
 
 object Users : UUIDTable("users") {
     val username = varchar("username", 50).index()

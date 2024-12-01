@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias RightEntity = Right
+typealias RightsTable = Rights
+
 object Rights : UUIDTable("rights") {
     val name = varchar("name", 50)
     val description=  varchar("description", 1000)

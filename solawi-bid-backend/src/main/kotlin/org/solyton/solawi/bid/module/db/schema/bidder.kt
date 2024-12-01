@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias BidderEntity = Bidder
+typealias BiddersTAble = Bidders
+
 object Bidders : UUIDTable("bidders") {
 
     val username = varchar("username", 100)
