@@ -1,6 +1,15 @@
 package org.solyton.solawi.bid.module.bid.data.api
 
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+
+typealias ApiBid = Bid
+typealias ApiNewBidder = NewBidder
+typealias ApiBidder = Bidder
+typealias ApiBidRound = BidRound
+typealias ApiRound = Round
+typealias ApiAuction = Auction
+typealias ApiAuctions = Auctions
 
 
 @Serializable
@@ -61,8 +70,9 @@ data class Round(
 )
 
 @Serializable
-data class PreAuction(
-    val name: String
+data class CreateAuction(
+    val name: String,
+    val date: LocalDate
 )
 
 @Serializable
@@ -70,6 +80,7 @@ data class Auction(
     //@Serializable(with = UUIDSerializer::class)
     val id: String,
     val name: String,
+    val date: LocalDate,
     val rounds: List<Round> = listOf(),
     val bidderIds: List</*@Serializable(with = UUIDSerializer::class) Uuid*/ String> = listOf()
 )
