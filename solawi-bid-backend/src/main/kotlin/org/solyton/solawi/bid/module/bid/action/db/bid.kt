@@ -3,6 +3,7 @@ package org.solyton.solawi.bid.module.bid.action.db
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bind
+import org.evoleq.ktorx.result.bindSuspend
 import org.evoleq.ktorx.result.map
 import org.evoleq.math.MathDsl
 import org.evoleq.math.x
@@ -18,7 +19,7 @@ import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 
 @MathDsl
 val StoreBid = KlAction { bid: Result<Bid> ->  DbAction {
-    database -> bid bind {data -> resultTransaction(database) {
+    database -> bid bindSuspend  {data -> resultTransaction(database) {
         storeBid(data)
     }  map { it.toApiType() } } x database
 } }

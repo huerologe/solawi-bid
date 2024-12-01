@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.data
 
+import org.evoleq.exposedx.migrations.isNotNull
 import org.solyton.solawi.bid.module.bid.data.api.Auction
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Round
@@ -7,12 +8,25 @@ import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 
+fun List<AuctionEntity>.toApiType(): List<Auction> = map {
+    it.toApiType()
+}
 
 fun AuctionEntity.toApiType(): Auction = Auction(
     id = id.value.toString(),
     name = name,
-    rounds = rounds.map { it.toApiType() },
-    bidderIds = bidders.map { it.id.value.toString() }
+    rounds = try{ rounds.map {
+        it.toApiType()
+    }} catch(e:Exception){
+        listOf()
+    },
+    bidderIds = try {
+        bidders.map {
+            it.id.value.toString()
+        }
+    }catch(e:Exception){
+        listOf()
+    }
 )
 
 fun RoundEntity.toApiType(): Round = Round(

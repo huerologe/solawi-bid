@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.api
 
+import kotlinx.coroutines.flow.map
 import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.ktorx.api.EndPoint
@@ -20,7 +21,9 @@ import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl
+import org.solyton.solawi.bid.application.service.isLoggerIn
 import org.solyton.solawi.bid.module.error.component.ErrorModal
+import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 
 
 @MathDsl
@@ -28,7 +31,10 @@ import org.solyton.solawi.bid.module.error.component.ErrorModal
 suspend inline fun <S: Any, T: Any> CallApi(action: Action<Application, S, T>) =
     Read<S>(action.reader) *
     Call<S, T>(action) *
-    Dispatch<T>(action.writer)
+    Dispatch<T>(action.writer) *
+    Debug {
+        console.log("auctions = ${it.auctions}")
+    }
 
 
 @MathDsl
@@ -47,7 +53,7 @@ fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<A
         val port = (storage * environment * backendPort).read()
         val user = (storage * userData).read()
 
-        val isLoggedIn = user.accessToken != ""
+        val isLoggedIn = user.isLoggerIn()
         val url = baseUrl + "/" + call.url
 
         with(application.client(isLoggedIn)) {
@@ -60,6 +66,7 @@ fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<A
 
                 is EndPoint.Put -> TODO()
             }
+
         } (s) x storage
     }
 }
@@ -67,16 +74,29 @@ fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<A
 
 @MathDsl
 @Suppress("FunctionName")
-fun <T: Any> Dispatch(writer: Writer<Application, T>): KlState<Storage<Application>, Result<T>, Result<Unit>> = {
+fun <T: Any> Dispatch(writer: Writer<Application, T>): KlState<Storage<Application>, Result<T>, Result<T>> = {
     result -> State { storage ->
-        console.log("received result: $result")
         when(result) {
             is Result.Success -> Result.Return((storage * writer).dispatch()).apply() on result
             is Result.Failure -> Result.Return(storage.failureWriter().dispatch()).apply() on result
         }
-        Result.Return(Unit) x storage
+        result x storage
     }
 }
+
+@MathDsl
+@Suppress("FunctionName")
+fun <T: Any> Debug(debug: Reader<Application, Unit>): KlState<Storage<Application>, Result<T>, Result<T>> = {
+    result -> State { storage ->
+        console.log("Debug...")
+        storage * debug
+        console.log("Debug...Done")
+    result x storage
+    }
+}
+
+
+
 
 fun Storage<Application>.failureWriter(): Writer<Unit, Result.Failure> = {
     failure: Result.Failure -> {
@@ -87,7 +107,7 @@ fun Storage<Application>.failureWriter(): Writer<Unit, Result.Failure> = {
         val modals = this * modals
         val nextId = modals.nextId()
         modals.put(
-            nextId to ModalData(ModalType.Error,ErrorModal(nextId, Lang.Block("", listOf()), modals))
+            nextId to ModalData(ModalType.Error,ErrorModal(nextId, errorModalTexts(message), modals))
         )
     }
 }

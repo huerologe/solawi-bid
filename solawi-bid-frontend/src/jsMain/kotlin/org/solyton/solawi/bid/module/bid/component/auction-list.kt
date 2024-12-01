@@ -8,6 +8,7 @@ import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.module.bid.data.Auction
@@ -54,11 +55,43 @@ fun AuctionListItem(auction: Storage<Auction>, styles: AuctionListStyles = Aucti
     Div(attrs = {style {
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
+        justifyContent(JustifyContent.End)
         width(20.percent)
     }}) {
-        Text("Actions")
-    }
+        // Details
+        Button(attrs = {
+            style{
 
+            }
+            onClick {
+
+            }
+        }){
+            Text("Details")
+        }
+        // Edit
+        Button(attrs = {
+            style{
+
+            }
+            onClick {
+
+            }
+        }){
+            Text("Edit")
+        }
+        // Delete
+        Button(attrs = {
+            style{
+
+            }
+            onClick {
+
+            }
+        }){
+            Text("Delete")
+        }
+    }
 }
 
 data class AuctionListStyles (
@@ -67,9 +100,12 @@ data class AuctionListStyles (
         flexDirection(FlexDirection.Column)
         width(100.percent)
         height(100.percent)
+        paddingTop(10.px)
+        margin(5.px)
 
     },
     val item: StyleScope.()->Unit = {
+        paddingTop(10.px)
         display(DisplayStyle.Flex)
         flexDirection(FlexDirection.Row)
         width(100.percent)

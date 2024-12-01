@@ -6,9 +6,7 @@ import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.authentication.data.api.Logout
 import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
-import org.solyton.solawi.bid.module.bid.data.api.Bid
-import org.solyton.solawi.bid.module.bid.data.api.BidRound
-import org.solyton.solawi.bid.module.bid.data.api.Bidder
+import org.solyton.solawi.bid.module.bid.data.api.*
 
 
 fun installSerializers() { if(serializers.isEmpty()) {
@@ -21,7 +19,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<Boolean>(Boolean.serializer())
         add<Double>(Double.serializer())
         add(Nothing::class, Unit.serializer())
-
+       // add(List::class, ListSerializer)
         //...
 
         // Result
@@ -37,6 +35,12 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<LoggedIn>(LoggedIn.serializer())
         add<RefreshToken>(RefreshToken.serializer())
         add<Logout>(Logout.serializer())
+
+        // Auctions
+        add<PreAuction>(PreAuction.serializer())
+        add<Auction>(Auction.serializer())
+        add<GetAuctions>(GetAuctions.serializer())
+        add<Auctions>(Auctions.serializer())
 
         // Bid
         add<Bid>(Bid.serializer())

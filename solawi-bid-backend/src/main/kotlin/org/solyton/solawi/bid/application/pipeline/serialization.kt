@@ -5,12 +5,8 @@ import kotlinx.serialization.builtins.serializer
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.evoleq.ktorx.result.serializers
-import org.solyton.solawi.bid.module.authentication.data.api.AccessToken
-import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
-import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
-import org.solyton.solawi.bid.module.bid.data.api.Bid
-import org.solyton.solawi.bid.module.bid.data.api.BidRound
+import org.solyton.solawi.bid.module.authentication.data.api.*
+import org.solyton.solawi.bid.module.bid.data.api.*
 
 fun Application.installSerializers() {
     // primitive serializers
@@ -25,6 +21,8 @@ fun Application.installSerializers() {
     serializers[Result.Failure.Message::class] = ResultSerializer
     serializers[Result.Failure.Exception::class] = ResultSerializer
 
+    // General
+    serializers[Identifier::class] = Identifier.serializer()
     // Login serializers
     serializers[Login::class] = Login.serializer()
     serializers[LoggedIn::class] = LoggedIn.serializer()
@@ -33,5 +31,11 @@ fun Application.installSerializers() {
     // Bid serializers
     serializers[Bid::class] = Bid.serializer()
     serializers[BidRound::class] = BidRound.serializer()
+    // Auction
+    serializers[Auction::class] = Auction.serializer()
+    serializers[PreAuction::class] = PreAuction.serializer()
+    serializers[GetAuctions::class] = GetAuctions.serializer()
+    serializers[Auctions::class] = Auctions.serializer()
+
 
 }
