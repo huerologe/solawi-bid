@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.module.bid
 
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.insert
+import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.bid.action.db.BidBests.BidProcessSetup
 import org.solyton.solawi.bid.module.db.schema.Auction
 import org.solyton.solawi.bid.module.db.schema.AuctionBidders
@@ -13,6 +14,7 @@ fun Transaction.setupBidProcess(): BidProcessSetup {
     // create an auction
     val auction = Auction.new {
         name = "TestAuction"
+        date = DateTime().withDate(1,1,1)
     }
     // create a round in the auction
     // note: state is "OPENED" by default.

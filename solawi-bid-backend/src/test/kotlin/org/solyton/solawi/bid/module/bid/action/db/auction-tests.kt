@@ -24,7 +24,7 @@ class AuctionTests {
         Rounds
     ) {
         val name = "TestAuction"
-        val auction = createAuction(name, LocalDate(0,0,0))
+        val auction = createAuction(name, LocalDate(0,1,1))
         assertEquals(name, auction.name)
     }
 
@@ -37,7 +37,7 @@ class AuctionTests {
         val name = "TestAuction"
         val link = "TestLink"
 
-        val auction = createAuction(name,LocalDate(0,0,0)).toApiType()
+        val auction = createAuction(name,LocalDate(0,1,1)).toApiType()
         assertEquals(name, auction.name)
         val round = addRound(PreRound(
             auction.id,
