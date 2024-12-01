@@ -47,7 +47,7 @@ data class Bidder(
 @Serializable
 data class  PreRound(
     //@Serializable(with = UUIDSerializer::class)
-    val auctionId: String//Uuid,
+    val roundId: String//Uuid,
 )
 
 @Serializable

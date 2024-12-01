@@ -74,11 +74,11 @@ val AddRound = KlAction<Result<PreRound>, Result<Round>> {
 }
 
 fun Transaction.addRound(round: PreRound): RoundEntity {
-    val auctionEntity = AuctionEntity.find { Auctions.id eq UUID.fromString(round.auctionId) }.first()
+    val auctionEntity = AuctionEntity.find { Auctions.id eq UUID.fromString(round.roundId) }.first()
     val roundEntity = RoundEntity.new {
         auction = auctionEntity
     }
-    roundEntity.link = generateSecureLink(round.auctionId.toString(), roundEntity.id.value.toString(), UUID.randomUUID().toString())
+    roundEntity.link = generateSecureLink(round.roundId.toString(), roundEntity.id.value.toString(), UUID.randomUUID().toString())
     return roundEntity
 }
 
