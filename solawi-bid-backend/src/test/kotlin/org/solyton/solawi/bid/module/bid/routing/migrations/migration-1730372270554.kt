@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.insert
+import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.db.schema.*
 
 /**
@@ -41,6 +42,7 @@ class Migration1730372270554(
         // create an auction
         val auction = Auction.new {
             name = "TestAuction"
+            date = DateTime().withDate(1,1,1)
         }
         // create a round in the auction
         // note: state is "OPENED" by default.
