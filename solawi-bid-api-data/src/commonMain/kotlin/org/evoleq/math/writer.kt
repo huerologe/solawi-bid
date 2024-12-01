@@ -4,6 +4,10 @@ typealias Writer<W, P> = (P)->(W)->W
 typealias Dispatcher<P> = Writer<Unit, P>
 
 @MathDsl
+@Suppress("FunctionName")
+fun <W, P> Writer(writer: (P)->(W)->W) = writer
+
+@MathDsl
 infix fun <W, Q, P> Writer<W, P>.contraMap(f: (Q)->P): Writer<W, Q> = {q -> this(f(q))}
 
 @MathDsl

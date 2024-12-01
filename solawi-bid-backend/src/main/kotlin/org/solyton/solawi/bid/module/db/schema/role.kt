@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias RoleEntity = Role
+typealias RolesTable = Roles
+
 object Roles : UUIDTable("roles") {
     val name = varchar("name",50).uniqueIndex()
     val description = varchar("description", 1000)

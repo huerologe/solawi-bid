@@ -7,6 +7,8 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.jodatime.datetime
 import java.util.*
 
+typealias TokenEntity = Token
+typealias TokensTable = Tokens
 
 object Tokens : UUIDTable("tokens") {
     val userId = reference("user_id", Users)

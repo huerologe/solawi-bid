@@ -1,0 +1,14 @@
+# Checklist
+- [ ] Add serializable data classes under ``` solawi-bid-api-data/solyton/solawi/bid(module|application)/.../data ```
+- [ ] Add Endpoint to Api under ```solawi-bid-api-data//solyton/solawi/bid/api/solawi-api ```
+- [ ] Add serializers for ApiTypes
+  - [ ] Frontend
+  - [ ] Backend
+- [ ] If necessary, add transform functions to
+  - Backend
+    - [ ] ```EntityType -> ApiType ```
+    - [ ] ```ApiType -> EntityType  ```
+  - Frontend 
+    - [ ] ```LensType -> ApiType```
+    - [ ] ```ApiType -> LensType```
+- [ ] Add corresponding Action to frontend

@@ -1,9 +1,9 @@
 package org.evoleq.optics.transform
 
+import org.evoleq.math.Maths
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
-import org.evoleq.math.Maths
 
 
 @Maths

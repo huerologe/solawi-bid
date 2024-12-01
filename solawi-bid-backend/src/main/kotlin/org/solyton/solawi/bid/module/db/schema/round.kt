@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias RoundEntity = Round
+typealias RoundsTable = Rounds
+
 object Rounds: UUIDTable("rounds") {
     val link = varchar("link", 500).default("not-set")
     val state = varchar("state", 100).default("${RoundState.Opened}")

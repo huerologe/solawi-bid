@@ -3,7 +3,7 @@ package org.solyton.solawi.bid.module.authentication.action
 import io.ktor.util.*
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
-import org.evoleq.ktorx.result.bind
+import org.evoleq.ktorx.result.bindSuspend
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
@@ -36,16 +36,16 @@ import java.util.*
 @Suppress("FunctionName")
 fun Login(jwt: JWT) = KlAction<Result<Login>, Result<LoggedIn>> {
     result -> DbAction {
-        database -> result bind { data ->  resultTransaction(database) {
+        database -> result bindSuspend { data ->   resultTransaction(database) {
             login(data, jwt)
-        } } x database
+        } }  x database
     }
 }
 @KtorDsl
 @Suppress("FunctionName")
 fun Refresh(jwt: JWT) = KlAction<Result<RefreshToken>, Result<AccessToken>> {
     result -> DbAction {
-        database -> result bind  { data ->resultTransaction(database) {
+        database -> result bindSuspend   { data ->resultTransaction(database) {
             val refreshToken = data.refreshToken
             if(!validateRefreshToken(refreshToken))
                 throw AuthenticationException.InvalidOrExpiredToken
@@ -83,7 +83,7 @@ fun Transaction.generateAndStoreRefreshToken(user: User): String {
             expiresAt = DateTime.now().plusDays(7)
         }
         refreshToken.toString()
-    }
+     }
 }
 
 // Validate refresh token

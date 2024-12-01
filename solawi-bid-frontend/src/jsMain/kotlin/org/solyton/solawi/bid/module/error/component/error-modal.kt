@@ -3,9 +3,10 @@ package org.solyton.solawi.bid.module.error.component
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.Modal
+import org.evoleq.compose.modal.ModalData
+import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
-import org.evoleq.language.component
 import org.evoleq.language.get
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
@@ -38,5 +39,5 @@ fun ErrorModal(
 
 @Markup
 fun Storage<Modals<Int>>.showErrorModal(texts: Lang.Block) = with(nextId()){
-    put(this to ErrorModal(this, texts, this@showErrorModal))
+    put(this to ModalData(ModalType.Error, ErrorModal(this, texts, this@showErrorModal)))
 }

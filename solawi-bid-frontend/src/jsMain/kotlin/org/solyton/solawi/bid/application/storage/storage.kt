@@ -44,8 +44,8 @@ fun Storage(): Storage<Application> {
         onLogin(oldApplication, newApplication)
         pulse++
     }.onDispatch {
-        (this@onDispatch * actions).read().collect { action : Action<Application, *, *>->
-           CallApi( action ) runOn this
+        (this@onDispatch * actions).read().collect { action : Action<Application, *, *> ->
+            CallApi( action ) runOn this
         }
     }
 }

@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias BidRoundEntity = BidRound
+typealias BidRoundsTable = BidRounds
+
 object BidRounds : UUIDTable("bid_round") {
     val bidder = reference("bidder_id", Bidders)
     val auction = reference("auction_id", Auctions)

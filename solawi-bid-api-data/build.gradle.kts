@@ -41,6 +41,9 @@ kotlin{
                 implementation(libs.benasher.uuid)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
+
+                // datetime
+                implementation(libs.kotlinx.datetime)
             }
         }
         val commonTest by getting {

@@ -17,8 +17,14 @@ fun Application.installCors() = try {
             allowHeader(HttpHeaders.ContentType)
             allowHeader(HttpHeaders.AccessControlAllowOrigin)
             allowHeader(HttpHeaders.AccessControlAllowMethods)
+
+
             allowCredentials = true
             anyHost()
+            // Restrict to specific hosts (use anyHost() only in development)
+            // allowHost("example.com", schemes = listOf("https"))
+            // allowHost("api.example.com")
+
             maxAgeInSeconds = 24 * 3600 // 1 day
         }
     } catch (_:Exception) {}

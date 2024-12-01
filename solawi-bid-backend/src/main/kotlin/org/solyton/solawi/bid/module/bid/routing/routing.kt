@@ -11,8 +11,12 @@ import org.evoleq.util.Base
 import org.evoleq.util.Receive
 import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
+import org.solyton.solawi.bid.module.bid.action.db.CreateAuction
+import org.solyton.solawi.bid.module.bid.action.db.ReadAuctions
 import org.solyton.solawi.bid.module.bid.action.db.StoreBid
 import org.solyton.solawi.bid.module.bid.data.api.Bid
+import org.solyton.solawi.bid.module.bid.data.api.GetAuctions
+import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
 
 
 @KtorDsl
@@ -39,7 +43,7 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
     authenticate{
         route("auction"){
             post("create") {
-
+                (Receive<CreateAuction>() * CreateAuction * Respond()) runOn Base(call, environment)
             }
             post("update") {
 
@@ -51,7 +55,7 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
 
             }
             get("all"){
-
+                (Receive(GetAuctions) * ReadAuctions * Respond()) runOn Base(call, environment)
             }
         }
     }

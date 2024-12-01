@@ -1,14 +1,20 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
+import kotlinx.coroutines.coroutineScope
+import kotlinx.datetime.LocalDate
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
+import org.evoleq.ktorx.result.bindSuspend
 import org.evoleq.ktorx.result.map
+import org.evoleq.ktorx.result.mapSuspend
+import org.evoleq.math.MathDsl
 import org.evoleq.math.crypto.generateSecureLink
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.insert
+import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
@@ -16,28 +22,54 @@ import org.solyton.solawi.bid.module.db.schema.AuctionBidders
 import org.solyton.solawi.bid.module.db.schema.Auctions
 import org.solyton.solawi.bid.module.db.schema.Rounds
 import java.util.*
+import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
 import org.solyton.solawi.bid.module.db.schema.Bidder as BidderEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 
-
-val CreateAuction = KlAction<PreAuction, Result<Auction>> {
-    auction: PreAuction -> DbAction {
-        database -> resultTransaction(database) {
-            createAuction(auction.name)
-        } map { it.toApiType() }x database
+@MathDsl
+val CreateAuction = KlAction<Result<CreateAuction>, Result<Auction>> {
+    auction: Result<CreateAuction> -> DbAction {
+        database -> auction bindSuspend  { data -> resultTransaction(database) {
+            println("Create auction: ${data.name}")
+            createAuction(data.name, data.date)
+        } } mapSuspend  {
+            it.toApiType()
+        } x database
     }
 }
 
-fun Transaction.createAuction(name: String): AuctionEntity = AuctionEntity.new {
+fun Transaction.createAuction(name: String, date: LocalDate): AuctionEntity = AuctionEntity.new {
     this.name = name
+    this.date = DateTime().withDate(date.year, date.monthNumber, date.dayOfMonth)
 }
 
-val AddRound = KlAction<PreRound, Result<Round>> {
+@MathDsl
+val ReadAuctions = KlAction<Result<GetAuctions>, Result<ApiAuctions>> {
+    auctions -> DbAction { database ->  resultTransaction(database){
+      readAuctions()//
+
+    // TODO(use identifier to return all auction which are accessible as identified person)
+    }  mapSuspend  {
+        ApiAuctions(it.toApiType())
+    } x database }
+}
+
+fun Transaction.readAuctions(): List<AuctionEntity> = with(AuctionEntity.all().map{it
+}) {
+   try {
+       toList()
+   } catch(exception: Exception)
+   {
+       listOf()
+   }
+}
+
+val AddRound = KlAction<Result<PreRound>, Result<Round>> {
     round -> DbAction {
-        database -> resultTransaction(database){
-            addRound(round)
-        } map {it.toApiType()}  x database
+        database -> round bindSuspend  { data -> resultTransaction(database){
+            addRound(data)
+        } } map {it.toApiType()}  x database
     }
 }
 
@@ -84,9 +116,9 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
 
 val ChangeRoundState = KlAction<ChangeRoundState, Result<Round>> {
     roundState -> DbAction {
-        database -> resultTransaction(database) {
+        database -> coroutineScope {  resultTransaction(database) {
             changeRoundState(roundState)
-        } map { it.toApiType() } x database
+        } } mapSuspend  { it.toApiType() } x database
     }
 }
 

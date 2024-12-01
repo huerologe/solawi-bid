@@ -1,5 +1,4 @@
 import androidx.compose.runtime.Composable
-import kotlinx.browser.document
 import org.evoleq.compose.Markup
 import org.evoleq.compose.storage.Store
 import org.evoleq.optics.lens.Lens

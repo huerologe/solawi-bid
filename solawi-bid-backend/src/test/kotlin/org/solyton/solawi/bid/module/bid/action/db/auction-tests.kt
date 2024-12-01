@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
+import kotlinx.datetime.LocalDate
 import org.evoleq.exposedx.test.runSimpleH2Test
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
@@ -23,7 +24,7 @@ class AuctionTests {
         Rounds
     ) {
         val name = "TestAuction"
-        val auction = createAuction(name)
+        val auction = createAuction(name, LocalDate(0,1,1))
         assertEquals(name, auction.name)
     }
 
@@ -36,7 +37,7 @@ class AuctionTests {
         val name = "TestAuction"
         val link = "TestLink"
 
-        val auction = createAuction(name).toApiType()
+        val auction = createAuction(name,LocalDate(0,1,1)).toApiType()
         assertEquals(name, auction.name)
         val round = addRound(PreRound(
             auction.id,

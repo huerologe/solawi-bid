@@ -1,6 +1,6 @@
 package org.evoleq.compose.routing
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.configuration.Configuration
 

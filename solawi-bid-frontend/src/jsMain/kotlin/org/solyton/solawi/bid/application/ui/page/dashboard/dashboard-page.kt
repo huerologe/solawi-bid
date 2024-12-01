@@ -18,6 +18,13 @@ fun DashboardPage(storage: Storage<Application>) {
     Button(
         attrs = {
             onClick {
+                /*
+                CoroutineScope(Job()).launch {
+                //LaunchedEffect(Unit) {
+                    (storage * actions).read().emit(readAuctions())
+                }
+
+                 */
                 navigate("/solyton/auctions")
             }
         }

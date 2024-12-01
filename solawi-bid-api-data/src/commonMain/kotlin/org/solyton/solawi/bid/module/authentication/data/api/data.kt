@@ -2,6 +2,19 @@ package org.solyton.solawi.bid.module.authentication.data.api
 
 import kotlinx.serialization.Serializable
 
+typealias ApiIdentifier = Identifier
+typealias ApiLogin = Login
+typealias ApiLogout = Logout
+typealias ApiLoggedIn = LoggedIn
+typealias ApiRefreshToken = RefreshToken
+typealias ApiAccessToken = AccessToken
+
+
+@Serializable
+data class Identifier(
+    val value: String
+)
+
 @Serializable
 data class Login(
     val username: String,

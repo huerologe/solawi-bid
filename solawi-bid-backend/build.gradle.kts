@@ -68,6 +68,8 @@ dependencies {
     // serialization
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.kotlinx.serialization.json)
+    // datetime
+    implementation(libs.kotlinx.datetime)
 
     // exposed
     implementation(libs.exposed.core)

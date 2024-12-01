@@ -2,9 +2,6 @@ package org.evoleq.optics.storage
 
 import org.evoleq.math.Source
 import org.evoleq.math.x
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 
 fun <T> Storage<List<T>>.filter(predicate: (T)->Boolean): List<T> = read().filter { predicate(it) }

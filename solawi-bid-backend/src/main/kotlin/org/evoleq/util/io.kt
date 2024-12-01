@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import org.evoleq.exposedx.NoMessageProvided
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
+import org.evoleq.ktorx.result.Return
 import org.evoleq.ktorx.result.Serializer
 import org.evoleq.math.x
 import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
@@ -44,6 +45,18 @@ suspend inline fun <reified T : Any>  Receive(): Action<Result<T>> = ApiAction {
     } catch (e: Exception) {
         Result.Failure.Exception(e)
     } x call
+}
+
+
+@KtorDsl
+@Suppress("FunctionName")
+suspend inline fun <reified T : Any>  Receive(d: T): Action<Result<T>> = ApiAction {
+        call -> try{
+            Result.Return(d)
+    //Result.Success(Json.decodeFromString(Serializer<T>(), call.receive<String>()))
+} catch (e: Exception) {
+    Result.Failure.Exception(e)
+} x call
 }
 
 @KtorDsl

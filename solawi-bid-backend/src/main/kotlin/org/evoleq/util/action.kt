@@ -8,7 +8,6 @@ import org.evoleq.math.state.KlStateF
 import org.evoleq.math.state.State
 import org.jetbrains.exposed.sql.Database
 import org.solyton.solawi.bid.application.environment.Environment
-import org.solyton.solawi.bid.application.environment.connectToDatabase
 
 typealias Base = BaseState
 typealias Action<T> = State<Base, T>

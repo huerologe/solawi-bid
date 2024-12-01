@@ -9,9 +9,9 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.module.authentication.data.LoginForm
-import org.solyton.solawi.bid.module.authentication.data.User as LoginUser
 import org.solyton.solawi.bid.module.i18n.data.I18N
 import org.solyton.solawi.bid.module.user.User
+import org.solyton.solawi.bid.module.authentication.data.User as LoginUser
 
 
 val LoginForm : Lens<Application, LoginForm> by lazy {

@@ -40,7 +40,7 @@ class HttpRequestTests {
 
         val client = HttpClient(mockEngine)
 
-        val result = client.post<Login, LoggedIn>("login", 9876) (login as Login)
+        val result = client.post<Login, LoggedIn>("login", 9876, Serializer(), ResultSerializer()) (login as Login)
         assertIs<Result.Success<LoggedIn>>(result)
         console.log(result)
     }

@@ -1,7 +1,7 @@
 package org.solyton.solawi.bid.application.environment
 
 import io.ktor.server.application.*
-
+import org.jetbrains.exposed.sql.Database as SqlDatabase
 
 fun Application.setupEnvironment(): Environment = with(environment.config){
     val database = Database(
@@ -24,17 +24,23 @@ fun Application.setupEnvironment(): Environment = with(environment.config){
     )
 }
 
-fun Environment.connectToDatabase(): org.jetbrains.exposed.sql.Database = org.jetbrains.exposed.sql.Database.connect(
-    database.url,
-    database.driver,
-    database.user,
-    database.password
-)
-
 data class Environment(
     val database: Database,
-    val jwt: JWT
-)
+    val jwt: JWT,
+) {
+    lateinit var db: SqlDatabase
+
+    fun connectToDatabase(): SqlDatabase = when(::db.isInitialized){
+        false-> SqlDatabase.connect(
+            database.url,
+            database.driver,
+            database.user,
+            database.password
+        )
+        true -> db
+    }
+}
+
 data class JWT(
     val domain:String, // issuer
     val audience: String,

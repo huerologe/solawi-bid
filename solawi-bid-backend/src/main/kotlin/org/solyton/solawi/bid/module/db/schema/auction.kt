@@ -4,10 +4,16 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.SizedIterable
+import org.jetbrains.exposed.sql.jodatime.date
 import java.util.*
+
+typealias AuctionEntity = Auction
+typealias AuctionsTable = Auctions
 
 object Auctions: UUIDTable("auctions") {
     val name = varchar("name", 50)
+    val date = date("date")
 }
 
 
@@ -15,8 +21,10 @@ class Auction(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Auction>(Auctions)
 
     var name by Auctions.name
-    val rounds by Round referrersOn Rounds.auction
-    val bidders by Bidder via AuctionBidders
-    val bidRounds by BidRound referrersOn BidRounds.auction
+    var date by Auctions.date
+    val rounds: SizedIterable<Round> by Round referrersOn Rounds.auction
+    var bidders: SizedIterable<Bidder> by Bidder via AuctionBidders
+    val bidRounds: SizedIterable<BidRound> by BidRound referrersOn BidRounds.auction
+
 }
 

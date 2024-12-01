@@ -6,13 +6,14 @@ import org.evoleq.compose.date.format
 import org.evoleq.compose.date.parse
 import org.evoleq.compose.label.Label
 import org.evoleq.compose.modal.Modal
+import org.evoleq.compose.modal.ModalData
+import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
-import org.evoleq.optics.storage.remove
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.DateInput
 import org.jetbrains.compose.web.dom.Div
@@ -78,12 +79,15 @@ fun Storage<Modals<Int>>.showAuctionModal(
     cancel: ()->Unit,
     update: ()->Unit
 ) = with(nextId()) {
-    put(this to AuctionModal(
-        this,
-        texts,
-        this@showAuctionModal,
-        auction,
-        cancel,
-        update
+    put(this to ModalData(
+        ModalType.Dialog,
+        AuctionModal(
+            this,
+            texts,
+            this@showAuctionModal,
+            auction,
+            cancel,
+            update
+        )
     ))
 }

@@ -8,8 +8,11 @@ import org.evoleq.language.Block
 import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.routing.*
+import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.cookieDisclaimer
+import org.solyton.solawi.bid.application.data.i18N
+import org.solyton.solawi.bid.application.data.modals
+import org.solyton.solawi.bid.application.routing.Routing
 import org.solyton.solawi.bid.module.cookie.component.CookieDisclaimer
 import org.solyton.solawi.bid.module.i18n.data.language
 
@@ -24,14 +27,13 @@ import org.solyton.solawi.bid.module.i18n.data.language
     ModalLayer<Int>(
         1000,
         storage * modals,
-        true
     ) {
         // The Cookie disclaimer pops up, whenever as user
         // visits the page for the first time or cleared the cookies
         CookieDisclaimer(
             texts.component("solyton.cookieDisclaimer"),
             storage * modals,
-            storage * isCookieDisclaimerConfirmed
+            storage * cookieDisclaimer
         )
         // All pages shall be wrapped in a container
         Container{

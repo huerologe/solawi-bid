@@ -3,6 +3,8 @@ package org.solyton.solawi.bid.module.cookie.component
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.modal.Modal
+import org.evoleq.compose.modal.ModalData
+import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
 import org.evoleq.language.component
@@ -11,10 +13,12 @@ import org.evoleq.math.x
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
+import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.Text
-import org.w3c.dom.HTMLElement
+import org.solyton.solawi.bid.module.cookie.data.CookieDisclaimer
+import org.solyton.solawi.bid.module.cookie.data.isConfirmed
+import org.solyton.solawi.bid.module.cookie.data.isShown
 
 @Markup
 @Composable
@@ -22,9 +26,12 @@ import org.w3c.dom.HTMLElement
 fun CookieDisclaimer(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
-    isCookieDisclaimerConfirmed: Storage<Boolean>
+    cookieDisclaimer: Storage<CookieDisclaimer>
 ) = Div {
-    if (!isCookieDisclaimerConfirmed.read()) {
+    if (//NOT((cookieDisclaimer * isConfirmed).OR(cookieDisclaimer* isShown)()
+        !((cookieDisclaimer * isConfirmed).read() || (cookieDisclaimer * isShown).read())
+    ) {
+
         with(modals.nextId()) {
             val id = this
             modals.put(
@@ -32,10 +39,11 @@ fun CookieDisclaimer(
                     id,
                     texts,
                     modals,
-                    isCookieDisclaimerConfirmed
+                    cookieDisclaimer
                 )
             )
         }
+        (cookieDisclaimer * isShown).write(true)
     }
 }
 
@@ -45,19 +53,23 @@ fun CookieDisclaimerModal(
     id: Int,
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
-    isCookieDisclaimerConfirmed: Storage<Boolean>
-): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
-    id,
-    modals,
-    onOk = {
-        isCookieDisclaimerConfirmed.write(true)
-    },
-    onCancel = null,
-    texts = texts
-) {
-    Div {
-        with(texts.component("content")) {
-            Text(this["hint"])
+    cookieDisclaimer: Storage<CookieDisclaimer>
+): ModalData/*@Composable ElementScope<HTMLElement>.()->Unit*/
+= ModalData(
+    ModalType.CookieDisclaimer ,
+    Modal(
+        id,
+        modals,
+        onOk = {
+            (cookieDisclaimer * isConfirmed).write(true)
+            (cookieDisclaimer * isShown).write(false)
+        },
+        onCancel = null,
+        texts = texts
+    ) {
+        Div {
+            with(texts.component("content")) {
+                Text(this["hint"])
+            }
         }
-    }
-}
+    })

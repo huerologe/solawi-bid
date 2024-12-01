@@ -1,7 +1,6 @@
 package org.evoleq.ktorx.client
 
 import io.ktor.client.*
-import org.evoleq.math.Reader
 
 sealed class Request(
     open val url: String,

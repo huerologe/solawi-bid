@@ -8,18 +8,26 @@ import kotlin.test.assertEquals
 
 class AuctionTests {
 
-    //@Schema@Test
+    // @Schema@Test
     fun createAuction() = runSimpleH2Test(
         AuctionBidders,
         Auctions,
         Bidders,
+        Rounds
     ) {
         val name = "TestAuction"
         val auction = Auction.new {
             this.name = name
         }
 
+        val readAuction = Auction.find {
+            Auctions.name eq name
+        }.first()
+
         assertEquals(name, auction.name)
+        assertEquals(auction, readAuction)
+
+        println("auction.rounds = "+auction.rounds.count())
     }
 
     //@Schema@Test
