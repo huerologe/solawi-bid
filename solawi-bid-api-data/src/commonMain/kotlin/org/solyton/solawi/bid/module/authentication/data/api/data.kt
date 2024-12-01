@@ -3,6 +3,11 @@ package org.solyton.solawi.bid.module.authentication.data.api
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class Identifier(
+    val value: String
+)
+
+@Serializable
 data class Login(
     val username: String,
     val password: String

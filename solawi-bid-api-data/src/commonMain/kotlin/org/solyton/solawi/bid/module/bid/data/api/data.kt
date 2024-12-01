@@ -75,6 +75,14 @@ data class Auction(
 )
 
 @Serializable
+data object GetAuctions
+
+@Serializable
+data class Auctions(
+    val list: List<Auction> = listOf()
+)
+
+@Serializable
 data class BidRound(
     //@Serializable(with = UUIDSerializer::class)
     val id: String, //Uuid, //= ZeroUUID,
