@@ -12,7 +12,9 @@ import org.evoleq.math.crypto.generateSecureLink
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
 import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.bid.data.api.*
@@ -63,6 +65,20 @@ fun Transaction.readAuctions(): List<AuctionEntity> = with(AuctionEntity.all().m
    {
        listOf()
    }
+}
+
+@MathDsl
+val DeleteAuctions = KlAction<Result<DeleteAuctions>, Result<GetAuctions>> {
+    auctions -> DbAction {
+        database -> auctions bindSuspend {
+            data -> resultTransaction(database){
+                deleteAuctions(data.auctionIds.map { UUID.fromString(it) })
+        } } map { GetAuctions } x database
+    }
+}
+
+fun Transaction.deleteAuctions(auctionIds: List<UUID>) {
+    Auctions.deleteWhere { Auctions.id inList auctionIds }
 }
 
 val AddRound = KlAction<Result<PreRound>, Result<Round>> {

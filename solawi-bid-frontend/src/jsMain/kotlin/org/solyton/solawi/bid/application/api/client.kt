@@ -42,7 +42,7 @@ fun <S: Any,T: Any> HttpClient.get(url: String, port: Int, serializer: KSerializ
     } }
 
 fun <S: Any,T: Any> HttpClient.put(url: String, port: Int, serializer: KSerializer<S>, deserializer: KSerializer<Result<T>>): suspend (S)-> Result<T> = { s: S ->
-    with(post(url) {
+    with(put(url) {
         this.port = port
         if (s::class != Unit::class) {
             val serialized = Json.encodeToString(serializer, s)
@@ -53,7 +53,7 @@ fun <S: Any,T: Any> HttpClient.put(url: String, port: Int, serializer: KSerializ
     } }
 
 fun <S: Any,T: Any> HttpClient.patch(url: String, port: Int, serializer: KSerializer<S>, deserializer: KSerializer<Result<T>>): suspend (S)-> Result<T> = { s: S ->
-    with(post(url) {
+    with(patch(url) {
         this.port = port
         if (s::class != Unit::class) {
             val serialized = Json.encodeToString(serializer, s)
@@ -64,7 +64,7 @@ fun <S: Any,T: Any> HttpClient.patch(url: String, port: Int, serializer: KSerial
     } }
 
 fun <S: Any,T: Any> HttpClient.delete(url: String, port: Int, serializer: KSerializer<S>, deserializer: KSerializer<Result<T>>): suspend (S)-> Result<T> = { s: S ->
-    with(post(url) {
+    with(delete(url) {
         this.port = port
         if (s::class != Unit::class) {
             val serialized = Json.encodeToString(serializer, s)
