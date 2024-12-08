@@ -18,5 +18,8 @@ Todos:
       - Frontend
           - [x] ```LensType -> ApiType```
           - [x] ```ApiType -> LensType```
-  - [ ] Add corresponding Action to frontend
+  - [x] Add corresponding Action to frontend
   - [x] Implement endpoint
+  - [x] Tests
+    - [x] Frontend
+    - [x] Backend
