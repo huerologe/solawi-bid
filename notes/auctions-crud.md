@@ -5,7 +5,7 @@ So we concentrate on updates and deletion here.
  
 Todos:
 - [x] Add put, patch, delete functions to requests
-- [ ] Delete auctions:
+- [x] Delete auctions:
   - [x] Add serializable data classes under ``` solawi-bid-api-data/solyton/solawi/bid(module|application)/.../data ```
   - [x] Add Endpoint to Api under ```solawi-bid-api-data//solyton/solawi/bid/api/solawi-api ```
   - [x] Add serializers for ApiTypes
