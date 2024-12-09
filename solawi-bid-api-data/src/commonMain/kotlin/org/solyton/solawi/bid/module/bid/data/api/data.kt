@@ -94,6 +94,11 @@ data class Auctions(
 )
 
 @Serializable
+data class UpdateAuctions(
+    val list: List<Auction> = listOf()
+)
+
+@Serializable
 data class DeleteAuctions(
     val auctionIds: List<String>
 )
