@@ -32,13 +32,14 @@ Todos:
         - [x] Backend
     - [ ] If necessary, add transform functions to
         - Backend
-            - [ ] ```EntityType -> ApiType ```
-            - [ ] ```ApiType -> EntityType  ```
+            - [x] ```EntityType -> ApiType ```
+            - [x] ```ApiType -> EntityType  ```
         - Frontend
             - [ ] ```LensType -> ApiType```
             - [ ] ```ApiType -> LensType```
     - [ ] Add corresponding Action to frontend
-    - [ ] Implement endpoint
+    - [x] Implement endpoint
+    - [ ] Implement business logic
     - [ ] Tests
         - [ ] Frontend
         - [ ] Backend

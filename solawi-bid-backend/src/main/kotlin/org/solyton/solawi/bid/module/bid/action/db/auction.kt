@@ -81,6 +81,21 @@ fun Transaction.deleteAuctions(auctionIds: List<UUID>) {
     Auctions.deleteWhere { Auctions.id inList auctionIds }
 }
 
+@MathDsl
+val UpdateAuctions = KlAction<Result<UpdateAuctions>, Result<GetAuctions>> {
+    auctions -> DbAction {
+        database -> auctions bindSuspend {
+            data -> resultTransaction(database) {
+                 updateAuctions(data.list )
+            }
+        } map { GetAuctions } x database
+    }
+}
+
+fun Transaction.updateAuctions(auctions: List<ApiAuction>) {
+    TODO("Function updateAuctions not implemented yet!")
+}
+
 val AddRound = KlAction<Result<PreRound>, Result<Round>> {
     round -> DbAction {
         database -> round bindSuspend  { data -> resultTransaction(database){
