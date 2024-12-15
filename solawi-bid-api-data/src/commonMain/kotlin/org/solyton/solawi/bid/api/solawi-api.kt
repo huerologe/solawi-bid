@@ -34,4 +34,9 @@ val solawiApi by lazy {
         key = UpdateAuctions::class,
         url = "auction/update"
     )
+    // Auction bid
+    .post<Bid,BidRound> (
+        key = Bid::class,
+        url = "bid/send"
+    )
 }

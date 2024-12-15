@@ -9,12 +9,12 @@ import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.auctions
+import org.solyton.solawi.bid.application.data.bidRounds
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
-import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
-import org.solyton.solawi.bid.module.bid.data.api.ApiAuction
-import org.solyton.solawi.bid.module.bid.data.api.ApiAuctions
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.toDomainType
 import org.solyton.solawi.bid.test.storage.TestStorage
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -49,7 +49,43 @@ class ActionTests{
 
             assertEquals(0,(storage * auctions).read().size)
         }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test
+    fun sendBidTest() = runTest{
+        val bid = Bid("name", "link",2.0)
+
+        val action = sendBidAction(bid)
 
 
+        composition {
+            val storage = TestStorage()
+
+            val apiBid = (storage * action.reader).emit()
+
+            assertEquals(bid.username, apiBid.username)
+            assertEquals(bid.amount, apiBid.amount)
+
+            val apiBidRound = ApiBidRound(
+                "",
+                Round("","", ""),
+                ApiAuction(
+                    "",
+                    "",
+                    LocalDate(1,1,1),
+                    listOf(),
+                    listOf(),
+
+                ),
+                null
+            )
+
+            (storage * action.writer).write(apiBidRound) on Unit
+
+            val storedBidRound = (storage * bidRounds).read().first()
+
+            assertEquals(apiBidRound.toDomainType(), storedBidRound )
+        }
     }
 }
