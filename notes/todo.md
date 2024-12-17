@@ -56,9 +56,10 @@ Here we list important todos
       - [ ] Need to adjust type !!! 
         - [x] date added
         - [ ] What about adding a state to the Auction type 
+          - [ ] OPEN, STARTED, STOPPED, FROZEN
       - [x] Create Auctions
       - [ ] Update Auctions
-      - [ ] Delete Auctions
+      - [x] Delete Auctions
       - [ ] Evaluation
       - [ ] Import Bidders
     - [ ] BidRounds
@@ -75,7 +76,14 @@ Here we list important todos
       - [ ] Import
 
 ### Bid UI
+- [x] Endpoint to send bids 
+- [x] Endpoint in solawiApi
+- [x] Serializers added to BE
+
 - [ ] Page to send a bid
+  - [x] Serializers added to FE
+  - [x] Action to send bid + Test
+  - [ ] verify that route has a crypto parameter (how?)                
 
 ### Excel import / Export 
 - [ ] of Bidders
@@ -90,8 +98,10 @@ Needs to be planned soon!!! (2024.12.1)
 ### Access different Apis (Future)
 
 ### Roles and Rights
-TODO
-
+1. Check access rights using JwtPrinciple, for example in an Action like ReceiveContextual or after it
+2. Idea: one could pass the context in the header of the request, action to be performed and resources are given by endpoint and the input data 
+    - Fundamental checks can be done like that
+    - When it comes to more details checks on complex resource structures, one has to provide a specific action 
 ### Setup E2E Tests
 - [ ] Choose Framework
 - [ ] Make framework functional

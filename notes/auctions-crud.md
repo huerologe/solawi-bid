@@ -7,7 +7,7 @@ Todos:
 - [x] Add put, patch, delete functions to requests
 - [x] Delete auctions:
     - [x] Add serializable data classes under ``` solawi-bid-api-data/solyton/solawi/bid(module|application)/.../data ```
-    - [x] Add Endpoint to Api under ```solawi-bid-api-data//solyton/solawi/bid/api/solawi-api ```
+    - [x] Add Endpoint to Api under ```solawi-bid-api-data/solyton/solawi/bid/api/solawi-api ```
     - [x] Add serializers for ApiTypes
         - [x] Frontend
         - [x] Backend
@@ -26,7 +26,7 @@ Todos:
 
 - [ ] Update auctions:
     - [x] Add serializable data classes under ``` solawi-bid-api-data/solyton/solawi/bid(module|application)/.../data ```
-    - [x] Add Endpoint to Api under ```solawi-bid-api-data//solyton/solawi/bid/api/solawi-api ```
+    - [x] Add Endpoint to Api under ```solawi-bid-api-data/solyton/solawi/bid/api/solawi-api ```
     - [x] Add serializers for ApiTypes
         - [x] Frontend
         - [x] Backend
@@ -43,3 +43,22 @@ Todos:
     - [ ] Tests
         - [ ] Frontend
         - [ ] Backend
+
+- [ ] Add / Import Bidders
+  - [x] Add serializable data classes under ``` solawi-bid-api-data/solyton/solawi/bid(module|application)/.../data ```
+  - [x] Add Endpoint to Api under ```solawi-bid-api-data/solyton/solawi/bid/api/solawi-api ```
+  - [x] Add serializers for ApiTypes
+      - [x] Frontend
+      - [x] Backend
+  - [ ] If necessary, add transform functions to
+      - Backend (Not necessary, done for all types)
+          - [ ] ```EntityType -> ApiType ```
+          - [ ] ```ApiType -> EntityType  ```
+      - Frontend
+          - [ ] ```LensType -> ApiType```
+          - [ ] ```ApiType -> LensType```
+  - [ ] Add corresponding Action to frontend
+  - [x] Implement endpoint
+  - [ ] Tests
+      - [ ] Frontend
+      - [ ] Backend
