@@ -124,11 +124,7 @@ val AddBidders = KlAction<List<Bidder>, Result<AuctionEntity>> = KlAction{
 
  */
 
-
-
-fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEntity {
-    val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
-        ?: throw BidRoundException.NoSuchAuction
+fun Transaction.addBidders(auction: AuctionEntity, bidders: List<NewBidder>): AuctionEntity {
 
     bidders.forEach { bidder ->
         val newBidder = BidderEntity.new {
@@ -141,8 +137,14 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
             it[AuctionBidders.bidderId] = newBidder.id.value
         }
     }
-
     return auction
+}
+
+fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEntity {
+    val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+
+    return addBidders(auction, bidders)
 }
 
 val ChangeRoundState = KlAction<ChangeRoundState, Result<Round>> {

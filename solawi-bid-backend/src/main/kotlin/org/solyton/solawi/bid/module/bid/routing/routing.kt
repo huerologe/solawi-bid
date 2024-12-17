@@ -7,9 +7,7 @@ import io.ktor.util.*
 import org.evoleq.ktorx.result.Result
 import org.evoleq.math.state.runOn
 import org.evoleq.math.state.times
-import org.evoleq.util.Base
-import org.evoleq.util.Receive
-import org.evoleq.util.Respond
+import org.evoleq.util.*
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.*
 import org.solyton.solawi.bid.module.bid.data.api.*
@@ -39,20 +37,31 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
     authenticate{
         route("auction"){
             post("create") {
-                (Receive<CreateAuction>() * CreateAuction * Respond()) runOn Base(call, environment)
+                (Receive<CreateAuction>() * CreateAuction * Respond<Auction>()) runOn Base(call, environment)
             }
             patch("update") {
-                (Receive<UpdateAuctions>() * UpdateAuctions * ReadAuctions * Respond()) runOn Base(call, environment)
+                (Receive<UpdateAuctions>() * UpdateAuctions * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)
             }
             delete("delete") {
-                (Receive<DeleteAuctions>() * DeleteAuctions * ReadAuctions * Respond()) runOn Base(call, environment)
+                (Receive<DeleteAuctions>() * DeleteAuctions * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)
             }
+
             get("results") {
 
             }
             get("all"){
-                (Receive(GetAuctions) * ReadAuctions * Respond()) runOn Base(call, environment)
+                (Receive(GetAuctions) * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)
             }
+            route("bidder") {
+                post("import") {
+                    (Receive<ImportBidders>() * ImportBidders * Respond<Auction>()) runOn Base(call, environment)
+                }
+                delete("delete"){
+                    // will delete all listed bidders
+                    (Receive<DeleteBidders>() * Fail("Not Implemented") * Respond()) runOn Base(call, environment)
+                }
+            }
+
         }
     }
 

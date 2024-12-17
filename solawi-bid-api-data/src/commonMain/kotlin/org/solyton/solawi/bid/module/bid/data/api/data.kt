@@ -113,3 +113,16 @@ data class BidRound(
     val amount: Double?
 )
 
+
+@Serializable
+data class ImportBidders(
+    val auctionId: String,
+    val bidders: List<NewBidder>
+)
+
+@Serializable
+data class DeleteBidders(
+    val auctionId: String?,
+    val bidderIds: List<String>
+)
+

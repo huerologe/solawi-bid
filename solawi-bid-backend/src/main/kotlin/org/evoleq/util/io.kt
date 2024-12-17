@@ -109,3 +109,9 @@ fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Me
     } x this.value.toMessage()
 
 fun Throwable.toMessage(): Result.Failure.Message = Result.Failure.Message(message?: NoMessageProvided)
+
+@KtorDsl
+@Suppress("FunctionName")
+fun <T:  Any> Fail(message: String): KlAction<Result<T>, Result<T>> = {_ -> ApiAction {
+    call -> Result.Failure.Message(message) x call
+}}

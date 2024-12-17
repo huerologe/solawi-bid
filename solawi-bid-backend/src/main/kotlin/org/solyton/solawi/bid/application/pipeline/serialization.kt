@@ -38,4 +38,9 @@ fun Application.installSerializers() {
     serializers[Auctions::class] = Auctions.serializer()
     serializers[DeleteAuctions::class] = DeleteAuctions.serializer()
     serializers[UpdateAuctions::class] = UpdateAuctions.serializer()
+    // Auction/Bidders
+    serializers[NewBidder::class] = NewBidder.serializer()
+    serializers[Bidder::class] = Bidder.serializer()
+    serializers[ImportBidders::class] = ImportBidders.serializer()
+    serializers[DeleteBidders::class] = DeleteBidders.serializer()
 }
