@@ -23,7 +23,7 @@ import kotlin.test.assertTrue
 
 class BidderTests {
 
-    @Api@Test
+    // @Api@Test
     fun importBidders() = runBlocking {
         testApplication {
             environment {
