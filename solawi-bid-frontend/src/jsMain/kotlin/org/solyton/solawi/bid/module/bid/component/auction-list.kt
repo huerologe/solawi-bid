@@ -2,10 +2,9 @@ package org.solyton.solawi.bid.module.bid.component
 
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
+import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Locale
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.storage.Action
@@ -73,7 +72,7 @@ fun AuctionListItem(auction: Storage<Auction>, styles: AuctionListStyles = Aucti
 
             }
             onClick {
-
+                navigate("/solyton/auctions/${auction.read().auctionId}")
             }
         }){
             Text("Details")
@@ -84,7 +83,7 @@ fun AuctionListItem(auction: Storage<Auction>, styles: AuctionListStyles = Aucti
 
             }
             onClick {
-
+                // open edit dialog
             }
         }){
             Text("Edit")

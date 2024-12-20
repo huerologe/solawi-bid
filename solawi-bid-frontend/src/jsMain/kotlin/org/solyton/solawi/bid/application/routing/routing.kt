@@ -11,6 +11,7 @@ import org.solyton.solawi.bid.application.data.navbar.navBar
 import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.application.service.isLoggerIn
 import org.solyton.solawi.bid.application.ui.page.auction.AuctionPage
+import org.solyton.solawi.bid.application.ui.page.auction.AuctionsPage
 import org.solyton.solawi.bid.application.ui.page.dashboard.DashboardPage
 import org.solyton.solawi.bid.application.ui.page.login.LoginPage
 import org.solyton.solawi.bid.application.ui.page.sendbid.SendBidPage
@@ -53,11 +54,11 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
 
             route("auctions") {
                 component {
-                    AuctionPage(storage)
+                    AuctionsPage(storage)
                 }
                 route(":auctionId") {
                     component {
-                        Text("auction: ${parameter("auctionId")}")
+                        AuctionPage(storage, parameter("auctionId")!!)
                     }
 
                     route("rounds") {
