@@ -3,7 +3,6 @@ package org.solyton.solawi.bid.module.bid.action.db
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
-import org.evoleq.ktorx.result.map
 import org.evoleq.math.MathDsl
 import org.evoleq.math.x
 import org.evoleq.util.DbAction

@@ -4,6 +4,8 @@ import kotlinx.datetime.LocalDate
 import org.evoleq.ktorx.result.on
 import org.evoleq.math.emit
 import org.evoleq.math.write
+import org.evoleq.optics.lens.FirstBy
+import org.evoleq.optics.lens.times
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest
@@ -12,6 +14,7 @@ import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.bidRounds
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
+import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toDomainType
@@ -86,6 +89,38 @@ class ActionTests{
             val storedBidRound = (storage * bidRounds).read().first()
 
             assertEquals(apiBidRound.toDomainType(), storedBidRound )
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test
+    fun importBiddersTest() = runTest{
+        val auction = Auction("id", "name", LocalDate(1,1,1))
+        val newBidders = listOf(NewBidder("un", 0, 1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val action = importBidders(newBidders, auctionLens)
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+            assertEquals(auction, (storage * auctionLens).read())
+
+            val importBidders = (storage * action.reader).emit()
+            assertEquals(importBidders.auctionId, auction.auctionId)
+            assertEquals(importBidders.bidders, newBidders)
+
+            val apiAuction = ApiAuction(
+                id ="id",
+                name= "name",
+                date = LocalDate(1,1,1),
+                rounds = listOf(),
+                bidderIds = listOf("1")
+            )
+
+            (storage * action.writer).write(apiAuction) on Unit
+
+            val nextAuction = (storage * auctionLens).read()
+            assertEquals( listOf("1"), nextAuction.bidderIds,)
         }
     }
 }
