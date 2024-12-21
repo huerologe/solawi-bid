@@ -10,7 +10,6 @@ import org.evoleq.language.component
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
-import org.evoleq.optics.storage.read
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
