@@ -11,6 +11,7 @@ import org.evoleq.util.*
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.*
 import org.solyton.solawi.bid.module.bid.data.api.*
+import java.util.UUID
 
 
 @KtorDsl
@@ -54,7 +55,9 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
             }
             route("bidder") {
                 post("import") {
-                    (Receive<ImportBidders>() * ImportBidders * Respond<Auction>()) runOn Base(call, environment)
+                    (Receive<ImportBidders>() *
+                    ImportBidders *
+                    Respond<Auction>()) runOn Base(call, environment)
                 }
                 delete("delete"){
                     // will delete all listed bidders

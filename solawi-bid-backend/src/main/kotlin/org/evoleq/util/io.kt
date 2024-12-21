@@ -55,6 +55,7 @@ suspend inline fun <reified T : Any>  Receive(): Action<Result<T>> = ApiAction {
     call -> try{
         Result.Success(Json.decodeFromString(Serializer<T>(), call.receive<String>()))
     } catch (e: Exception) {
+        // println(e.message?:"No message provided")
         Result.Failure.Exception(e)
     } x call
 }
@@ -85,6 +86,11 @@ suspend inline fun <reified T : Any>  Respond(): KlAction<Result<T>, Unit> = {re
             }
         } x call
 } }
+
+@KtorDsl
+@Suppress("FunctionName")
+fun <S : Any, T: Any> Transform(f: (S)-> T): KlAction<Result<S>, Result<T>> =
+    {result: Result<S> -> Action { base -> result map f x base } }
 
 fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Message> =
     when(this.value) {

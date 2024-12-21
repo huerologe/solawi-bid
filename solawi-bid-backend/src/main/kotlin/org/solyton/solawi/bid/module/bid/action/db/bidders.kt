@@ -26,8 +26,8 @@ import java.util.UUID
 val ImportBidders = KlAction{bidders: Result<ImportBidders> -> DbAction {
     database: Database -> bidders bindSuspend  {
         resultTransaction(database) {
-            importBidders(auctionId = UUID.fromString(it.auctionId), it.bidders)
-        } map { it.toApiType() }
+            importBidders(auctionId = UUID.fromString(it.auctionId), it.bidders).toApiType()
+        }
     } x database
 }}
 

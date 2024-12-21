@@ -23,7 +23,7 @@ data class Bid(
 data class NewBidder(
     val username: String,
     val weblingId: Int,
-    val numberOfParts: Int
+    val numberOfShares: Int
 ) {
     init {
        // if(numberOfParts < 0) throw BidRoundException.IllegalNumberOfParts(numberOfParts)
