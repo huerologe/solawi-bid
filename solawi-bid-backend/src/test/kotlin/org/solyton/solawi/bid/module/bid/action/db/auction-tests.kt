@@ -27,13 +27,17 @@ class AuctionTests {
 
     @DbFunctional@Test fun prepareAuction() = runSimpleH2Test(
         AuctionBidders,
+        AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
+        BidderDetailsSolawiTuebingenTable,
         Rounds
     ) {
         val name = "TestAuction"
         val link = "TestLink"
-
+        AuctionType.new {
+            type = "SOLAWI_TUEBINGEN"
+        }
         val auction = createAuction(name,LocalDate(0,1,1)).toApiType()
         assertEquals(name, auction.name)
         val round = addRound(PreRound(
@@ -59,13 +63,19 @@ class AuctionTests {
     @DbFunctional@Test
     fun deleteAuction() = runSimpleH2Test(
         AuctionBidders,
+        AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
+        BidderDetailsSolawiTuebingenTable,
         Rounds
     ) {
+        val auctionType = AuctionType.new {
+            type = "SOLAWI_TUEBINGEN"
+        }
         val auction = AuctionEntity.new {
             name = "TestAuction"
             date = DateTime().withDate(1,1,1)
+            type = auctionType
         }
 
         deleteAuctions(listOf(auction.id.value))

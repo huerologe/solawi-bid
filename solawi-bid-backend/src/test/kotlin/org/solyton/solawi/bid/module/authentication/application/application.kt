@@ -11,7 +11,7 @@ import org.evoleq.util.*
 import org.solyton.solawi.bid.application.environment.setupEnvironment
 import org.solyton.solawi.bid.application.pipeline.*
 import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.migrations.authenticationRoutingMigrations
+import org.solyton.solawi.bid.module.authentication.migrations.authenticationMigrations
 import org.solyton.solawi.bid.module.authentication.routing.authentication
 import org.solyton.solawi.bid.module.bid.routing.bid
 import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
@@ -22,7 +22,7 @@ import java.util.*
 
 fun Application.authenticationTest() {
     val environment = setupEnvironment()
-    installDatabase(environment, authenticationRoutingMigrations)
+    installDatabase(environment, authenticationMigrations)
 
     installDatabase(environment, bidRoutingMigrations)
     installSerializers()

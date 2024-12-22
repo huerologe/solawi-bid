@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
+import io.ktor.util.*
 import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.LocalDate
 import org.evoleq.exposedx.transaction.resultTransaction
@@ -19,9 +20,7 @@ import org.joda.time.DateTime
 import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
-import org.solyton.solawi.bid.module.db.schema.AuctionBidders
-import org.solyton.solawi.bid.module.db.schema.Auctions
-import org.solyton.solawi.bid.module.db.schema.Rounds
+import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
 import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
@@ -38,9 +37,16 @@ val CreateAuction = KlAction<Result<CreateAuction>, Result<Auction>> {
     }
 }
 
-fun Transaction.createAuction(name: String, date: LocalDate): AuctionEntity = AuctionEntity.new {
-    this.name = name
-    this.date = DateTime().withDate(date.year, date.monthNumber, date.dayOfMonth)
+fun Transaction.createAuction(name: String, date: LocalDate, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
+    val auctionType = AuctionType.find { AuctionTypes.type eq type.toUpperCasePreservingASCIIRules() }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuctionType(type)
+    // val typeName = auctionType.type.toLowerCasePreservingASCIIRules()
+
+    return AuctionEntity.new {
+        this.name = name
+        this.date = DateTime().withDate(date.year, date.monthNumber, date.dayOfMonth)
+        this.type = auctionType
+    }
 }
 
 @MathDsl
@@ -145,17 +151,33 @@ val AddBidders = KlAction<List<Bidder>, Result<AuctionEntity>> = KlAction{
 
  */
 
-fun Transaction.addBidders(auction: AuctionEntity, bidders: List<NewBidder>): AuctionEntity {
+fun Transaction.addBidders(auction: AuctionEntity, bidders: List<NewBidder>, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
+    val auctionType = AuctionType.find { AuctionTypes.type eq type.toUpperCasePreservingASCIIRules() }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuctionType(type)
+    val typeName = auctionType.type.toLowerCasePreservingASCIIRules()
 
     bidders.forEach { bidder ->
         val newBidder = BidderEntity.new {
             username = bidder.username
-            weblingId = bidder.weblingId
-            this.numberOfParts = bidder.numberOfShares
+            this.type = auctionType
+           // weblingId = bidder.weblingId
+           // this.numberOfParts = bidder.numberOfShares
         }
         AuctionBidders.insert {
             it[AuctionBidders.auctionId] = auction.id.value
             it[AuctionBidders.bidderId] = newBidder.id.value
+        }
+
+        when(typeName) {
+            "solawi_tuebingen" -> {
+                BidderDetailsSolawiTuebingenTable.insert {
+                    it[BidderDetailsSolawiTuebingenTable.bidderId] = newBidder.id.value
+                    it[weblingId] = bidder.weblingId
+                    it[numberOfShares] = bidder.numberOfShares
+                }
+            }
+
+
         }
     }
     //commit()

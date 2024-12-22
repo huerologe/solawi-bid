@@ -15,10 +15,7 @@ import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
-import org.solyton.solawi.bid.module.db.schema.AuctionBidders
-import org.solyton.solawi.bid.module.db.schema.AuctionEntity
-import org.solyton.solawi.bid.module.db.schema.Auctions
-import org.solyton.solawi.bid.module.db.schema.BiddersTAble
+import org.solyton.solawi.bid.module.db.schema.*
 import java.util.UUID
 
 @MathDsl
@@ -35,7 +32,8 @@ fun Transaction.importBidders(auctionId: UUID, bidders: List<NewBidder>): Auctio
         ?: throw BidRoundException.NoSuchAuction
     val biddersToDelete = auction.bidders.map { it.id }
     AuctionBidders.deleteWhere { AuctionBidders.bidderId inList biddersToDelete }
-    BiddersTAble.deleteWhere { BiddersTAble.id inList biddersToDelete }
+    BiddersTable.deleteWhere { BiddersTable.id inList biddersToDelete }
+    BidderDetailsSolawiTuebingenTable.deleteWhere { BidderDetailsSolawiTuebingenTable.bidderId inList biddersToDelete.map { it.value }  }
 
     return addBidders(auction,bidders)
 }

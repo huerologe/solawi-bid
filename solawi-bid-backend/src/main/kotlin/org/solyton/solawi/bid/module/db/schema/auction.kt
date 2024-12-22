@@ -7,13 +7,15 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.jodatime.date
 import java.util.*
+import kotlin.reflect.typeOf
 
 typealias AuctionEntity = Auction
 typealias AuctionsTable = Auctions
 
 object Auctions: UUIDTable("auctions") {
-    val name = varchar("name", 50)
+    val name = varchar("name", 250)
     val date = date("date")
+    val typeId =reference("type_id", AuctionTypes)
 }
 
 
@@ -22,6 +24,7 @@ class Auction(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var name by Auctions.name
     var date by Auctions.date
+    var type by AuctionType referencedOn Auctions.typeId
     val rounds: SizedIterable<Round> by Round referrersOn Rounds.auction
     var bidders: SizedIterable<Bidder> by Bidder via AuctionBidders
     val bidRounds: SizedIterable<BidRound> by BidRound referrersOn BidRounds.auction

@@ -17,6 +17,7 @@ sealed class BidRoundException(override val message: String) : Exception(message
     data object NoSuchAuction : BidRoundException("No such auction") {
         private fun readResolve(): Any = NoSuchAuction
     }
+    data class NoSuchAuctionType(val type: String) : BidRoundException("No such auction type: '$type'")
 
     data class IllegalNumberOfParts(val value: Int): BidRoundException("Illegal number of parts: $value")
 }

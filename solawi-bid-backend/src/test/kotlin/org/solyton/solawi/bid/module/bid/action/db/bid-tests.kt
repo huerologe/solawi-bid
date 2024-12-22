@@ -132,6 +132,9 @@ class BidBests {
         Auctions,
         Bidders,
         Rounds,
+        AuctionTypes,
+        AuctionDetailsSolawiTuebingenTable,
+        BidderDetailsSolawiTuebingenTable
     )
 
     data class BidProcessSetup(
