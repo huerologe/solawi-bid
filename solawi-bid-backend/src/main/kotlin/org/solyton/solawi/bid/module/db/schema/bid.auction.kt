@@ -7,7 +7,6 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.jodatime.date
 import java.util.*
-import kotlin.reflect.typeOf
 
 typealias AuctionEntity = Auction
 typealias AuctionsTable = Auctions
