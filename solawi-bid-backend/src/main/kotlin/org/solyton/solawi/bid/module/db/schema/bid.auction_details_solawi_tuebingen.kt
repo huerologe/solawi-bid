@@ -6,6 +6,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias AuctionDetailsSolawiTuebingenEntity = AuctionDetailsSolawiTuebingen
+
 object AuctionDetailsSolawiTuebingenTable : UUIDTable("auction_details_solawi_tuebingen") {
     val auctionId = uuid("auction_id")
     val benchmark = double("benchmark")

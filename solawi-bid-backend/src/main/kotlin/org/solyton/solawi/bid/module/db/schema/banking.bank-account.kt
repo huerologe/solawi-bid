@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.UUID
 
+typealias BankAccountsTable = BankAccounts
+typealias BankAccountEntity = BankAccount
+
 object BankAccounts : UUIDTable("bank_accounts") {
     val iban = varchar("iban", 30)
     val bic = varchar("bic", 20)

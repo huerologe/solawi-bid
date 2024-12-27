@@ -6,6 +6,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias BidderDetailsSolawiTuebingenEntity = BidderDetailsSolawiTuebingen
+
 object BidderDetailsSolawiTuebingenTable : UUIDTable("bidder_details_solawi_tuebingen") {
 
     val bidderId = uuid("bidder_id")

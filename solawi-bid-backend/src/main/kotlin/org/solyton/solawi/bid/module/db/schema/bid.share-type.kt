@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias ShareTypesTable = ShareTypes
+typealias ShareTypeEntity = Share
+
 object ShareTypes : UUIDTable("share_types") {
     val name = varchar("name", 250)
     val description = varchar("description", 5000).default("")

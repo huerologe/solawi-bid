@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias AuctionTypesTable = AuctionTypes
+typealias AuctionTypeEntity = AuctionType
+
 object AuctionTypes : UUIDTable("auction_types") {
     val type = varchar("type", 250).uniqueIndex()
 }

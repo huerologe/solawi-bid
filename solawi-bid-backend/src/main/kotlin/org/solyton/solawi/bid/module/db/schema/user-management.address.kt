@@ -6,6 +6,9 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
+typealias AddressesTable = Addresses
+typealias AddressEntity = Address
+
 object Addresses : UUIDTable("addresses") {
 //    val recipientName VARCHAR(255),   -- Name of the recipient
 //    organization_name VARCHAR(255),-- Name of the organization (optional)
