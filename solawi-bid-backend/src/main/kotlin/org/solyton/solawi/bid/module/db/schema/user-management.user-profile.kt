@@ -14,11 +14,11 @@ typealias UserProfileEntity = UserProfile
 object UserProfiles : UUIDTable("user_profiles") {
     val userId = reference("user_id", Users)
 
-    val addressId = reference("address_id", Addresses)
+    val addressId = reference("address_id", Addresses).nullable()
 
-    val phoneNumber = varchar("phone_number", 15)
+    val phoneNumber = varchar("phone_number", 15).nullable()
 
-    val bankAccountId = reference("bank_account_id", BankAccounts)// nullable default
+    val bankAccountId = reference("bank_account_id", BankAccounts).nullable()// nullable default
 }
 
 class UserProfile(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -26,11 +26,11 @@ class UserProfile(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var user by User referencedOn UserProfiles.userId
 
-    var address by Address referencedOn UserProfiles.addressId
+    var address by Address optionalReferencedOn  UserProfiles.addressId
 
     var phoneNumber by UserProfiles.phoneNumber
 
-    var bankAccount by BankAccount referencedOn UserProfiles.bankAccountId
+    var bankAccount by BankAccount optionalReferencedOn UserProfiles.bankAccountId
 
     val shares: SizedIterable<Share> by Share referrersOn Shares.userProfileId
 }

@@ -20,7 +20,7 @@ object Addresses : UUIDTable("addresses") {
 //    country_code CHAR(2),          -- ISO 3166-1 alpha-2 country code
     val userProfile = reference("user_profile_id", UserProfiles)
     val recipientName = varchar("recipient_name", 255)
-    val organizationName = varchar("organization_name", 255)
+    val organizationName = varchar("organization_name", 255).nullable()
     val addressLine1 = varchar("address_line_1", 255)
     val addressLine2 = varchar("address_line_2", 255)
     val city = varchar("city", 100)
@@ -43,5 +43,9 @@ class Address(id : EntityID<UUID>) : UUIDEntity(id) {
     var postalCode by Addresses.postalCode
     var countryCode by Addresses.countryCode
 
+
+}
+
+fun Address.dummy() = Address.new {
 
 }

@@ -56,15 +56,15 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
         }
     }) { Text("Import Bidders") }
 
-    H2 { Text("Rounds") }
 
-    Ul {
-        (storage * auction).read().bidderIds.forEach {
-            P{
-                Text(it)
-            }
-        }
-    }
+
+    H2 { Text("Rounds") }
+    Button(attrs = {
+        onClick { /* create new round */ }
+    }) { Text("Create new Round") }
+
+
+
 
     // Show list of rounds ordered by date - descending
 

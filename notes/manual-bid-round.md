@@ -2,7 +2,7 @@
 
 ## Bid Round
 1. Create an auction
-2. Add values for benchmark, target amound, solidarity contribution, Default Bid to the auction record
+2. Add values for benchmark, target amount, solidarity contribution, Default Bid to the auction record
 3. Import bidders
     - via an api
     - via excel import

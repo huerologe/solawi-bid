@@ -11,7 +11,7 @@ typealias DistributionPointEntity = DistributionPoint
 
 object DistributionPoints : UUIDTable("distribution_points") {
     val name = varchar("name", 255)
-    val addressId = reference("address_id", Addresses)
+    val addressId = reference("address_id", Addresses).nullable()
     val organisationId = reference("organization_id", Organisations)
 }
 
@@ -19,6 +19,6 @@ class DistributionPoint(id : EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<DistributionPoint>(DistributionPoints)
 
     var name by DistributionPoints.name
-    var address by Address referencedOn DistributionPoints.addressId
+    var address by Address optionalReferencedOn DistributionPoints.addressId
     var organization by Organization referencedOn DistributionPoints.organisationId
 }

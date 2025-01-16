@@ -10,13 +10,18 @@ typealias OrganizationsTable = Organisations
 typealias OrganizationEntity = Organization
 
 object Organisations : UUIDTable("organizations") {
-    val name = varchar("name", 255).uniqueIndex()
+    val name = varchar("name", 255)//.uniqueIndex()
+    val rootId = optReference("root_id", Organisations)
+    // sub organizations (parent id, tree left - right)
+    // parent id: compute direct parent child relations efficiently
+    // val parentId = optReference("parent_id", Organisations)
 
-    // sub organizations (tree left - right)
-    val parentId = uuid("parent_id").nullable()
-    val left = integer("left").default(0)
-    val right = integer("right").default(1)
-
+    // children c of an org o will be characterized by:
+    // c.left > o.left
+    // c.right < o.right
+    val left = integer("left").index().default(0)
+    val right = integer("right").index().default(1)
+    val level = integer("level").index().default(0)
     // partner organizations (mapping table)
 
     // members
@@ -31,7 +36,14 @@ object Organisations : UUIDTable("organizations") {
 class Organization(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<Organization>(Organisations)
 
+    var root by OrganizationEntity optionalReferencedOn OrganizationsTable.rootId
+
     var name by Organisations.name
 
+    // val parent by OrganizationEntity optionalReferencedOn OrganizationsTable.parentId
+    var left by Organisations.left
+    var right by Organisations.right
+    var level by Organisations.level
 
+    var users by User via UserOrganization
 }
