@@ -27,7 +27,7 @@ class Migration1730143239225(
      * Upwards migration
      */
     override suspend fun Transaction.up() {
-        SchemaUtils.create(Contexts, Rights, Roles, RoleRightContexts)
+        SchemaUtils.create(Contexts, Rights, Roles, RoleRightContexts, UserRoleContext)
         setupBasicRolesAndRights(addApplicationUser = true)
 
     }
