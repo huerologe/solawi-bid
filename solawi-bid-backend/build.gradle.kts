@@ -195,7 +195,7 @@ migrations {
 
     migration("authenticationApiTest") {
         domain = "org.solyton.solawi.bid"
-        module = "authentication/routing"
+        module = "authentication" // /routing
         migrations = "migrations"
         sourceSet = "test"
     }

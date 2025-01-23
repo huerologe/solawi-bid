@@ -2,18 +2,17 @@ package org.solyton.solawi.bid.module.bid.action.db
 
 import kotlinx.datetime.LocalDate
 import org.evoleq.exposedx.test.runSimpleH2Test
+import org.joda.time.DateTime
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.api.PreRound
 import org.solyton.solawi.bid.module.bid.data.toApiType
-import org.solyton.solawi.bid.module.db.schema.AuctionBidders
-import org.solyton.solawi.bid.module.db.schema.Auctions
-import org.solyton.solawi.bid.module.db.schema.Bidders
-import org.solyton.solawi.bid.module.db.schema.Rounds
+import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertNull
 
 class AuctionTests {
 
@@ -23,20 +22,22 @@ class AuctionTests {
         Bidders,
         Rounds
     ) {
-        val name = "TestAuction"
-        val auction = createAuction(name, LocalDate(0,1,1))
-        assertEquals(name, auction.name)
+
     }
 
     @DbFunctional@Test fun prepareAuction() = runSimpleH2Test(
         AuctionBidders,
+        AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
+        BidderDetailsSolawiTuebingenTable,
         Rounds
     ) {
         val name = "TestAuction"
         val link = "TestLink"
-
+        AuctionType.new {
+            type = "SOLAWI_TUEBINGEN"
+        }
         val auction = createAuction(name,LocalDate(0,1,1)).toApiType()
         assertEquals(name, auction.name)
         val round = addRound(PreRound(
@@ -57,5 +58,29 @@ class AuctionTests {
         ).toApiType()
         assertEquals(bidders.size, auctionWithBidders.bidderIds.size)
 
+    }
+
+    @DbFunctional@Test
+    fun deleteAuction() = runSimpleH2Test(
+        AuctionBidders,
+        AuctionDetailsSolawiTuebingenTable,
+        Auctions,
+        Bidders,
+        BidderDetailsSolawiTuebingenTable,
+        Rounds
+    ) {
+        val auctionType = AuctionType.new {
+            type = "SOLAWI_TUEBINGEN"
+        }
+        val auction = AuctionEntity.new {
+            name = "TestAuction"
+            date = DateTime().withDate(1,1,1)
+            type = auctionType
+        }
+
+        deleteAuctions(listOf(auction.id.value))
+
+        val a = AuctionEntity.find { Auctions.id eq auction.id }.firstOrNull()
+        assertNull(a)
     }
 }

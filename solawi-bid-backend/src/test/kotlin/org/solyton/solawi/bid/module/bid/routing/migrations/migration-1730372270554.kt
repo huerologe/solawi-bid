@@ -36,13 +36,20 @@ class Migration1730372270554(
             Rounds,
             BidRounds,
             Bidders,
-            AuctionBidders
+            AuctionBidders,
+            AuctionTypes,
+            AuctionDetailsSolawiTuebingenTable,
+            BidderDetailsSolawiTuebingenTable
         )
+        val auctionType = AuctionType.new {
+            type = "SOLAWI_TUEBINGEN"
+        }
         // db setup
         // create an auction
         val auction = Auction.new {
             name = "TestAuction"
             date = DateTime().withDate(1,1,1)
+            type = auctionType
         }
         // create a round in the auction
         // note: state is "OPENED" by default.
@@ -55,12 +62,18 @@ class Migration1730372270554(
         // invite bidders to the auction
         val bidder = Bidder.new {
             username = "test-user"
-            weblingId = 1
-            numberOfParts = 1
+            type = auctionType
+            //weblingId = 1
+            //numberOfParts = 1
         }
         AuctionBidders.insert{
             it[AuctionBidders.auctionId] = auction.id
             it[AuctionBidders.bidderId] = bidder.id
+        }
+        BidderDetailsSolawiTuebingenTable.insert{
+            it[weblingId] = 1
+            it[numberOfShares] = 1
+            it[bidderId] = bidder.id.value
         }
         auction.bidders+bidder
 

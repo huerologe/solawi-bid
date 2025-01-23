@@ -10,7 +10,7 @@ typealias ContextEntity = Context
 typealias ContextsTable = Contexts
 
 object Contexts : UUIDTable("contexts") {
-    val name = varchar("name",50).uniqueIndex()
+    val name = varchar("name",5000).uniqueIndex()
 }
 
 class Context(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -20,4 +20,6 @@ class Context(id: EntityID<UUID>) : UUIDEntity(id) {
     // navigation
     var roles by Role via RoleRightContexts
     var rights by Right via RoleRightContexts
+
+    val resources by Resource referrersOn  Resources.contextId
 }

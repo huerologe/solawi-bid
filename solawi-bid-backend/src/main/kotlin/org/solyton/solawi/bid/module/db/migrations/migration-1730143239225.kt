@@ -27,58 +27,9 @@ class Migration1730143239225(
      * Upwards migration
      */
     override suspend fun Transaction.up() {
-        SchemaUtils.create(Contexts, Rights, Roles, RoleRightContexts)
-        // Contexts
-        val applicationContextId = Contexts.insertAndGetId {
-            it[name] = "APPLICATION"
-        }
-        Contexts.insert {
-            it[name] = "AUCTION"
-        }
-        Contexts.insert {
-            it[name] = "AUCTION/MANAGEMENT"
-        }
+        SchemaUtils.create(Contexts, Rights, Roles, RoleRightContexts, UserRoleContext)
+        setupBasicRolesAndRights(addApplicationUser = true)
 
-        // Roles
-        val ownerRoleId = Roles.insertAndGetId {
-            it[name] = "OWNER"
-            it[description] = "Owner owns a resource or context"
-        }
-        Roles.insert {
-            it[name] = "MANAGER"
-            it[description] = "Manages a resource or context"
-        }
-        Roles.insert {
-            it[name] = "BIDDER"
-            it[description] = "Participant in a bid-round, context: AUCTION"
-        }
-
-        // Rights
-        val createId = Rights.insertAndGetId {
-            it[name] = "CREATE"
-            it[Roles.description] = "Create something in a context"
-        }
-        Rights.insert {
-            it[name] = "READ"
-            it[Roles.description] = "Read something in a context"
-        }
-        Rights.insert {
-            it[name] = "UPDATE"
-            it[Roles.description] = "Update something in a context"
-        }
-        Rights.insert {
-            it[name] = "DELETE"
-            it[Roles.description] = "Delete something in a context"
-        }
-
-        // user has been added in the previous migration
-        val applicationOwner = User.find{ Users.username eq "schmidt@alpha-structure.com"}.first()
-
-        RoleRightContexts.insert {
-            it[contextId] = applicationContextId
-            it[roleId] = ownerRoleId
-            it[rightId] = createId
-        }
     }
 
     /**
@@ -87,5 +38,118 @@ class Migration1730143239225(
      */
     override suspend fun Database.down() {
         TODO("Not yet implemented")
+    }
+}
+
+fun setupBasicRolesAndRights(addApplicationUser: Boolean = false) {
+    // Contexts
+    val applicationContextId = Contexts.insertAndGetId {
+        it[name] = "APPLICATION"
+    }
+    val applicationOrganizationContextId = Contexts.insert {
+        it[name] = "APPLICATION/ORGANIZATION"
+    }
+    Contexts.insert {
+        it[name] = "ORGANIZATION"
+    }
+    Contexts.insert {
+        it[name] = "ORGANIZATION/MANAGEMENT"
+    }
+    Contexts.insert {
+        it[name] = "AUCTION"
+    }
+    Contexts.insert {
+        it[name] = "AUCTION/MANAGEMENT"
+    }
+
+    // Roles
+    val ownerRoleId = Roles.insertAndGetId {
+        it[name] = "OWNER"
+        it[description] = "Owner owns a resource or context"
+    }
+    val managerRoleId = Roles.insertAndGetId {
+        it[name] = "MANAGER"
+        it[description] = "Manages a resource or context"
+    }
+
+    val userRoleId = Roles.insertAndGetId {
+        it[name] = "USER"
+        it[description] = "User of the application, context: APPLICATION"
+    }
+
+    val bidderRoleId = Roles.insertAndGetId {
+        it[name] = "BIDDER"
+        it[description] = "Participant in a bid-round, context: AUCTION"
+    }
+
+    // General Rights
+    val createId = Rights.insertAndGetId {
+        it[name] = "CREATE"
+        it[Roles.description] = "Create something in a context"
+    }
+    Rights.insert {
+        it[name] = "READ"
+        it[Roles.description] = "Read something in a context"
+    }
+    Rights.insert {
+        it[name] = "UPDATE"
+        it[Roles.description] = "Update something in a context"
+    }
+    Rights.insert {
+        it[name] = "DELETE"
+        it[Roles.description] = "Delete something in a context"
+    }
+
+    val createOrganizationId = Rights.insertAndGetId {
+        it[name] = "CREATE_ORGANIZATION"
+        it[Roles.description] = "Create organization in a context application"
+    }
+    val readOrganizationId = Rights.insertAndGetId {
+        it[name] = "READ_ORGANIZATION"
+        it[Roles.description] = "Create organization in a context application"
+    }
+    val updateOrganizationId = Rights.insertAndGetId {
+        it[name] = "UPDATE_ORGANIZATION"
+        it[Roles.description] = "Create organization in a context application"
+    }
+    val deleteOrganizationId = Rights.insertAndGetId {
+        it[name] = "DELETE_ORGANIZATION"
+        it[Roles.description] = "Create organization in a context application"
+    }
+
+    RoleRightContexts.insert {
+        it[contextId] = applicationContextId
+        it[roleId] = ownerRoleId
+        it[rightId] = createId
+    }
+    // OwnerRole in context Application
+    RoleRightContexts.insert {
+        it[contextId] = applicationContextId
+        it[roleId] = ownerRoleId
+        it[rightId] = createOrganizationId
+    }
+
+    // UserRole in context Application
+    RoleRightContexts.insert {
+        it[contextId] = applicationContextId
+        it[roleId] = userRoleId
+        it[rightId] = createOrganizationId
+    }
+
+    if(addApplicationUser) {
+        // user has been added in the previous migration
+        val applicationOwner = User.find { Users.username eq "schmidt@alpha-structure.com" }.first()
+
+        UserRoleContext.insert {
+            it[userId] = applicationOwner.id
+            it[contextId] = applicationContextId
+            it[roleId] = ownerRoleId
+        }
+
+        UserRoleContext.insert {
+            it[userId] = applicationOwner.id
+            it[contextId] = applicationContextId
+            it[roleId] = userRoleId
+        }
     }
 }

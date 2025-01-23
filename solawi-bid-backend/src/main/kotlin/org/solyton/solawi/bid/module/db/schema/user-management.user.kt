@@ -23,5 +23,7 @@ class User(id: EntityID<UUID>) : UUIDEntity(id) {
     var password by Users.password
 
     // var rights by Right via RoleRightContexts
+
+    var organizations by Organization via UserOrganization
 }
 
