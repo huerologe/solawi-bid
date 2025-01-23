@@ -2,13 +2,8 @@ package org.solyton.solawi.bid.module.db.repository
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.greater
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.solyton.solawi.bid.module.db.UserManagementException
-import org.solyton.solawi.bid.module.db.schema.OrganizationEntity
-import org.solyton.solawi.bid.module.db.schema.OrganizationsTable
-import org.solyton.solawi.bid.module.db.schema.UserEntity
-import org.solyton.solawi.bid.module.db.schema.UserOrganization
+import org.solyton.solawi.bid.module.db.schema.*
 import java.util.UUID
 
 fun OrganizationEntity.ancestors(): SizedIterable<OrganizationEntity> {
@@ -29,6 +24,33 @@ fun OrganizationEntity.descendants(): SizedIterable<OrganizationEntity> = with(r
         OrganizationsTable.rootId eq rootId and (OrganizationsTable.left greater this@descendants.left) and (OrganizationsTable.right less this@descendants.right)
     }.orderBy(OrganizationsTable.left to SortOrder.ASC)
 }
+
+fun createRootOrganization(organizationName: String, user: UserEntity): OrganizationEntity {
+    val organizationContext = ContextEntity.new {
+        name = "ORGANIZATION/${organizationName.replace(" ", "_").uppercase()}"
+    }
+    val manager = RoleEntity.find { Roles.name eq "MANAGER" }.first()
+    val read = RightEntity.find { Rights.name eq "READ" }.first()
+    val write = RightEntity.find { Rights.name eq "UPDATE" }.first()
+
+    RoleRightContexts.insert {
+        it[roleId] = manager.id
+        it[rightId] = read.id
+        it[contextId] = organizationContext.id
+    }
+
+    RoleRightContexts.insert {
+        it[roleId] = manager.id
+        it[rightId] = write.id
+        it[contextId] = organizationContext.id
+    }
+
+    return OrganizationEntity.new {
+        name = organizationName
+        context = organizationContext
+    }
+}
+
 
 fun OrganizationEntity.createChild(name: String): OrganizationEntity {
     val ancestors = ancestors()
@@ -53,6 +75,7 @@ fun OrganizationEntity.createChild(name: String): OrganizationEntity {
     val childLevel = level +1
     return OrganizationEntity.new {
         root = rootOrg
+        context = rootOrg.context
         this.name = name
         left = oldRight
         right = oldRight + 1

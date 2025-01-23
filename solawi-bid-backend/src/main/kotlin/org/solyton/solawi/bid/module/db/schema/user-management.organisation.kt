@@ -10,8 +10,9 @@ typealias OrganizationsTable = Organisations
 typealias OrganizationEntity = Organization
 
 object Organisations : UUIDTable("organizations") {
-    val name = varchar("name", 255)//.uniqueIndex()
+    val name = varchar("name", 255).uniqueIndex()
     val rootId = optReference("root_id", Organisations)
+    val contextId = reference("context_id", Contexts)
     // sub organizations (parent id, tree left - right)
     // parent id: compute direct parent child relations efficiently
     // val parentId = optReference("parent_id", Organisations)
@@ -39,6 +40,8 @@ class Organization(id: EntityID<UUID>) : UUIDEntity(id) {
     var root by OrganizationEntity optionalReferencedOn OrganizationsTable.rootId
 
     var name by Organisations.name
+
+    var context by ContextEntity referencedOn OrganizationsTable.contextId
 
     // val parent by OrganizationEntity optionalReferencedOn OrganizationsTable.parentId
     var left by Organisations.left

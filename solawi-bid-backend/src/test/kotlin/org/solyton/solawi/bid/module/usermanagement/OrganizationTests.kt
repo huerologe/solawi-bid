@@ -3,23 +3,36 @@ package org.solyton.solawi.bid.module.usermanagement
 import org.evoleq.exposedx.test.runSimpleH2Test
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
+import org.solyton.solawi.bid.module.db.migrations.setupBasicRolesAndRights
 import org.solyton.solawi.bid.module.db.repository.*
 import org.solyton.solawi.bid.module.db.schema.*
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class OrganizationTests {
-    val organizationName = "TEST_ORGANIZATION"
+    private val organizationName = "TEST_ORGANIZATION"
 
-    @DbFunctional@Test fun createOrganization() = runSimpleH2Test(
-        OrganizationsTable
-    ){
+    private val neededTables = arrayOf(
+        OrganizationsTable,
+        UsersTable,
+        UserOrganization,
+        Roles,
+        Rights,
+        Contexts,
+        RoleRightContexts
+    )
 
-        val organization = OrganizationEntity.new {
-            name = organizationName
+
+
+    @DbFunctional@Test fun createOrganization() = runSimpleH2Test(*neededTables){
+        setupBasicRolesAndRights()
+        val user = UserEntity.new {
+            password = "password"
+            username = "username"
         }
+        val organization = createRootOrganization(organizationName, user)
+
 
         assertEquals(0, organization.left)
         assertEquals(1, organization.right)
@@ -28,18 +41,13 @@ class OrganizationTests {
         assertEquals(organizationName, result.name)
     }
 
-    @DbFunctional@Test fun addUser() = runSimpleH2Test(
-        OrganizationsTable,
-        UsersTable,
-        UserOrganization
-    ){
+    @DbFunctional@Test fun addUser() = runSimpleH2Test(*neededTables){
+        setupBasicRolesAndRights()
         val user = UserEntity.new {
             password = "password"
             username = "username"
         }
-        val organization = OrganizationEntity.new {
-            name = organizationName
-        }
+        val organization = createRootOrganization(organizationName, user)
 
         organization.addUser(user)
 
@@ -48,12 +56,14 @@ class OrganizationTests {
         assertTrue{ result.users.contains(user) }
     }
 
-    @DbFunctional@Test fun createChild() = runSimpleH2Test(
-        OrganizationsTable
-    ){
-        var organization = OrganizationEntity.new {
-            name = organizationName
+    @DbFunctional@Test fun createChild() = runSimpleH2Test(*neededTables){
+        setupBasicRolesAndRights()
+        val user = UserEntity.new {
+            password = "password"
+            username = "username"
         }
+        var organization = createRootOrganization(organizationName, user)
+
         val childOrganization = "TEST_CHILD_ORGANIZATION"
         val child = organization.createChild(childOrganization)
 
@@ -93,10 +103,13 @@ class OrganizationTests {
 
     }
 
-    @DbFunctional@Test fun ancestors() = runSimpleH2Test(OrganizationsTable) {
-        val organization = OrganizationEntity.new {
-            name = organizationName
+    @DbFunctional@Test fun ancestors() = runSimpleH2Test(*neededTables){
+        setupBasicRolesAndRights()
+        val user = UserEntity.new {
+            password = "password"
+            username = "username"
         }
+        val organization = createRootOrganization(organizationName, user)
         val childOrganization = "TEST_CHILD_ORGANIZATION"
         val child = organization.createChild(childOrganization)
         val ancestors = child.ancestors().map{it.name}
@@ -105,12 +118,13 @@ class OrganizationTests {
     }
 
 
-    @DbFunctional@Test fun removeChild() = runSimpleH2Test(
-        OrganizationsTable
-    ){
-        val organization = OrganizationEntity.new {
-            name = organizationName
+    @DbFunctional@Test fun removeChild() = runSimpleH2Test(*neededTables){
+        setupBasicRolesAndRights()
+        val user = UserEntity.new {
+            password = "password"
+            username = "username"
         }
+        val organization = createRootOrganization(organizationName, user)
         val childOrganization = "TEST_CHILD_ORGANIZATION"
         val child = organization.createChild(childOrganization)
 

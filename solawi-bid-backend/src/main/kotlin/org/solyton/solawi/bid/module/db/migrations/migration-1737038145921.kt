@@ -3,6 +3,7 @@ package org.solyton.solawi.bid.module.db.migrations
 import org.evoleq.exposedx.migrations.Migration
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Transaction
+import org.solyton.solawi.bid.module.db.repository.createRootOrganization
 import org.solyton.solawi.bid.module.db.schema.*
 
 /**
@@ -35,9 +36,10 @@ class Migration1737038145921(
             this.user = user
         }
 
-        val solawi = OrganizationEntity.new {
-            name = "Solawi Tübingen 2.0"
-        }
+
+
+        val solawi = createRootOrganization("Solawi Tübingen 2.0", user)
+
         val who = DistributionPointEntity.new {
             name = "WHO"
             organization = solawi
