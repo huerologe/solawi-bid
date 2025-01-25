@@ -3,7 +3,37 @@
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 ## Running the project
-### Run the backend
+### Setup Docker
+First, install Docker on your system. 
+
+### Start Project
+Open a terminal, move to the root folder of the project and run the commands 
+```shell
+./gradlew solawi-bid-backend:clean && \
+./gradlew solawi-bid-backend:build && \
+./gradlew solawi-bid-backend:buildFatJar && \
+./gradlew solawi-bid-frontend:clean && \
+./gradlew solawi-bid-frontend:build && \
+docker compose -p solawi-bid down --remove-orphans && \
+docker compose -p solawi-bid up -d 
+```
+
+Access the frontend on
+```
+localhost:8080
+```
+Access the backend on
+```
+localhost:8081
+```
+
+If you need to rebuild frontend or backend use one of the bash scripts in the scripts folder:
+
+- rebuild-backend.sh
+- rebuild-frontend.sh
+- rebuild-be-and-fe.sh
+
+### Run the backend separately
 Use the command line to run the backend:
 ```shell
 ./gradlew runFatJar
@@ -13,7 +43,7 @@ Access the backend on
 localhost:8081
 ```
 
-### Run the Frontend
+### Run the Frontend separately
 Use the command line to run the frontend:
 
 ```shell 
@@ -42,8 +72,6 @@ Instead of manually compiling and executing a Kotlin/JS project every time you w
 - [Ktor Docs](https://ktor.io/docs/welcome.html)
 
 
+
 # solawi-bid
-
-
- - [Frontend Notes](./solawi-bid-frontend/Notes.md)
-
+- [Frontend Notes](./solawi-bid-frontend/Notes.md)
