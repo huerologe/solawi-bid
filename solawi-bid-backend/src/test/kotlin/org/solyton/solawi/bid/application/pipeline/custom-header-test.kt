@@ -15,6 +15,7 @@ import org.solyton.solawi.bid.Api
 import org.solyton.solawi.bid.application.exception.ApplicationException
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 class CustomHeaderTests {
 
@@ -49,6 +50,10 @@ class CustomHeaderTests {
             assertTrue( failureResult is Result.Failure.Message)
             assertEquals(ApplicationException.MissingContextHeader.message, failureResult.value)
         }
+    }
+
+    @Api@Test fun returnCurrentContext() {
+        fail("not implemented yet")
     }
 
 }
