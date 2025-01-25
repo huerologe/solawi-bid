@@ -15,7 +15,18 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Thu Oct 31 11:57:50 CET 2024
  *
- * Description: ...
+ * Description:
+ * Test-Migration used by int the bid-module
+ * - Adds tables:
+ *   - Auctions,
+ *   - Rounds,
+ *   - BidRounds,
+ *   - Bidders,
+ *   - AuctionBidders,
+ *   - AuctionTypes,
+ *   - AuctionDetailsSolawiTuebingenTable,
+ *   - BidderDetailsSolawiTuebingenTable
+ * - Adds some test data
  */
 class Migration1730372270554(
     override val database: Database
