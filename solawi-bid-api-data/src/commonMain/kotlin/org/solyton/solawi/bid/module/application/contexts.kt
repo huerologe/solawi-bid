@@ -3,6 +3,11 @@ package org.solyton.solawi.bid.module.application
 
 data object Context {
 
+    data object Empty : ValueWithDescription{
+        override val value = Value.EMPTY
+        override val description = ""
+    }
+
     data object Application : ValueWithDescription {
         override val value = Value.APPLICATION
         override val description = ""
@@ -38,6 +43,7 @@ internal fun combine(vararg contexts: String): String = contexts.joinToString("/
 
 
 object Value {
+    const val EMPTY = "EMPTY"
     const val ORGANIZATION = "ORGANIZATION"
     const val APPLICATION = "APPLICATION"
     const val MANAGEMENT = "MANAGEMENT"
