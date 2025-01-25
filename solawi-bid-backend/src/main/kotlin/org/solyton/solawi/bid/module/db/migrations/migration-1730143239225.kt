@@ -2,9 +2,9 @@ package org.solyton.solawi.bid.module.db.migrations
 
 import org.evoleq.exposedx.migrations.Migration
 import org.jetbrains.exposed.sql.*
-import org.solyton.solawi.bid.module.application.Context
-import org.solyton.solawi.bid.module.application.Right
-import org.solyton.solawi.bid.module.application.Role
+import org.solyton.solawi.bid.application.Context
+import org.solyton.solawi.bid.application.Right
+import org.solyton.solawi.bid.application.Role
 import org.solyton.solawi.bid.module.db.schema.*
 
 /**

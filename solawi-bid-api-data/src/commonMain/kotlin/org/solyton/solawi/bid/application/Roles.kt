@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.application
+package org.solyton.solawi.bid.application
 
 object Role {
     val owner = Owner

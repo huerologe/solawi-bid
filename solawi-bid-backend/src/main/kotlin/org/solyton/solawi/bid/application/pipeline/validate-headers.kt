@@ -7,8 +7,8 @@ import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.solyton.solawi.bid.application.exception.ApplicationException
-import org.solyton.solawi.bid.module.application.Context
-import org.solyton.solawi.bid.module.application.Header
+import org.solyton.solawi.bid.application.Context
+import org.solyton.solawi.bid.application.Header
 
 fun Application.interceptAndValidateHeaders() {
     intercept(ApplicationCallPipeline.Plugins) {
