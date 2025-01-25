@@ -41,9 +41,11 @@ class Migration1730372270554(
             AuctionDetailsSolawiTuebingenTable,
             BidderDetailsSolawiTuebingenTable
         )
-        val auctionType = AuctionType.new {
-            type = "SOLAWI_TUEBINGEN"
-        }
+        val typeName = "SOLAWI_TUEBINGEN"
+        val auctionType = AuctionType.find { AuctionTypes.type eq  typeName}.firstOrNull()
+            ?:AuctionType.new {
+                type = typeName
+            }
         // db setup
         // create an auction
         val auction = Auction.new {
