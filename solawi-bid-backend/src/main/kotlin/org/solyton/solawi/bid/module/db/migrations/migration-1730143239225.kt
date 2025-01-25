@@ -11,7 +11,15 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Mon Oct 28 20:20:39 CET 2024
  *
- * Description: ...
+ * Description:
+ * - Add tables:
+ *   - Contexts,
+ *   - Rights,
+ *   - Roles,
+ *   - RoleRightContexts,
+ *   - UserRoleContext
+ * - Setup basic rights, roles and contexts
+ * - Setup Application User
  */
 class Migration1730143239225(
     override val database: Database
@@ -46,7 +54,7 @@ fun setupBasicRolesAndRights(addApplicationUser: Boolean = false) {
     val applicationContextId = Contexts.insertAndGetId {
         it[name] = "APPLICATION"
     }
-    val applicationOrganizationContextId = Contexts.insert {
+    val applicationOrganizationContextId = Contexts.insertAndGetId {
         it[name] = "APPLICATION/ORGANIZATION"
     }
     Contexts.insert {

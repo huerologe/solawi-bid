@@ -14,7 +14,8 @@ import org.solyton.solawi.bid.module.db.schema.Users
  *
  * Generated at Mon Apr 01 22:02:29 CEST 2024
  *
- * Description: ...
+ * Description:
+ * Introduce basic users
  */
 class Migration1712001749830(
     override val database: Database

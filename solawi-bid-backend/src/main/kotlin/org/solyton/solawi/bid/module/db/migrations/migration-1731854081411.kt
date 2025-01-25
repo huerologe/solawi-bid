@@ -13,7 +13,13 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Sun Nov 17 15:34:41 CET 2024
  *
- * Description: Add tables for auctions
+ * Description:
+ * Add tables for auctions
+ * - Auctions,
+ * - AuctionBidders,
+ * - BidRounds,
+ * - Bidders,
+ * - Rounds
  */
 class Migration1731854081411(
     override val database: Database

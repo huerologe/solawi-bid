@@ -13,7 +13,11 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Sun Dec 22 15:27:31 CET 2024
  *
- * Description: ...
+ * Description:
+ * Add tables to distinguish Auction Types
+ * - AuctionTypes,
+ * - AuctionDetailsSolawiTuebingenTable,
+ * - BidderDetailsSolawiTuebingenTable
  */
 class Migration1734877651652(
     override val database: Database
