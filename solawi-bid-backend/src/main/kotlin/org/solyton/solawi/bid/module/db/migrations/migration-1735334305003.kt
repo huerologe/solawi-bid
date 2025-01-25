@@ -13,7 +13,15 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Fri Dec 27 22:18:25 CET 2024
  *
- * Description: ...
+ * Description: Add tables to handle Shares, Fiscal stuff, certain User data and Organizations
+ * - Shares,
+ * - ShareTypes,
+ * - BankAccounts,
+ * - FiscalYears,
+ * - DistributionPoints,
+ * - Addresses,
+ * - Organizations,
+ * - UserOrganization
  */
 class Migration1735334305003(
     override val database: Database

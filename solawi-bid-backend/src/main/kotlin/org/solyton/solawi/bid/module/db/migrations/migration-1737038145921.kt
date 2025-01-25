@@ -13,7 +13,8 @@ import org.solyton.solawi.bid.module.db.schema.*
  *
  * Generated at Thu Jan 16 15:35:45 CET 2025
  *
- * Description: Create Organization Solawi Tübingen 2.0
+ * Description:
+ * Create Organization 'Mehrhöfe Solawi Tübingen e.V.'
  */
 class Migration1737038145921(
     override val database: Database
@@ -38,7 +39,7 @@ class Migration1737038145921(
 
 
 
-        val solawi = createRootOrganization("Solawi Tübingen 2.0", user)
+        val solawi = createRootOrganization("Mehrhöfe Solawi Tübingen e.V.", user)
 
         val who = DistributionPointEntity.new {
             name = "WHO"

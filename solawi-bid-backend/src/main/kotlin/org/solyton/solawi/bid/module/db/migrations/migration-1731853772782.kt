@@ -14,7 +14,10 @@ import org.solyton.solawi.bid.module.db.schema.Tokens
  *
  * Generated at Sun Nov 17 15:29:32 CET 2024
  *
- * Description: Add tables for authorization / authentication
+ * Description:
+ * Add tables for authorization / authentication
+ * - Tokens
+ * - Sessions
  */
 class Migration1731853772782(
     override val database: Database
