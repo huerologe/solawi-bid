@@ -11,11 +11,13 @@ import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.math.MathDsl
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.permission.Header
 
 @MathDsl
 fun Application.client(loggedIn: Boolean = true) = HttpClient(Js) {
     defaultRequest {
         header(HttpHeaders.ContentType,ContentType.Application.Json)
+        header(Header.CONTEXT, context.current)
         if(loggedIn) {
             header(HttpHeaders.Authorization, "Bearer ${userData.accessToken}")
         }
