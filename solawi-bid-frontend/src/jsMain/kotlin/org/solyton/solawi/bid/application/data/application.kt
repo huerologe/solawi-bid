@@ -14,7 +14,7 @@ import org.evoleq.compose.modal.Modals
 import org.evoleq.ktorx.api.Api
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Action
-import org.solyton.solawi.bid.api.solawiApi
+import org.solyton.solawi.bid.application.api.solawiApi
 import org.solyton.solawi.bid.module.user.User
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.module.bid.data.Auction

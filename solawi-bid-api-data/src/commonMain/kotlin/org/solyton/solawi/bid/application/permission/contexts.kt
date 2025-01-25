@@ -1,4 +1,6 @@
-package org.solyton.solawi.bid.application
+package org.solyton.solawi.bid.application.permission
+
+import org.solyton.solawi.bid.shared.ValueWithDescription
 
 
 data object Context {

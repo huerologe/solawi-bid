@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.api
+package org.solyton.solawi.bid.application.api
 
 import org.evoleq.ktorx.api.Api
 import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
