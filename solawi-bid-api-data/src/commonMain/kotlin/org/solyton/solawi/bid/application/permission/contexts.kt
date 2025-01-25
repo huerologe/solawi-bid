@@ -1,9 +1,11 @@
-package org.solyton.solawi.bid.module.application
+package org.solyton.solawi.bid.application.permission
+
+import org.solyton.solawi.bid.shared.ValueWithDescription
 
 
 data object Context {
 
-    data object Empty : ValueWithDescription{
+    data object Empty : ValueWithDescription {
         override val value = Value.EMPTY
         override val description = ""
     }
@@ -23,12 +25,12 @@ data object Context {
         override val description = ""
 
         object Management : ValueWithDescription {
-            override val value = combine( Organization.value,Value.MANAGEMENT)
+            override val value = combine( Organization.value, Value.MANAGEMENT)
             override val description = ""
         }
     }
 
-    object Auction  : ValueWithDescription{
+    object Auction  : ValueWithDescription {
         override val value = Value.AUCTION
         override val description = ""
 

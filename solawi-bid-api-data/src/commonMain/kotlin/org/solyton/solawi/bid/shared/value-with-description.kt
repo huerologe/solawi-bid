@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.application
+package org.solyton.solawi.bid.shared
 
 interface ValueWithDescription {
     val value: String
