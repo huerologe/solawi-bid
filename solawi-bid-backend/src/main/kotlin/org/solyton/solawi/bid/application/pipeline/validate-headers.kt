@@ -7,13 +7,15 @@ import kotlinx.serialization.json.Json
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.solyton.solawi.bid.application.exception.ApplicationException
+import org.solyton.solawi.bid.module.application.Context
+import org.solyton.solawi.bid.module.application.Header
 
 fun Application.interceptAndValidateHeaders() {
     intercept(ApplicationCallPipeline.Plugins) {
         // validate that the CONTEXT Header is present
-        val contextHeader = call.request.headers["CONTEXT"]
+        val contextHeader = call.request.headers[Header.CONTEXT]
         if (contextHeader.isNullOrEmpty()) {
-            call.response.headers.append("CONTEXT", "EMPTY")
+            call.response.headers.append(Header.CONTEXT, Context.Empty.value)
             call.respondText(
                 Json.encodeToString(
                     ResultSerializer(), Result.Failure.Message(ApplicationException.MissingContextHeader.message) as Result<String>),
@@ -22,7 +24,7 @@ fun Application.interceptAndValidateHeaders() {
             finish()
         }
         else {
-            call.response.headers.append("CONTEXT", contextHeader)
+            call.response.headers.append(Header.CONTEXT, contextHeader)
         }
     }
 }
