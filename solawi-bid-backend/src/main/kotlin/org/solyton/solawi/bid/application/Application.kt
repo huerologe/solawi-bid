@@ -21,6 +21,8 @@ fun Application.solawiBid(test: Boolean = false) {
         installContentNegotiation()
         setupRouting(environment)
 
+        interceptAndValidateHeaders()
+
         setupDone = true
     // }
 }

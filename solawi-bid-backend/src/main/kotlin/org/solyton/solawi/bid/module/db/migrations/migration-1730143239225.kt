@@ -2,6 +2,9 @@ package org.solyton.solawi.bid.module.db.migrations
 
 import org.evoleq.exposedx.migrations.Migration
 import org.jetbrains.exposed.sql.*
+import org.solyton.solawi.bid.module.application.Context
+import org.solyton.solawi.bid.module.application.Right
+import org.solyton.solawi.bid.module.application.Role
 import org.solyton.solawi.bid.module.db.schema.*
 
 /**
@@ -52,77 +55,77 @@ class Migration1730143239225(
 fun setupBasicRolesAndRights(addApplicationUser: Boolean = false) {
     // Contexts
     val applicationContextId = Contexts.insertAndGetId {
-        it[name] = "APPLICATION"
+        it[name] = Context.Application.value
     }
     val applicationOrganizationContextId = Contexts.insertAndGetId {
-        it[name] = "APPLICATION/ORGANIZATION"
+        it[name] = Context.Application.Organization.value
     }
     Contexts.insert {
-        it[name] = "ORGANIZATION"
+        it[name] = Context.Organization.value
     }
     Contexts.insert {
-        it[name] = "ORGANIZATION/MANAGEMENT"
+        it[name] = Context.Organization.Management.value
     }
     Contexts.insert {
-        it[name] = "AUCTION"
+        it[name] = Context.Auction.value
     }
     Contexts.insert {
-        it[name] = "AUCTION/MANAGEMENT"
+        it[name] = Context.Auction.Management.value
     }
 
     // Roles
     val ownerRoleId = Roles.insertAndGetId {
-        it[name] = "OWNER"
-        it[description] = "Owner owns a resource or context"
+        it[name] = Role.owner.value
+        it[description] = Role.owner.description
     }
     val managerRoleId = Roles.insertAndGetId {
-        it[name] = "MANAGER"
-        it[description] = "Manages a resource or context"
+        it[name] = Role.manager.value
+        it[description] = Role.manager.description
     }
 
     val userRoleId = Roles.insertAndGetId {
-        it[name] = "USER"
-        it[description] = "User of the application, context: APPLICATION"
+        it[name] = Role.user.value
+        it[description] = Role.user.description
     }
 
     val bidderRoleId = Roles.insertAndGetId {
-        it[name] = "BIDDER"
-        it[description] = "Participant in a bid-round, context: AUCTION"
+        it[name] = Role.bidder.value
+        it[description] = Role.bidder.description
     }
 
     // General Rights
     val createId = Rights.insertAndGetId {
-        it[name] = "CREATE"
-        it[Roles.description] = "Create something in a context"
+        it[name] = Right.create.value
+        it[description] = Right.create.description
     }
     Rights.insert {
-        it[name] = "READ"
-        it[Roles.description] = "Read something in a context"
+        it[name] = Right.read.value
+        it[description] = Right.read.description
     }
     Rights.insert {
-        it[name] = "UPDATE"
-        it[Roles.description] = "Update something in a context"
+        it[name] = Right.update.value
+        it[description] = Right.update.description
     }
     Rights.insert {
-        it[name] = "DELETE"
-        it[Roles.description] = "Delete something in a context"
+        it[name] = Right.delete.value
+        it[description] = Right.delete.description
     }
 
     val createOrganizationId = Rights.insertAndGetId {
-        it[name] = "CREATE_ORGANIZATION"
-        it[Roles.description] = "Create organization in a context application"
+        it[name] = Right.Organization.create.value
+        it[description] = Right.Organization.create.description
     }
     val readOrganizationId = Rights.insertAndGetId {
-        it[name] = "READ_ORGANIZATION"
-        it[Roles.description] = "Create organization in a context application"
+        it[name] = Right.Organization.read.value
+        it[Roles.description] = Right.Organization.read.description
     }
     val updateOrganizationId = Rights.insertAndGetId {
-        it[name] = "UPDATE_ORGANIZATION"
-        it[Roles.description] = "Create organization in a context application"
+        it[name] = Right.Organization.update.value
+        it[Roles.description] = Right.Organization.update.description
     }
     val deleteOrganizationId = Rights.insertAndGetId {
-        it[name] = "DELETE_ORGANIZATION"
-        it[Roles.description] = "Create organization in a context application"
+        it[name] = Right.Organization.delete.value
+        it[Roles.description] = Right.Organization.delete.description
     }
 
     RoleRightContexts.insert {
