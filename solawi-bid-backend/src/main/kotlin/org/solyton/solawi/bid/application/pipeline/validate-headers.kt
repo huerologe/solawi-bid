@@ -13,12 +13,16 @@ fun Application.interceptAndValidateHeaders() {
         // validate that the CONTEXT Header is present
         val contextHeader = call.request.headers["CONTEXT"]
         if (contextHeader.isNullOrEmpty()) {
+            call.response.headers.append("CONTEXT", "EMPTY")
             call.respondText(
                 Json.encodeToString(
                     ResultSerializer(), Result.Failure.Message(ApplicationException.MissingContextHeader.message) as Result<String>),
                 status = HttpStatusCode.BadRequest
             )
             finish()
+        }
+        else {
+            call.response.headers.append("CONTEXT", contextHeader)
         }
     }
 }

@@ -38,6 +38,8 @@ class CustomHeaderTests {
                 header("CONTEXT", "TEST_CONTEXT")
             }
             assertEquals(HttpStatusCode.OK, success.status)
+            assertTrue{success.headers.contains("CONTEXT", "TEST_CONTEXT")}
+
             val successResult = Json.decodeFromString(ResultSerializer, success.bodyAsText())
             assertTrue( successResult is Result.Success)
             assertEquals("Cool", successResult.data)
@@ -45,15 +47,11 @@ class CustomHeaderTests {
 
             val failure = client.get("/validate") {}
             assertEquals(HttpStatusCode.BadRequest, failure.status  )
+            assertTrue{ failure.headers.contains("CONTEXT", "EMPTY") }
 
             val failureResult = Json.decodeFromString(ResultSerializer, failure.bodyAsText())
             assertTrue( failureResult is Result.Failure.Message)
             assertEquals(ApplicationException.MissingContextHeader.message, failureResult.value)
         }
     }
-
-    @Api@Test fun returnCurrentContext() {
-        fail("not implemented yet")
-    }
-
 }
