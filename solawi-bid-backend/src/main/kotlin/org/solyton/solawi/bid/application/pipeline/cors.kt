@@ -18,6 +18,8 @@ fun Application.installCors() = try {
             allowHeader(HttpHeaders.AccessControlAllowOrigin)
             allowHeader(HttpHeaders.AccessControlAllowMethods)
 
+            // Context Header
+            allowHeader("CONTEXT")
 
             allowCredentials = true
             anyHost()
