@@ -9,7 +9,7 @@ import java.util.*
 typealias BidRoundEntity = BidRound
 typealias BidRoundsTable = BidRounds
 
-object BidRounds : UUIDTable("bid_round") {
+object BidRounds : UUIDTable("bid_rounds") {
     val bidder = reference("bidder_id", Bidders)
     val auction = reference("auction_id", Auctions)
     val round = reference("round_id", Rounds)
