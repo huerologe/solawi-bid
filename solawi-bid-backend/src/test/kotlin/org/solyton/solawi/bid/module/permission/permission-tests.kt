@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
 import org.solyton.solawi.bid.module.db.schema.*
 import org.solyton.solawi.bid.module.permission.action.db.isGranted
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 
 class PermissionTests {
@@ -18,7 +20,7 @@ class PermissionTests {
         RolesTable,
         RoleRightContexts,
         UserRoleContext
-    ){
+    ) {
         // Setup database entries
         val user = UserEntity.new {
             username = "x"
@@ -57,5 +59,17 @@ class PermissionTests {
 
         val failure = !isGranted(user.id.value, context.name, updateRight.name)
         assertTrue { failure }
+
+        try {
+            isGranted(user.id.value, context.name, "A")
+        } catch (exception : Exception) {
+            assertEquals(PermissionException.NoSuchRight("A"), exception)
+        }
+
+        try {
+            isGranted(user.id.value, "C", readRight.name)
+        } catch (exception : Exception) {
+            assertEquals(PermissionException.NoSuchContext("C"), exception)
+        }
     }
 }
