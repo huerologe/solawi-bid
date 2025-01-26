@@ -10,9 +10,8 @@ typealias UserEntity = User
 typealias UsersTable = Users
 
 object Users : UUIDTable("users") {
-    val username = varchar("username", 50).index()
+    val username = varchar("username", 50).uniqueIndex()
     val password = varchar("varchar", 500)
-   // val profile = reference("profile", Profiles)
 }
 
 
@@ -21,8 +20,6 @@ class User(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var username by Users.username
     var password by Users.password
-
-    // var rights by Right via RoleRightContexts
 
     var organizations by Organization via UserOrganization
 }

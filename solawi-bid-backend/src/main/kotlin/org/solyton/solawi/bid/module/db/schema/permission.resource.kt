@@ -11,6 +11,7 @@ typealias ResourcesEntity = Resources
 
 object Resources : UUIDTable("resources") {
     val name = varchar("name", 255)
+    // val type = varchar("type", 500)
     val contextId = reference("context_id", Contexts)
 }
 
