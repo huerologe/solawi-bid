@@ -11,7 +11,6 @@ import org.solyton.solawi.bid.module.health.routing.health
 import org.solyton.solawi.bid.module.user.routing.user
 
 fun Application.setupRouting(environment: Environment) {
-    // val environment = env.copy(database = env.connectToDatabase())
     routing {
         authentication(environment)
         health(environment)
@@ -26,4 +25,3 @@ fun Application.setupRouting(environment: Environment) {
         }
     }
 }
-
