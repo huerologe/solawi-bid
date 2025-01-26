@@ -10,7 +10,7 @@ import java.util.*
 typealias FiscalYearsTable = FiscalYears
 typealias FiscalYearEntity = FiscalYear
 
-object FiscalYears : UUIDTable("fiscal_year") {
+object FiscalYears : UUIDTable("fiscal_years") {
 
     val start = date("start")
     val end = date("end")
