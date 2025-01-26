@@ -12,6 +12,7 @@ typealias SharesTable = Shares
 object Shares : UUIDTable("shares") {
     val typeId = reference("type_id", ShareTypes)
     val userProfileId = reference("user_profile_id", UserProfiles)
+    val distributionPointId = optReference("distribution_point_id", DistributionPoints)
     val numberOfShares = integer("number_of_shares").default(1)
     val pricePerShare = double("price_per_share").nullable()
     val ahcAuthorized = bool("ahc_authorized").nullable()
@@ -23,6 +24,7 @@ class Share(id: EntityID<UUID>): UUIDEntity(id) {
 
     var type by ShareType referencedOn Shares.typeId
     var userProfile by UserProfile referencedOn Shares.userProfileId
+    var distributionPoint by DistributionPoint optionalReferencedOn Shares.distributionPointId
 
     var numberOfShares by Shares.numberOfShares
     var pricePerShare by Shares.pricePerShare
