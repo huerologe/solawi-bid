@@ -10,7 +10,7 @@ typealias RightEntity = Right
 typealias RightsTable = Rights
 
 object Rights : UUIDTable("rights") {
-    val name = varchar("name", 50)
+    val name = varchar("name", 50).uniqueIndex()
     val description=  varchar("description", 1000)
 }
 

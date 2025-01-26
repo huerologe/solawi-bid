@@ -7,13 +7,16 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.util.*
+import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.Json
 import org.evoleq.exposedx.NoMessageProvided
 import org.evoleq.ktorx.result.*
 import org.evoleq.math.state.times
 import org.evoleq.math.x
+import org.solyton.solawi.bid.application.permission.Header
 import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
 import org.solyton.solawi.bid.module.db.BidRoundException
+import org.solyton.solawi.bid.module.permission.PermissionException
 import org.solyton.solawi.bid.module.user.exception.UserManagementException
 import java.util.*
 
@@ -36,7 +39,8 @@ suspend inline fun <reified T : Any>  ReceiveContextual(): Action<Result<Context
     principle -> ApiAction { call -> principle mapSuspend  { jwtp ->
         val data = call.receive<T>()
         val userId = jwtp.payload.subject
-        Contextual(UUID.fromString(userId), data)
+        val context = call.request.headers[Header.CONTEXT]!!
+        Contextual(UUID.fromString(userId), context, data)
     } x call }
 }
 @KtorDsl
@@ -45,7 +49,8 @@ suspend inline fun   Context(): Action<Result<Contextual<Unit>>> = Principle() *
     principle -> ApiAction { call -> principle mapSuspend  { jwtp ->
 
         val userId = jwtp.payload.subject
-        Contextual(UUID.fromString(userId), Unit)
+        val context = call.request.headers[Header.CONTEXT]!!
+        Contextual(UUID.fromString(userId),context, Unit)
     } x call }
 }
 
@@ -110,6 +115,9 @@ fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Me
         //User
         is UserManagementException.UserDoesNotExist -> HttpStatusCode.Unauthorized
         is UserManagementException.WrongCredentials -> HttpStatusCode.Unauthorized
+
+        // Permission
+        is PermissionException.AccessDenied -> HttpStatusCode.Forbidden
 
         else -> HttpStatusCode.InternalServerError
     } x this.value.toMessage()
