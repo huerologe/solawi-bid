@@ -1,8 +1,12 @@
 package org.evoleq.optics.lens
 
+import org.evoleq.math.MathDsl
+
 /**
  *
  */
+@MathDsl
+@Suppress("FunctionName")
 fun <T> FirstBy (predicate: (T)->Boolean): Lens<List<T>,T> {
     var lead:Array<T>? = null
     var tail:Array<T>? = null
