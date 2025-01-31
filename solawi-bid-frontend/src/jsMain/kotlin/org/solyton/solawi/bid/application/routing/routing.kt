@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.routing.*
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
@@ -60,19 +61,41 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     component {
                         AuctionPage(storage, parameter("auctionId")!!)
                     }
+                    route("rounds/:roundId") {
+                        component{
+                            H1{Text("Round")}
+                            P{Text("auction ${parameter("auctionId")}")}
+                            P{Text ("round ${parameter("roundId")}")}
+                        }
 
+                        route("evaluation"){
+                            component {
+                                H1 { Text("Evaluation") }
+                                P { Text("auction ${parameter("auctionId")}") }
+                                P { Text("round ${parameter("roundId")}") }
+                            }
+                        }
+                    }
+
+
+
+                    /*
                     route("rounds") {
                         component {
+
                             Text("rounds of auction ${parameter("auctionId")}")
                         }
 
                         route(":roundId") {
                             component{
+                                H1{Text("Round")}
                                 P{Text("auction ${parameter("auctionId")}")}
                                 P{Text ("round ${parameter("roundId")}")}
                             }
                         }
                     }
+                     */
+
                 }
             }
 

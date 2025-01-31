@@ -25,6 +25,7 @@ import org.solyton.solawi.bid.module.bid.component.AuctionList
 import org.solyton.solawi.bid.module.bid.component.DEFAULT_AUCTION_ID
 import org.solyton.solawi.bid.module.bid.component.showAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.bid.data.api.AuctionDetails
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -65,7 +66,7 @@ fun AuctionsPage(storage: Storage<Application>) = Div{
     }
     // render list of auctions
     // each entry offers the opportunity to read details, edit, or delete
-    AuctionList(storage * auctions){
+    AuctionList(storage * auctions, storage * i18N, storage * modals){
         CoroutineScope(Job()).launch {
             val actions = (storage * actions).read()
             try {

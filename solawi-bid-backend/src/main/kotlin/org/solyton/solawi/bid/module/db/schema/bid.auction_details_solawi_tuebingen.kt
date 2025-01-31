@@ -13,7 +13,7 @@ object AuctionDetailsSolawiTuebingenTable : UUIDTable("auction_details_solawi_tu
     val benchmark = double("benchmark")
     val targetAmount = double("target_amount")
     val solidarityContribution = double("solidarity_contribution")
-    val defaultBid = double("default_bid")
+    val minimalBid = double("minimal_bid").default(0.0)
 }
 
 class AuctionDetailsSolawiTuebingen(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -22,7 +22,7 @@ class AuctionDetailsSolawiTuebingen(id: EntityID<UUID>) : UUIDEntity(id) {
     var benchmark by AuctionDetailsSolawiTuebingenTable.benchmark
     var targetAmount by AuctionDetailsSolawiTuebingenTable.targetAmount
     var solidarityContribution by AuctionDetailsSolawiTuebingenTable.solidarityContribution
-    var defaultBid by AuctionDetailsSolawiTuebingenTable.defaultBid
+    var defaultBid by AuctionDetailsSolawiTuebingenTable.minimalBid
     var auction by Auction referencedOn AuctionDetailsSolawiTuebingenTable.auctionId
 }
 

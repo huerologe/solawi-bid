@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.module.bid.data.api
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import org.solyton.solawi.bid.module.bid.data.validation.ValidationException
 
 typealias ApiBid = Bid
 typealias ApiNewBidder = NewBidder
@@ -10,6 +11,7 @@ typealias ApiBidRound = BidRound
 typealias ApiRound = Round
 typealias ApiAuction = Auction
 typealias ApiAuctions = Auctions
+typealias ApiAuctionDetails = AuctionDetails
 
 
 @Serializable
@@ -82,8 +84,31 @@ data class Auction(
     val name: String,
     val date: LocalDate,
     val rounds: List<Round> = listOf(),
-    val bidderIds: List</*@Serializable(with = UUIDSerializer::class) Uuid*/ String> = listOf()
+    val bidderIds: List</*@Serializable(with = UUIDSerializer::class) Uuid*/ String> = listOf(),
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty
 )
+
+@Serializable
+sealed class AuctionDetails {
+    @Serializable
+    data object Empty : AuctionDetails()
+    @Serializable
+    data class SolawiTuebingen(
+        val minimalBid: Double,
+        val benchmark: Double,
+        val targetAmount: Double,
+        val solidarityContribution: Double
+    ) : AuctionDetails() {
+        init {
+            when{
+                minimalBid < 0.0-> throw ValidationException.AuctionDetailsSolawiTuebingen.ValueOutOfRange
+                benchmark < 0.0-> throw ValidationException.AuctionDetailsSolawiTuebingen.ValueOutOfRange
+                targetAmount < 0.0-> throw ValidationException.AuctionDetailsSolawiTuebingen.ValueOutOfRange
+                solidarityContribution< 0.0 -> throw ValidationException.AuctionDetailsSolawiTuebingen.ValueOutOfRange
+            }
+        }
+    }
+}
 
 @Serializable
 data object GetAuctions

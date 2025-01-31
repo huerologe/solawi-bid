@@ -1,10 +1,8 @@
 package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
-import org.solyton.solawi.bid.module.bid.data.api.ApiAuction
-import org.solyton.solawi.bid.module.bid.data.api.ApiAuctions
-import org.solyton.solawi.bid.module.bid.data.api.ApiBidRound
-import org.solyton.solawi.bid.module.bid.data.api.ApiRound
+import org.solyton.solawi.bid.module.bid.data.api.*
+
 
 fun ApiAuctions.toDomainType(): List<Auction> = list.map { auction -> auction.toDomainType() }
 
@@ -22,5 +20,20 @@ fun ApiAuction.toDomainType(): Auction = Auction(
     name = name,
     date = with(date){ LocalDate(year, monthNumber, dayOfMonth) },
     rounds = rounds.map { round -> round.toDomainType() },
-    bidderIds = bidderIds
+    bidderIds = bidderIds,
+    auctionDetails = auctionDetails.toDomainType()
 )
+// todo improve
+fun ApiAuctionDetails.toDomainType(): AuctionDetails  {
+    try {
+        val a = auctionDetails as  org.solyton.solawi.bid.module.bid.data.api.AuctionDetails.SolawiTuebingen
+        return AuctionDetails(
+            a.minimalBid,
+            a.benchmark,
+            a.targetAmount,
+            a.solidarityContribution
+        )
+    } catch (exception: Exception) {
+        return  AuctionDetails()
+    }
+}
