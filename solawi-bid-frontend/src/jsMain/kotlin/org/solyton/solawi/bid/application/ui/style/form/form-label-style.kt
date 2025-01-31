@@ -44,6 +44,11 @@ val textInputStyle: StyleScope.()->Unit by lazy {{
 
 }}
 
+val numberInputStyle: StyleScope.()->Unit by lazy {{
+    marginTop(5.px)
+    width(100.percent)
+}}
+
 val formControlBarStyle: StyleScope.()->Unit by lazy { {
     marginTop(10.px)
     width(90.percent)
