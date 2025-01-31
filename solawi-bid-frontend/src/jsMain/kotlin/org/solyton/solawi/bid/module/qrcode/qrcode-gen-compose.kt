@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import kotlinx.browser.document
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.*
@@ -19,7 +20,7 @@ external object QRCode {
 }
 
 @Composable
-fun QRCodeSvg(data: String, size: Double = 256.0) {
+fun QRCodeSvg(data: String, size: Double = 256.0, download: Boolean = false) {
     val scope = MainScope()
     var qrSvg by remember { mutableStateOf<String?>(null) }
 
@@ -45,13 +46,40 @@ fun QRCodeSvg(data: String, size: Double = 256.0) {
             }
         }
     }
-}
-
-/*
-fun main() {
-    renderComposable(rootElementId = "root") {
-
+    if(download) {
+        DownloadSvgButton(qrSvg)
     }
 }
 
- */
+
+
+@Markup
+@Composable
+@Suppress("FunctionName")
+fun DownloadSvgButton(svgString: String?) {
+    if(svgString != null) {
+        Button(attrs = {
+            onClick {
+                downloadSvg( svgString)
+            }
+        }) {
+            Text("Download QR Code")
+        }
+    }
+}
+
+fun downloadSvg(svgString: String) {
+    val blob = js("new Blob([svgString], {type: 'image/svg+xml'})")
+    val url = js("URL.createObjectURL(blob)")
+
+    // Create an anchor tag dynamically to trigger the download
+    val link = js("document.createElement('a')")
+    link.href = url as String
+    link.download = "image.svg"
+
+    // Trigger the download by clicking the link programmatically
+    js("link.click()")
+
+    // Optionally, revoke the URL after use
+    js("URL.revokeObjectURL(url)")
+}

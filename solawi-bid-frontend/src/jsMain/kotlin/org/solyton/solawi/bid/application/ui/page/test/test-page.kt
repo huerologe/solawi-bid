@@ -29,22 +29,6 @@ fun TestPage() {
         }
 
 
-        QRCodeSvg(text)
-
-        Button(
-            attrs = {
-                // onClick { saveCanvasAsImage("qrCanvas", "qrcode.png") }
-                style {
-                    margin(10.px)
-                    padding(10.px)
-                    fontSize(16.px)
-                    backgroundColor(Color.black)
-                    color(Color.white)
-                    borderRadius(5.px)
-                }
-            }
-        ) {
-            Text("Download QR Code")
-        }
+        QRCodeSvg(text, download = true)
     }
 }
