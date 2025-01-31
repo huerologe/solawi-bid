@@ -57,6 +57,10 @@ kotlin {
                 // compose
                 implementation(compose.html.core)
                 implementation(compose.runtime)
+
+                // qr todo "Add dependency to lib, if possible"
+                implementation(npm("qrcode", "1.5.1"))
+
             }
         }
 
@@ -92,6 +96,8 @@ kotlin {
                 // Serialization
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.client.serialization)
+
+
             }
 
             val commonTest by getting {
