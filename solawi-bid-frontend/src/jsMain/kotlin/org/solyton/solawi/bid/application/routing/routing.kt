@@ -13,6 +13,8 @@ import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.application.service.isLoggerIn
 import org.solyton.solawi.bid.application.ui.page.auction.AuctionPage
 import org.solyton.solawi.bid.application.ui.page.auction.AuctionsPage
+import org.solyton.solawi.bid.application.ui.page.auction.BidRoundEvaluationPage
+import org.solyton.solawi.bid.application.ui.page.auction.BidRoundPage
 import org.solyton.solawi.bid.application.ui.page.dashboard.DashboardPage
 import org.solyton.solawi.bid.application.ui.page.login.LoginPage
 import org.solyton.solawi.bid.application.ui.page.sendbid.SendBidPage
@@ -63,39 +65,21 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     }
                     route("rounds/:roundId") {
                         component{
-                            H1{Text("Round")}
-                            P{Text("auction ${parameter("auctionId")}")}
-                            P{Text ("round ${parameter("roundId")}")}
+                            BidRoundPage(
+                                storage,
+                                parameter("roundId")!!
+                            )
                         }
 
                         route("evaluation"){
                             component {
-                                H1 { Text("Evaluation") }
-                                P { Text("auction ${parameter("auctionId")}") }
-                                P { Text("round ${parameter("roundId")}") }
+                                BidRoundEvaluationPage(
+                                    storage,
+                                    parameter("auctionId")!!,
+                                )
                             }
                         }
                     }
-
-
-
-                    /*
-                    route("rounds") {
-                        component {
-
-                            Text("rounds of auction ${parameter("auctionId")}")
-                        }
-
-                        route(":roundId") {
-                            component{
-                                H1{Text("Round")}
-                                P{Text("auction ${parameter("auctionId")}")}
-                                P{Text ("round ${parameter("roundId")}")}
-                            }
-                        }
-                    }
-                     */
-
                 }
             }
 
