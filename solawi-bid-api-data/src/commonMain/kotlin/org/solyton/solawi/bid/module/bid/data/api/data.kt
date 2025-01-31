@@ -98,7 +98,7 @@ sealed class AuctionDetails {
         val benchmark: Double,
         val targetAmount: Double,
         val solidarityContribution: Double
-    ) {
+    ) : AuctionDetails() {
         init {
             when{
                 minimalBid < 0.0-> throw ValidationException.AuctionDetailsSolawiTuebingen.ValueOutOfRange
