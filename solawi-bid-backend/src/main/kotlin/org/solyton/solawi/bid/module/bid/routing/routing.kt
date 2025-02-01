@@ -73,13 +73,7 @@ fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Ro
     authenticate{
         route("round") {
             post("create") {
-                // here you have to return the complete link
-                // baseUrlOfFrontend/cryptoStuff
-
-                call.respondText {
-                    "Hahahahaha"
-                }
-
+                Receive<CreateRound>() * AddRound * Respond() runOn Base(call,environment)
             }
             patch("start") {  }
             patch("stop") {  }
