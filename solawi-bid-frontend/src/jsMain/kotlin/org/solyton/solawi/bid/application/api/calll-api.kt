@@ -28,8 +28,8 @@ import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 @Suppress("FunctionName")
 suspend inline fun <S: Any, T: Any> CallApi(action: Action<Application, S, T>) =
     Read<S>(action.reader) *
-    Call<S, T>(action) /* *
-    Dispatch<T>(action.writer) *
+    Call<S, T>(action)  *
+    Dispatch<T>(action.writer) /* *
     Debug {
         console.log("auctions = ${it.auctions}")
     }

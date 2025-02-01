@@ -66,7 +66,6 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                             val auctionId = parameter("auctionId")!!
                             val roundId = parameter("roundId")!!
 
-                            console.log("roundId = $roundId", "auctionId = $auctionId")
                             RoundPage(
                                 storage,
                                 auctionId,
