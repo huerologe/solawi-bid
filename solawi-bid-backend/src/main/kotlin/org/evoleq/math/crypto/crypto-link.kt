@@ -4,7 +4,12 @@ import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-fun generateSecureLink(roundId: String, auctionId: String, secretKey: String): String {
+data class SecureLinkData(
+    val encodedData: String,
+    val signature: String
+)
+
+fun generateSecureLink(roundId: String, auctionId: String, secretKey: String): SecureLinkData {
     // Concatenate and encode the parameters
     val data = "roundId=$roundId&auctionId=$auctionId"
     val encodedData = Base64.getUrlEncoder().withoutPadding().encodeToString(data.toByteArray())
@@ -19,5 +24,5 @@ fun generateSecureLink(roundId: String, auctionId: String, secretKey: String): S
     val signature = Base64.getUrlEncoder().withoutPadding().encodeToString(signatureBytes)
 
     // Generate the crypto portion of the final secure link
-    return "$encodedData-$signature"//"auction?data=$encodedData&signature=$signature"
+    return SecureLinkData(encodedData, signature)
 }

@@ -136,7 +136,7 @@ fun Transaction.addRound(round: CreateRound): RoundEntity {
     val roundEntity = RoundEntity.new {
         auction = auctionEntity
     }
-    roundEntity.link = generateSecureLink(round.auctionId, roundEntity.id.value.toString(), UUID.randomUUID().toString())
+    roundEntity.link = generateSecureLink(round.auctionId, roundEntity.id.value.toString(), UUID.randomUUID().toString()).signature
     return roundEntity
 }
 
