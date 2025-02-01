@@ -10,10 +10,9 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
-import org.solyton.solawi.bid.application.data.bidRounds
-import org.solyton.solawi.bid.module.bid.data.auction
+import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.module.bid.data.link
-import org.solyton.solawi.bid.module.bid.data.round
+import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.state
 import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 
@@ -21,16 +20,14 @@ import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun BidRoundPage(storage: Storage<Application>, bidRoundId: String) = Div{
+fun RoundPage(storage: Storage<Application>,auctionId: String, roundId: String) = Div{
 
-
-    val bidRound = storage * bidRounds * FirstBy { it.bidRoundId == bidRoundId }
-    val auction = bidRound * auction
-    val round =  bidRound * round
+    val auction = storage * auctions * FirstBy { it.auctionId == auctionId }
+    val round = auction * rounds * FirstBy { it.roundId == roundId }
     val link = round * link
     val state = round * state
 
-    H1 { Text("BidRoundPage") }
+    H1 { Text("Round Page") }
     Div(attrs = {
         style {
             display(DisplayStyle.Flex)

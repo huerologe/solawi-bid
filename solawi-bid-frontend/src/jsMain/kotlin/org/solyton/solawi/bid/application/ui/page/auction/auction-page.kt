@@ -13,10 +13,14 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.ui.page.auction.action.createAuction
+import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.error.component.showErrorModal
+import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
@@ -60,7 +64,18 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
 
     H2 { Text("Rounds") }
     Button(attrs = {
-        onClick { /* create new round */ }
+        onClick {
+            CoroutineScope(Job()).launch {
+                val actions = (storage * actions).read()
+                try {
+                    actions.emit( createRound(auction) )
+                } catch(exception: Exception) {
+                    (storage * modals).showErrorModal(
+                        errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateRound'")
+                    )
+                }
+            }
+        }
     }) { Text("Create new Round") }
 
 

@@ -72,6 +72,17 @@ data class Round(
 )
 
 @Serializable
+data class CreateRound(
+    val auctionId: String
+)
+
+@Serializable
+data class GetRound(
+    val id: String
+)
+
+
+@Serializable
 data class CreateAuction(
     val name: String,
     val date: LocalDate
@@ -137,6 +148,7 @@ data class BidRound(
     val auction: Auction,
     val amount: Double?
 )
+
 
 
 @Serializable

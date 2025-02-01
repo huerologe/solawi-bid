@@ -31,6 +31,7 @@ fun Application.installSerializers() {
     // Bid serializers
     serializers[Bid::class] = Bid.serializer()
     serializers[BidRound::class] = BidRound.serializer()
+    serializers[GetRound::class] = GetRound.serializer()
     // Auction
     serializers[Auction::class] = Auction.serializer()
     serializers[CreateAuction::class] = CreateAuction.serializer()
@@ -45,4 +46,10 @@ fun Application.installSerializers() {
     serializers[Bidder::class] = Bidder.serializer()
     serializers[ImportBidders::class] = ImportBidders.serializer()
     serializers[DeleteBidders::class] = DeleteBidders.serializer()
+    // Round
+    serializers[Round::class] = Round.serializer()
+    serializers[BidRound::class] = BidRound.serializer()
+    serializers[GetRound::class] = GetRound.serializer()
+    serializers[CreateRound::class] = CreateRound.serializer()
+
 }

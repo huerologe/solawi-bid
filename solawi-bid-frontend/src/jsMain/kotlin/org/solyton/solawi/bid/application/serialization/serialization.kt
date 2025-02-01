@@ -10,7 +10,6 @@ import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.authentication.data.api.Logout
 import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 import org.solyton.solawi.bid.module.bid.data.api.*
-import org.solyton.solawi.bid.module.bid.data.validation.ValidationException
 
 
 fun installSerializers() { if(serializers.isEmpty()) {
@@ -56,5 +55,8 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<ImportBidders>(ImportBidders.serializer())
         add<DeleteBidders>(DeleteBidders.serializer())
         add<BidRound>(BidRound.serializer())
+        add<Round>(Round.serializer())
+        add<GetRound>(GetRound.serializer())
+        add<CreateRound>(CreateRound.serializer())
     }
 } }
