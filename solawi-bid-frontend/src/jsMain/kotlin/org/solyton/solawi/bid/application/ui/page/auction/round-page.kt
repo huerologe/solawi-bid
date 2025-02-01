@@ -13,6 +13,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.auctions
+import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.data.link
 import org.solyton.solawi.bid.module.bid.data.rounds
@@ -35,9 +36,10 @@ fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId:
     val link = round * link
     val state = round * state
 
-    // todo use link from env file!
-   // val link = round * link
-    val fullLink = "http://localhost:8080/bid/send/${link.read()}"
+    val frontendBaseUrl = with((storage * environment).read()){
+        "$frontendUrl:$frontendPort"
+    }
+    val fullLink = "$frontendBaseUrl/bid/send/${link.read()}"
 
     H1 { Text("Round Page") }
     Div(attrs = {
@@ -54,6 +56,6 @@ fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId:
         }){
             Text("left")
         }
-        QRCodeSvg(link.read(), download = true)
+        QRCodeSvg(fullLink, download = true)
     }
 }

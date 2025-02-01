@@ -14,6 +14,8 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.env.frontendPort
+import org.solyton.solawi.bid.application.data.env.frontendUrl
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
@@ -91,7 +93,9 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     // a button "next state" (start, stop, evaluate, ...)
     // a link to the evaluation page
     // a link to the details of the round
-
+    val frontendBaseUrl = with((storage * environment).read()){
+        "$frontendUrl:$frontendPort"
+    }
     (storage * auction * rounds).read().forEach { round ->
         Div {
             Button(
@@ -101,7 +105,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                     }
                 }
             ){
-                QRCodeSvg("localhost:8080/bid/send/${round.link}")
+                QRCodeSvg("$frontendBaseUrl/bid/send/${round.link}")
             }
         }
     }
