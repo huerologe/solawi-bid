@@ -22,6 +22,12 @@ data class Bid(
 )
 
 @Serializable
+data class BidInfo(
+    val amount: Double,
+    val numberOfShares: Int
+)
+
+@Serializable
 data class NewBidder(
     val username: String,
     val weblingId: Int,
@@ -70,6 +76,17 @@ data class Round(
     val link: String,
     val state: String
 )
+
+@Serializable
+data class CreateRound(
+    val auctionId: String
+)
+
+@Serializable
+data class GetRound(
+    val id: String
+)
+
 
 @Serializable
 data class CreateAuction(
@@ -137,6 +154,7 @@ data class BidRound(
     val auction: Auction,
     val amount: Double?
 )
+
 
 
 @Serializable

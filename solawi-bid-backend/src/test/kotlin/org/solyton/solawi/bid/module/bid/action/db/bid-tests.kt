@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.deleteAll
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
 import org.solyton.solawi.bid.module.bid.data.api.Bid
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.bid.setupBidProcess
 import org.solyton.solawi.bid.module.db.BidRoundException

@@ -42,6 +42,21 @@ val solawiApi by lazy {
         key = DeleteBidders::class,
         url = "auction/bidder/delete"
     )
+    // Round
+    .get<GetRound, Round>(
+        key = GetRound::class,
+        url = "round/create"
+    )
+    .post<CreateRound, Round>(
+        key = CreateRound::class,
+        url = "round/create"
+    )
+    .patch<ChangeRoundState, Round>(
+        key = ChangeRoundState::class,
+        url = "round/change-state"
+    )
+
+
     // Auction bid
     .post<Bid,BidRound> (
         key = Bid::class,

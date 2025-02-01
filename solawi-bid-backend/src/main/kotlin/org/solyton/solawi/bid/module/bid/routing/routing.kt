@@ -69,13 +69,14 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
     }
 
 @KtorDsl
-fun Routing.round(environment: Environment) = route("round") {
-    post("create") {
-        // here you have to return the complete link
-        // baseUrlOfFrontend/cryptoStuff
+fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
+    authenticate{
+        route("round") {
+            post("create") {
+                Receive<CreateRound>() * AddRound * Respond() runOn Base(call,environment)
+            }
+            patch("change-state") {
+                Receive<ChangeRoundState>() * ChangeRoundState *  Respond() runOn Base(call,environment)
+            }
+        }
     }
-    patch("start") {  }
-    patch("stop") {  }
-    patch("freeze") {  }
-
-}

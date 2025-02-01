@@ -123,7 +123,7 @@ fun Transaction.updateAuctions(auctions: List<ApiAuction>) {
     TODO("Function updateAuctions not implemented yet!")
 }
 
-val AddRound = KlAction<Result<PreRound>, Result<Round>> {
+val AddRound = KlAction<Result<CreateRound>, Result<Round>> {
     round -> DbAction {
         database -> round bindSuspend  { data -> resultTransaction(database){
             addRound(data).toApiType()
@@ -131,12 +131,12 @@ val AddRound = KlAction<Result<PreRound>, Result<Round>> {
     }
 }
 
-fun Transaction.addRound(round: PreRound): RoundEntity {
-    val auctionEntity = AuctionEntity.find { Auctions.id eq UUID.fromString(round.roundId) }.first()
+fun Transaction.addRound(round: CreateRound): RoundEntity {
+    val auctionEntity = AuctionEntity.find { Auctions.id eq UUID.fromString(round.auctionId) }.first()
     val roundEntity = RoundEntity.new {
         auction = auctionEntity
     }
-    roundEntity.link = generateSecureLink(round.roundId.toString(), roundEntity.id.value.toString(), UUID.randomUUID().toString())
+    roundEntity.link = generateSecureLink(round.auctionId, roundEntity.id.value.toString(), UUID.randomUUID().toString()).signature
     return roundEntity
 }
 
@@ -192,11 +192,11 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
     return addBidders(auction, bidders)
 }
 
-val ChangeRoundState = KlAction<ChangeRoundState, Result<Round>> {
+val ChangeRoundState = KlAction<Result<ChangeRoundState>, Result<Round>> {
     roundState -> DbAction {
-        database -> coroutineScope {  resultTransaction(database) {
-            changeRoundState(roundState).toApiType()
-        } }  x database
+        database -> coroutineScope { roundState bindSuspend {state -> resultTransaction(database) {
+            changeRoundState(state).toApiType()
+        } } } x database
     }
 }
 

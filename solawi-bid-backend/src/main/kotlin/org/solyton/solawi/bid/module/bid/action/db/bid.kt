@@ -11,7 +11,9 @@ import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.and
 import org.solyton.solawi.bid.module.bid.data.api.Bid
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.toApiType
+import org.solyton.solawi.bid.module.bid.data.toBidInfo
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
@@ -19,10 +21,15 @@ import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 @MathDsl
 val StoreBid = KlAction { bid: Result<Bid> ->  DbAction {
     database -> bid bindSuspend  {data -> resultTransaction(database) {
-        storeBid(data)
-    }  map { it.toApiType() } } x database
+
+    val bidder = Bidder.find { Bidders.username eq data.username }.firstOrNull()
+        ?: throw BidRoundException.UnregisteredBidder(data.username)
+
+    (storeBid(data).toApiType() x bidder.numberOfShares).toBidInfo()
+    } } x database
 } }
 
+// todo return bid info ?
 fun Transaction.storeBid(bid: Bid): BidRoundEntity {
     // get corresponding round
     val round = Round.find { Rounds.link eq bid.link }.firstOrNull()
@@ -30,6 +37,7 @@ fun Transaction.storeBid(bid: Bid): BidRoundEntity {
 
     val bidder = Bidder.find { Bidders.username eq bid.username }.firstOrNull()
         ?: throw BidRoundException.UnregisteredBidder(bid.username)
+
     if(round.auction.bidders.none { it.id.value == bidder.id.value })
         throw BidRoundException.RegisteredBidderNotPartOfTheAuction(bid.username)
 

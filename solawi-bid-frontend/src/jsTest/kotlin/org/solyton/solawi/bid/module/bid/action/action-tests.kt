@@ -14,6 +14,7 @@ import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.bidRounds
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
+import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.*
@@ -79,7 +80,6 @@ class ActionTests{
                     LocalDate(1,1,1),
                     listOf(),
                     listOf(),
-
                 ),
                 null
             )
@@ -121,6 +121,20 @@ class ActionTests{
 
             val nextAuction = (storage * auctionLens).read()
             assertEquals( listOf("1"), nextAuction.bidderIds,)
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun createRoundTest() = runTest{
+        val auction = Auction("id", "name", LocalDate(1,1,1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+
+        val action = createRound(auctionLens)
+
+
+
+        composition {
+            val storage = TestStorage()
         }
     }
 }
