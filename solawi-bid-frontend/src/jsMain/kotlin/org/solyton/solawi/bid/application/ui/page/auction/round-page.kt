@@ -37,7 +37,7 @@ fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId:
 
     // todo use link from env file!
    // val link = round * link
-    val fullLink = "http://localhost:8080/solyton/bid/send/${link.read()}"
+    val fullLink = "http://localhost:8080/bid/send/${link.read()}"
 
     H1 { Text("Round Page") }
     Div(attrs = {
