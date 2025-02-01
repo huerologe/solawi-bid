@@ -19,5 +19,5 @@ fun generateSecureLink(roundId: String, auctionId: String, secretKey: String): S
     val signature = Base64.getUrlEncoder().withoutPadding().encodeToString(signatureBytes)
 
     // Generate the crypto portion of the final secure link
-    return "auction?data=$encodedData&signature=$signature"
+    return "$encodedData-$signature"//"auction?data=$encodedData&signature=$signature"
 }
