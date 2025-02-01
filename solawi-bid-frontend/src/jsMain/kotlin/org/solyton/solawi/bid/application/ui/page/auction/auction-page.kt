@@ -12,15 +12,20 @@ import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.FlexDirection
+import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.flexDirection
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.data.env.frontendPort
-import org.solyton.solawi.bid.application.data.env.frontendUrl
+import org.solyton.solawi.bid.application.ui.page.auction.action.changeRoundState
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
+import org.solyton.solawi.bid.module.bid.data.api.nextState
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
@@ -97,7 +102,12 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
         "$frontendUrl:$frontendPort"
     }
     (storage * auction * rounds).read().forEach { round ->
-        Div {
+        Div(attrs = {
+            style {
+                display(DisplayStyle.Flex)
+                flexDirection(FlexDirection.Column)
+            }
+        }) {
             Button(
                 attrs = {
                     onClick {
@@ -106,6 +116,29 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                 }
             ){
                 QRCodeSvg("$frontendBaseUrl/bid/send/${round.link}")
+            }
+            Div {
+                Text(round.state)
+            }
+            Button(attrs = {
+                onClick {
+                    CoroutineScope(Job()).launch {
+                        val actions = (storage * actions).read()
+                        try {
+                            actions.emit( changeRoundState(
+                                RoundState.fromString(round.state).nextState(),
+                                auction * rounds * FirstBy { it.roundId == round.roundId })
+                            )
+                        } catch(exception: Exception) {
+                            (storage * modals).showErrorModal(
+                                errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateRound'")
+                            )
+                        }
+                    }
+                }
+            }
+            ) {
+                Text(RoundState.fromString(round.state).commandName)
             }
         }
     }

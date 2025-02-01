@@ -192,11 +192,11 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
     return addBidders(auction, bidders)
 }
 
-val ChangeRoundState = KlAction<ChangeRoundState, Result<Round>> {
+val ChangeRoundState = KlAction<Result<ChangeRoundState>, Result<Round>> {
     roundState -> DbAction {
-        database -> coroutineScope {  resultTransaction(database) {
-            changeRoundState(roundState).toApiType()
-        } }  x database
+        database -> coroutineScope { roundState bindSuspend {state -> resultTransaction(database) {
+            changeRoundState(state).toApiType()
+        } } } x database
     }
 }
 

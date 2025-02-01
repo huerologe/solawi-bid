@@ -51,5 +51,7 @@ fun Application.installSerializers() {
     serializers[BidRound::class] = BidRound.serializer()
     serializers[GetRound::class] = GetRound.serializer()
     serializers[CreateRound::class] = CreateRound.serializer()
+    serializers[ChangeRoundState::class] = ChangeRoundState.serializer()
+    serializers[BidInfo::class] = BidInfo.serializer()
 
 }

@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
 import org.solyton.solawi.bid.module.bid.data.api.Auction
+import org.solyton.solawi.bid.module.bid.data.api.BidInfo
 import org.solyton.solawi.bid.module.bid.data.api.BidRound
 import org.solyton.solawi.bid.module.bid.data.api.Round
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
@@ -36,7 +37,7 @@ fun RoundEntity.toApiType(): Round = Round(
     state
 )
 
-fun BidRoundEntity.toApiType(): BidRound = BidRound(
+fun BidRoundEntity.toApiType(fullInfo: Unit? = null): BidRound = BidRound(
     id.value.toString(),
     round.toApiType(),
     auction.toApiType(),
@@ -44,5 +45,6 @@ fun BidRoundEntity.toApiType(): BidRound = BidRound(
 
 )
 
+fun Pair<BidRound, Int>.toBidInfo(): BidInfo = BidInfo(first.amount?: 0.0, second)
 
 

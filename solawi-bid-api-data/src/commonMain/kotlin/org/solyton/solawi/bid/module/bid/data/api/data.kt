@@ -22,6 +22,12 @@ data class Bid(
 )
 
 @Serializable
+data class BidInfo(
+    val amount: Double,
+    val numberOfShares: Int
+)
+
+@Serializable
 data class NewBidder(
     val username: String,
     val weblingId: Int,

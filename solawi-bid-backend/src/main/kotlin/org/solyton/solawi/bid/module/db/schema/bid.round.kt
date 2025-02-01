@@ -4,6 +4,7 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import java.util.*
 
 typealias RoundEntity = Round
@@ -25,28 +26,4 @@ class Round(id: EntityID<UUID>) : UUIDEntity(id) {
     val bidRounds by BidRound referrersOn BidRounds.auction
 }
 
-sealed class RoundState {
-    data object Opened : RoundState() {
-        override fun toString(): String = "OPENED"
-    }
-    data object Started : RoundState(){
-        override fun toString(): String = "STARTED"
-    }
-    data object Stopped : RoundState(){
-        override fun toString(): String = "STOPPED"
-    }
-    data object Closed: RoundState(){
-        override fun toString(): String = "CLOSED"
-    }
-    data object Evaluated: RoundState(){
-        override fun toString(): String = "EVALUATED"
-    }
-
-}
-
-val roundStates: List<RoundState> = listOf(RoundState.Opened, RoundState.Started, RoundState.Stopped, RoundState.Closed, RoundState.Evaluated)
-
-val roundStateNames: List<String> = roundStates.map { it.toString() }
-
-fun String.isValidRoundStateName(): Boolean = roundStateNames.contains(this)
 

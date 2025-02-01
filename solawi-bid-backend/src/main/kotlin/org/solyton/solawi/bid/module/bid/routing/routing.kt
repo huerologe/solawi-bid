@@ -75,9 +75,8 @@ fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Ro
             post("create") {
                 Receive<CreateRound>() * AddRound * Respond() runOn Base(call,environment)
             }
-            patch("start") {  }
-            patch("stop") {  }
-            patch("freeze") {  }
-
+            patch("change-state") {
+                Receive<ChangeRoundState>() * ChangeRoundState *  Respond() runOn Base(call,environment)
+            }
         }
     }

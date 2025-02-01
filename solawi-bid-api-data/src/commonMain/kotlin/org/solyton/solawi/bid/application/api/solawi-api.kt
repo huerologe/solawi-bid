@@ -51,6 +51,10 @@ val solawiApi by lazy {
         key = CreateRound::class,
         url = "round/create"
     )
+    .patch<ChangeRoundState, Round>(
+        key = ChangeRoundState::class,
+        url = "round/change-state"
+    )
 
 
     // Auction bid

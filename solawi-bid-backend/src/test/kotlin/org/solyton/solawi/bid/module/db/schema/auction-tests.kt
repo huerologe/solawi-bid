@@ -2,8 +2,6 @@ package org.solyton.solawi.bid.module.db.schema
 
 import org.evoleq.exposedx.test.runSimpleH2Test
 import org.jetbrains.exposed.sql.insert
-import org.junit.jupiter.api.Test
-import org.solyton.solawi.bid.Schema
 import kotlin.test.assertEquals
 
 class AuctionTests {
@@ -46,7 +44,7 @@ class AuctionTests {
         val bidder = Bidder.new {
             username = "name"
             weblingId = 1
-            numberOfParts = 1
+            numberOfShares = 1
         }
 
         AuctionBidders.insert {

@@ -55,8 +55,12 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<ImportBidders>(ImportBidders.serializer())
         add<DeleteBidders>(DeleteBidders.serializer())
         add<BidRound>(BidRound.serializer())
+        // Round
         add<Round>(Round.serializer())
         add<GetRound>(GetRound.serializer())
         add<CreateRound>(CreateRound.serializer())
+        add<ChangeRoundState>(ChangeRoundState.serializer())
+        add<BidInfo>(BidInfo.serializer())
+
     }
 } }

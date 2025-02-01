@@ -30,7 +30,7 @@ class Bidder(id : EntityID<UUID> ) : UUIDEntity(id) {
 
     var username by Bidders.username
     var weblingId by Bidders.weblingId
-    var numberOfParts by Bidders.numberOfShares
+    var numberOfShares by Bidders.numberOfShares
 
     var type by AuctionType referencedOn Bidders.typeId
 
