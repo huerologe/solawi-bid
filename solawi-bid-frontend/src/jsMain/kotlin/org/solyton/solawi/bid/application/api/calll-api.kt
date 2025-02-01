@@ -28,11 +28,12 @@ import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 @Suppress("FunctionName")
 suspend inline fun <S: Any, T: Any> CallApi(action: Action<Application, S, T>) =
     Read<S>(action.reader) *
-    Call<S, T>(action) *
-    Dispatch<T>(action.writer) /*
+    Call<S, T>(action) /* *
+    Dispatch<T>(action.writer) *
     Debug {
         console.log("auctions = ${it.auctions}")
-    } */
+    }
+    */
 
 
 @MathDsl
@@ -60,7 +61,7 @@ fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<A
                 is EndPoint.Post -> post<S, T>(url, port, action.serializer, action.deserializer)
                 is EndPoint.Delete -> delete<S, T>(url, port, action.serializer, action.deserializer)
                 is EndPoint.Head -> TODO("Call of function Client.head has not benn implemented yet")
-                is EndPoint.Patch -> patch<S, T>(url, port, action.serializer, action.deserializer)// patch<S, T>(url)
+                is EndPoint.Patch -> patch<S, T>(url, port, action.serializer, action.deserializer)
 
                 is EndPoint.Put -> put<S, T>(url, port, action.serializer, action.deserializer)
             }
@@ -87,7 +88,7 @@ fun <T: Any> Dispatch(writer: Writer<Application, T>): KlState<Storage<Applicati
 fun <T: Any> Debug(debug: Reader<Application, Unit>): KlState<Storage<Application>, Result<T>, Result<T>> = {
     result -> State { storage ->
         console.log("Debug...")
-        storage * debug
+        (storage * debug).emit()
         console.log("Debug...Done")
     result x storage
     }

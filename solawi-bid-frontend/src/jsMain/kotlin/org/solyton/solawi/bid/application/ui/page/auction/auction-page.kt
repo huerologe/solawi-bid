@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.optics.lens.FirstBy
@@ -13,15 +14,16 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.ui.page.auction.action.createAuction
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
+import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 
 @Markup
 @Composable
@@ -89,4 +91,18 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     // a button "next state" (start, stop, evaluate, ...)
     // a link to the evaluation page
     // a link to the details of the round
+
+    (storage * auction * rounds).read().forEach { round ->
+        Div {
+            Button(
+                attrs = {
+                    onClick {
+                        navigate("solyton/auctions/${auctionId}/rounds/${round.roundId}")
+                    }
+                }
+            ){
+                QRCodeSvg("localhost:8080/bid/send/${round.link}")
+            }
+        }
+    }
 }

@@ -63,10 +63,15 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     }
                     route("rounds/:roundId") {
                         component{
+                            val auctionId = parameter("auctionId")!!
+                            val roundId = parameter("roundId")!!
+
+                            console.log("roundId = $roundId", "auctionId = $auctionId")
                             RoundPage(
                                 storage,
-                                parameter("auctionId")!!,
-                                parameter("roundId")!!
+                                auctionId,
+                                roundId
+                                //storage * auctions * FirstBy { it.auctionId == auctionId } * rounds * FirstBy { it.roundId == roundId }
                             )
                         }
 
