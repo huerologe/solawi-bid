@@ -38,6 +38,9 @@ sealed class RoundState {
     data object Closed: RoundState(){
         override fun toString(): String = "CLOSED"
     }
+    data object Evaluated: RoundState(){
+        override fun toString(): String = "EVALUATED"
+    }
 
 }
 
