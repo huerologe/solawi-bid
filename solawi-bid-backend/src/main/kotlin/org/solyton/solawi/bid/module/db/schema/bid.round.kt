@@ -44,7 +44,7 @@ sealed class RoundState {
 
 }
 
-val roundStates: List<RoundState> = listOf(RoundState.Opened, RoundState.Started, RoundState.Stopped, RoundState.Closed)
+val roundStates: List<RoundState> = listOf(RoundState.Opened, RoundState.Started, RoundState.Stopped, RoundState.Closed, RoundState.Evaluated)
 
 val roundStateNames: List<String> = roundStates.map { it.toString() }
 
