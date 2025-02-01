@@ -23,17 +23,15 @@ fun ApiAuction.toDomainType(): Auction = Auction(
     bidderIds = bidderIds,
     auctionDetails = auctionDetails.toDomainType()
 )
-// todo improve
-fun ApiAuctionDetails.toDomainType(): AuctionDetails  {
-    try {
-        val a = auctionDetails as  org.solyton.solawi.bid.module.bid.data.api.AuctionDetails.SolawiTuebingen
-        return AuctionDetails(
-            a.minimalBid,
-            a.benchmark,
-            a.targetAmount,
-            a.solidarityContribution
-        )
-    } catch (exception: Exception) {
-        return  AuctionDetails()
-    }
+
+
+
+fun ApiAuctionDetails.toDomainType(): AuctionDetails  = when(this) {
+    is ApiAuctionDetailsSolawiTuebingen -> AuctionDetails(
+        minimalBid,
+        benchmark,
+        targetAmount,
+        solidarityContribution
+    )
+    else -> AuctionDetails()
 }

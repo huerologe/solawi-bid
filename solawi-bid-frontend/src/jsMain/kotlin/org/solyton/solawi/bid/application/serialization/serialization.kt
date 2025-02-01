@@ -31,8 +31,6 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<Result.Failure.Message>(Result.Failure.Message.serializer())
         add(Result.Success::class, ResultSerializer)
 
-
-
         // Authorization
         add<Login>(Login.serializer())
         add<LoggedIn>(LoggedIn.serializer())
@@ -48,6 +46,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<Auctions>(Auctions.serializer())
         add<DeleteAuctions>(DeleteAuctions.serializer())
         add<UpdateAuctions>(UpdateAuctions.serializer())
+        add<ConfigureAuction>(ConfigureAuction.serializer())
         // Bid / Bidder
         add<Bid>(Bid.serializer())
         add<Bidder>(Bidder.serializer())
@@ -61,6 +60,5 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<CreateRound>(CreateRound.serializer())
         add<ChangeRoundState>(ChangeRoundState.serializer())
         add<BidInfo>(BidInfo.serializer())
-
     }
 } }

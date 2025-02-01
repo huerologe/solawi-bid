@@ -12,6 +12,8 @@ typealias ApiRound = Round
 typealias ApiAuction = Auction
 typealias ApiAuctions = Auctions
 typealias ApiAuctionDetails = AuctionDetails
+typealias ApiAuctionDetailsSolawiTuebingen = AuctionDetails.SolawiTuebingen
+
 
 
 @Serializable
@@ -92,6 +94,14 @@ data class GetRound(
 data class CreateAuction(
     val name: String,
     val date: LocalDate
+)
+
+@Serializable
+data class ConfigureAuction(
+    val id: String,
+    val name: String,
+    val date: LocalDate,
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty
 )
 
 @Serializable
