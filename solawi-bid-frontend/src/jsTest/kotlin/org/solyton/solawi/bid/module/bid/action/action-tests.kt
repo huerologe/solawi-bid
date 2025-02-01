@@ -14,6 +14,7 @@ import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.bidRounds
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
+import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.data.Auction
@@ -135,6 +136,46 @@ class ActionTests{
 
         composition {
             val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+
+
+
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun configureAuctionTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1,1,1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+
+        val action = configureAuction(auctionLens)
+
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+
+
+            val apiAuction = ApiAuction(
+                id ="id",
+                name= "name",
+                date = LocalDate(1,1,1),
+                rounds = listOf(),
+                bidderIds = listOf("1"),
+                auctionDetails = AuctionDetails.SolawiTuebingen(
+                    2.0,2.0,2.0,2.0
+                )
+            )
+
+            (storage * action.writer).write(apiAuction) on Unit
+
+            val storedAuction = (storage * auctionLens).read()
+            //assertIs<AuctionDetails>(storedAuction.auctionDetails)
+            assertEquals(2.0, storedAuction.auctionDetails.benchmark)
+            assertEquals(2.0, storedAuction.auctionDetails.minimalBid)
+            assertEquals(2.0, storedAuction.auctionDetails.targetAmount)
+            assertEquals(2.0, storedAuction.auctionDetails.solidarityContribution)
+
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.*
 typealias AuctionDetailsSolawiTuebingenEntity = AuctionDetailsSolawiTuebingen
 
 object AuctionDetailsSolawiTuebingenTable : UUIDTable("auction_details_solawi_tuebingen") {
-    val auctionId = uuid("auction_id")
+    val auctionId = reference("auction_id", AuctionsTable)
     val benchmark = double("benchmark")
     val targetAmount = double("target_amount")
     val solidarityContribution = double("solidarity_contribution")
@@ -22,7 +22,7 @@ class AuctionDetailsSolawiTuebingen(id: EntityID<UUID>) : UUIDEntity(id) {
     var benchmark by AuctionDetailsSolawiTuebingenTable.benchmark
     var targetAmount by AuctionDetailsSolawiTuebingenTable.targetAmount
     var solidarityContribution by AuctionDetailsSolawiTuebingenTable.solidarityContribution
-    var defaultBid by AuctionDetailsSolawiTuebingenTable.minimalBid
+    var minimalBid by AuctionDetailsSolawiTuebingenTable.minimalBid
     var auction by Auction referencedOn AuctionDetailsSolawiTuebingenTable.auctionId
 }
 

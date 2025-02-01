@@ -23,12 +23,11 @@ import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
 import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
-import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
 import org.solyton.solawi.bid.module.db.schema.Bidder as BidderEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
 
 @MathDsl
-val CreateAuction = KlAction<Result<CreateAuction>, Result<Auction>> {
+val CreateAuction = KlAction<Result<CreateAuction>, Result<ApiAuction>> {
     auction: Result<CreateAuction> -> DbAction {
         database -> auction bindSuspend  { data -> resultTransaction(database) {
             println("Create auction: ${data.name}")
@@ -40,7 +39,6 @@ val CreateAuction = KlAction<Result<CreateAuction>, Result<Auction>> {
 fun Transaction.createAuction(name: String, date: LocalDate, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
     val auctionType = AuctionType.find { AuctionTypes.type eq type.toUpperCasePreservingASCIIRules() }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuctionType(type)
-    // val typeName = auctionType.type.toLowerCasePreservingASCIIRules()
 
     return AuctionEntity.new {
         this.name = name
@@ -51,11 +49,29 @@ fun Transaction.createAuction(name: String, date: LocalDate, type: String = "SOL
 
 @MathDsl
 val ReadAuctions = KlAction<Result<GetAuctions>, Result<ApiAuctions>> {
-    auctions -> DbAction { database ->  resultTransaction(database){
-      with(readAuctions()){ApiAuctions(toApiType())}
+    _ -> DbAction { database ->  resultTransaction(database){
+        val auctions = readAuctions().map {
+            it.toApiType().copy(auctionDetails = getAuctionDetails(it))
+        }
+        ApiAuctions(auctions)
+
 
     // TODO(use identifier to return all auction which are accessible as identified person)
     } x database }
+}
+
+fun Transaction.getAuctionDetails(auction: AuctionEntity): AuctionDetails {
+    val tue = AuctionDetailsSolawiTuebingen.find { AuctionDetailsSolawiTuebingenTable.auctionId eq auction.id.value }.firstOrNull()
+    return if(tue != null) {
+        AuctionDetails.SolawiTuebingen(
+            tue.minimalBid,
+            tue.benchmark,
+            tue.targetAmount,
+            tue.solidarityContribution
+        )
+    } else {
+        AuctionDetails.Empty
+    }
 }
 
 fun Transaction.readAuctions(): List<AuctionEntity> = with(AuctionEntity.all().map{it
@@ -122,6 +138,59 @@ val UpdateAuctions = KlAction<Result<UpdateAuctions>, Result<GetAuctions>> {
 fun Transaction.updateAuctions(auctions: List<ApiAuction>) {
     TODO("Function updateAuctions not implemented yet!")
 }
+
+@MathDsl
+val ConfigureAuction = KlAction<Result<ConfigureAuction>, Result<ApiAuction>> {
+    auction -> DbAction {
+        database -> auction bindSuspend {
+            data -> resultTransaction(database) {
+                configureAuction(data)
+            }
+        }  x database
+    }
+}
+
+fun Transaction.configureAuction(auction: ConfigureAuction): ApiAuction {
+    val auctionEntity = AuctionEntity.findById(UUID.fromString(auction.id))?:
+        throw BidRoundException.NoSuchAuction
+
+    val auctionDetails = setAuctionDetails(auctionEntity, auction.auctionDetails)
+
+    return with(auctionEntity) {
+        name = auction.name
+        date = DateTime().withDate(auction.date.year, auction.date.monthNumber, auction.date.dayOfMonth)
+
+
+        this
+    }.toApiType().copy(auctionDetails = auctionDetails)
+}
+
+fun Transaction.setAuctionDetails(auction: AuctionEntity, auctionDetails: AuctionDetails): AuctionDetails =
+    when(auctionDetails) {
+        is AuctionDetails.Empty -> auctionDetails
+        is AuctionDetails.SolawiTuebingen -> {
+            val detailsEntity = AuctionDetailsSolawiTuebingen.find {
+                AuctionDetailsSolawiTuebingenTable.auctionId eq auction.id.value
+            }.firstOrNull()
+            if(detailsEntity == null) {
+                AuctionDetailsSolawiTuebingen.new {
+                    this.auction = auction
+                    benchmark = auctionDetails.benchmark
+                    targetAmount = auctionDetails.targetAmount
+                    solidarityContribution = auctionDetails.solidarityContribution
+                    minimalBid = auctionDetails.minimalBid
+                }
+            } else {
+                detailsEntity.benchmark = auctionDetails.benchmark
+                detailsEntity.targetAmount = auctionDetails.targetAmount
+                detailsEntity.solidarityContribution = auctionDetails.solidarityContribution
+                detailsEntity.minimalBid = auctionDetails.minimalBid
+            }
+            auctionDetails
+        }
+    }
+
+
 
 val AddRound = KlAction<Result<CreateRound>, Result<Round>> {
     round -> DbAction {

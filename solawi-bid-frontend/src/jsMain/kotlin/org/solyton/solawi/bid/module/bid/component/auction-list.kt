@@ -1,10 +1,7 @@
 package org.solyton.solawi.bid.module.bid.component
 
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
 import org.evoleq.compose.modal.Modals
@@ -13,24 +10,23 @@ import org.evoleq.language.Lang
 import org.evoleq.language.Locale
 import org.evoleq.language.component
 import org.evoleq.optics.lens.FirstBy
+import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Action
 import org.evoleq.optics.storage.Storage
-import org.evoleq.optics.storage.remove
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
-import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.ui.page.auction.action.createAuction
+import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.action.deleteAuctionAction
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name
-import org.solyton.solawi.bid.module.error.component.showErrorModal
-import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.I18N
 import org.solyton.solawi.bid.module.i18n.data.language
+import org.solyton.solawi.bid.application.data.auctions as auctionLens
 
 @Markup
 @Composable
@@ -40,9 +36,14 @@ fun AuctionList(auctions: Storage<List<Auction>>,i18n: Storage<I18N>, modals: St
 ) {
     with(auctions.read()) {
         forEach{ auction ->
-            AuctionListItem(auctions * FirstBy<Auction> { it.auctionId == auction.auctionId},i18n,  modals, styles){
-                dispatch(deleteAuctionAction(auction))
-            }
+            AuctionListItem(
+                auctions * FirstBy<Auction> { it.auctionId == auction.auctionId},
+                i18n,
+                modals,
+                styles,
+                dispatchDelete = { dispatch(deleteAuctionAction(auction)) },
+                dispatchConfiguration = {dispatch(configureAuction(auctionLens * FirstBy<Auction> { it.auctionId == auction.auctionId}))    }
+            )
         }
     }
 }
@@ -52,7 +53,13 @@ fun AuctionList(auctions: Storage<List<Auction>>,i18n: Storage<I18N>, modals: St
 @Composable
 @Suppress("FunctionName") // actions: (Auction)->Actions = auctionListItemActions
 fun AuctionListItem(
-    auction: Storage<Auction>,i18n: Storage<I18N>,  modals: Storage<Modals<Int>>, styles: AuctionListStyles = AuctionListStyles(), dispatch: ()->Unit) = Div(attrs = {
+    auction: Storage<Auction>,
+    i18n: Storage<I18N>,
+    modals: Storage<Modals<Int>>,
+    styles: AuctionListStyles = AuctionListStyles(),
+    dispatchDelete: ()->Unit,
+    dispatchConfiguration: ()->Unit
+) = Div(attrs = {
     style { styles.item(this) }
 }) {
     Div (attrs = {style {
@@ -102,9 +109,7 @@ fun AuctionListItem(
                     texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.createDialog"),
                     cancel = {}
                 ) {
-                    CoroutineScope(Job()).launch {
-
-                    }
+                    dispatchConfiguration()
                 }
             }
         }){
@@ -116,7 +121,7 @@ fun AuctionListItem(
 
             }
             onClick {
-                dispatch()
+                dispatchDelete()
             }
         }){
             Text("Delete")

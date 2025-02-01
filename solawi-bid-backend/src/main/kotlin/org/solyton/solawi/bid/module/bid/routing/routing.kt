@@ -7,11 +7,13 @@ import io.ktor.util.*
 import org.evoleq.ktorx.result.Result
 import org.evoleq.math.state.runOn
 import org.evoleq.math.state.times
-import org.evoleq.util.*
+import org.evoleq.util.Base
+import org.evoleq.util.Fail
+import org.evoleq.util.Receive
+import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.*
 import org.solyton.solawi.bid.module.bid.data.api.*
-import java.util.UUID
 
 
 @KtorDsl
@@ -21,14 +23,9 @@ fun Routing.bid(environment: Environment,authenticate: Routing.(Route.() -> Rout
 
             get("all") {
                 call.respond(Result.Success("not impl yet!"))
-                // getAllUsers() runOn Base(call, environment)
-
             }
 
             post("send") {
-                // send bid
-                // params: Crypto Link, bid-amount
-                //
                 (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
             }
         }
@@ -42,6 +39,9 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
             }
             patch("update") {
                 (Receive<UpdateAuctions>() * UpdateAuctions * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)
+            }
+            patch("configure") {
+                Receive<ConfigureAuction>() * ConfigureAuction * Respond<Auction>() runOn Base(call, environment)
             }
             delete("delete") {
                 (Receive<DeleteAuctions>() * DeleteAuctions * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)

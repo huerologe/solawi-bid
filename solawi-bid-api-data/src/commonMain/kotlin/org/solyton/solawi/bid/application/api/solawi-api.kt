@@ -34,6 +34,10 @@ val solawiApi by lazy {
         key = UpdateAuctions::class,
         url = "auction/update"
     )
+    .patch<ConfigureAuction, Auction>(
+        key = ConfigureAuction::class,
+        url = "auction/configure"
+    )
     .post<ImportBidders, Auction>(
         key = ImportBidders::class,
         url = "auction/bidder/import"
@@ -55,6 +59,7 @@ val solawiApi by lazy {
         key = ChangeRoundState::class,
         url = "round/change-state"
     )
+
 
 
     // Auction bid
