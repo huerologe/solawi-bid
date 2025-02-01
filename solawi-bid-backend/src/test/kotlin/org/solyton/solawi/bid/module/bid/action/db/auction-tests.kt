@@ -5,6 +5,7 @@ import org.evoleq.exposedx.test.runSimpleH2Test
 import org.joda.time.DateTime
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.DbFunctional
+import org.solyton.solawi.bid.module.bid.data.api.CreateRound
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.api.PreRound
 import org.solyton.solawi.bid.module.bid.data.toApiType
@@ -40,9 +41,11 @@ class AuctionTests {
         }
         val auction = createAuction(name,LocalDate(0,1,1)).toApiType()
         assertEquals(name, auction.name)
-        val round = addRound(PreRound(
+        val round = addRound(
+            CreateRound(
             auction.id,
-        )).toApiType()
+        )
+        ).toApiType()
         assertNotEquals(link, round.link)
 
         val bidders = listOf<NewBidder>(
