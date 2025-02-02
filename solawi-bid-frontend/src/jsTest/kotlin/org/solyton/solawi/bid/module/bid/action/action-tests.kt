@@ -14,15 +14,16 @@ import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.bidRounds
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
-import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
-import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
-import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
+import org.solyton.solawi.bid.application.ui.page.auction.action.*
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.bid.data.Round as DomainRound
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 import org.solyton.solawi.bid.test.storage.TestStorage
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ActionTests{
     @OptIn(ComposeWebExperimentalTestsApi::class)
@@ -130,16 +131,41 @@ class ActionTests{
         val auction = Auction("id", "name", LocalDate(1,1,1))
         val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
 
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Started.toString()
+        )
+
+        val createAuction = createAuction(auctionLens)
+
         val action = createRound(auctionLens)
-
-
 
         composition {
             val storage = TestStorage()
             (storage * auctionLens).write(auction)
 
+            // create an auction
+            val apiAuction = ApiAuction(
+                id ="id",
+                name= "name",
+                date = LocalDate(1,1,1),
+                rounds = listOf(),
+                bidderIds = listOf("1"),
+                auctionDetails = AuctionDetails.SolawiTuebingen(
+                    2.0,2.0,2.0,2.0
+                )
+            )
+            (storage * createAuction.writer).write(apiAuction) on Unit
 
+            // create round and put it into auction
+            (storage * action.writer).write(round) on Unit
 
+            // Check results
+            val storedAuction = (storage * auctionLens).read()
+
+            assertEquals(1, storedAuction.rounds.size)
+            assertTrue { storedAuction.rounds.contains(round.toDomainType()) }
         }
     }
 
@@ -176,6 +202,43 @@ class ActionTests{
             assertEquals(2.0, storedAuction.auctionDetails.targetAmount)
             assertEquals(2.0, storedAuction.auctionDetails.solidarityContribution)
 
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun changeRoundStateTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1,1,1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val roundLens = auctionLens * rounds * FirstBy { r:DomainRound -> r.roundId == "id" }
+
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Opened.toString()
+        )
+
+        val createAuction = createAuction(auctionLens)
+        val createRound = createRound(auctionLens)
+        val changeRoundState = changeRoundState(RoundState.Started, roundLens)
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+
+            (storage * createRound.writer).write(round) on Unit
+            val initStoredRound = (storage * roundLens).read()
+            assertEquals(round.toDomainType() , initStoredRound)
+
+            val nextRound = Round(
+                "id",
+                "link",
+                RoundState.Started.toString()
+            )
+
+            (storage * changeRoundState.writer).write(nextRound) on Unit
+
+            val storedRound = (storage * roundLens).read()
+            assertEquals(nextRound.toDomainType() , storedRound)
         }
     }
 }
