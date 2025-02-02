@@ -83,5 +83,15 @@ fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Ro
                 Receive<ExportBidRound>() * ExportResults * Respond() runOn Base(call, environment)
             }
 
+            patch("evaluate") {
+                Receive<EvaluateBidRound>() * EvaluateBidRound * Respond() runOn Base(call, environment)
+            }
+
+            patch("pre-evaluate") {
+                Receive<PreEvaluateBidRound>() * PreEvaluateBidRound * Respond() runOn Base(call, environment)
+            }
+
+
+
         }
     }

@@ -9,10 +9,8 @@ import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
-import org.solyton.solawi.bid.module.bid.data.api.AuctionDetails
-import org.solyton.solawi.bid.module.bid.data.api.BidResult
-import org.solyton.solawi.bid.module.bid.data.api.BidRoundResults
-import org.solyton.solawi.bid.module.bid.data.api.ExportBidRound
+import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
 
@@ -21,6 +19,24 @@ val ExportResults = KlAction<Result<ExportBidRound>, Result<BidRoundResults>> {
     roundData -> DbAction {
         database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
             getResults(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
+        } } } x database
+    }
+}
+
+@MathDsl
+val EvaluateBidRound = KlAction<Result<EvaluateBidRound>, Result<BidRoundEvaluation>> {
+    roundData -> DbAction {
+        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
+            evaluateBidRound(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
+        } } } x database
+    }
+}
+
+@MathDsl
+val PreEvaluateBidRound = KlAction<Result<PreEvaluateBidRound>, Result<BidRoundPreEvaluation>> {
+    roundData -> DbAction {
+        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
+            preEvaluateBidRound(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
         } } } x database
     }
 }
@@ -75,6 +91,46 @@ fun Transaction.getResults(auctionId: UUID, roundId: UUID):BidRoundResults {
             *defaultBids.toTypedArray()
         )
     )
-
 }
 
+fun Transaction.preEvaluateBidRound(auctionId: UUID, roundId: UUID): BidRoundPreEvaluation {
+    // Collect data
+    val auction = AuctionEntity.find{AuctionsTable.id eq auctionId}.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+    val bidRoundResults = getResults(auctionId, roundId)
+    val auctionDetails = getAuctionDetails(auction) as AuctionDetails.SolawiTuebingen
+
+    // Start computations
+    val totalNumberOfShares = bidRoundResults.results.fold(0) {
+            acc, next -> acc + next.numberOfShares
+    }
+
+    return BidRoundPreEvaluation(
+        auctionDetails = auctionDetails,
+        totalNumberOfShares = totalNumberOfShares
+    )
+}
+
+fun Transaction.evaluateBidRound(auctionId: UUID, roundId: UUID): BidRoundEvaluation {
+    // Collect data
+    val auction = AuctionEntity.find{AuctionsTable.id eq auctionId}.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+    val bidRoundResults = getResults(auctionId, roundId)
+    val auctionDetails = getAuctionDetails(auction) as AuctionDetails.SolawiTuebingen
+
+    // Start computations
+    val totalSumOfWeightedBids = bidRoundResults.results.fold(0.0) {
+        acc, next -> acc + next.numberOfShares.toDouble() * next.amount
+    }
+    val totalNumberOfShares = bidRoundResults.results.fold(0) {
+        acc, next -> acc + next.numberOfShares
+    }
+    val weightedBids = bidRoundResults.results.map { WeightedBid(it.numberOfShares,it.amount) }
+
+    return BidRoundEvaluation(
+        auctionDetails = auctionDetails,
+        totalSumOfWeightedBids = totalSumOfWeightedBids,
+        totalNumberOfShares = totalNumberOfShares,
+        weightedBids = weightedBids
+    )
+}
