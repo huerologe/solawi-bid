@@ -120,7 +120,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             Button(
                 attrs = {
                     onClick {
-                        navigate("solyton/auctions/${auctionId}/rounds/${round.roundId}")
+                        navigate("/solyton/auctions/${auctionId}/rounds/${round.roundId}")
                     }
                 }
             ){
