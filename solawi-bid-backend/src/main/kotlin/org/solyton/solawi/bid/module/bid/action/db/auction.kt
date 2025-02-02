@@ -274,7 +274,14 @@ fun Transaction.changeRoundState(newState: ChangeRoundState): RoundEntity {
     val round = RoundEntity.find { Rounds.id eq UUID.fromString(newState.roundId) }.firstOrNull()
         ?: throw BidRoundException.NoSuchRound
 
-    round.state = newState.state
+    val sourceState = RoundState.fromString(round.state)
+    val targetState = RoundState.fromString(newState.state)
 
-    return round
+    return when(targetState == sourceState.nextState()){
+         true -> {
+            round.state = newState.state
+            round
+        }
+        false -> throw RoundStateException.IllegalTransition(sourceState, targetState)
+    }
 }

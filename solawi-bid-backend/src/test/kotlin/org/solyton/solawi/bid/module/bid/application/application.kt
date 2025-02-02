@@ -11,6 +11,7 @@ import org.solyton.solawi.bid.module.authentication.migrations.authenticationMig
 import org.solyton.solawi.bid.module.bid.routing.auction
 import org.solyton.solawi.bid.module.bid.routing.bid
 import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
+import org.solyton.solawi.bid.module.bid.routing.round
 
 
 fun Application.bidTest() {
@@ -25,6 +26,9 @@ fun Application.bidTest() {
             this.it()
         }
         auction(environment) {
+            this.it()
+        }
+        round(environment){
             this.it()
         }
     }
