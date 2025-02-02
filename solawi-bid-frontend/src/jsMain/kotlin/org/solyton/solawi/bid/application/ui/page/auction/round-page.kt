@@ -25,11 +25,11 @@ import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 @Composable
 @Suppress("FunctionName")
 fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId: String, roundId: String) = Div{
-
+/*
     LaunchedEffect(Unit) {
         (storage * actions).read().emit(readAuctions())
     }
-
+*/
 
     val auction = storage * auctions * FirstBy { it.auctionId == auctionId }
     val round = auction * rounds * FirstBy { it.roundId == roundId }

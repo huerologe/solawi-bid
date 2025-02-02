@@ -59,7 +59,18 @@ val solawiApi by lazy {
         key = ChangeRoundState::class,
         url = "round/change-state"
     )
-
+    .patch<ExportBidRound, BidRoundResults>(
+        key = ExportBidRound::class,
+        url = "round/export-results"
+    )
+    .patch<EvaluateBidRound, BidRoundEvaluation>(
+        key = EvaluateBidRound::class,
+        url = "round/evaluate"
+    )
+    .patch<PreEvaluateBidRound, BidRoundPreEvaluation>(
+        key = PreEvaluateBidRound::class,
+        url = "round/pre-evaluate"
+    )
 
 
     // Auction bid

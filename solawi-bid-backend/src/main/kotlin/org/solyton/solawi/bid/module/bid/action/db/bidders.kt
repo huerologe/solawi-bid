@@ -8,6 +8,7 @@ import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.deleteWhere
@@ -16,7 +17,7 @@ import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
-import java.util.UUID
+import java.util.*
 
 @MathDsl
 val ImportBidders = KlAction{bidders: Result<ImportBidders> -> DbAction {
@@ -36,4 +37,18 @@ fun Transaction.importBidders(auctionId: UUID, bidders: List<NewBidder>): Auctio
     BidderDetailsSolawiTuebingenTable.deleteWhere { BidderDetailsSolawiTuebingenTable.bidderId inList biddersToDelete.map { it.value }  }
 
     return addBidders(auction,bidders)
+}
+
+fun Transaction.getBidderDetails(bidder: Bidder): BidderDetailsEntity =
+    BidderDetailsSolawiTuebingenEntity.find {
+        BidderDetailsSolawiTuebingenTable.bidderId eq bidder.id.value
+    }.firstOrNull()
+    ?: throw BidRoundException.MissingBidderDetails
+
+fun Transaction.getBidderDetails(auction: Auction): SizedIterable<BidderDetailsEntity> {
+    val bidderIds = auction.bidders.map { it.id.value }
+    val details = BidderDetailsSolawiTuebingenEntity.find {
+        BidderDetailsSolawiTuebingenTable.bidderId inList bidderIds
+    }
+    return details
 }

@@ -12,25 +12,24 @@ import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.FlexDirection
-import org.jetbrains.compose.web.css.display
-import org.jetbrains.compose.web.css.flexDirection
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.ui.page.auction.action.changeRoundState
-import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
-import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
-import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
+import org.solyton.solawi.bid.application.ui.page.auction.action.*
+import org.solyton.solawi.bid.module.bid.component.downloadCsv
 import org.solyton.solawi.bid.module.bid.component.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.api.nextState
+import org.solyton.solawi.bid.module.bid.data.rawResults
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.bid.data.startDownloadOfBidRoundResults
+import org.solyton.solawi.bid.module.bid.service.toCsvContent
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
+import kotlin.js.Date
 
 @Markup
 @Composable
@@ -106,12 +105,22 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             style {
                 display(DisplayStyle.Flex)
                 flexDirection(FlexDirection.Column)
+                width(100.percent)
             }
         }) {
+            if(round.rawResults.startDownloadOfBidRoundResults) {
+                LaunchedEffect(Unit) {
+                    val fileName = "results_${Date.now()}.csv"
+                    val csvContent = round.rawResults.toCsvContent()
+                    downloadCsv(csvContent, fileName)
+                }
+                val startDownload = (storage * auction * rounds * FirstBy { it.roundId == round.roundId }) * rawResults  * startDownloadOfBidRoundResults
+                startDownload.write(false)
+            }
             Button(
                 attrs = {
                     onClick {
-                        navigate("solyton/auctions/${auctionId}/rounds/${round.roundId}")
+                        navigate("/solyton/auctions/${auctionId}/rounds/${round.roundId}")
                     }
                 }
             ){
@@ -131,7 +140,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                             )
                         } catch(exception: Exception) {
                             (storage * modals).showErrorModal(
-                                errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateRound'")
+                                errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ChangeRoundState'")
                             )
                         }
                     }
@@ -139,6 +148,26 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             }
             ) {
                 Text(RoundState.fromString(round.state).commandName)
+            }
+
+            Button(attrs= {
+                onClick {
+                    CoroutineScope(Job()).launch {
+                        val actions = (storage * actions).read()
+                        try {
+                            actions.emit( exportBidRoundResults(
+                                (storage * auction).read().auctionId,
+                                auction * rounds * FirstBy { it.roundId == round.roundId })
+                            )
+                        } catch(exception: Exception) {
+                            (storage * modals).showErrorModal(
+                                errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ExportBidRound'")
+                            )
+                        }
+                    }
+                }
+            }) {
+                Text("Export")
             }
         }
     }

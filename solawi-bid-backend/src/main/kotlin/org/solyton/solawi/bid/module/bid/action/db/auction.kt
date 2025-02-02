@@ -191,7 +191,7 @@ fun Transaction.setAuctionDetails(auction: AuctionEntity, auctionDetails: Auctio
     }
 
 
-
+@MathDsl
 val AddRound = KlAction<Result<CreateRound>, Result<Round>> {
     round -> DbAction {
         database -> round bindSuspend  { data -> resultTransaction(database){
@@ -261,6 +261,7 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
     return addBidders(auction, bidders)
 }
 
+@MathDsl
 val ChangeRoundState = KlAction<Result<ChangeRoundState>, Result<Round>> {
     roundState -> DbAction {
         database -> coroutineScope { roundState bindSuspend {state -> resultTransaction(database) {

@@ -7,10 +7,11 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import java.util.*
 
 typealias BidderDetailsSolawiTuebingenEntity = BidderDetailsSolawiTuebingen
+typealias BidderDetailsEntity = BidderDetails
 
 object BidderDetailsSolawiTuebingenTable : UUIDTable("bidder_details_solawi_tuebingen") {
 
-    val bidderId = uuid("bidder_id")
+    val bidderId = reference("bidder_id", Bidders)
     // external Id in the webling interface
     val weblingId = integer("webling_id")
 
@@ -18,12 +19,19 @@ object BidderDetailsSolawiTuebingenTable : UUIDTable("bidder_details_solawi_tueb
     val numberOfShares = integer("number_of_shares")
 }
 
-class BidderDetailsSolawiTuebingen (id: EntityID<UUID>) : UUIDEntity(id) {
+class BidderDetailsSolawiTuebingen (id: EntityID<UUID>) : UUIDEntity(id), BidderDetails.SolawiTuebingen {
     companion object : UUIDEntityClass<BidderDetailsSolawiTuebingen>(BidderDetailsSolawiTuebingenTable)
 
-    var bidderId by BidderDetailsSolawiTuebingenTable.bidderId
+    //var bidderId by BidderDetailsSolawiTuebingenTable.bidderId
     var weblingId by BidderDetailsSolawiTuebingenTable.weblingId
-    var numberOfShares by BidderDetailsSolawiTuebingenTable.numberOfShares
+    override var numberOfShares by BidderDetailsSolawiTuebingenTable.numberOfShares
 
-    var bidder by Bidder referencedOn BidderDetailsSolawiTuebingenTable.bidderId
+    override var bidder by Bidder referencedOn BidderDetailsSolawiTuebingenTable.bidderId
+}
+
+sealed interface BidderDetails {
+    interface SolawiTuebingen : BidderDetails {
+        var bidder: Bidder
+        var numberOfShares: Int
+    }
 }
