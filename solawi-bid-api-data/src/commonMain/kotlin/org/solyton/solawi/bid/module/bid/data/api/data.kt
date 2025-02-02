@@ -165,7 +165,21 @@ data class BidRound(
     val amount: Double?
 )
 
+@Serializable
+data object ExportBidRound
 
+@Serializable
+data class BidRoundResults(
+    val roundId: String,
+    val results: List<BidResult>
+)
+
+@Serializable
+data class BidResult(
+    val username: String,
+    val numberOfShares: Int,
+    val amount: Double
+)
 
 @Serializable
 data class ImportBidders(

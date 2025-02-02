@@ -59,6 +59,10 @@ val solawiApi by lazy {
         key = ChangeRoundState::class,
         url = "round/change-state"
     )
+    .get<ExportBidRound, BidRoundResults>(
+        key = ChangeRoundState::class,
+        url = "round/{roundId}/export-results"
+    )
 
 
 
