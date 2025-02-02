@@ -32,7 +32,7 @@ fun Transaction.getResults(auctionId: UUID, roundId: UUID):BidRoundResults {
         AuctionsTable.id eq auctionId
     }.firstOrNull()?: throw Exception()
 
-    val bidderDetails = getBidders(auction).map { it as BidderDetails.SolawiTuebingen }
+    val bidderDetails = getBidderDetails(auction).map { it as BidderDetails.SolawiTuebingen }
 
     // Compute results for those who have sent bids
     val bidResults = BidRoundEntity.find {

@@ -39,7 +39,13 @@ fun Transaction.importBidders(auctionId: UUID, bidders: List<NewBidder>): Auctio
     return addBidders(auction,bidders)
 }
 
-fun Transaction.getBidders(auction: Auction): SizedIterable<BidderDetailsEntity> {
+fun Transaction.getBidderDetails(bidder: Bidder): BidderDetailsEntity =
+    BidderDetailsSolawiTuebingenEntity.find {
+        BidderDetailsSolawiTuebingenTable.bidderId eq bidder.id.value
+    }.firstOrNull()
+    ?: throw BidRoundException.MissingBidderDetails
+
+fun Transaction.getBidderDetails(auction: Auction): SizedIterable<BidderDetailsEntity> {
     val bidderIds = auction.bidders.map { it.id.value }
     val details = BidderDetailsSolawiTuebingenEntity.find {
         BidderDetailsSolawiTuebingenTable.bidderId inList bidderIds

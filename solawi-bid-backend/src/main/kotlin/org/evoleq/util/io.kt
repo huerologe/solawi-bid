@@ -112,6 +112,7 @@ fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Me
         is BidRoundException.RegisteredBidderNotPartOfTheAuction,
         is BidRoundException.LinkNotPresent, -> HttpStatusCode.Forbidden
         is BidRoundException.IllegalNumberOfParts -> HttpStatusCode.BadRequest
+        is BidRoundException.MissingBidderDetails -> HttpStatusCode.NotFound
         //
         //User
         is UserManagementException.UserDoesNotExist -> HttpStatusCode.Unauthorized

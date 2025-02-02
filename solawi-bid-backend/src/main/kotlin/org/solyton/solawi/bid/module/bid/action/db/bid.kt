@@ -25,7 +25,7 @@ val StoreBid = KlAction { bid: Result<Bid> ->  DbAction {
     val bidder = Bidder.find { Bidders.username eq data.username }.firstOrNull()
         ?: throw BidRoundException.UnregisteredBidder(data.username)
 
-    (storeBid(data).toApiType() x bidder.numberOfShares).toBidInfo()
+    (storeBid(data).toApiType() x (getBidderDetails(bidder) as BidderDetails.SolawiTuebingen).numberOfShares).toBidInfo()
     } } x database
 } }
 
