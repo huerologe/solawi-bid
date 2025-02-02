@@ -14,7 +14,6 @@ import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.*
 import org.solyton.solawi.bid.module.bid.data.api.*
-import java.util.*
 
 
 @KtorDsl
@@ -79,11 +78,10 @@ fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Ro
             patch("change-state") {
                 Receive<ChangeRoundState>() * ChangeRoundState *  Respond() runOn Base(call,environment)
             }
-            route("{roundId}") {
-                get("export-results") {
-                    val roundId = UUID.fromString(call.parameters["id"]!!)
-                    Receive(roundId) * ExportResults * Respond() runOn Base(call, environment)
-                }
+
+            patch("export-results") {
+                Receive<ExportBidRound>() * ExportResults * Respond() runOn Base(call, environment)
             }
+
         }
     }

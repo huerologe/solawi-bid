@@ -11,15 +11,16 @@ import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.solyton.solawi.bid.module.bid.data.api.BidResult
 import org.solyton.solawi.bid.module.bid.data.api.BidRoundResults
+import org.solyton.solawi.bid.module.bid.data.api.ExportBidRound
 import org.solyton.solawi.bid.module.db.schema.BidRoundEntity
 import org.solyton.solawi.bid.module.db.schema.BidRoundsTable
 import java.util.*
 
 @MathDsl
-val ExportResults = KlAction<Result<UUID>, Result<BidRoundResults>> {
-    roundState -> DbAction {
-        database -> coroutineScope { roundState bindSuspend {state -> resultTransaction(database) {
-            getResults(state)
+val ExportResults = KlAction<Result<ExportBidRound>, Result<BidRoundResults>> {
+    roundData -> DbAction {
+        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
+            getResults(UUID.fromString(data.roundId))
         } } } x database
     }
 }

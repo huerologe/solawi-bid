@@ -13,7 +13,9 @@ typealias ApiAuction = Auction
 typealias ApiAuctions = Auctions
 typealias ApiAuctionDetails = AuctionDetails
 typealias ApiAuctionDetailsSolawiTuebingen = AuctionDetails.SolawiTuebingen
-
+typealias ApiBidInfo = BidInfo
+typealias ApiBidRoundResults = BidRoundResults
+typealias ApiBidResult = BidResult
 
 
 @Serializable
@@ -166,7 +168,9 @@ data class BidRound(
 )
 
 @Serializable
-data object ExportBidRound
+data class ExportBidRound(
+    val roundId: String
+)
 
 @Serializable
 data class BidRoundResults(

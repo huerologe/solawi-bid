@@ -16,9 +16,11 @@ import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
+import org.solyton.solawi.bid.application.ui.page.auction.action.exportBidRoundResults
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 import org.solyton.solawi.bid.test.storage.TestStorage
 import kotlin.test.Test
@@ -177,5 +179,14 @@ class ActionTests{
             assertEquals(2.0, storedAuction.auctionDetails.solidarityContribution)
 
         }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun exportBidRoundTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1, 1, 1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val roundLens = auctionLens * rounds * FirstBy { it.roundId == "id" }
+        val action = exportBidRoundResults(roundLens)
+
     }
 }
