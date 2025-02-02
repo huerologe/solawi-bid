@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.application.ui.page.auction.action
 
 import org.evoleq.compose.Markup
 import org.evoleq.math.Reader
+import org.evoleq.math.Writer
 import org.evoleq.math.contraMap
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.times
@@ -21,10 +22,13 @@ fun createRound(auction: Lens<Application, Auction>) =
         name = "CreateRound",
         reader = auction * Reader{ a: Auction -> CreateRound(a.auctionId) },
         endPoint = CreateRound::class,
-        writer = (auction * rounds)
-            merge { given, incoming -> given.roundId == incoming.roundId }
-            contraMap {
-                it.map { apiRound: ApiRound -> apiRound.toDomainType() }
-            }
+        writer = auction * Writer{
+                apiRound: ApiRound ->{ a -> a.copy(
+                    rounds = listOf(
+                        *a.rounds.toTypedArray(),
+                        apiRound.toDomainType())
+                    )
+                }
+        }
     )
 
