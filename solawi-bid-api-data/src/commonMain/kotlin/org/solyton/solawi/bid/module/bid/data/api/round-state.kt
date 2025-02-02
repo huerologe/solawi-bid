@@ -35,7 +35,7 @@ sealed class RoundState : Command {
         fun fromString(state: String): RoundState = when(state){
             RoundState.Opened.toString() -> RoundState.Opened
             RoundState.Started.toString() -> RoundState.Started
-            RoundState.Stopped.toString() -> RoundState.Started
+            RoundState.Stopped.toString() -> RoundState.Stopped
             RoundState.Evaluated.toString() -> RoundState.Evaluated
             RoundState.Closed.toString() -> RoundState.Closed
             RoundState.Frozen.toString() -> RoundState.Frozen

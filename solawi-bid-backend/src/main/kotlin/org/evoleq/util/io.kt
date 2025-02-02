@@ -15,6 +15,7 @@ import org.evoleq.math.state.times
 import org.evoleq.math.x
 import org.solyton.solawi.bid.application.permission.Header
 import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
+import org.solyton.solawi.bid.module.bid.data.api.RoundStateException
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.permission.PermissionException
 import org.solyton.solawi.bid.module.user.exception.UserManagementException
@@ -118,6 +119,10 @@ fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Me
 
         // Permission
         is PermissionException.AccessDenied -> HttpStatusCode.Forbidden
+
+        // RoundState
+        is RoundStateException.IllegalTransition -> HttpStatusCode.BadRequest
+        is RoundStateException.IllegalRoundState -> HttpStatusCode.BadRequest
 
         else -> HttpStatusCode.InternalServerError
     } x this.value.toMessage()
