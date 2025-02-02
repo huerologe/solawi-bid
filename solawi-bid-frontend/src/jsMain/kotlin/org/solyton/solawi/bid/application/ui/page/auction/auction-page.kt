@@ -156,6 +156,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                         val actions = (storage * actions).read()
                         try {
                             actions.emit( exportBidRoundResults(
+                                (storage * auction).read().auctionId,
                                 auction * rounds * FirstBy { it.roundId == round.roundId })
                             )
                         } catch(exception: Exception) {

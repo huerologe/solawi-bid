@@ -169,7 +169,8 @@ data class BidRound(
 
 @Serializable
 data class ExportBidRound(
-    val roundId: String
+    val roundId: String,
+    val auctionId: String
 )
 
 @Serializable
@@ -182,7 +183,8 @@ data class BidRoundResults(
 data class BidResult(
     val username: String,
     val numberOfShares: Int,
-    val amount: Double
+    val amount: Double,
+    val hasPlacedBid: Boolean
 )
 
 @Serializable

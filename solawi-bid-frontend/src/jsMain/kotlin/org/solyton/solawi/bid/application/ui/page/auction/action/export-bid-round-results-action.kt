@@ -16,9 +16,9 @@ import org.solyton.solawi.bid.module.bid.data.api.ExportBidRound
 import org.solyton.solawi.bid.module.bid.data.rawResults
 
 @MathDsl
-fun exportBidRoundResults(round: Lens<Application,Round>) = Action<Application, ExportBidRound, ApiBidRoundResults >(
+fun exportBidRoundResults(auctionId: String, round: Lens<Application,Round>) = Action<Application, ExportBidRound, ApiBidRoundResults >(
     name = "ExportBidRound",
-    reader = round * Reader { r: Round -> ExportBidRound(r.roundId) },
+    reader = round * Reader { r: Round -> ExportBidRound(r.roundId, auctionId ) },
     endPoint = ExportBidRound::class,
     writer = (round * rawResults).set contraMap {
         // todo move to separate transform function
@@ -27,7 +27,8 @@ fun exportBidRoundResults(round: Lens<Application,Round>) = Action<Application, 
                 BidResult(
                     it.username,
                     it.numberOfShares,
-                    it.amount
+                    it.amount,
+                    it.hasPlacedBid
                 )
             },
             startDownloadOfBidRoundResults = true
