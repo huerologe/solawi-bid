@@ -4,10 +4,15 @@ on:
   push:
       branches:
         - main
+        - develop
+      paths-ignore:
+        - '.github/**'
   pull_request:
       branches:
         - main
         - develop
+      paths-ignore:
+        - '.github/**'
 permissions:
   contents: read
   actions: read
