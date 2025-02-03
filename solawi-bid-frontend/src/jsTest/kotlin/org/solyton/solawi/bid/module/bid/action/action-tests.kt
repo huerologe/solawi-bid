@@ -24,6 +24,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.solyton.solawi.bid.module.bid.data.Round as DomainRound
+import org.solyton.solawi.bid.module.bid.data.evaluation.WeightedBid as DomainWeightedBid
 
 class ActionTests{
     @OptIn(ComposeWebExperimentalTestsApi::class)
@@ -196,7 +197,6 @@ class ActionTests{
             (storage * action.writer).write(apiAuction) on Unit
 
             val storedAuction = (storage * auctionLens).read()
-            //assertIs<AuctionDetails>(storedAuction.auctionDetails)
             assertEquals(2.0, storedAuction.auctionDetails.benchmark)
             assertEquals(2.0, storedAuction.auctionDetails.minimalBid)
             assertEquals(2.0, storedAuction.auctionDetails.targetAmount)
@@ -217,7 +217,6 @@ class ActionTests{
             RoundState.Opened.toString()
         )
 
-        val createAuction = createAuction(auctionLens)
         val createRound = createRound(auctionLens)
         val changeRoundState = changeRoundState(RoundState.Started, roundLens)
 
@@ -247,7 +246,125 @@ class ActionTests{
         val auction = Auction("id", "name", LocalDate(1, 1, 1))
         val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
         val roundLens = auctionLens * rounds * FirstBy { it.roundId == "id" }
-        val action = exportBidRoundResults("id",roundLens)
+        // val action =
+            exportBidRoundResults("id",roundLens)
+        // todo test: finalize!! Only checks that action can be constructed!
+    }
 
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun evaluateBidRoundTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1,1,1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val roundLens = auctionLens * rounds * FirstBy { r:DomainRound -> r.roundId == "id" }
+
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Opened.toString()
+        )
+
+        val createRound = createRound(auctionLens)
+        val evaluateBidRound = evaluateBidRound("id",roundLens)
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+            (storage * createRound.writer).write(round) on Unit
+
+            val evaluation = ApiBidRoundEvaluation(
+                auctionDetails = AuctionDetails.SolawiTuebingen(
+                    20.0,
+                    80.0,
+                    100_000.0,
+                    5.0
+                ),
+                totalSumOfWeightedBids = 300.0,
+                totalNumberOfShares = 3,
+                weightedBids = listOf(ApiWeightedBid(
+                    3, 100.0
+                ))
+            )
+
+            // Check reader of action
+            // read evaluation
+            val dto: EvaluateBidRound = (storage * evaluateBidRound.reader).emit()
+            // assert
+            assertEquals(EvaluateBidRound("id", "id"), dto)
+
+            // Check writer of action
+            // write evaluation
+            (storage * evaluateBidRound.writer).write(evaluation) on Unit
+
+            // assertions
+            val storedEvaluation = (storage * roundLens).read().bidRoundEvaluation
+            // details
+            val details = storedEvaluation.auctionDetails
+            assertEquals(20.0, details.minimalBid)
+            assertEquals(80.0, details.benchmark)
+            assertEquals(100_000.0, details.targetAmount)
+            assertEquals(5.0, details.solidarityContribution)
+            // statistics
+            assertEquals (300.0, storedEvaluation.totalSumOfWeightedBids )
+            assertEquals(300.0, storedEvaluation.totalSumOfWeightedBids)
+            assertEquals(3, storedEvaluation.totalNumberOfShares)
+            assertEquals<List<DomainWeightedBid>>(listOf(DomainWeightedBid(
+                3, 100.0
+            )), storedEvaluation.weightedBids)
+
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun preEvaluateBidRoundTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1, 1, 1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val roundLens = auctionLens * rounds * FirstBy { r: DomainRound -> r.roundId == "id" }
+
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Opened.toString()
+        )
+
+        val createRound = createRound(auctionLens)
+        val preEvaluateBidRound = preEvaluateBidRound("id",roundLens)
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+            (storage * createRound.writer).write(round) on Unit
+
+            val evaluation = ApiBidRoundPreEvaluation(
+                auctionDetails = AuctionDetails.SolawiTuebingen(
+                    20.0,
+                    80.0,
+                    100_000.0,
+                    5.0
+                ),
+                totalNumberOfShares = 3,
+            )
+
+
+            // Check reader of action
+            // read evaluation
+            val dto: PreEvaluateBidRound = (storage * preEvaluateBidRound.reader).emit()
+            // assert
+            assertEquals(PreEvaluateBidRound("id", "id"), dto)
+
+            // Check writer of action
+            // write evaluation
+            (storage * preEvaluateBidRound.writer).write(evaluation) on Unit
+
+            // assertions
+            val storedEvaluation = (storage * roundLens).read().preEvaluation
+            // details
+            val details = storedEvaluation.auctionDetailsPreEval
+            assertEquals(20.0, details.minimalBid)
+            assertEquals(80.0, details.benchmark)
+            assertEquals(100_000.0, details.targetAmount)
+            assertEquals(5.0, details.solidarityContribution)
+            // statistics
+            assertEquals(3, storedEvaluation.totalNumberOfSharesPreEval)
+        }
     }
 }
