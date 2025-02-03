@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.BidResult
 
 
 fun ApiAuctions.toDomainType(): List<Auction> = list.map { auction -> auction.toDomainType() }
@@ -35,3 +36,15 @@ fun ApiAuctionDetails.toDomainType(): AuctionDetails  = when(this) {
     )
     else -> AuctionDetails()
 }
+
+fun ApiBidRoundResults.toDomainType(startDownloadOfBidRoundResults: Boolean = true): BidRoundResults = BidRoundResults(
+    results.map { it.toDomainType() },
+    startDownloadOfBidRoundResults
+)
+
+fun ApiBidResult.toDomainType(): BidResult = BidResult(
+    username,
+    numberOfShares,
+    amount,
+    hasPlacedBid
+)

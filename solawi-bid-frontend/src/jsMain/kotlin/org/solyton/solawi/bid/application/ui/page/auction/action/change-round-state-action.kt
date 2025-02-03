@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.page.auction.action
 
+import org.evoleq.compose.Markup
 import org.evoleq.math.MathDsl
 import org.evoleq.math.Reader
 import org.evoleq.math.contraMap
@@ -13,7 +14,7 @@ import org.solyton.solawi.bid.module.bid.data.api.ChangeRoundState
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 
-@MathDsl
+@Markup
 fun changeRoundState(newState: RoundState, round: Lens<Application, Round>) = Action<Application, ChangeRoundState, ApiRound>(
     name = "ChangeRoundState",
     reader = round * Reader { r:Round -> ChangeRoundState(r.roundId, newState.toString()) },

@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.action
 
+import io.ktor.util.Identity.encode
 import kotlinx.datetime.LocalDate
 import org.evoleq.ktorx.result.on
 import org.evoleq.math.emit
@@ -17,6 +18,7 @@ import org.solyton.solawi.bid.application.serialization.installSerializers
 import org.solyton.solawi.bid.application.ui.page.auction.action.*
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.rawResults
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 import org.solyton.solawi.bid.test.storage.TestStorage
@@ -246,9 +248,43 @@ class ActionTests{
         val auction = Auction("id", "name", LocalDate(1, 1, 1))
         val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
         val roundLens = auctionLens * rounds * FirstBy { it.roundId == "id" }
-        // val action =
-            exportBidRoundResults("id",roundLens)
-        // todo test: finalize!! Only checks that action can be constructed!
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Opened.toString()
+        )
+
+        val createRound = createRound(auctionLens)
+        val export = exportBidRoundResults("id",roundLens)
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+            (storage * createRound.writer).write(round) on Unit
+
+            // Check Reader of action
+            val dto = (storage * export.reader).emit()
+            assertEquals(ExportBidRound("id", "id"), dto)
+
+            // Check Writer of action
+            val results = ApiBidRoundResults(
+                "id",
+                listOf(
+                    ApiBidResult(
+                        "username",
+                        2,
+                        100.0,
+                        true
+                    )
+                )
+            )
+            (storage * export.writer).write(results) on Unit
+            val storedResults = (storage * roundLens * rawResults).read()
+            val domainResults = results.toDomainType()
+            assertEquals(domainResults, storedResults)
+            assertEquals(domainResults.bidRoundResults,storedResults.bidRoundResults)
+            assertEquals(domainResults.startDownloadOfBidRoundResults, storedResults.startDownloadOfBidRoundResults)
+        }
     }
 
     @OptIn(ComposeWebExperimentalTestsApi::class)
