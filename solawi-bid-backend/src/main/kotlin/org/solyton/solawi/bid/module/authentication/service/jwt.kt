@@ -8,7 +8,7 @@ import org.solyton.solawi.bid.application.environment.JWT
 import java.util.*
 
 
-private const val ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 15 // 15 minutes
+private const val ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 // 15 minutes
 
 // Generate access token
 fun generateAccessToken(userId: String, jwt: JWT): String {

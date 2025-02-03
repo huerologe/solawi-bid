@@ -15,7 +15,7 @@ import org.solyton.solawi.bid.module.db.schema.Users
  * Generated at Mon Apr 01 22:02:29 CEST 2024
  *
  * Description:
- * Introduce basic users
+ * Introduce basic user table
  */
 class Migration1712001749830(
     override val database: Database
@@ -34,14 +34,6 @@ class Migration1712001749830(
 
         SchemaUtils.create(Users)
 
-        val smith = User.new {
-            username = "schmidt@alpha-structure.com"
-            password = "\$2a\$10\$5EENEnXKE4oNT0AejWzy8Oa09DkBDiQTnk2LyqtqpBa3DrZijo51O"
-        }
-        val sulz = User.new {
-            username = "florian.schmidt@sulzer.de"
-            password = "\$2a\$10\$5EENEnXKE4oNT0AejWzy8Oa09DkBDiQTnk2LyqtqpBa3DrZijo51O"
-        }
     }
 
     /**
