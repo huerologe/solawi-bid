@@ -10,7 +10,7 @@ typealias ContextEntity = Context
 typealias ContextsTable = Contexts
 
 object Contexts : UUIDTable("contexts") {
-    val name = varchar("name",5000).uniqueIndex()
+    val name = varchar("name",500).uniqueIndex()
 }
 
 class Context(id: EntityID<UUID>) : UUIDEntity(id) {

@@ -39,7 +39,7 @@ class Migration1730143239225(
      */
     override suspend fun Transaction.up() {
         SchemaUtils.create(Contexts, Rights, Roles, RoleRightContexts, UserRoleContext)
-        setupBasicRolesAndRights(addApplicationUser = true)
+        setupBasicRolesAndRights()
 
     }
 
@@ -52,7 +52,7 @@ class Migration1730143239225(
     }
 }
 
-fun setupBasicRolesAndRights(addApplicationUser: Boolean = false) {
+fun setupBasicRolesAndRights() {
     // Contexts
     val applicationContextId = Contexts.insertAndGetId {
         it[name] = Context.Application.value
@@ -145,22 +145,5 @@ fun setupBasicRolesAndRights(addApplicationUser: Boolean = false) {
         it[contextId] = applicationContextId
         it[roleId] = userRoleId
         it[rightId] = createOrganizationId
-    }
-
-    if(addApplicationUser) {
-        // user has been added in the previous migration
-        val applicationOwner = User.find { Users.username eq "schmidt@alpha-structure.com" }.first()
-
-        UserRoleContext.insert {
-            it[userId] = applicationOwner.id
-            it[contextId] = applicationContextId
-            it[roleId] = ownerRoleId
-        }
-
-        UserRoleContext.insert {
-            it[userId] = applicationOwner.id
-            it[contextId] = applicationContextId
-            it[roleId] = userRoleId
-        }
     }
 }

@@ -7,6 +7,13 @@ import org.evoleq.exposedx.migrations.runOn
 import org.jetbrains.exposed.sql.Database
 import org.solyton.solawi.bid.application.environment.Environment
 
-fun Application.installDatabase(environment: Environment,migrations: ArrayList<Database.()-> Migration> = arrayListOf()) = runBlocking {
-    migrations.runOn(environment.connectToDatabase())
+fun Application.installDatabase(environment: Environment, migrations: ArrayList<Database.()-> Migration> = arrayListOf()): Database = runBlocking {
+    val database = environment.connectToDatabase()
+    migrations.runOn(database)
+    database
 }
+
+fun Application.installUsers(environment: Environment, database: Database) {
+    environment.injectUsers(database)
+}
+

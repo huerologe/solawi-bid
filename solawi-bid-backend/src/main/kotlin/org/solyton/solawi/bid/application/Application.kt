@@ -10,7 +10,8 @@ import org.solyton.solawi.bid.module.db.migrations.dbMigrations
 fun Application.solawiBid(test: Boolean = false) {
         val environment = setupEnvironment()
         if(!test) {
-            installDatabase(environment, dbMigrations)
+            val database = installDatabase(environment, dbMigrations)
+            installUsers(environment, database)
         }
         installSerializers()
         installAuthentication(environment.jwt)

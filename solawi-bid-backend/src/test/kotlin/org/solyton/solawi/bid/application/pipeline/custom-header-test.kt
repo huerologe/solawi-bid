@@ -13,6 +13,7 @@ import org.evoleq.ktorx.result.ResultSerializer
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
 import org.solyton.solawi.bid.application.exception.ApplicationException
+import org.solyton.solawi.bid.application.permission.Header
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
@@ -35,10 +36,10 @@ class CustomHeaderTests {
             }
 
             val success = client.get("/validate") {
-                header("CONTEXT", "TEST_CONTEXT")
+                header(Header.CONTEXT, "TEST_CONTEXT")
             }
             assertEquals(HttpStatusCode.OK, success.status)
-            assertTrue{success.headers.contains("CONTEXT", "TEST_CONTEXT")}
+            assertTrue{success.headers.contains(Header.CONTEXT, "TEST_CONTEXT")}
 
             val successResult = Json.decodeFromString(ResultSerializer, success.bodyAsText())
             assertTrue( successResult is Result.Success)
@@ -47,7 +48,7 @@ class CustomHeaderTests {
 
             val failure = client.get("/validate") {}
             assertEquals(HttpStatusCode.BadRequest, failure.status  )
-            assertTrue{ failure.headers.contains("CONTEXT", "EMPTY") }
+            assertTrue{ failure.headers.contains(Header.CONTEXT, "EMPTY") }
 
             val failureResult = Json.decodeFromString(ResultSerializer, failure.bodyAsText())
             assertTrue( failureResult is Result.Failure.Message)
