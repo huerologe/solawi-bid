@@ -19,6 +19,87 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 class BidRoundEvaluationRoutingTest {
+
+    @Api@Test
+    fun exportBidRoundResultsTest() = runBlocking {
+        testApplication {
+            environment {
+                // Load the HOCON file explicitly with the file path
+                val configFile = File("src/test/resources/bid.api.test.conf")
+                config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
+
+            }
+            application {
+
+            }
+
+            // Create auction
+            val auctionText = client.post("/auction/create") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        CreateAuction.serializer(),
+                        CreateAuction("test-name", LocalDate(1, 1, 1))
+                    )
+                )
+            }.bodyAsText()
+            val auctionResult = Json.decodeFromString(ResultSerializer, auctionText)
+            assertIs<Result.Success<Auction>>(auctionResult)
+            val auction = auctionResult.data
+
+            // Configure auction !
+            val configureAuctionResponse = client.patch("/auction/configure") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        ConfigureAuction.serializer(),
+                        ConfigureAuction(
+                            auction.id,
+                            "test-name",
+                            auction.date,
+                            auctionDetails = AuctionDetails.SolawiTuebingen(
+                                2.0, 2.0, 2.0, 2.0,
+                            )
+                        )
+                    )
+                )
+            }
+            assertTrue("Wrong status: ${configureAuctionResponse.status}, expected ${HttpStatusCode.OK}") { configureAuctionResponse.status == HttpStatusCode.OK }
+
+
+            // Create round
+            val roundResponse = client.post("/round/create") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        CreateRound.serializer(),
+                        CreateRound(auction.id)
+                    )
+                )
+            }
+            assertTrue("Wrong status: ${roundResponse.status}, expected ${HttpStatusCode.OK}") { roundResponse.status == HttpStatusCode.OK }
+            val roundResponseText = roundResponse.bodyAsText()
+            val result = Json.decodeFromString(ResultSerializer<Round>(), roundResponseText)
+            assertIs<Result.Success<Round>>(result)
+            val baseRound = result.data
+
+
+            // Evaluate
+            val exportResultsResponse = client.patch("round/export-results") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        EvaluateBidRound.serializer(),
+                        EvaluateBidRound(auction.id, baseRound.id)
+                    )
+                )
+            }
+
+            assertTrue("Wrong status: ${exportResultsResponse.status}, expected ${HttpStatusCode.OK}") { exportResultsResponse.status == HttpStatusCode.OK }
+        }
+    }
+
+
     @Api@Test
     fun evaluateBidRoundTest() = runBlocking {
         testApplication {
