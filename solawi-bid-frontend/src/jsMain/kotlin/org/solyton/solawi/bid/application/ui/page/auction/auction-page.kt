@@ -150,6 +150,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             listOf(
                 Property("Date", with((storage * auction).read()) { date }),
                 Property("Number of Bidders", (storage * auction * countBidders).emit()),
+                // todo:dev
                 //Property("Number of Shares", (storage * auction * countBidders).emit())
             ),
             auctionPropertiesStyles
