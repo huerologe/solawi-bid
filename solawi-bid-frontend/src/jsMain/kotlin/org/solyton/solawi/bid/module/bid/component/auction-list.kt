@@ -21,6 +21,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.action.deleteAuctionAction
+import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name

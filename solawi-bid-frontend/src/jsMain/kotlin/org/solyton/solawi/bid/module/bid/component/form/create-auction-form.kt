@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.bid.component
+package org.solyton.solawi.bid.module.bid.component.form
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup

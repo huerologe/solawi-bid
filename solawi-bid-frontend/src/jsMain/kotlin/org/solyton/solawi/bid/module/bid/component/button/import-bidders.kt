@@ -19,7 +19,7 @@ import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
-import org.solyton.solawi.bid.module.bid.component.showImportBiddersModal
+import org.solyton.solawi.bid.module.bid.component.modal.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds

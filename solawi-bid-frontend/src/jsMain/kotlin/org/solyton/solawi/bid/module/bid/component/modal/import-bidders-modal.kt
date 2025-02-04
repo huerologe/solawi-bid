@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.bid.component
+package org.solyton.solawi.bid.module.bid.component.modal
 
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup

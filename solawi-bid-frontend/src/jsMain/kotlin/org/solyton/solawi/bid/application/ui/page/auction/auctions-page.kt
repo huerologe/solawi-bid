@@ -16,7 +16,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.AuctionList
-import org.solyton.solawi.bid.module.bid.component.DEFAULT_AUCTION_ID
+import org.solyton.solawi.bid.module.bid.component.form.DEFAULT_AUCTION_ID
 import org.solyton.solawi.bid.module.bid.component.button.CreateAuctionButton
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
