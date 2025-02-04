@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.compose.attribute.disabled
 import org.evoleq.compose.layout.*
 import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
@@ -16,6 +17,7 @@ import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
@@ -60,8 +62,10 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     H1 { Text( with((storage * auction).read()) { name }  ) }
     LineSeparator()
     Horizontal(styles = { justifyContent(JustifyContent.SpaceBetween); width(100.percent) }) {
+        // todo:i18n
         H2 { Text("Details") }
         Horizontal {
+            // todo:refactor:extract
             Button( attrs = {
                 // Auction can only be configured, if no rounds have been created
                 val isDisabled = (storage * auction * rounds * existRounds).emit()
@@ -92,12 +96,14 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                     }
                 }
             } ){
+                // todo:i18n
                 Text("Configure")
             }
+            // todo:refactor:extract
             Button(attrs = {
                 // Bidders can only be imported, if no rounds have been created
                 val isDisabled = (storage * auction * rounds * existRounds).emit()
-                if(isDisabled) attr("disabled", "true")
+                if(isDisabled) disabled()
                 onClick {
                     if(isDisabled) return@onClick
                     (storage * modals).showImportBiddersModal(
@@ -112,16 +118,20 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                         }
                     )
                 }
-            }) { Text("Import Bidders") }
-            // New rounds can only be created when
-            // 1. the auction is configured,
-            // 2. the bidders have been imported and
-            // 3. There are no open or running rounds
-            val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
-                (storage * auction * auctionDetails * areNotConfigured).emit() ||
-                (storage * auction * biddersHaveNotBeenImported).emit()
+            }) {
+                // todo:i18n
+                Text("Import Bidders")
+            }
+            // todo:refactor:extract
             Button(attrs = {
-                if(isDisabled) attr("disabled", "true")
+                // New rounds can only be created when
+                // 1. the auction is configured,
+                // 2. the bidders have been imported and
+                // 3. There are no open or running rounds
+                val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
+                    (storage * auction * auctionDetails * areNotConfigured).emit() ||
+                    (storage * auction * biddersHaveNotBeenImported).emit()
+                if(isDisabled) disabled()
                 onClick {
                     if(isDisabled) return@onClick
                     CoroutineScope(Job()).launch {
@@ -137,7 +147,10 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                         }
                     }
                 }
-            }) { Text("Create new Round") }
+            }) {
+                // todo:i18n
+                Text("Create new Round")
+            }
         }
 
     }
@@ -159,7 +172,10 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
 
     LineSeparator()
 
-    H2 { Text("Rounds") }
+    H2 {
+        // todo:i18n
+        Text("Rounds")
+    }
 
 
 
@@ -183,6 +199,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                 width(100.percent)
             }
         }) {
+            // todo:refactor:extract
             if(round.rawResults.startDownloadOfBidRoundResults) {
                 LaunchedEffect(Unit) {
                     val fileName = "results_${Date.now()}.csv"
@@ -192,6 +209,8 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                 val startDownload = (storage * auction * rounds * FirstBy { it.roundId == round.roundId }) * rawResults  * startDownloadOfBidRoundResults
                 startDownload.write(false)
             }
+
+            // todo:refactor:extract
             Button(
                 attrs = {
                     style {
@@ -211,6 +230,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             Div {
                 Text(round.state)
             }
+            // todo:refactor:extract
             Button(attrs = {
                 onClick {
                     CoroutineScope(Job()).launch {
@@ -231,7 +251,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
             ) {
                 Text(RoundState.fromString(round.state).commandName)
             }
-
+            // todo:refactor:extract
             Button(attrs= {
                 onClick {
                     CoroutineScope(Job()).launch {
@@ -249,13 +269,12 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                     }
                 }
             }) {
+                // todo:i18n
                 Text("Export")
             }
         }
     }
 }
-
-
 
 
 val countBidders: Reader<Auction, Int> = Reader {
