@@ -89,7 +89,7 @@ fun AuctionListItem(
         // Details
         Button(attrs = {
             style{
-
+                // todo:style:button:navigate
             }
             onClick {
                 navigate("/solyton/auctions/${auction.read().auctionId}")
@@ -100,13 +100,13 @@ fun AuctionListItem(
         // Edit
         Button(attrs = {
             style{
-
+                // todo:style:button:edit
             }
             onClick {
                 // open edit dialog
                 (modals).showUpdateAuctionModal(
                     auction =  auction,
-                    texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.createDialog"),
+                    texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
                     cancel = {}
                 ) {
                     dispatchConfiguration()
@@ -118,7 +118,7 @@ fun AuctionListItem(
         // Delete
         Button(attrs = {
             style{
-
+                // todo:style:button:delete
             }
             onClick {
                 dispatchDelete()
