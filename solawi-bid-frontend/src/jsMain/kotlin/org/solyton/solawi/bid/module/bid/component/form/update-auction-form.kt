@@ -16,7 +16,10 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.DateInput
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.ElementScope
+import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.*
 import org.solyton.solawi.bid.module.bid.service.onNullEmpty
