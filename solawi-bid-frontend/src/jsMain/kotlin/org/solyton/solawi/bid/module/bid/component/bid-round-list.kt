@@ -15,8 +15,12 @@ import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.module.bid.component.button.ChangeRoundStateButton
 import org.solyton.solawi.bid.module.bid.component.button.ExportBidRoundResultsButton
 import org.solyton.solawi.bid.module.bid.component.button.QRLinkToRoundPageButton
+import org.solyton.solawi.bid.module.bid.component.effect.LaunchBidRoundEvaluation
 import org.solyton.solawi.bid.module.bid.component.effect.LaunchDownloadOfBidRoundResults
+import org.solyton.solawi.bid.module.bid.component.effect.LaunchExportOfBidRoundResults
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.bid.data.Round
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.rounds
 
 @Markup
@@ -26,7 +30,6 @@ fun BidRoundList(
     storage: Storage<Application>,
     auction: Lens<Application, Auction>
 ) {
-
     H2 {
         // todo:i18n
         Text("Rounds")
@@ -36,28 +39,66 @@ fun BidRoundList(
         "$frontendUrl:$frontendPort"
     }
     (storage * auction * rounds).read().reversed().forEach { round ->
-        Horizontal(styles = {width(100.percent) }) {
-            LaunchDownloadOfBidRoundResults(
-                storage = storage,
-                auction = auction,
-                round = round
-            )
-            QRLinkToRoundPageButton(
-                storage = storage,
-                auction = auction,
-                round = round,
-                frontendBaseUrl= frontendBaseUrl
-            )
-            ChangeRoundStateButton(
-                storage = storage,
-                auction = auction,
-                round = round
-            )
-            ExportBidRoundResultsButton(
-                storage = storage,
-                auction = auction,
-                round = round
-            )
-        }
+        BidRoundListItem(
+            storage = storage,
+            auction = auction,
+            round = round,
+            frontendBaseUrl= frontendBaseUrl
+        )
     }
 }
+
+@Markup
+@Composable
+@Suppress("FunctionName")
+fun BidRoundListItem(
+    storage: Storage<Application>,
+    auction: Lens<Application, Auction>,
+    round: Round,
+    frontendBaseUrl: String
+) {
+    // Effects
+    when(RoundState.fromString(round.state) ) {
+        is RoundState.Stopped -> LaunchExportOfBidRoundResults(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
+        is RoundState.Evaluated -> LaunchBidRoundEvaluation(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
+        is RoundState.Opened,
+        is RoundState.Started,
+        is RoundState.Closed,
+        is RoundState.Frozen  -> Unit
+    }
+
+    // Markup
+    Horizontal(styles = {width(100.percent) }) {
+        LaunchDownloadOfBidRoundResults(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
+        QRLinkToRoundPageButton(
+            storage = storage,
+            auction = auction,
+            round = round,
+            frontendBaseUrl= frontendBaseUrl
+        )
+        ChangeRoundStateButton(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
+        ExportBidRoundResultsButton(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
+    }
+}
+
+
