@@ -1,6 +1,5 @@
 package org.solyton.solawi.bid.module.bid.action
 
-import io.ktor.util.Identity.encode
 import kotlinx.datetime.LocalDate
 import org.evoleq.ktorx.result.on
 import org.evoleq.math.emit
@@ -401,6 +400,45 @@ class ActionTests{
             assertEquals(5.0, details.solidarityContribution)
             // statistics
             assertEquals(3, storedEvaluation.totalNumberOfSharesPreEval)
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun acceptRoundTest() = runTest {
+        val auction = Auction("id", "name", LocalDate(1, 1, 1))
+        val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
+        val roundLens = auctionLens * rounds * FirstBy { r: DomainRound -> r.roundId == "id" }
+
+        val round = Round(
+            "id",
+            "link",
+            RoundState.Opened.toString()
+        )
+
+        val createRound = createRound(auctionLens)
+        val acceptRound = acceptRound(auctionLens, "id")
+
+        composition {
+            val storage = TestStorage()
+            (storage * auctionLens).write(auction)
+            (storage * createRound.writer).write(round) on Unit
+
+            val acceptedRound = AcceptedRound("id")
+
+            // Check reader of action
+            // read evaluation
+            val dto: AcceptRound = (storage * acceptRound.reader).emit()
+            // assert
+            assertEquals(AcceptRound("id", "id"), dto)
+
+            // Check writer of action
+            // write evaluation
+            (storage * acceptRound.writer).write(acceptedRound) on Unit
+
+            // assertions
+            val storedAuction = (storage * auctionLens).read()
+
+            assertEquals("id", storedAuction.acceptedRoundId)
         }
     }
 }
