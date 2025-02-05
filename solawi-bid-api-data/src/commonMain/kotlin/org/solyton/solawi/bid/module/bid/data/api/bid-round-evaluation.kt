@@ -20,10 +20,10 @@ data class PreEvaluateBidRound(
 
 @Serializable
 data class BidRoundEvaluation(
-    val auctionDetails: AuctionDetails,
-    val totalSumOfWeightedBids: Double,
-    val totalNumberOfShares: Int,
-    val weightedBids: List<WeightedBid>
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty,
+    val totalSumOfWeightedBids: Double = 0.0,
+    val totalNumberOfShares: Int = 0,
+    val weightedBids: List<WeightedBid> = listOf()
 )
 
 @Serializable
@@ -34,6 +34,6 @@ data class WeightedBid(
 
 @Serializable
 data class BidRoundPreEvaluation(
-    val auctionDetails: AuctionDetails,
-    val totalNumberOfShares: Int,
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty,
+    val totalNumberOfShares: Int = 0,
 )
