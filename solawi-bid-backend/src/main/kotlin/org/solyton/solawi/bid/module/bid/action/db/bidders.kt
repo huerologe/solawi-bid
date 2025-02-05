@@ -28,15 +28,46 @@ val ImportBidders = KlAction{bidders: Result<ImportBidders> -> DbAction {
     } x database
 }}
 
-fun Transaction.importBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEntity {
+fun Transaction.importBidders(auctionId: UUID, newBidders: List<NewBidder>): AuctionEntity {
     val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuction
-    val biddersToDelete = auction.bidders.map { it.id }
-    AuctionBidders.deleteWhere { AuctionBidders.bidderId inList biddersToDelete }
-    BiddersTable.deleteWhere { BiddersTable.id inList biddersToDelete }
-    BidderDetailsSolawiTuebingenTable.deleteWhere { BidderDetailsSolawiTuebingenTable.bidderId inList biddersToDelete.map { it.value }  }
 
-    return addBidders(auction,bidders)
+    // There are four kinds of bidders to consider
+    // 1. Bidders to add
+    // 2. Bidders to keep
+    // 3. Bidders to be deleted from the auction only (belong to other auctions)
+    // 4. Bidders to be deleted completely
+
+    // Bidders to keep:
+    // newBidders that are already listed in the auction.
+    val biddersToKeep = auction.bidders.filter{ bidder -> newBidders.map { it.username }.contains(bidder.username)}
+
+    // Bidders to be deleted from auction:
+    // All bidders that are part of the auction, but not listed in newBidders
+    val biddersToBeDeletedFromAuction = auction.bidders.filter { !biddersToKeep.contains(it)  }
+
+    // Bidders to be deleted completely:
+    // All bidders that
+    // - are part of the auction
+    // - not part of any other auction
+    // - not listed in newBidders
+    val biddersToBeDeletedCompletely = biddersToBeDeletedFromAuction.filter {
+        it.auctions.count() == 1L
+    }
+
+    // Bidders to add:
+    // All newBidders that are not listed in the auction
+    // -> The rest is done by the function addBidders!
+    val biddersToAdd = newBidders.filter {
+        newBidder -> !biddersToKeep.map { it.username }.contains(newBidder.username)
+    }
+
+    AuctionBidders.deleteWhere { bidderId inList biddersToBeDeletedFromAuction.map { it.id } }
+
+    BiddersTable.deleteWhere { BiddersTable.id inList biddersToBeDeletedCompletely.map { it.id } }
+    BidderDetailsSolawiTuebingenTable.deleteWhere { bidderId inList biddersToBeDeletedCompletely.map { it.id }  }
+
+    return addBidders(auction,biddersToAdd)
 }
 
 fun Transaction.getBidderDetails(bidder: Bidder): BidderDetailsEntity =

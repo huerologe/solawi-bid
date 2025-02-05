@@ -1,6 +1,6 @@
-package org.solyton.solawi.bid.module.bid.component
+package org.solyton.solawi.bid.module.bid.component.modal
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.dnd.Dropzone
 import org.evoleq.compose.dnd.readFileContent

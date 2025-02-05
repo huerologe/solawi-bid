@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.bid.component
+package org.solyton.solawi.bid.module.bid.component.form
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
@@ -16,9 +16,13 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.DateInput
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.ElementScope
+import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.*
+import org.solyton.solawi.bid.module.bid.service.onNullEmpty
 import org.w3c.dom.HTMLElement
 
 @Markup
@@ -65,7 +69,7 @@ fun UpdateAuctionModal(
 
         Div(attrs = {style { fieldStyle() }}) {
             Label("Benchmark", id = "benchmark" , labelStyle = formLabelStyle)
-            TextInput (onNullEmpty((auction * auctionDetails * benchmark).read()){it.toPrice()}) {
+            TextInput (onNullEmpty((auction * auctionDetails * benchmark).read()){it}) {
                 id("benchmark")
                 style { numberInputStyle() }
                 onInput {
@@ -78,7 +82,7 @@ fun UpdateAuctionModal(
 
         Div(attrs = {style { fieldStyle() }}) {
             Label("Target Amount", id = "targetAmount" , labelStyle = formLabelStyle)
-            TextInput(onNullEmpty((auction * auctionDetails * targetAmount).read()){it.toPrice()}) {
+            TextInput(onNullEmpty((auction * auctionDetails * targetAmount).read()){it}) {
                 id("targetAmount")
                 style { numberInputStyle() }
                 onInput {
@@ -90,7 +94,7 @@ fun UpdateAuctionModal(
         }
         Div(attrs = {style { fieldStyle() }}) {
             Label("Solidarity Contribution", id = "solidarityContribution" , labelStyle = formLabelStyle)
-            TextInput(onNullEmpty((auction * auctionDetails * solidarityContribution).read()){it.toPrice()}) {
+            TextInput(onNullEmpty((auction * auctionDetails * solidarityContribution).read()){it}) {
                 id("solidarityContribution")
                 style { numberInputStyle() }
                 onInput {
@@ -102,7 +106,7 @@ fun UpdateAuctionModal(
         }
         Div(attrs = {style { fieldStyle() }}) {
             Label("Minimal Bid", id = "minimalBid" , labelStyle = formLabelStyle)
-            TextInput(onNullEmpty((auction * auctionDetails * minimalBid).read()){it.toPrice()}) {
+            TextInput(onNullEmpty((auction * auctionDetails * minimalBid).read()){it}) {
                 id("minimalBid")
                 style { numberInputStyle() }
                 onInput {
@@ -113,15 +117,6 @@ fun UpdateAuctionModal(
             }
         }
     }
-}
-fun <T > onNullEmpty(value: T?, manipulate: (String)->String = {s -> s}): String = when{
-    value == null -> ""
-    else -> manipulate("$value")
-}
-
-fun String.toPrice(): String = when{
-    !contains(".") -> "$this.00"
-    else -> this
 }
 
 @Markup

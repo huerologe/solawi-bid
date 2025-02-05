@@ -220,23 +220,33 @@ val AddBidders = KlAction<List<Bidder>, Result<AuctionEntity>> = KlAction{
 
  */
 
-fun Transaction.addBidders(auction: AuctionEntity, bidders: List<NewBidder>, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
+fun Transaction.addBidders(auction: AuctionEntity, newBidders: List<NewBidder>, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
     val auctionType = AuctionType.find { AuctionTypes.type eq type.toUpperCasePreservingASCIIRules() }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuctionType(type)
     val typeName = auctionType.type.toLowerCasePreservingASCIIRules()
 
-    bidders.forEach { bidder ->
+    // There are different kinds of newBidders to consider
+    // 1. known bidders listed in Bidders and AuctionBidders
+    // 2. known bidders listed only in Bidders
+    // 3. bidders to be created
+
+    // Known bidders:
+    // All bidders that are already listed in Bidders
+    val knownBidders = BidderEntity.find{ BiddersTable.username inList newBidders.map { it.username } }
+    val knownBiddersUsernames = knownBidders.map { it.username }
+
+    val knownBiddersToBeAddedToAuction = knownBidders.filter { bidder -> !auction.bidders.contains(bidder)  }
+
+    // Other bidders:
+    // bidders that need to be created on the fly
+    val createdBidders = mutableListOf<BidderEntity>()
+    newBidders.filter { !knownBiddersUsernames.contains(it.username) }.forEach { bidder ->
         val newBidder = BidderEntity.new {
             username = bidder.username
             this.type = auctionType
            // weblingId = bidder.weblingId
            // this.numberOfParts = bidder.numberOfShares
         }
-        AuctionBidders.insert {
-            it[AuctionBidders.auctionId] = auction.id.value
-            it[AuctionBidders.bidderId] = newBidder.id.value
-        }
-
         when(typeName) {
             "solawi_tuebingen" -> {
                 BidderDetailsSolawiTuebingenTable.insert {
@@ -246,7 +256,17 @@ fun Transaction.addBidders(auction: AuctionEntity, bidders: List<NewBidder>, typ
                 }
             }
 
-
+        }
+        createdBidders.add(newBidder)
+    }
+    listOf(
+        *knownBiddersToBeAddedToAuction.toList().toTypedArray(),
+        *createdBidders.toTypedArray()
+    ).forEach {
+        bidder ->
+        AuctionBidders.insert {
+            it[AuctionBidders.auctionId] = auction.id.value
+            it[AuctionBidders.bidderId] = bidder.id.value
         }
     }
     //commit()

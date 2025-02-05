@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.page.auction.action
 
+import org.evoleq.compose.Markup
 import org.evoleq.math.MathDsl
 import org.evoleq.math.Reader
 import org.evoleq.math.contraMap
@@ -15,7 +16,7 @@ import org.solyton.solawi.bid.module.bid.data.evaluation.BidRoundPreEvaluation
 import org.solyton.solawi.bid.module.bid.data.preEvaluation
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 
-@MathDsl
+@Markup
 fun preEvaluateBidRound(auctionId: String, round: Lens<Application, Round>): Action<Application, PreEvaluateBidRound, ApiBidRoundPreEvaluation> = Action(
     name = "PreEvaluateBidRound",
     reader = round * Reader { r: Round -> PreEvaluateBidRound(auctionId, r.roundId) },

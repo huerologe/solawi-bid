@@ -118,8 +118,13 @@ fun Transaction.evaluateBidRound(auctionId: UUID, roundId: UUID): BidRoundEvalua
     val bidRoundResults = getResults(auctionId, roundId)
     val auctionDetails = getAuctionDetails(auction) as AuctionDetails.SolawiTuebingen
 
-    // Start computations
-    val totalSumOfWeightedBids = bidRoundResults.results.fold(0.0) {
+    // Start computations.
+    // The targetAmount refers to a year. But the bid amounts refer to
+    // single shares and months. Thus,
+    // to compute the relevant quantity, each share has to be weighted
+    // by its corresponding numberOfShares and the sum has to be multiplied
+    // by 12.
+    val totalSumOfWeightedBids = 12.0 * bidRoundResults.results.fold(0.0) {
         acc, next -> acc + next.numberOfShares.toDouble() * next.amount
     }
     val totalNumberOfShares = bidRoundResults.results.fold(0) {

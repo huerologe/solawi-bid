@@ -75,10 +75,12 @@ data class  ChangeRoundState(
 
 @Serializable
 data class Round(
-    //@Serializable(with = UUIDSerializer::class)
-    val id: String,//Uuid,
+    val id: String,
     val link: String,
-    val state: String
+    val state: String,
+    val rawResults: ApiBidRoundResults = ApiBidRoundResults(),
+    val bidRoundEvaluation: ApiBidRoundEvaluation = ApiBidRoundEvaluation(),
+    val preEvaluation: ApiBidRoundPreEvaluation = ApiBidRoundPreEvaluation()
 )
 
 @Serializable
@@ -108,12 +110,11 @@ data class ConfigureAuction(
 
 @Serializable
 data class Auction(
-    //@Serializable(with = UUIDSerializer::class)
     val id: String,
     val name: String,
     val date: LocalDate,
     val rounds: List<Round> = listOf(),
-    val bidderIds: List</*@Serializable(with = UUIDSerializer::class) Uuid*/ String> = listOf(),
+    val bidderIds: List<String> = listOf(),
     val auctionDetails: AuctionDetails = AuctionDetails.Empty
 )
 
@@ -175,8 +176,8 @@ data class ExportBidRound(
 
 @Serializable
 data class BidRoundResults(
-    val roundId: String,
-    val results: List<BidResult>
+    val roundId: String = "",
+    val results: List<BidResult> = listOf()
 )
 
 @Serializable
@@ -198,4 +199,3 @@ data class DeleteBidders(
     val auctionId: String?,
     val bidderIds: List<String>
 )
-
