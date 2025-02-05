@@ -69,8 +69,12 @@ suspend fun showBidRoundEvaluationModal(
                 auction = auction,
                 round = round
             )
-            //todo:dev implement mechanism to accept results of the bid round
-
+            //todo:dev implement mechanism to accept results of the bid round -> correct?
+            TriggerAcceptRound(
+                storage = storage,
+                auction = auction,
+                round = round
+            )
         }
     )
 }
