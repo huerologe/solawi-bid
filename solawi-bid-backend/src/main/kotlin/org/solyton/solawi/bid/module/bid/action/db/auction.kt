@@ -100,11 +100,7 @@ val ReadAuction = KlAction<Result<UUID>, Result<ApiAuction>> {
 fun Transaction.readAuction(auctionId: UUID): AuctionEntity {
     val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuction
-   //val bidderIds = AuctionBidders.select(listOf(bidderId)).where{AuctionBidders.auctionId eq auctionId}.toList()
-    val rounds = auction.rounds.toList()
-    val bidders = auction.bidders
-    //auction.rounds = rounds
-    auction.bidders = bidders
+
     return auction
 }
 
