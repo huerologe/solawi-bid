@@ -200,3 +200,14 @@ data class DeleteBidders(
     val auctionId: String?,
     val bidderIds: List<String>
 )
+
+@Serializable
+data class AcceptRound(
+    val auctionId: String,
+    val roundId: String
+)
+@Serializable
+data class AcceptedRound(
+    // val auctionId: String,
+    val roundId: String
+)

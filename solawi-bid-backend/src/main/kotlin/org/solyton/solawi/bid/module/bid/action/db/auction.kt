@@ -301,3 +301,26 @@ fun Transaction.changeRoundState(newState: ChangeRoundState): RoundEntity {
         false -> throw RoundStateException.IllegalTransition(sourceState, targetState)
     }
 }
+
+// AcceptRound
+
+@MathDsl
+val AcceptRound = KlAction<Result<AcceptRound>, Result<AcceptedRound>> {
+    roundState -> DbAction {
+        database -> coroutineScope { roundState bindSuspend {data -> resultTransaction(database) {
+            acceptRound(data)
+        } } } x database
+    }
+}
+
+fun Transaction.acceptRound(acceptRound: AcceptRound): AcceptedRound {
+    val auction = AuctionEntity.find { Auctions.id eq UUID.fromString(acceptRound.auctionId) }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+
+    val round = RoundEntity.find { Rounds.id eq UUID.fromString(acceptRound.roundId) }.firstOrNull()
+        ?: throw BidRoundException.NoSuchRound
+
+    auction.acceptedRound = round
+
+    return AcceptedRound(acceptRound.roundId)
+}

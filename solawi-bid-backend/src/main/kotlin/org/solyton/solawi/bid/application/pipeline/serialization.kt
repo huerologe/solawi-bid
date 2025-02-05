@@ -62,6 +62,7 @@ fun Application.installSerializers() {
     serializers[PreEvaluateBidRound::class] = PreEvaluateBidRound.serializer()
     serializers[BidRoundPreEvaluation::class] = BidRoundPreEvaluation.serializer()
     serializers[WeightedBid::class] = WeightedBid.serializer()
-
+    serializers[AcceptRound::class] = AcceptRound.serializer()
+    serializers[AcceptedRound::class] = AcceptedRound.serializer()
 
 }
