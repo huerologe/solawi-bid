@@ -2,12 +2,22 @@ package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
 import org.solyton.solawi.bid.module.bid.data.api.*
-import org.solyton.solawi.bid.module.bid.data.BidResult
+import org.solyton.solawi.bid.module.bid.data.evaluation.BidRoundEvaluation
+import org.solyton.solawi.bid.module.bid.data.evaluation.BidRoundPreEvaluation
+import org.solyton.solawi.bid.module.bid.data.evaluation.WeightedBid
 
 
 fun ApiAuctions.toDomainType(): List<Auction> = list.map { auction -> auction.toDomainType() }
 
-fun ApiRound.toDomainType(): Round = Round(id, link, state)
+fun ApiRound.toDomainType(): Round = Round(
+    id,
+    link,
+    state,
+    rawResults.toDomainType(),
+    bidRoundEvaluation.toDomainType(),
+    preEvaluation.toDomainType()
+
+)
 
 fun ApiBidRound.toDomainType(): BidRound = BidRound(
     id,
@@ -47,4 +57,21 @@ fun ApiBidResult.toDomainType(): BidResult = BidResult(
     numberOfShares,
     amount,
     hasPlacedBid
+)
+
+fun ApiBidRoundEvaluation.toDomainType(): BidRoundEvaluation = BidRoundEvaluation(
+    auctionDetails.toDomainType(),
+    totalSumOfWeightedBids,
+    totalNumberOfShares,
+    weightedBids.map{it.toDomainType()}
+)
+
+fun ApiWeightedBid.toDomainType(): WeightedBid = WeightedBid(
+    weight,
+    bid
+)
+
+fun ApiBidRoundPreEvaluation.toDomainType(): BidRoundPreEvaluation = BidRoundPreEvaluation(
+    auctionDetails.toDomainType(),
+    totalNumberOfShares
 )

@@ -18,6 +18,7 @@ import org.solyton.solawi.bid.module.bid.component.button.QRLinkToRoundPageButto
 import org.solyton.solawi.bid.module.bid.component.effect.LaunchBidRoundEvaluation
 import org.solyton.solawi.bid.module.bid.component.effect.LaunchDownloadOfBidRoundResults
 import org.solyton.solawi.bid.module.bid.component.effect.LaunchExportOfBidRoundResults
+import org.solyton.solawi.bid.module.bid.component.effect.LaunchPresentationOfBidRoundEvaluationInModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
@@ -69,9 +70,14 @@ fun BidRoundListItem(
             auction = auction,
             round = round
         )
+        is RoundState.Closed -> LaunchPresentationOfBidRoundEvaluationInModal(
+            storage = storage,
+            auction = auction,
+            round = round
+        )
         is RoundState.Opened,
         is RoundState.Started,
-        is RoundState.Closed,
+
         is RoundState.Frozen  -> Unit
     }
 

@@ -53,7 +53,7 @@ fun <T> ReadOnlyProperties(properties: List<Property<T>>, styles: PropertiesStyl
 @Suppress("FunctionName")
 fun <T> ReadOnlyProperty(
     property: Property<T>,
-    styles:  PropertyStyles
+    styles:  PropertyStyles = PropertyStyles()
 ) {
     Div(attrs = {
         style {
