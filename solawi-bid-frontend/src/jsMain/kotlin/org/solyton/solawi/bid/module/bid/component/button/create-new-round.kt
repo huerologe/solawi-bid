@@ -16,6 +16,7 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.application.ui.page.auction.action.createRound
+import org.solyton.solawi.bid.module.bid.component.effect.TriggerCreateNewRound
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.auctionDetails
 import org.solyton.solawi.bid.module.bid.data.reader.areNotConfigured
@@ -44,18 +45,10 @@ fun CreateNewRoundButton(
         if(isDisabled) disabled()
         onClick {
             if(isDisabled) return@onClick
-            CoroutineScope(Job()).launch {
-                val actions = (storage * actions).read()
-                try {
-                    actions.emit(createRound(auction))
-                } catch (exception: Exception) {
-                    (storage * modals).showErrorModal(
-                        errorModalTexts(
-                            exception.message ?: exception.cause?.message ?: "Cannot Emit action 'CreateRound' in update mode"
-                        )
-                    )
-                }
-            }
+            TriggerCreateNewRound(
+                storage = storage,
+                auction = auction
+            )
         }
     }) {
         // todo:i18n

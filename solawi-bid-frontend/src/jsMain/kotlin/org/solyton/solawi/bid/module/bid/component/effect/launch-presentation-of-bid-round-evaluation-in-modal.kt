@@ -52,10 +52,25 @@ suspend fun showBidRoundEvaluationModal(
         texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.round.bidRoundEvaluationModal"),
         cancel = {
             //todo:decide start new round on button click?
+            TriggerChangeRoundState(
+                storage = storage,
+                auction = auction,
+                round = round
+            )
+            TriggerCreateNewRound(
+                storage = storage,
+                auction = auction
+            )
 
         },
         update = {
+            TriggerChangeRoundState(
+                storage = storage,
+                auction = auction,
+                round = round
+            )
             //todo:dev implement mechanism to accept results of the bid round
+
         }
     )
 }
