@@ -1,4 +1,4 @@
-package org.solyton.solawi.bid.module.bid.component
+package org.solyton.solawi.bid.module.bid.component.form
 
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
@@ -10,8 +10,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.Bid
-import kotlin.math.pow
-import kotlin.math.roundToInt
+import org.solyton.solawi.bid.module.bid.service.isDouble
 
 @Markup
 @Composable
@@ -52,13 +51,4 @@ fun SendBidForm(sendBid: (Bid)->Unit) = Div(attrs = {style { formStyle() }}) {
             }
         }
     }
-}
-fun Double.roundTo(precision: Int): Double = with(10.0.pow(precision)) {
-    (this@roundTo * this).roundToInt().toDouble() / this
-}
-
-
-fun String.isDouble(locale: Locale): Boolean = when(locale){
-    is Locale.En, is Locale.Iso -> Regex("^-?\\d*\\.?\\d+\$").matches(this)
-    is Locale.De -> Regex("^-?\\d*,?\\d+\$").matches(this)
 }

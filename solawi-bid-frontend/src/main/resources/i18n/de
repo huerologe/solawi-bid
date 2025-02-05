@@ -58,6 +58,17 @@ de{
                     title: "Abbrechen"
                 }
             }
+            round {
+                bidRoundEvaluationModal {
+                    title: "Evaluation"
+                    okButton {
+                        title: "Annehmen"
+                    }
+                    cancelButton {
+                        title: "Ablehnen"
+                    }
+                }
+            }
         }
         errors {
             title: "Fehler"

@@ -1,12 +1,16 @@
 package org.solyton.solawi.bid.application.ui.page.auction
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.optics.lens.FirstBy
+import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.DisplayStyle
+import org.jetbrains.compose.web.css.display
+import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
@@ -14,8 +18,9 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.environment
-import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
+import org.solyton.solawi.bid.application.ui.page.auction.action.preEvaluateBidRound
 import org.solyton.solawi.bid.module.bid.data.link
+import org.solyton.solawi.bid.module.bid.data.preEvaluation
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.state
 import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
@@ -24,12 +29,7 @@ import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId: String, roundId: String) = Div{
-/*
-    LaunchedEffect(Unit) {
-        (storage * actions).read().emit(readAuctions())
-    }
-*/
+fun RoundPage(storage: Storage<Application>, auctionId: String, roundId: String) = Div{
 
     val auction = storage * auctions * FirstBy { it.auctionId == auctionId }
     val round = auction * rounds * FirstBy { it.roundId == roundId }
@@ -41,11 +41,11 @@ fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId:
     }
     val fullLink = "$frontendBaseUrl/bid/send/${link.read()}"
 
+
     H1 { Text("Round Page") }
     Div(attrs = {
         style {
             display(DisplayStyle.Flex)
-            flexDirection(FlexDirection.Column)
         }
     }
     ) {
@@ -56,6 +56,36 @@ fun RoundPage(storage: Storage<Application>, /*round: Storage<Round>*/auctionId:
         }){
             Text("left")
         }
-        QRCodeSvg(fullLink, download = true)
+        QRCodeSvg(
+            id = roundId,
+            data = fullLink,
+            download = true
+        )
+
+        // todo integrate functionality: handle round state, export results, evaluate, pre-evaluate
+
+    }
+    Div() {
+        var preEvaluationLoaded  by remember { mutableStateOf(false) }
+        // todo:improve find another way?
+        if(!preEvaluationLoaded) {
+            LaunchedEffect(Unit) {
+                launch {
+                    (storage * actions).read().emit(
+                        preEvaluateBidRound(
+                            auctionId,
+                            auctions * FirstBy { it.auctionId == auctionId } * rounds * FirstBy { it.roundId == roundId }
+                        )
+                    )
+                    preEvaluationLoaded = true
+                }
+            }
+        }
+
+
+        val preEvaluation = (round * preEvaluation).read()
+        val details = preEvaluation.auctionDetailsPreEval
+
+        Text(preEvaluation.toString())
     }
 }

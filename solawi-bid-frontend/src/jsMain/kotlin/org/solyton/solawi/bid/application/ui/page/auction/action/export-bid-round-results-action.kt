@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.page.auction.action
 
+import org.evoleq.compose.Markup
 import org.evoleq.math.MathDsl
 import org.evoleq.math.Reader
 import org.evoleq.math.contraMap
@@ -15,7 +16,7 @@ import org.solyton.solawi.bid.module.bid.data.api.ApiBidRoundResults
 import org.solyton.solawi.bid.module.bid.data.api.ExportBidRound
 import org.solyton.solawi.bid.module.bid.data.rawResults
 
-@MathDsl
+@Markup
 fun exportBidRoundResults(auctionId: String, round: Lens<Application,Round>) = Action<Application, ExportBidRound, ApiBidRoundResults >(
     name = "ExportBidRound",
     reader = round * Reader { r: Round -> ExportBidRound(r.roundId, auctionId ) },

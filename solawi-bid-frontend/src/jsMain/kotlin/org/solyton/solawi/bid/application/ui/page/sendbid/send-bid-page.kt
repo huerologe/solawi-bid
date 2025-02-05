@@ -12,7 +12,7 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.ui.style.form.formPageStyle
 import org.solyton.solawi.bid.module.bid.action.sendBidAction
-import org.solyton.solawi.bid.module.bid.component.SendBidForm
+import org.solyton.solawi.bid.module.bid.component.form.SendBidForm
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.data.api.ApiBid
 
