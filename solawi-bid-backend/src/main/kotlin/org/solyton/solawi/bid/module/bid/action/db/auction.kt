@@ -21,6 +21,7 @@ import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
+import org.solyton.solawi.bid.module.db.schema.AcceptedRound
 import java.util.*
 import org.solyton.solawi.bid.module.bid.data.api.Auctions as ApiAuctions
 import org.solyton.solawi.bid.module.db.schema.Bidder as BidderEntity
@@ -305,10 +306,10 @@ fun Transaction.changeRoundState(newState: ChangeRoundState): RoundEntity {
 // AcceptRound
 
 @MathDsl
-val AcceptRound = KlAction<Result<AcceptRound>, Result<AcceptedRound>> {
+val AcceptRound = KlAction<Result<AcceptRound>, Result<ApiAcceptedRound>> {
     roundState -> DbAction {
         database -> coroutineScope { roundState bindSuspend {data -> resultTransaction(database) {
-            acceptRound(data)
+            acceptRound(data).toApiType()
         } } } x database
     }
 }
@@ -320,7 +321,14 @@ fun Transaction.acceptRound(acceptRound: AcceptRound): AcceptedRound {
     val round = RoundEntity.find { Rounds.id eq UUID.fromString(acceptRound.roundId) }.firstOrNull()
         ?: throw BidRoundException.NoSuchRound
 
-    auction.acceptedRound = round
+    val foundAcceptedRound = AcceptedRoundEntity.find { AcceptedRoundsTable.roundId eq UUID.fromString(acceptRound.roundId) }.firstOrNull()
 
-    return AcceptedRound(acceptRound.roundId)
+    if (foundAcceptedRound != null) throw Exception()
+
+    val acceptedRound = AcceptedRoundEntity.new {
+        this.auction = auction
+        this.round = round
+    }
+
+    return acceptedRound
 }

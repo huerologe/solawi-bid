@@ -11,7 +11,8 @@ class AuctionTests {
         AuctionBidders,
         Auctions,
         Bidders,
-        Rounds
+        Rounds,
+        AcceptedRoundsTable
     ) {
         val name = "TestAuction"
         val auction = Auction.new {

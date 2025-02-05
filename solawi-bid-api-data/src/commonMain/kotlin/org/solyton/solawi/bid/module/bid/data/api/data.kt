@@ -16,7 +16,8 @@ typealias ApiAuctionDetailsSolawiTuebingen = AuctionDetails.SolawiTuebingen
 typealias ApiBidInfo = BidInfo
 typealias ApiBidRoundResults = BidRoundResults
 typealias ApiBidResult = BidResult
-
+typealias ApiAcceptedRound = AcceptedRound
+typealias ApiAcceptRound = AcceptRound
 
 @Serializable
 data class Bid(

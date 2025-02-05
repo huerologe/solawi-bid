@@ -1,10 +1,10 @@
 package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
-import org.solyton.solawi.bid.module.bid.data.api.Auction
-import org.solyton.solawi.bid.module.bid.data.api.BidInfo
-import org.solyton.solawi.bid.module.bid.data.api.BidRound
-import org.solyton.solawi.bid.module.bid.data.api.Round
+import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.db.schema.AcceptedRound
+import org.solyton.solawi.bid.module.db.schema.AcceptedRoundEntity
+import org.solyton.solawi.bid.module.db.schema.AcceptedRoundsTable
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
@@ -29,7 +29,10 @@ fun AuctionEntity.toApiType(): Auction = Auction(
     }catch(e:Exception){
         listOf()
     },
-    acceptedRoundId = acceptedRound?.id?.value.toString()
+    acceptedRoundId = AcceptedRoundEntity.find{
+        AcceptedRoundsTable.auctionId eq id.value
+    }.firstOrNull()?.id?.value.toString()
+
 )
 
 fun RoundEntity.toApiType(): Round = Round(
@@ -48,4 +51,6 @@ fun BidRoundEntity.toApiType(fullInfo: Unit? = null): BidRound = BidRound(
 
 fun Pair<BidRound, Int>.toBidInfo(): BidInfo = BidInfo(first.amount?: 0.0, second)
 
-
+fun AcceptedRound.toApiType(): ApiAcceptedRound = ApiAcceptedRound(
+    round.id.value.toString()
+)
