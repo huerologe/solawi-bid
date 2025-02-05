@@ -115,7 +115,8 @@ data class Auction(
     val date: LocalDate,
     val rounds: List<Round> = listOf(),
     val bidderIds: List<String> = listOf(),
-    val auctionDetails: AuctionDetails = AuctionDetails.Empty
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty,
+    val acceptedRoundId: String? = null
 )
 
 @Serializable

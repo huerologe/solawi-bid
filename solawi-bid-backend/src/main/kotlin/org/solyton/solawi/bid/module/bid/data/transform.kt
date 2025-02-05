@@ -28,7 +28,8 @@ fun AuctionEntity.toApiType(): Auction = Auction(
         }
     }catch(e:Exception){
         listOf()
-    }
+    },
+    acceptedRoundId = acceptedRound?.id?.value.toString()
 )
 
 fun RoundEntity.toApiType(): Round = Round(

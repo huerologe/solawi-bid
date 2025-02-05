@@ -32,7 +32,8 @@ fun ApiAuction.toDomainType(): Auction = Auction(
     date = with(date){ LocalDate(year, monthNumber, dayOfMonth) },
     rounds = rounds.map { round -> round.toDomainType() },
     bidderIds = bidderIds,
-    auctionDetails = auctionDetails.toDomainType()
+    auctionDetails = auctionDetails.toDomainType(),
+    acceptedRoundId = acceptedRoundId
 )
 
 
