@@ -19,6 +19,7 @@ class AuctionTests {
 
     @DbFunctional@Test fun createAuction() = runSimpleH2Test(
         AuctionBidders,
+        AcceptedRoundsTable,
         Auctions,
         Bidders,
         Rounds
@@ -28,6 +29,7 @@ class AuctionTests {
 
     @DbFunctional@Test fun prepareAuction() = runSimpleH2Test(
         AuctionBidders,
+        AcceptedRoundsTable,
         AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
@@ -66,6 +68,7 @@ class AuctionTests {
 
     @DbFunctional@Test fun addNewBiddersOfAuction() = runSimpleH2Test(
         AuctionBidders,
+        AcceptedRoundsTable,
         AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
@@ -109,6 +112,7 @@ class AuctionTests {
 
     @DbFunctional@Test fun addSameBiddersToDifferentAuctions() = runSimpleH2Test(
         AuctionBidders,
+        AcceptedRoundsTable,
         AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,
@@ -143,6 +147,7 @@ class AuctionTests {
     @DbFunctional@Test
     fun deleteAuction() = runSimpleH2Test(
         AuctionBidders,
+        AcceptedRoundsTable,
         AuctionDetailsSolawiTuebingenTable,
         Auctions,
         Bidders,

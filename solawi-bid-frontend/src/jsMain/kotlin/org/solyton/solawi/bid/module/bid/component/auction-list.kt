@@ -3,12 +3,14 @@ package org.solyton.solawi.bid.module.bid.component
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.DelicateCoroutinesApi
 import org.evoleq.compose.Markup
+import org.evoleq.compose.attribute.disabled
 import org.evoleq.compose.date.format
 import org.evoleq.compose.modal.Modals
 import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
 import org.evoleq.language.component
+import org.evoleq.math.emit
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Action
@@ -25,6 +27,7 @@ import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name
+import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.i18n.data.I18N
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.application.data.auctions as auctionLens
@@ -99,7 +102,10 @@ fun AuctionListItem(
             Text("Details")
         }
         // Edit
+
         Button(attrs = {
+            val isDisabled = (auction * roundAccepted).emit()
+            if(isDisabled) disabled()
             style{
                 // todo:style:button:edit
             }
@@ -118,6 +124,8 @@ fun AuctionListItem(
         }
         // Delete
         Button(attrs = {
+            val isDisabled = (auction * roundAccepted).emit()
+            if(isDisabled) disabled()
             style{
                 // todo:style:button:delete
             }

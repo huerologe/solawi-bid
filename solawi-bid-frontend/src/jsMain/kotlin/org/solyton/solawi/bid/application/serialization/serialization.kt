@@ -68,5 +68,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<PreEvaluateBidRound>(PreEvaluateBidRound.serializer())
         add<BidRoundPreEvaluation>(BidRoundPreEvaluation.serializer())
         add<WeightedBid>(WeightedBid.serializer())
+        add<AcceptRound>(AcceptRound.serializer())
+        add<AcceptedRound>(AcceptedRound.serializer())
     }
 } }
