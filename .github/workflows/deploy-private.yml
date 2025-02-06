@@ -27,7 +27,7 @@ jobs:
       - name: Set env variables
         uses: ./.github/actions/set-env-vars
         with:
-          environment: ${{ vars. }}
+          environment: prod #${{ vars.ENVIRONMENT }}
           # frontendUrl:
           # frontendPort:
           # backendUrl:
