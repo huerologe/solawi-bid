@@ -26,13 +26,26 @@ jobs:
 
       - name: Setup JDK, Gradle and Caches
         uses: ./.github/actions/setup
-
-      - name: Build
-        run: ./gradlew build -x test
-
-      - name: Debug - List files
+      - name: Set up SSH
         run: |
-          ls
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SOLYTON_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          # Optional: Ensure GitHub doesn't complain about unknown host
+          ssh-keyscan -H solyton.org >> ~/.ssh/known_hosts
+
+      - name: test rsync
+        run: |
+          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' test-deploy/ ${{ variables.SOLYTON_USER }}:/home/solawi-bid
+
+      #- name: Build
+      #  run: ./gradlew build -x test#
+
+      #- name: Debug - List files
+      #  run: |
+      #    ls
+
+
       #- name: Run Backend tests
       #  uses: ./.github/actions/test-backend
 
