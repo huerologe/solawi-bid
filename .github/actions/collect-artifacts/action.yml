@@ -45,7 +45,7 @@ runs:
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/js/
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/language/
         
-        cp -r solawi-bid-frontend/build/dist/js/productionExecutable/ mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
+        cp -r solawi-bid-frontend/build/dist/js/productionExecutable/ ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
     - name: Docker-Compose
       shell: bash
       run: |
