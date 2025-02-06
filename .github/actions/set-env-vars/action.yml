@@ -1,0 +1,85 @@
+name: Set Env Vars
+description: Collect all files needed to run the application
+inputs:
+  #baseFolder:
+  #  description: base folder for deployment
+  #  required: true
+  environment:
+    description: Env
+    required: true
+  #frontendUrl:
+  #  description: Env
+  #  required: true
+  #frontendPort:
+  #  description: Env
+  #  required: true
+  #backendUrl:
+  #  description: Env
+  #  required: true
+  #backendPort:
+  #  description: Env
+  #  required: true
+
+  appOwnerUsername:
+    description: Env
+    required: true
+  appOwnerPassword:
+    description: Env
+    required: true
+
+  jwtSecret:
+    description: Env
+    required: true
+  jwtRealm:
+    description: Env
+    required: true
+  jwtDomain:
+    description: Env
+    required: true
+  jwtAudience:
+    description: Env
+    required: true
+
+  databaseDriver:
+    description: Env
+    required: true
+  databaseUser:
+    description: Env
+    required: true
+  databaseUrl:
+    description: Env
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Database
+      shell: bash
+    - name: Backend
+      shall: bash
+      run: |
+        sed -i 's/ENVIRONMENT/${{inputs.environment}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        
+        sed -i 's/JWT_AUDIENCE/${{inputs.jwtAudience}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_DOMAIN/${{inputs.jwtDomain}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_REALM/${{inputs.jwtRealm}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_SECRET/${{inputs.jwtSecret}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        
+        sed -i 's/DATABASE_DRIVER/${{inputs.databaseDriver}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_URL/${{inputs.databaseUrl}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_USER/${{inputs.databaseUser}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        
+        sed -i 's/APPLICATION_OWNER_USERNAME/${{inputs.appOwnerUsername}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+    
+        cat solawi-bid-backend/build/resources/main/application.conf.dist
+    - name: Frontend
+      shell: bash
+      run: |
+        touch solawi-bid-frontend/.env
+        echo "ENVIRONMENT=${{inputs.environment}}">solawi-bid-frontend/.env
+        echo "FRONTEND_URL=${{inputs.frontendUrl}}">solawi-bid-frontend/.env
+        echo "FRONTEND_PORT=${{inputs.frontendPort}}">solawi-bid-frontend/.env
+        echo "BACKEND_URL=${{inputs.backendUrl}}">solawi-bid-frontend/.env
+        echo "BACKEND_PORT=${{inputs.backendPort}}">solawi-bid-frontend/.env
+        
+        cat solawi-bid-frontend/.env

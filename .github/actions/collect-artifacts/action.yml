@@ -20,7 +20,7 @@ runs:
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/docker/ 
         cp -r solawi-bid-backend/docker/ ${{inputs.baseFolder}}/solawi-bid-backend/docker/ 
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/
-        cp solawi-bid-backend/build/resources/main/application.docker.conf ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
+        cp solawi-bid-backend/build/resources/main/application.conf.dist ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
         cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/wait-for-it.sh
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
         cp solawi-bid-backend/build/libs/solawi-bid-backend-all.jar  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/solawi-bid-backend-all.jar

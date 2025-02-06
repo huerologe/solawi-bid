@@ -23,7 +23,26 @@ jobs:
       # Check out the code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Set env variables
+        uses: ./.github/actions/set-env-vars
+          with:
+            environment: ${{ vars. }}
+            #frontendUrl:
+            #frontendPort:
+            #backendUrl:
+            #backendPort:
 
+            appOwnerUsername: ${{ secrets.APPLICATION_OWNER_USERNAME }}
+            appOwnerPassword: ${{ secrets.APPLICATION_OWNER_PASSWORD }}
+
+            jwtSecret: ${{ secrets.JWT_SECRET }}
+            jwtRealm: ${{ vars.JWT_REALM }}
+            jwtDomain: ${{ vars.JWT_DOMAIN }}
+            jwtAudience: ${{ vars.JWT_AUDIENCE }}
+
+            databaseDriver: ${{ vars.DATABASE_DRIVER }}
+            databaseUser: ${{ vars.DATABASE_USER }}
+            databaseUrl: ${{ vars.DATABASE_URL }}
 
       - name: Setup JDK, Gradle and Caches
         uses: ./.github/actions/setup
@@ -35,6 +54,7 @@ jobs:
         uses: ./.github/actions/collect-artifacts
         with:
           baseFolder: deploy
+
       - uses: actions/upload-artifact@v4
         with:
           name: deploy
@@ -52,7 +72,19 @@ jobs:
         run: |
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
-
+      - name: Deploy via SSH
+        if: false
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_SOLYTON_HOST }}
+          username: ${{ secrets.SSH_SOLYTON_USER }}
+          key: ${{ secrets.SOLYTON_SSH_KEY }}
+          port: ${{ secrets.SOLYTON_SSH_PORT }}
+          script: |
+            cd /home/solawi-bid
+            docker-compose down   # Stop running containers
+            docker-compose up --build -d  # Rebuild and restart containers
+            docker system prune -f  # Cleanup unused Docker images
 
       #- name: Debug - List files
       #  run: |
