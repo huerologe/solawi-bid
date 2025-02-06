@@ -17,25 +17,39 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test:
-    runs-on: self-hosted #jupiter #ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
     steps:
       # Check out the code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      #- name: Setup JDK, Gradle and Caches
-      #  uses: ./.github/actions/setup
 
-
-
+      - name: Setup JDK, Gradle and Caches
+        uses: ./.github/actions/setup
 
       - name: Build
         run: ./gradlew build -x test
 
+      - name: Collect
+        uses: ./.github/actions/collect-artifacts
+        with:
+          baseFolder: deploy
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deploy
+          path: deploy/
+
+  deploy:
+    runs-on: self-hosted #jupiter #
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: deploy
+          path: deploy/
       - name: Test rsync
         run: |
-          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete ./ ${{ vars.SOLYTON }}
+          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
 
 
