@@ -10,15 +10,19 @@ runs:
     - name: Database
       shell: bash
       run: |
-        cp -r solawi-bid-database/docker/ ${{inputs.baseFolder}}/solawi-bid-database/docker/ 
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-database/docker/
+        cp -r solawi-bid-database/docker/ ${{inputs.baseFolder}}/solawi-bid-database/docker/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-database/sql/
         cp solawi-bid-database/sql/setup.sql ${{inputs.baseFolder}}/solawi-bid-database/sql/setup.sql
     - name: Backend
       shell: bash
       run: |
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/docker/ 
         cp -r solawi-bid-backend/docker/ ${{inputs.baseFolder}}/solawi-bid-backend/docker/ 
-        cp -r solawi-bid-database/docker/ ${{inputs.baseFolder}}/solawi-bid-database/docker/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/
         cp solawi-bid-backend/build/resources/main/application.docker.conf ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
-        cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/ solawi-bid-backend/build/resources/main/wait-for-it.sh
+        cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/wait-for-it.sh
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
         cp solawi-bid-backend/build/libs/  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
     - name: Frontend
       shell: bash
