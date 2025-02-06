@@ -24,14 +24,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup JDK, Gradle and Caches
-        uses: ./.github/actions/setup
+      #- name: Setup JDK, Gradle and Caches
+      #  uses: ./.github/actions/setup
 
 
 
 
       - name: Build
-        run: ./gradlew build -x test#
+        run: ./gradlew build -x test
 
       - name: Test rsync
         run: |
