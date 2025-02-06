@@ -5,137 +5,100 @@ import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
 import org.evoleq.math.MathDsl
+import org.evoleq.math.crypto.generateSecureLink
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.Transaction
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.api.Round
+import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
+import org.solyton.solawi.bid.module.db.schema.AcceptedRound
+import org.solyton.solawi.bid.module.db.schema.Auctions
 import java.util.*
 
 @MathDsl
-val ExportResults = KlAction<Result<ExportBidRound>, Result<BidRoundResults>> {
-    roundData -> DbAction {
-        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
-            getResults(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
-        } } } x database
+val AddRound = KlAction<Result<CreateRound>, Result<Round>> {
+    round -> DbAction {
+        database -> round bindSuspend  { data -> resultTransaction(database){
+            addRound(data).toApiType()
+        } } x database
     }
 }
+
+fun Transaction.addRound(round: CreateRound): org.solyton.solawi.bid.module.db.schema.Round {
+    val auctionEntity = AuctionEntity.find { Auctions.id eq UUID.fromString(round.auctionId) }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+
+    validateAuctionNotAccepted(auctionEntity)
+
+    val roundEntity = org.solyton.solawi.bid.module.db.schema.Round.new {
+        auction = auctionEntity
+    }
+    roundEntity.link = generateSecureLink(round.auctionId, roundEntity.id.value.toString(), UUID.randomUUID().toString()).signature
+    return roundEntity
+}
+
 
 @MathDsl
-val EvaluateBidRound = KlAction<Result<EvaluateBidRound>, Result<BidRoundEvaluation>> {
-    roundData -> DbAction {
-        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
-            evaluateBidRound(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
+val ChangeRoundState = KlAction<Result<ChangeRoundState>, Result<Round>> {
+    roundState -> DbAction {
+        database -> coroutineScope { roundState bindSuspend {state -> resultTransaction(database) {
+            changeRoundState(state).toApiType()
         } } } x database
     }
 }
 
-@MathDsl
-val PreEvaluateBidRound = KlAction<Result<PreEvaluateBidRound>, Result<BidRoundPreEvaluation>> {
-    roundData -> DbAction {
-        database -> coroutineScope { roundData bindSuspend {data -> resultTransaction(database) {
-            preEvaluateBidRound(UUID.fromString(data.auctionId),UUID.fromString(data.roundId))
-        } } } x database
-    }
-}
+fun Transaction.changeRoundState(newState: ChangeRoundState): org.solyton.solawi.bid.module.db.schema.Round {
+    val round = org.solyton.solawi.bid.module.db.schema.Round.find { Rounds.id eq UUID.fromString(newState.roundId) }.firstOrNull()
+        ?: throw BidRoundException.NoSuchRound
 
+    validateAuctionNotAccepted(round)
 
-fun Transaction.getResults(auctionId: UUID, roundId: UUID):BidRoundResults {
-    // Collect auxiliary data
-    val auction = AuctionEntity.find {
-        AuctionsTable.id eq auctionId
-    }.firstOrNull()?: throw Exception()
+    val sourceState = RoundState.fromString(round.state)
+    val targetState = RoundState.fromString(newState.state)
 
-    val bidderDetails = getBidderDetails(auction).map { it as BidderDetails.SolawiTuebingen }
-
-    // Compute results for those who have sent bids
-    val bidResults = BidRoundEntity.find {
-        BidRoundsTable.round eq roundId
-    }.map{
-        BidResult(
-            it.bidder.username,
-            bidderDetails.first { details -> details.bidder.username == it.bidder.username }.numberOfShares,
-            it.amount,
-            true
-        )
-    }
-
-    // Compute results for those who did not sent bids
-    val auctionDetails = getAuctionDetails(auction)
-    val defaultAmount = when(auctionDetails) {
-        is AuctionDetails.SolawiTuebingen -> auctionDetails.benchmark + auctionDetails.solidarityContribution
-        is AuctionDetails.Empty -> 0.0
-    }
-
-    val bidResultUsernames = bidResults.map{it.username}
-
-    val defaultBids = auction.bidders
-        .filter { bidder -> !bidResultUsernames.contains( bidder.username) }
-        .map {
-            BidResult(
-                it.username,
-                bidderDetails.first { details -> details.bidder.username == it.username }.numberOfShares,
-                //it.numberOfShares,
-                defaultAmount,
-                false
-            )
+    return when(targetState == sourceState.nextState()){
+        true -> {
+            round.state = newState.state
+            round
         }
-
-    // Return combined results
-    return BidRoundResults(
-        roundId.toString(),
-        listOf(
-            *bidResults.toTypedArray(),
-            *defaultBids.toTypedArray()
-        )
-    )
+        false -> throw RoundStateException.IllegalTransition(sourceState, targetState)
+    }
 }
 
-fun Transaction.preEvaluateBidRound(auctionId: UUID, roundId: UUID): BidRoundPreEvaluation {
-    // Collect data
-    val auction = AuctionEntity.find{AuctionsTable.id eq auctionId}.firstOrNull()
-        ?: throw BidRoundException.NoSuchAuction
-    val bidRoundResults = getResults(auctionId, roundId)
-    val auctionDetails = getAuctionDetails(auction) as AuctionDetails.SolawiTuebingen
+// AcceptRound
 
-    // Start computations
-    val totalNumberOfShares = bidRoundResults.results.fold(0) {
-            acc, next -> acc + next.numberOfShares
+@MathDsl
+val AcceptRound = KlAction<Result<AcceptRound>, Result<ApiAcceptedRound>> {
+    roundState -> DbAction {
+        database -> coroutineScope { roundState bindSuspend {data -> resultTransaction(database) {
+            acceptRound(data).toApiType()
+        } } } x database
     }
-
-    return BidRoundPreEvaluation(
-        auctionDetails = auctionDetails,
-        totalNumberOfShares = totalNumberOfShares
-    )
 }
 
-fun Transaction.evaluateBidRound(auctionId: UUID, roundId: UUID): BidRoundEvaluation {
-    // Collect data
-    val auction = AuctionEntity.find{AuctionsTable.id eq auctionId}.firstOrNull()
+fun Transaction.acceptRound(acceptRound: AcceptRound): AcceptedRound {
+    val auction = AuctionEntity.find { Auctions.id eq UUID.fromString(acceptRound.auctionId) }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuction
-    val bidRoundResults = getResults(auctionId, roundId)
-    val auctionDetails = getAuctionDetails(auction) as AuctionDetails.SolawiTuebingen
 
-    // Start computations.
-    // The targetAmount refers to a year. But the bid amounts refer to
-    // single shares and months. Thus,
-    // to compute the relevant quantity, each share has to be weighted
-    // by its corresponding numberOfShares and the sum has to be multiplied
-    // by 12.
-    val totalSumOfWeightedBids = 12.0 * bidRoundResults.results.fold(0.0) {
-        acc, next -> acc + next.numberOfShares.toDouble() * next.amount
-    }
-    val totalNumberOfShares = bidRoundResults.results.fold(0) {
-        acc, next -> acc + next.numberOfShares
-    }
-    val weightedBids = bidRoundResults.results.map { WeightedBid(it.numberOfShares,it.amount) }
+    validateAuctionNotAccepted(auction)
 
-    return BidRoundEvaluation(
-        auctionDetails = auctionDetails,
-        totalSumOfWeightedBids = totalSumOfWeightedBids,
-        totalNumberOfShares = totalNumberOfShares,
-        weightedBids = weightedBids
-    )
+    val round = org.solyton.solawi.bid.module.db.schema.Round.find { Rounds.id eq UUID.fromString(acceptRound.roundId) }.firstOrNull()
+        ?: throw BidRoundException.NoSuchRound
+
+    validateAuctionNotAccepted(round)
+
+    val foundAcceptedRound = AcceptedRoundEntity.find { AcceptedRoundsTable.roundId eq UUID.fromString(acceptRound.roundId) }.firstOrNull()
+
+    if (foundAcceptedRound != null) throw Exception()
+
+    val acceptedRound = AcceptedRoundEntity.new {
+        this.auction = auction
+        this.round = round
+    }
+
+    return acceptedRound
 }

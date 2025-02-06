@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.bid.action.db
 
+import io.ktor.util.*
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
@@ -7,11 +8,8 @@ import org.evoleq.math.MathDsl
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SizedIterable
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
-import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.deleteWhere
 import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.toApiType
@@ -31,6 +29,8 @@ val ImportBidders = KlAction{bidders: Result<ImportBidders> -> DbAction {
 fun Transaction.importBidders(auctionId: UUID, newBidders: List<NewBidder>): AuctionEntity {
     val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
         ?: throw BidRoundException.NoSuchAuction
+
+    validateAuctionNotAccepted(auction)
 
     // There are four kinds of bidders to consider
     // 1. Bidders to add
@@ -82,4 +82,65 @@ fun Transaction.getBidderDetails(auction: Auction): SizedIterable<BidderDetailsE
         BidderDetailsSolawiTuebingenTable.bidderId inList bidderIds
     }
     return details
+}
+
+internal fun Transaction.addBidders(auction: AuctionEntity, newBidders: List<NewBidder>, type: String = "SOLAWI_TUEBINGEN"): AuctionEntity {
+    val auctionType = AuctionType.find { AuctionTypes.type eq type.toUpperCasePreservingASCIIRules() }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuctionType(type)
+    val typeName = auctionType.type.toLowerCasePreservingASCIIRules()
+
+    // There are different kinds of newBidders to consider
+    // 1. known bidders listed in Bidders and AuctionBidders
+    // 2. known bidders listed only in Bidders
+    // 3. bidders to be created
+
+    // Known bidders:
+    // All bidders that are already listed in Bidders
+    val knownBidders = Bidder.find{ BiddersTable.username inList newBidders.map { it.username } }
+    val knownBiddersUsernames = knownBidders.map { it.username }
+
+    val knownBiddersToBeAddedToAuction = knownBidders.filter { bidder -> !auction.bidders.contains(bidder)  }
+
+    // Other bidders:
+    // bidders that need to be created on the fly
+    val createdBidders = mutableListOf<Bidder>()
+    newBidders.filter { !knownBiddersUsernames.contains(it.username) }.forEach { bidder ->
+        val newBidder = Bidder.new {
+            username = bidder.username
+            this.type = auctionType
+            // weblingId = bidder.weblingId
+            // this.numberOfParts = bidder.numberOfShares
+        }
+        when(typeName) {
+            "solawi_tuebingen" -> {
+                BidderDetailsSolawiTuebingenTable.insert {
+                    it[BidderDetailsSolawiTuebingenTable.bidderId] = newBidder.id.value
+                    it[weblingId] = bidder.weblingId
+                    it[numberOfShares] = bidder.numberOfShares
+                }
+            }
+
+        }
+        createdBidders.add(newBidder)
+    }
+    listOf(
+        *knownBiddersToBeAddedToAuction.toList().toTypedArray(),
+        *createdBidders.toTypedArray()
+    ).forEach {
+            bidder ->
+        AuctionBidders.insert {
+            it[AuctionBidders.auctionId] = auction.id.value
+            it[AuctionBidders.bidderId] = bidder.id.value
+        }
+    }
+    return auction
+}
+
+fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEntity {
+    val auction = AuctionEntity.find { Auctions.id eq auctionId }.firstOrNull()
+        ?: throw BidRoundException.NoSuchAuction
+
+    validateAuctionNotAccepted(auction)
+
+    return addBidders(auction, bidders)
 }

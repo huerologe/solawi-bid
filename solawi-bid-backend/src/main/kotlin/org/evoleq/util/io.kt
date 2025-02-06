@@ -7,7 +7,6 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.util.*
-import kotlinx.coroutines.coroutineScope
 import kotlinx.serialization.json.Json
 import org.evoleq.exposedx.NoMessageProvided
 import org.evoleq.ktorx.result.*
@@ -110,6 +109,7 @@ fun Result.Failure.Exception.transform(): Pair<HttpStatusCode, Result.Failure.Me
         is BidRoundException.NoSuchAuction -> HttpStatusCode.NotFound
         is BidRoundException.UnregisteredBidder,
         is BidRoundException.RegisteredBidderNotPartOfTheAuction,
+        is BidRoundException.AuctionAccepted,
         is BidRoundException.LinkNotPresent, -> HttpStatusCode.Forbidden
         is BidRoundException.IllegalNumberOfParts -> HttpStatusCode.BadRequest
         is BidRoundException.MissingBidderDetails -> HttpStatusCode.NotFound
