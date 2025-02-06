@@ -1,6 +1,6 @@
 package org.solyton.solawi.bid.module.bid.component.modal
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.dnd.Dropzone
 import org.evoleq.compose.dnd.readFileContent
@@ -31,33 +31,37 @@ fun ImportBiddersModal(
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
-    id,
-    modals,
-    onOk = {
-        update()
-    },
-    onCancel = {
-        cancel()
-    },
-    texts = texts
-) {
+        id,
+        modals,
+        onOk = {
+            update()
+        },
+        onCancel = {
+            cancel()
+        },
+        texts = texts
+    ) {
+        var isProcessingFileContent by remember{ mutableStateOf(false) }
+        H2 { Text("Drop files here") }
 
+        Dropzone(
+            onProcessingStarted = {isProcessingFileContent = true},
+            onProcessingStopped = {isProcessingFileContent = true},
+        ) { files ->
+            files.filter { it.name.endsWith("csv") }.map {
+                readFileContent(it) { content ->
+                    console.log(content)
+                    setBidders(parseCsv(content).map {
+                        NewBidder(it["Email"]!!,0, it["Anteile"]!!.toInt())
+                    })
 
-
-    H2 { Text("Drop files here") }
-
-    Dropzone { files ->
-        files.filter { it.name.endsWith("csv") }.map {
-            readFileContent(it) { content ->
-                setBidders(parseCsv(content).map {
-                    NewBidder(it["Email"]!!,0, it["Anteile"]!!.toInt())
-                })
-
+                }
             }
         }
+
     }
 
-}
+
 
 @Markup
 fun Storage<Modals<Int>>.showImportBiddersModal(
