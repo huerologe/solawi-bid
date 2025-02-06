@@ -29,20 +29,24 @@ runs:
       run: |
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/ 
         cp -r solawi-bid-frontend/docker/ ${{inputs.baseFolder}}/solawi-bid-frontend/docker/ 
-        # mkdir -p solawi-bid-frontend/docker/httpd/extra/
+        
         cp solawi-bid-frontend/docker/httpd/httpd.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/httpd.conf
         cp solawi-bid-frontend/docker/httpd/extra/httpd-default.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-default.conf
         cp solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf
         
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/assets/
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/css/
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/i18n/
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/img/
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/js/
-        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/language/
+        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/
+        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/
+        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/
+        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/assets/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/css/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/i18n/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/img/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/js/
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/language/
         
         cp -r solawi-bid-frontend/build/dist/js/productionExecutable/ mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
     - name: Docker-Compose
       shell: bash
       run: |
-        echo "Copy the production docker-compose file"
+        cp docker-compose.nginx.yml ${{inputs.baseFolder}}/docker-compose.yml
