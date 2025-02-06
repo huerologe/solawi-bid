@@ -15,21 +15,28 @@ import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.bid.action.db.*
 import org.solyton.solawi.bid.module.bid.data.api.*
 
+@KtorDsl
+fun Routing.sendBid(environment: Environment) =  route("bid") {
+     post("send") {
+        (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
+    }
+}
+
 
 @KtorDsl
-fun Routing.bid(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
-    authenticate {
+fun Routing.bid(environment: Environment, authenticate: Routing.(Route.() -> Route)-> Route) =
+     authenticate {
+
         route("bid") {
 
             get("all") {
                 call.respond(Result.Success("not impl yet!"))
             }
 
-            post("send") {
-                (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
-            }
         }
-    }
+   }
+
+
 @KtorDsl
 fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
     authenticate{

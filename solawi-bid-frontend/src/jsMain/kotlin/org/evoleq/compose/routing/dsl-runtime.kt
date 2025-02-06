@@ -9,7 +9,7 @@ import org.w3c.dom.Location
  * Global state holding the current path of the application
  */
 internal val currentPath: MutableState<String> by lazy{ mutableStateOf(window.location.newPath()) }
-
+fun currentPath(): String = currentPath.value
 /**
  * Little helper function to render details og the location object
  */

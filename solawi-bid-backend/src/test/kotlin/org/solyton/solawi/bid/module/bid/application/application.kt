@@ -9,6 +9,7 @@ import org.solyton.solawi.bid.application.pipeline.installDatabase
 import org.solyton.solawi.bid.application.pipeline.installSerializers
 import org.solyton.solawi.bid.module.authentication.migrations.authenticationMigrations
 import org.solyton.solawi.bid.module.bid.routing.auction
+import org.solyton.solawi.bid.module.bid.routing.sendBid
 import org.solyton.solawi.bid.module.bid.routing.bid
 import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
 import org.solyton.solawi.bid.module.bid.routing.round
@@ -22,6 +23,7 @@ fun Application.bidTest() {
     installCors()
     installContentNegotiation()
     routing {
+        sendBid(environment)
         bid(environment){
             this.it()
         }
