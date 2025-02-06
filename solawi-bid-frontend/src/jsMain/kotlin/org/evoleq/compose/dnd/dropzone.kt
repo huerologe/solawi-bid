@@ -12,12 +12,17 @@ import org.w3c.files.get
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun Dropzone(onFilesDropped: (List<File>) -> Unit) {
+fun Dropzone(
+    onProcessingStarted: ()->Unit = {},
+    onProcessingStopped: ()->Unit = {},
+    onFilesDropped: (List<File>) -> Unit
+) {
     var isDragging by remember { mutableStateOf(false) }
-
+    var isProcessing by remember { mutableStateOf(false) }
     Div(
         attrs = {
             style {
+                height(80.vh)
                 padding(16.px)
                 border(2.px, LineStyle.Dashed, if (isDragging) Color.green else Color.gray)
                 textAlign("center")
@@ -33,12 +38,18 @@ fun Dropzone(onFilesDropped: (List<File>) -> Unit) {
             }
             onDrop { event ->
                 event.preventDefault()
+                if(isProcessing) return@onDrop
                 isDragging = false
+                isProcessing = true
+                onProcessingStarted()
                 val files = event.dataTransfer?.files
                 if (files != null) {
                     val fileList = (0 until files.length).map { files[it]!! }
+                    console.log(fileList.map { it.name })
                     onFilesDropped(fileList)
                 }
+                onProcessingStopped()
+                isProcessing = false
             }
         }
     ) {
