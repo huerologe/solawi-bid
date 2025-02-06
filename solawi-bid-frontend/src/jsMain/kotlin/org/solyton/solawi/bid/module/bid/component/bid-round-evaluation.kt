@@ -29,7 +29,7 @@ fun BidRoundEvaluation(storage: Storage<Application>, round: Lens<Application, R
         // todo:style Dynamic Property styles based on value of the property
         ReadOnlyProperty(Property(
             "Difference",
-            (evaluation.auctionDetails.targetAmount!! - evaluation.totalSumOfWeightedBids))
+            (evaluation.totalSumOfWeightedBids - evaluation.auctionDetails.targetAmount!!))
         )
     }
 }
