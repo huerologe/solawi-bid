@@ -36,7 +36,7 @@ jobs:
 
       - name: Test rsync
         run: |
-          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' test-deploy/ ${{ vars.SOLYTON_USER }}:/home/solawi-bid
+          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' test-deploy/ ${{ vars.SOLYTON }}
 
       #- name: Build
       #  run: ./gradlew build -x test#
