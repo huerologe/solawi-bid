@@ -27,20 +27,17 @@ jobs:
       - name: Setup JDK, Gradle and Caches
         uses: ./.github/actions/setup
 
-      #- name: Set up SSH
-      #  run: |
-      #    mkdir -p ~/.ssh
-      #    echo "${{ secrets.SOLYTON_SSH_KEY }}" > ~/.ssh/id_rsa
-      #    chmod 600 ~/.ssh/id_rsa
-          # Optional: Ensure GitHub doesn't complain about unknown host
-          # ssh-keyscan -p ${{ secrets.SOLYTON_SSH_PORT }} -H solyton.org >> ~/.ssh/known_hosts
+
+
+
+      - name: Build
+        run: ./gradlew build -x test#
 
       - name: Test rsync
         run: |
-          rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' test-deploy/ ${{ vars.SOLYTON }}
+          rsync -avr -e 'ssh -p --delete ${{ secrets.SOLYTON_SSH_PORT }}' ./ ${{ vars.SOLYTON }}
 
-      #- name: Build
-      #  run: ./gradlew build -x test#
+
 
       #- name: Debug - List files
       #  run: |
