@@ -23,11 +23,25 @@ runs:
         cp solawi-bid-backend/build/resources/main/application.docker.conf ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
         cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/wait-for-it.sh
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
-        cp -r solawi-bid-backend/build/libs/  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
+        cp solawi-bid-backend/build/libs/solawi-bid-backend-all.jar  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/solawi-bid-backend-all.jar
     - name: Frontend
       shell: bash
       run: |
-         echo ""
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd 
+        cp -r solawi-bid-frontend/docker/ ${{inputs.baseFolder}}/solawi-bid-frontend/docker/ 
+        mkdir -p solawi-bid-frontend/docker/httpd/extra/
+        cp solawi-bid-frontend/docker/httpd/httpd.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/httpd.conf
+        cp solawi-bid-frontend/docker/httpd/extra/httpd-default.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-default.conf
+        cp solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf
+        
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/assets
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/css
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/i18n
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/img
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/js
+        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/language
+        
+        cp -r solawi-bid-frontend/build/dist/js/productionExecutable/ mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
     - name: Docker-Compose
       shell: bash
       run: |
