@@ -27,19 +27,19 @@ runs:
     - name: Frontend
       shell: bash
       run: |
-        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd 
+        mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra 
         cp -r solawi-bid-frontend/docker/ ${{inputs.baseFolder}}/solawi-bid-frontend/docker/ 
-        mkdir -p solawi-bid-frontend/docker/httpd/extra/
+        # mkdir -p solawi-bid-frontend/docker/httpd/extra/
         cp solawi-bid-frontend/docker/httpd/httpd.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/httpd.conf
         cp solawi-bid-frontend/docker/httpd/extra/httpd-default.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-default.conf
         cp solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf
         
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/assets
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/css
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/i18n
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/img
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/js
-        mkdir - p solawi-bid-frontend/build/dist/js/productionExecutable/language
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/assets
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/css
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/i18n
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/img
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/js
+        mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/language
         
         cp -r solawi-bid-frontend/build/dist/js/productionExecutable/ mkdir - p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
     - name: Docker-Compose
