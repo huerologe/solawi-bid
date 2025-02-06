@@ -23,10 +23,12 @@ runs:
         cp solawi-bid-backend/build/resources/main/application.docker.conf ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
         cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/wait-for-it.sh
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
-        cp solawi-bid-backend/build/libs/  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
+        cp -r solawi-bid-backend/build/libs/  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
     - name: Frontend
       shell: bash
-      run: ""
+      run: |
+         echo ""
     - name: Docker-Compose
       shell: bash
-      run: ""
+      run: |
+        echo "Copy the production docker-compose file"
