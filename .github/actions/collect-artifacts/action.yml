@@ -28,7 +28,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/ 
-        cp -r solawi-bid-frontend/.env ${{inputs.baseFolder}}/solawi-bid-frontend/.env 
+        cp solawi-bid-frontend/.env ${{inputs.baseFolder}}/solawi-bid-frontend/.env 
       
         cp -r solawi-bid-frontend/docker/ ${{inputs.baseFolder}}/solawi-bid-frontend/docker/ 
         
