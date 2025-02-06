@@ -25,3 +25,4 @@ object UUIDSerializer : KSerializer<UUID> {
 }
 
 val ZeroUUID: UUID = uuidFrom("00000000-0000-0000-0000-000000000000")
+

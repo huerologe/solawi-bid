@@ -32,7 +32,8 @@ fun ApiAuction.toDomainType(): Auction = Auction(
     date = with(date){ LocalDate(year, monthNumber, dayOfMonth) },
     rounds = rounds.map { round -> round.toDomainType() },
     bidderIds = bidderIds,
-    auctionDetails = auctionDetails.toDomainType()
+    auctionDetails = auctionDetails.toDomainType(),
+    acceptedRoundId = acceptedRoundId
 )
 
 
@@ -47,7 +48,7 @@ fun ApiAuctionDetails.toDomainType(): AuctionDetails  = when(this) {
     else -> AuctionDetails()
 }
 
-fun ApiBidRoundResults.toDomainType(startDownloadOfBidRoundResults: Boolean = true): BidRoundResults = BidRoundResults(
+fun ApiBidRoundResults.toDomainType(startDownloadOfBidRoundResults: Boolean = false): BidRoundResults = BidRoundResults(
     results.map { it.toDomainType() },
     startDownloadOfBidRoundResults
 )

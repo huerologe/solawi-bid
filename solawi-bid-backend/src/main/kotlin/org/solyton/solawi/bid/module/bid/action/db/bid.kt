@@ -3,7 +3,6 @@ package org.solyton.solawi.bid.module.bid.action.db
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
-import org.evoleq.ktorx.result.map
 import org.evoleq.math.MathDsl
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
@@ -34,6 +33,8 @@ fun Transaction.storeBid(bid: Bid): BidRoundEntity {
     // get corresponding round
     val round = Round.find { Rounds.link eq bid.link }.firstOrNull()
         ?: throw BidRoundException.LinkNotPresent(bid.link)
+
+    validateAuctionNotAccepted(round)
 
     val bidder = Bidder.find { Bidders.username eq bid.username }.firstOrNull()
         ?: throw BidRoundException.UnregisteredBidder(bid.username)

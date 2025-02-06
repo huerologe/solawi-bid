@@ -50,6 +50,9 @@ fun Routing.auction(environment: Environment,authenticate: Routing.(Route.() -> 
             get("results") {
 
             }
+            patch("accept-round") {
+                (Receive<AcceptRound>()) * AcceptRound * Respond<AcceptedRound>() runOn Base(call, environment)
+            }
             get("all"){
                 (Receive(GetAuctions) * ReadAuctions * Respond<Auctions>()) runOn Base(call, environment)
             }

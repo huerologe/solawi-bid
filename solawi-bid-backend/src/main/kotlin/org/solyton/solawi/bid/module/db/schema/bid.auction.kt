@@ -14,7 +14,7 @@ typealias AuctionsTable = Auctions
 object Auctions: UUIDTable("auctions") {
     val name = varchar("name", 250)
     val date = date("date")
-    val typeId =reference("type_id", AuctionTypes)
+    val typeId = reference("type_id", AuctionTypes)
 }
 
 
@@ -27,6 +27,5 @@ class Auction(id: EntityID<UUID>) : UUIDEntity(id) {
     val rounds: SizedIterable<Round> by Round referrersOn Rounds.auction
     var bidders: SizedIterable<Bidder> by Bidder via AuctionBidders
     val bidRounds: SizedIterable<BidRound> by BidRound referrersOn BidRounds.auction
-
 }
 

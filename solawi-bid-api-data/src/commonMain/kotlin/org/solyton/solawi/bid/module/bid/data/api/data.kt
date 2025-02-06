@@ -16,7 +16,8 @@ typealias ApiAuctionDetailsSolawiTuebingen = AuctionDetails.SolawiTuebingen
 typealias ApiBidInfo = BidInfo
 typealias ApiBidRoundResults = BidRoundResults
 typealias ApiBidResult = BidResult
-
+typealias ApiAcceptedRound = AcceptedRound
+typealias ApiAcceptRound = AcceptRound
 
 @Serializable
 data class Bid(
@@ -115,7 +116,8 @@ data class Auction(
     val date: LocalDate,
     val rounds: List<Round> = listOf(),
     val bidderIds: List<String> = listOf(),
-    val auctionDetails: AuctionDetails = AuctionDetails.Empty
+    val auctionDetails: AuctionDetails = AuctionDetails.Empty,
+    val acceptedRoundId: String? = null
 )
 
 @Serializable
@@ -198,4 +200,15 @@ data class ImportBidders(
 data class DeleteBidders(
     val auctionId: String?,
     val bidderIds: List<String>
+)
+
+@Serializable
+data class AcceptRound(
+    val auctionId: String,
+    val roundId: String
+)
+@Serializable
+data class AcceptedRound(
+    // val auctionId: String,
+    val roundId: String
 )

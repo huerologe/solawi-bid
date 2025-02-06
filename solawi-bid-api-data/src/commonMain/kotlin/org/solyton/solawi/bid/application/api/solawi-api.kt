@@ -71,7 +71,10 @@ val solawiApi by lazy {
         key = PreEvaluateBidRound::class,
         url = "round/pre-evaluate"
     )
-
+    .patch<AcceptRound, AcceptedRound>(
+        key  = AcceptRound::class,
+        url = "auction/accept-round"
+    )
 
     // Auction bid
     .post<Bid,BidRound> (

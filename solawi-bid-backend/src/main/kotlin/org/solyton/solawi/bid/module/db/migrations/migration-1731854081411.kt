@@ -40,7 +40,8 @@ class Migration1731854081411(
             AuctionBidders,
             BidRounds,
             Bidders,
-            Rounds
+            Rounds,
+            AcceptedRoundsTable
         )
     }
 

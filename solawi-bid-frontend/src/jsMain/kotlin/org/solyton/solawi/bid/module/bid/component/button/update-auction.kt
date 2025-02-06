@@ -21,6 +21,7 @@ import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuctio
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds
+import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
@@ -35,7 +36,8 @@ fun UpdateAuctionButton(
 ) {
     Button( attrs = {
         // Auction can only be configured, if no rounds have been created
-        val isDisabled = (storage * auction * rounds * existRounds).emit()
+        val isDisabled = (storage * auction * rounds * existRounds).emit() ||
+            (storage * auction * roundAccepted).emit()
         if(isDisabled) attr("disabled", "true")
         style{
             // todo:style:button:edit
