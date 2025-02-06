@@ -27,10 +27,10 @@ jobs:
         uses: ./.github/actions/set-env-vars
           with:
             environment: ${{ vars. }}
-            #frontendUrl:
-            #frontendPort:
-            #backendUrl:
-            #backendPort:
+            # frontendUrl:
+            # frontendPort:
+            # backendUrl:
+            # backendPort:
 
             appOwnerUsername: ${{ secrets.APPLICATION_OWNER_USERNAME }}
             appOwnerPassword: ${{ secrets.APPLICATION_OWNER_PASSWORD }}
