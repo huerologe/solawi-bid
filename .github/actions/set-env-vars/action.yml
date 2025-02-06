@@ -54,8 +54,10 @@ runs:
   steps:
     - name: Database
       shell: bash
+      run: |
+        echo "Hello Database"
     - name: Backend
-      shall: bash
+      shell: bash
       run: |
         sed -i 's/ENVIRONMENT/${{inputs.environment}}/' solawi-bid-backend/build/resources/main/application.conf.dist
         
