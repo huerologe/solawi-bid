@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   test:
-    runs-on: jupiter #ubuntu-latest
+    runs-on: self-hosted #jupiter #ubuntu-latest
     steps:
       # Check out the code from the repository
       - name: Checkout code
