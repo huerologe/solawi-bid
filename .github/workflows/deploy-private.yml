@@ -24,6 +24,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup JDK, Gradle and Caches
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: ./gradlew build -x test
+
       - name: Set env variables
         uses: ./.github/actions/set-env-vars
         with:
@@ -43,12 +49,6 @@ jobs:
           databaseDriver: ${{ vars.DATABASE_DRIVER }}
           databaseUser: ${{ vars.DATABASE_USER }}
           databaseUrl: ${{ vars.DATABASE_URL }}
-
-      - name: Setup JDK, Gradle and Caches
-        uses: ./.github/actions/setup
-
-      - name: Build
-        run: ./gradlew build -x test
 
       - name: Collect
         uses: ./.github/actions/collect-artifacts
