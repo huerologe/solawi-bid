@@ -59,18 +59,18 @@ runs:
     - name: Backend
       shell: bash
       run: |
-        sed -i 's/ENVIRONMENT/${{inputs.environment}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/ENVIRONMENT/${{inputs.environment}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         
-        sed -i 's/JWT_AUDIENCE/${{inputs.jwtAudience}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/JWT_DOMAIN/${{inputs.jwtDomain}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/JWT_REALM/${{inputs.jwtRealm}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/JWT_SECRET/${{inputs.jwtSecret}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_AUDIENCE/${{inputs.jwtAudience}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_DOMAIN/${{inputs.jwtDomain}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_REALM/${{inputs.jwtRealm}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/JWT_SECRET/${{inputs.jwtSecret}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         
-        sed -i 's/DATABASE_DRIVER/${{inputs.databaseDriver}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/DATABASE_URL/${{inputs.databaseUrl}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/DATABASE_USER/${{inputs.databaseUser}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_DRIVER/${{inputs.databaseDriver}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_URL|${{inputs.databaseUrl}}|g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_USER/${{inputs.databaseUser}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         
-        sed -i 's/APPLICATION_OWNER_USERNAME/${{inputs.appOwnerUsername}}/' solawi-bid-backend/build/resources/main/application.conf.dist
-        sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/APPLICATION_OWNER_USERNAME/${{inputs.appOwnerUsername}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
     
         cat solawi-bid-backend/build/resources/main/application.conf.dist
