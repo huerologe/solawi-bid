@@ -2,11 +2,15 @@ package org.solyton.solawi.bid.module.bid.data.reader
 
 import org.evoleq.math.Reader
 import org.evoleq.math.map
+import org.evoleq.uuid.isUuid
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.AuctionDetails
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 
+val roundAccepted: Reader<Auction, Boolean> = Reader {
+    it.acceptedRoundId != null && it.acceptedRoundId.isUuid()
+}
 
 val countBidders: Reader<Auction, Int> = Reader {
     it.bidderIds.distinct().size

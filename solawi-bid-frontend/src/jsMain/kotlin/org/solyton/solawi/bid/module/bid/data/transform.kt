@@ -48,7 +48,7 @@ fun ApiAuctionDetails.toDomainType(): AuctionDetails  = when(this) {
     else -> AuctionDetails()
 }
 
-fun ApiBidRoundResults.toDomainType(startDownloadOfBidRoundResults: Boolean = true): BidRoundResults = BidRoundResults(
+fun ApiBidRoundResults.toDomainType(startDownloadOfBidRoundResults: Boolean = false): BidRoundResults = BidRoundResults(
     results.map { it.toDomainType() },
     startDownloadOfBidRoundResults
 )

@@ -279,7 +279,7 @@ class ActionTests{
             )
             (storage * export.writer).write(results) on Unit
             val storedResults = (storage * roundLens * rawResults).read()
-            val domainResults = results.toDomainType()
+            val domainResults = results.toDomainType(true)
             assertEquals(domainResults, storedResults)
             assertEquals(domainResults.bidRoundResults,storedResults.bidRoundResults)
             assertEquals(domainResults.startDownloadOfBidRoundResults, storedResults.startDownloadOfBidRoundResults)
@@ -407,7 +407,6 @@ class ActionTests{
     @Test fun acceptRoundTest() = runTest {
         val auction = Auction("id", "name", LocalDate(1, 1, 1))
         val auctionLens = auctions * FirstBy<Auction> { auc -> auc.auctionId == auction.auctionId }
-        val roundLens = auctionLens * rounds * FirstBy { r: DomainRound -> r.roundId == "id" }
 
         val round = Round(
             "id",

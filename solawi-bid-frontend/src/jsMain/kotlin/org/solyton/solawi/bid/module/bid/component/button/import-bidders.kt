@@ -23,6 +23,7 @@ import org.solyton.solawi.bid.module.bid.component.modal.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds
+import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.i18n.data.language
 
@@ -36,7 +37,8 @@ fun ImportBiddersButton(
 ) {
     Button(attrs = {
         // Bidders can only be imported, if no rounds have been created
-        val isDisabled = (storage * auction * rounds * existRounds).emit()
+        val isDisabled = (storage * auction * rounds * existRounds).emit() ||
+            (storage * auction * roundAccepted).emit()
         if(isDisabled) disabled()
         onClick {
             if(isDisabled) return@onClick
