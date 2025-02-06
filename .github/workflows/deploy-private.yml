@@ -77,7 +77,7 @@ jobs:
         with:
           name: deploy
           path: deploy/
-      - name: Test rsync
+      - name: Rsync
         run: |
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
