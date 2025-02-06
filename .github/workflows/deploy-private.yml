@@ -24,6 +24,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set env variables frontend
+        uses: ./.github/actions/set-env-vars-frontend
+        with:
+          environment: prod #${{ vars.ENVIRONMENT }}
+          frontendUrl: https://bib.solyton.org
+          frontendPort: 443
+          backendUrl: https://bib.solyton.org
+          backendPort: 8081
+
       - name: Setup JDK, Gradle and Caches
         uses: ./.github/actions/setup
 
@@ -31,7 +40,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Set env variables
-        uses: ./.github/actions/set-env-vars
+        uses: ./.github/actions/set-env-vars-backend
         with:
           environment: prod #${{ vars.ENVIRONMENT }}
           # frontendUrl:

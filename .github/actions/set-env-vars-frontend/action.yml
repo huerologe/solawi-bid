@@ -1,0 +1,36 @@
+name: Set Env Vars
+description: Collect all files needed to run the application
+inputs:
+  #baseFolder:
+  #  description: base folder for deployment
+  #  required: true
+  environment:
+    description: Env
+    required: true
+  frontendUrl:
+    description: Env
+    required: true
+  frontendPort:
+    description: Env
+    required: true
+  backendUrl:
+    description: Env
+    required: true
+  backendPort:
+    description: Env
+    required: true
+runs:
+  using: composite
+  steps:
+
+    - name: Frontend
+      shell: bash
+      run: |
+        touch solawi-bid-frontend/.env
+        echo "ENVIRONMENT=${{inputs.environment}}">solawi-bid-frontend/.env
+        echo "FRONTEND_URL=${{inputs.frontendUrl}}">solawi-bid-frontend/.env
+        echo "FRONTEND_PORT=${{inputs.frontendPort}}">solawi-bid-frontend/.env
+        echo "BACKEND_URL=${{inputs.backendUrl}}">solawi-bid-frontend/.env
+        echo "BACKEND_PORT=${{inputs.backendPort}}">solawi-bid-frontend/.env
+        
+        cat solawi-bid-frontend/.env

@@ -74,14 +74,3 @@ runs:
         sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/' solawi-bid-backend/build/resources/main/application.conf.dist
     
         cat solawi-bid-backend/build/resources/main/application.conf.dist
-    - name: Frontend
-      shell: bash
-      run: |
-        touch solawi-bid-frontend/.env
-        echo "ENVIRONMENT=${{inputs.environment}}">solawi-bid-frontend/.env
-        echo "FRONTEND_URL=${{inputs.frontendUrl}}">solawi-bid-frontend/.env
-        echo "FRONTEND_PORT=${{inputs.frontendPort}}">solawi-bid-frontend/.env
-        echo "BACKEND_URL=${{inputs.backendUrl}}">solawi-bid-frontend/.env
-        echo "BACKEND_PORT=${{inputs.backendPort}}">solawi-bid-frontend/.env
-        
-        cat solawi-bid-frontend/.env
