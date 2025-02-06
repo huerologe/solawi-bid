@@ -32,7 +32,7 @@ jobs:
           echo "${{ secrets.SOLYTON_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           # Optional: Ensure GitHub doesn't complain about unknown host
-          ssh-keyscan -H solyton.org >> ~/.ssh/known_hosts
+          # ssh-keyscan -H solyton.org >> ~/.ssh/known_hosts
 
       - name: test rsync
         run: |
