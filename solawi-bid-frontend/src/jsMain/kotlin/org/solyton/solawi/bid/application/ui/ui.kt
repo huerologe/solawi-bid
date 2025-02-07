@@ -12,12 +12,10 @@ import org.evoleq.math.Writer
 import org.evoleq.math.write
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.solyton.solawi.bid.application.data.Application
-import org.solyton.solawi.bid.application.data.cookieDisclaimer
+import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.data.env.getEnv
-import org.solyton.solawi.bid.application.data.i18N
-import org.solyton.solawi.bid.application.data.modals
+import org.solyton.solawi.bid.application.data.env.set
 import org.solyton.solawi.bid.application.routing.Routing
 import org.solyton.solawi.bid.application.storage.event.onReadEnvironment
 import org.solyton.solawi.bid.module.cookie.component.CookieDisclaimer
@@ -26,25 +24,7 @@ import org.solyton.solawi.bid.module.i18n.data.language
 @Markup
 @Suppress("FunctionName")
 @Composable fun UI(storage: Storage<Application>) {
-    var environmentSet by remember { mutableStateOf(false) }
-    if(!environmentSet) LaunchedEffect(Unit) { launch {
-        val env = try {
-            getEnv()
-        } catch (e: Exception) {
-            console.error(e.message)
-            Environment(
-                "prod",
-                backendUrl = "https://bid.solyton.org",
-                backendPort = 8080,
-                frontendUrl = "https://solyton.org",
-                frontendPort = 80
-            )
-        }
-        val x:Unit = (storage * Writer { envi: Environment ->
-            { app: Application -> app.copy(environment = envi) }
-        }).write(env) on Unit
-        // environmentSet = true
-    } }
+
     val texts = (storage * i18N * language).read() as Block
     // The whole UI needs to be wrapped in a component
     // which is able to handle the interactive control flow of the application,

@@ -19,6 +19,7 @@ fun Storage<Application>.onReadEnvironment(envSet: Boolean) {
         } catch (e: Exception) {
             console.error(e.message)
             Environment(
+                true,
                 "prod",
                 backendUrl = "https://bid.solyton.org",
                 backendPort = 8080,
