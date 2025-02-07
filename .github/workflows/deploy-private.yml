@@ -24,6 +24,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set env variables database
+        uses: ./.github/actions/set-env-vars-database
+        with:
+          environment: prod
+          mysqlDatabase: ${{vars.MYSQL_DATABASE}}
+          mysqlUser: ${{vars.MYSQL_USER}}
+          mysqlPassword: ${{secrets.MYSQL_PASSWORD}}
+          mysqlRootPassword: ${{secrets.MYSQL_ROOT_PASSWORD}}
+
       - name: Set env variables frontend
         uses: ./.github/actions/set-env-vars-frontend
         with:
