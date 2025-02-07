@@ -46,6 +46,9 @@ inputs:
   databaseUser:
     description: Env
     required: true
+  databasePassword:
+    description: Env
+    required: true
   databaseUrl:
     description: Env
     required: true
@@ -69,6 +72,7 @@ runs:
         sed -i 's/DATABASE_DRIVER/${{inputs.databaseDriver}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         sed -i 's|DATABASE_URL|${{inputs.databaseUrl}}|g' solawi-bid-backend/build/resources/main/application.conf.dist
         sed -i 's/DATABASE_USER/${{inputs.databaseUser}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/DATABASE_PASSWORD/${{inputs.databaseUser}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         
         sed -i 's/APPLICATION_OWNER_USERNAME/${{inputs.appOwnerUsername}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/g' solawi-bid-backend/build/resources/main/application.conf.dist

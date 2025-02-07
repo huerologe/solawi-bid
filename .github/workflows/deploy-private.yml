@@ -48,7 +48,7 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
 
-      - name: Set env variables
+      - name: Set env variables backend
         uses: ./.github/actions/set-env-vars-backend
         with:
           environment: prod #${{ vars.ENVIRONMENT }}
@@ -66,6 +66,7 @@ jobs:
 
           databaseDriver: ${{ vars.DATABASE_DRIVER }}
           databaseUser: ${{ vars.DATABASE_USER }}
+          databasePassword: ${{ secrets.DATABASE_PASSWORD }}
           databaseUrl: ${{ vars.DATABASE_URL }}
 
       - name: Collect
