@@ -95,7 +95,7 @@ jobs:
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
       - name: Deploy via SSH
-        # if: false
+        if: false
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_SOLYTON_HOST }}

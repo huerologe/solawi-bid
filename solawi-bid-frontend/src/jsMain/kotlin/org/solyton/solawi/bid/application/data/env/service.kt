@@ -1,7 +1,10 @@
 package org.solyton.solawi.bid.application.data.env
 
 
-val env:dynamic by lazy { js("PROCESS_ENV") }
+val env:dynamic by lazy { val x = js("PROCESS_ENV")
+    console.log(x)
+    x
+}
 
 
 fun getEnv(): Environment = Environment(

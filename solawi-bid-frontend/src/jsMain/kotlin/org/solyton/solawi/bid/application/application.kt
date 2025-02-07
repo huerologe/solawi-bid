@@ -24,9 +24,12 @@ fun Application() = renderComposable("root") {
             getEnv()
         }catch (e: Exception) {
             console.error(e.message)
-            Environment()
+            Environment(
+
+            )
         }
     }
+
     installSerializers()
     Style(GlobalStyles)
 
