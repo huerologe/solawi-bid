@@ -21,6 +21,7 @@ runs:
         cp -r solawi-bid-backend/docker/. ${{inputs.baseFolder}}/solawi-bid-backend/docker/ 
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/
         cp solawi-bid-backend/build/resources/main/application.conf.dist ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.docker.conf
+        cp solawi-bid-backend/build/resources/main/application.conf.dist ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/application.conf
         cp solawi-bid-backend/build/resources/main/wait-for-it.sh ${{inputs.baseFolder}}/solawi-bid-backend/build/resources/main/wait-for-it.sh
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/
         cp solawi-bid-backend/build/libs/solawi-bid-backend-all.jar  ${{inputs.baseFolder}}/solawi-bid-backend/build/libs/solawi-bid-backend-all.jar
@@ -28,8 +29,12 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/ 
+        # debug
+        cat solawi-bid-frontend/.env 
         cp solawi-bid-frontend/.env ${{inputs.baseFolder}}/solawi-bid-frontend/.env 
-      
+        # debug
+        cat ${{inputs.baseFolder}}/solawi-bid-frontend/.env
+        
         cp -r solawi-bid-frontend/docker/. ${{inputs.baseFolder}}/solawi-bid-frontend/docker 
         
         cp solawi-bid-frontend/docker/httpd/httpd.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/httpd.conf

@@ -95,6 +95,12 @@ jobs:
             docker-compose up --build -d  # Rebuild and restart containers
             docker system prune -f  # Cleanup unused Docker images
 
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf deploy/
+          
+
       #- name: Debug - List files
       #  run: |
       #    ls
