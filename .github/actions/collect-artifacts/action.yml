@@ -11,6 +11,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-database/docker/
+        cp solawi-bid-database/e.env ${{inputs.baseFolder}}/solawi-bid-database/e.env 
         cp -r solawi-bid-database/docker/. ${{inputs.baseFolder}}/solawi-bid-database/docker/
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-database/sql/
         cp solawi-bid-database/sql/setup.sql ${{inputs.baseFolder}}/solawi-bid-database/sql/setup.sql
