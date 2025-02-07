@@ -22,7 +22,7 @@ fun TestStorage(): Storage<Application> {
     var application by remember {
         mutableStateOf<Application>(
             Application(
-                environment = Environment("DEV"),
+                environment = Environment(true,"DEV"),
                 userData = User("", "", "", "",)
             )
         )
