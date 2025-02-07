@@ -27,6 +27,7 @@ runs:
       shell: bash
       run: |
         touch solawi-bid-frontend/.env
+        chmod 644 solawi-bid-frontend/.env
         echo "ENVIRONMENT=${{inputs.environment}}">>solawi-bid-frontend/.env
         echo "FRONTEND_URL=${{inputs.frontendUrl}}">>solawi-bid-frontend/.env
         echo "FRONTEND_PORT=${{inputs.frontendPort}}">>solawi-bid-frontend/.env
