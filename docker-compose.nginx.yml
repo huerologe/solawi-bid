@@ -39,7 +39,7 @@ services:
       dockerfile: solawi-bid-backend/docker/Dockerfile
     expose:
       - 8080
-    env_file: solawi-gateway_web/.env
+    # env_file: solawi-gateway_web/.env
     environment:
       - VIRTUAL_HOST=bid.solyton.org
       - VIRTUAL_PORT=8080
