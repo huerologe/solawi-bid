@@ -40,7 +40,7 @@ jobs:
           frontendUrl: https://solyton.org
           frontendPort: 443 # 80
           backendUrl: https://bid.solyton.org
-          backendPort: 443 #8080
+          backendPort: 8080
 
       - name: Setup JDK, Gradle and Caches
         uses: ./.github/actions/setup
