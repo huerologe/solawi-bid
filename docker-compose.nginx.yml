@@ -37,12 +37,18 @@ services:
     build:
       context: .
       dockerfile: solawi-bid-backend/docker/Dockerfile
-    ports:
-      - "8081:8081"
+    expose:
+      - 8080
+    env_file: solawi-gateway_web/.env
+    environment:
+      - VIRTUAL_HOST=bid.solyton.org
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=bid.solyton.org
+      - LETSENCRYPT_EMAIL=webmaster@solyton.org
     container_name: solawi-bid_backend
     hostname: solawi-bid_backend
-    env_file:
-      - solawi-bid-backend/.env
+#    env_file:
+#      - solawi-bid-backend/.env
     depends_on:
       - solawi-bid_database
     networks:
@@ -59,17 +65,21 @@ services:
       - "3306:3306"
     env_file:
       - solawi-bid-database/.env
+    command: [
+      '--default-authentication-plugin=mysql_native_password',
+      '--wait_timeout=28800'
+    ]
     networks:
       - backend
     restart: always
 
-  adminer:
-    image: adminer
-    hostname: adminer
-    #container_name: adminer
-    restart: always
-    ports:
-      - "8082:8080"
-    networks:
-      - frontend
-      - backend
+#  adminer:
+#    image: adminer
+#    hostname: adminer
+#    #container_name: adminer
+#    restart: always
+#    ports:
+#      - "8082:8080"
+#    networks:
+#      - frontend
+#      - backend
