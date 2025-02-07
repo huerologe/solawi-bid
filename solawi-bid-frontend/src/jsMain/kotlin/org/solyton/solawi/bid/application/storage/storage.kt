@@ -12,6 +12,7 @@ import org.solyton.solawi.bid.application.api.CallApi
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.env.Environment
+import org.solyton.solawi.bid.application.data.env.getEnv
 import org.solyton.solawi.bid.application.storage.event.*
 import org.solyton.solawi.bid.module.user.User
 import kotlin.reflect.KClass
@@ -19,11 +20,11 @@ import kotlin.reflect.KClass
 
 @Markup
 @Composable
-fun Storage(): Storage<Application> {
+fun Storage(environment: Environment): Storage<Application> {
     var pulse by remember { mutableStateOf<Int>(0) }
-    // val environment = getEnv()
+    //val environment = getEnv()
     var application by remember{ mutableStateOf<Application>(Application(
-        environment = Environment("DEV"),
+        environment = environment,// Environment("DEV"),
         userData = User("", "","", "", )
     ))}
 
