@@ -1,6 +1,9 @@
 package org.solyton.solawi.bid.application.storage
 
 import androidx.compose.runtime.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.storage.onInit
 import org.evoleq.math.state.runOn
@@ -20,9 +23,10 @@ import kotlin.reflect.KClass
 
 @Markup
 @Composable
-fun Storage(environment: Environment): Storage<Application> {
+fun Storage(): Storage<Application> {
     var pulse by remember { mutableStateOf<Int>(0) }
-    //val environment = getEnv()
+    var environmentSet by remember { mutableStateOf(false) }
+    var environment by remember { mutableStateOf<Environment>(Environment()) }
     var application by remember{ mutableStateOf<Application>(Application(
         environment = environment,// Environment("DEV"),
         userData = User("", "","", "", )
@@ -35,6 +39,10 @@ fun Storage(environment: Environment): Storage<Application> {
         }
     )
     .onInit {
+        onReadEnvironment(environmentSet) { env ->
+            environment = env
+            environmentSet = true
+        }
         checkCookie()
         loadLanguage()
         checkUserData()

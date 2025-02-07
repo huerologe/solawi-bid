@@ -17,23 +17,9 @@ import org.solyton.solawi.bid.module.loading.component.Loading
 @Markup
 @Suppress("FunctionName")
 fun Application() = renderComposable("root") {
-    // read environment variable
-    var environment by remember { mutableStateOf<Environment>(Environment()) }
-    LaunchedEffect(Unit) {
-        environment = try {
-            getEnv()
-        }catch (e: Exception) {
-            console.error(e.message)
-            Environment(
-
-            )
-        }
-    }
-
     installSerializers()
     Style(GlobalStyles)
-
-    Store({ Storage(environment) }) {
+    Store({ Storage() }) {
         when( langLoaded() ) {
             true -> UI(this)
             false -> Loading()
