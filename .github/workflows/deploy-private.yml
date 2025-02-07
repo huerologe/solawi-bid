@@ -38,7 +38,7 @@ jobs:
         with:
           environment: prod #${{ vars.ENVIRONMENT }}
           frontendUrl: https://bib.solyton.org
-          frontendPort: 443
+          frontendPort: 80
           backendUrl: https://bib.solyton.org
           backendPort: 8080
 
