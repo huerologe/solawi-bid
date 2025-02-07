@@ -26,23 +26,20 @@ import kotlin.reflect.KClass
 fun Storage(): Storage<Application> {
     var pulse by remember { mutableStateOf<Int>(0) }
     var environmentSet by remember { mutableStateOf(false) }
-    var environment by remember { mutableStateOf<Environment>(Environment()) }
+    //var environment by remember { mutableStateOf<Environment>(Environment()) }
     var application by remember{ mutableStateOf<Application>(Application(
-        environment = environment,// Environment("DEV"),
+        environment = Environment(),// Environment("DEV"),
         userData = User("", "","", "", )
     ))}
 
     return Storage<Application>(
         read = { application },
         write = {
-            newApplication -> application = newApplication
+            newApplication -> application = newApplication; environmentSet = true
         }
     )
     .onInit {
-        onReadEnvironment(environmentSet) { env ->
-            environment = env
-            environmentSet = true
-        }
+        onReadEnvironment(environmentSet)
         checkCookie()
         loadLanguage()
         checkUserData()
