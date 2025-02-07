@@ -47,6 +47,7 @@ fun Application() = renderComposable("root") {
                 { app: Application -> app.copy(environment = envi) }
             }).write(env) on Unit
         } }
+
         when( langLoaded() && environmentSet ) {
             true -> UI(this)
             false -> Loading()
