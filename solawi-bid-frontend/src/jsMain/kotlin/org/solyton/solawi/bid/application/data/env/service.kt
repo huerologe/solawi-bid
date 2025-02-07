@@ -2,7 +2,7 @@ package org.solyton.solawi.bid.application.data.env
 
 
 val env:dynamic by lazy { val x = js("PROCESS_ENV")
-    // console.log(x)
+     console.log(x)
     x
 }
 
@@ -15,5 +15,6 @@ fun getEnv(): Environment {
         backendUrl = env["BACKEND_URL"].unsafeCast<String>(),
         backendPort = env["BACKEND_PORT"].unsafeCast<String>().toInt(),
     )
+    console.log(e)
     return e
 }

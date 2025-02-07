@@ -29,11 +29,8 @@ import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 suspend inline fun <S: Any, T: Any> CallApi(action: Action<Application, S, T>) =
     Read<S>(action.reader) *
     Call<S, T>(action)  *
-    Dispatch<T>(action.writer) /* *
-    Debug {
-        console.log("auctions = ${it.auctions}")
-    }
-    */
+    Dispatch<T>(action.writer)
+
 
 
 @MathDsl
