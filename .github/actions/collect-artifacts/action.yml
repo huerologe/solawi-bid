@@ -29,11 +29,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/ 
-        # debug
-        cat solawi-bid-frontend/.env 
-        cp solawi-bid-frontend/.env ${{inputs.baseFolder}}/solawi-bid-frontend/.env 
-        # debug
-        cat ${{inputs.baseFolder}}/solawi-bid-frontend/.env
+        cp solawi-bid-frontend/e.env ${{inputs.baseFolder}}/solawi-bid-frontend/e.env 
         
         cp -r solawi-bid-frontend/docker/. ${{inputs.baseFolder}}/solawi-bid-frontend/docker 
         

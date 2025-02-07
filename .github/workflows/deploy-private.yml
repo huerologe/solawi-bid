@@ -79,6 +79,7 @@ jobs:
           path: deploy/
       - name: Rsync
         run: |
+          mv deploy/solawi-bid-frontend/e.env deploy/solawi-bid-frontend/.env
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
       - name: Deploy via SSH

@@ -26,12 +26,11 @@ runs:
     - name: Frontend
       shell: bash
       run: |
-        touch solawi-bid-frontend/.env
-        chmod 644 solawi-bid-frontend/.env
-        echo "ENVIRONMENT=${{inputs.environment}}">>solawi-bid-frontend/.env
-        echo "FRONTEND_URL=${{inputs.frontendUrl}}">>solawi-bid-frontend/.env
-        echo "FRONTEND_PORT=${{inputs.frontendPort}}">>solawi-bid-frontend/.env
-        echo "BACKEND_URL=${{inputs.backendUrl}}">>solawi-bid-frontend/.env
-        echo "BACKEND_PORT=${{inputs.backendPort}}">>solawi-bid-frontend/.env
+        touch solawi-bid-frontend/e.env
+        chmod 644 solawi-bid-frontend/e.env
+        echo "ENVIRONMENT=${{inputs.environment}}">>solawi-bid-frontend/e.env
+        echo "FRONTEND_URL=${{inputs.frontendUrl}}">>solawi-bid-frontend/e.env
+        echo "FRONTEND_PORT=${{inputs.frontendPort}}">>solawi-bid-frontend/e.env
+        echo "BACKEND_URL=${{inputs.backendUrl}}">>solawi-bid-frontend/e.env
+        echo "BACKEND_PORT=${{inputs.backendPort}}">>solawi-bid-frontend/e.env
         
-        cat solawi-bid-frontend/.env
