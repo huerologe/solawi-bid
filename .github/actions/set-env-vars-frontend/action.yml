@@ -34,5 +34,5 @@ runs:
         echo "BACKEND_URL=${{inputs.backendUrl}}">>solawi-bid-frontend/e.env
         echo "BACKEND_PORT=${{inputs.backendPort}}">>solawi-bid-frontend/e.env
         # fe-build needs to access .env
-        mv solawi-bid-frontend/e.env solawi-bid-frontend/.env
+        cp solawi-bid-frontend/e.env solawi-bid-frontend/.env
         
