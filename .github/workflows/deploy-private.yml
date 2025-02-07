@@ -37,9 +37,9 @@ jobs:
         uses: ./.github/actions/set-env-vars-frontend
         with:
           environment: prod #${{ vars.ENVIRONMENT }}
-          frontendUrl: https://bib.solyton.org
+          frontendUrl: https://solyton.org
           frontendPort: 80
-          backendUrl: https://bib.solyton.org
+          backendUrl: https://bid.solyton.org
           backendPort: 8080
 
       - name: Setup JDK, Gradle and Caches
