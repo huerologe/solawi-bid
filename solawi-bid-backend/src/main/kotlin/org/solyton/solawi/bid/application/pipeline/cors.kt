@@ -3,8 +3,11 @@ package org.solyton.solawi.bid.application.pipeline
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.plugins.defaultHea
+
 
 fun Application.installCors() = try {
+
         install(CORS) {
             allowMethod(HttpMethod.Options)
             allowMethod(HttpMethod.Get)
