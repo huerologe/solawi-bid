@@ -19,6 +19,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  clone-database:
+    runs-on: solyton
+    steps:
+      - name: Dump db
+        run: |
+          docker exec solawi-bid_database mysqldump -u${{vars.DATABASE_USER}} -p${{secrets.MYSQL_PASSWORD}} ${{vars.MYSQL_DATABASE}} > ${{vars.DATABASE_DUMP }}
   build:
     runs-on: ubuntu-latest
     steps:
@@ -77,7 +83,7 @@ jobs:
           name: deploy
           path: deploy/**/*
 
-  deploy:
+  deploy-application:
     needs: build
     runs-on: jupiter
     steps:
@@ -96,9 +102,14 @@ jobs:
         run: |
           rm -rf deploy/
   restart:
-     needs: deploy
+     needs:
+        - deploy-application
+        - clone-database
      runs-on: solyton
      steps:
+      - name: Get db-clone
+        run:
+          cp ${{vars.DATABASE_DUMP}} /home/solawi-bid/solawi-bid-database/sql/setup.sql
       - name: Restart application
         run: |
           cd /home/solawi-bid
