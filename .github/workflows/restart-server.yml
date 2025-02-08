@@ -38,7 +38,6 @@ jobs:
         run: |
           ssh -vvv -i <(echo "${{ secrets.SOLYTON_SSH_KEY }}") -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} whoami
       - name: Deploy via SSH
-        if: false
         uses: appleboy/ssh-action@v1.2.0
         with:
           debug: true
@@ -54,13 +53,3 @@ jobs:
             docker-compose down --remove-orphans  # Stop running containers
             docker-compose up --build -d  # Rebuild and restart containers
             docker system prune -f  # Cleanup unused Docker images  
-
-      - name: SSH Action Test
-        uses: jamesives/gh-action-ssh@v0.2.0
-        with:
-          host: ${{ secrets.SSH_SOLYTON_HOST }}
-          username: ${{ secrets.SSH_SOLYTON_USER }}
-          key: ${{ secrets.SOLYTON_SSH_KEY }}
-          port: ${{ secrets.SOLYTON_SSH_PORT }}
-          script: |
-            echo "SSH connection successful!"
