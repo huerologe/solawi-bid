@@ -18,6 +18,7 @@ concurrency:
 
 env:
   INPUT_HOST: solyton.org # ${{ secrets.SSH_SOLYTON_HOST }}
+  INPUT_PASSWORD: ${{ secrets.SSH_SOLYTON_PASSWORD }}
 jobs:
   restart:
     runs-on: self-hosted
