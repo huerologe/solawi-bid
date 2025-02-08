@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Debug SSH Key
         run: echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
