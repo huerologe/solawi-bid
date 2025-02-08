@@ -26,7 +26,7 @@ jobs:
   restart:
     runs-on: solyton
     steps:
-      - uses: actions/checkout@v4
+      #- uses: actions/checkout@v4
       - name: Debug SSH Key
         run: |
           echo "First line:"
