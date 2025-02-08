@@ -83,7 +83,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: solyton
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -96,33 +96,9 @@ jobs:
           
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
-      - name: Deploy via SSH
-        if: false
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_SOLYTON_HOST }}
-          username: ${{ secrets.SSH_SOLYTON_USER }}
-          key: ${{ secrets.SOLYTON_SSH_KEY }}
-          port: ${{ secrets.SOLYTON_SSH_PORT }}
-          script: |
-            cd /home/solawi-bid
-            docker-compose down   # Stop running containers
-            docker-compose up --build -d  # Rebuild and restart containers
-            docker system prune -f  # Cleanup unused Docker images
 
       - name: Cleanup
         if: always()
         run: |
           rm -rf deploy/
           
-
-      #- name: Debug - List files
-      #  run: |
-      #    ls
-
-
-      #- name: Run Backend tests
-      #  uses: ./.github/actions/test-backend
-
-      #- name: Run Frontend tests
-      #  uses: ./.github/actions/test-frontend

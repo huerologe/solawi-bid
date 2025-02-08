@@ -16,60 +16,8 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: false
 
-env:
-  INPUT_HOST: solyton.org    # ${{ secrets.SSH_SOLYTON_HOST }}
-  INPUT_USERNAME: drx
-  INPUT_PROXY_PORT: ${{ secrets.SOLYTON_SSH_PORT }}
-  # INPUT_PASSWORD: ${{ secrets.SSH_SOLYTON_PASSWORD }}
-  INPUT_KEY: ${{ secrets.SOLYTON_SSH_KEY }}
 jobs:
   restart:
     runs-on: solyton
     steps:
-      #- uses: actions/checkout@v4
-      - name: Debug SSH Key
-        run: |
-          echo "First line:"
-          echo "${{ secrets.SOLYTON_SSH_KEY }}" | head -n 1
-          echo "Last line:"
-          echo "${{ secrets.SOLYTON_SSH_KEY }}" | tail -n 1
-          echo "Line count:"
-          echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
-      - name: Debug SSH Connection Verbosely
-        if: false
-        run: |
-          ssh -vvv -i <(echo "${{ secrets.SOLYTON_SSH_KEY }}") -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} whoami
-
-      - name: Verify SSH Key Setup
-        if: false
-        run: |
-          echo "${{ secrets.SOLYTON_SSH_KEY }}" > /tmp/id_ed25519
-          chmod 600 /tmp/id_ed25519
-          ssh -i /tmp/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} 'echo SSH connected!'
-    
-
-      - name: Deploy via SSH
-        if: false
-        uses: appleboy/ssh-action@master   #v1.2.0
-        with:
-          debug: true
-          host: solyton.org #${{ secrets.SSH_SOLYTON_HOST }}
-          username: ${{ secrets.SSH_SOLYTON_USER }}
-          key: ${{ secrets.SOLYTON_SSH_KEY }}
-          # password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
-          port: ${{ secrets.SOLYTON_SSH_PORT }}
-          script: |
-            whoami
-            ls -la /home/solawi-bid
-            cd /home/solawi-bid
-            docker-compose down --remove-orphans  # Stop running containers
-            docker-compose up --build -d  # Rebuild and restart containers
-            docker system prune -f  # Cleanup unused Docker images  
-
-      - name: Act
-        run: |
-          cd /home/solawi-bid
-          ls
-          docker-compose down --remove-orphans  # Stop running containers
-          docker-compose up --build -d  # Rebuild and restart containers
-          docker system prune -f  # Cleanup unused Docker images
+      - uses: ./.github/actions/restart-application
