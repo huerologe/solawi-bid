@@ -53,11 +53,7 @@ jobs:
       - name: Set env variables backend
         uses: ./.github/actions/set-env-vars-backend
         with:
-          environment: prod #${{ vars.ENVIRONMENT }}
-          # frontendUrl:
-          # frontendPort:
-          # backendUrl:
-          # backendPort:
+          environment: prod
           appOwnerUsername: ${{ secrets.APPLICATION_OWNER_USERNAME }}
           appOwnerPassword: ${{ secrets.APPLICATION_OWNER_PASSWORD }}
 
@@ -96,6 +92,12 @@ jobs:
           
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
 
+      - name: Restart application
+        run: |
+          cd /home/solawi-bid
+          docker-compose down --remove-orphans  # Stop running containers
+          docker-compose up --build -d  # Rebuild and restart containers
+          docker system prune -f  # Cleanup unused Docker images
 
       - name: Cleanup
         if: always()
