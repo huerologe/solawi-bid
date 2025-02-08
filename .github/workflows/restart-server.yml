@@ -50,7 +50,8 @@ jobs:
 
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.0
+        # if: false
+        uses: appleboy/ssh-action@master   #v1.2.0
         with:
           debug: true
           host: solyton.org #${{ secrets.SSH_SOLYTON_HOST }}
