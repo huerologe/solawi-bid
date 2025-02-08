@@ -24,12 +24,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Debug SSH Key
-        run: echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
+        run: |
+          echo "First line:"
+          echo "${{ secrets.SOLYTON_SSH_KEY }}" | head -n 1
+          echo "Last line:"
+          echo "${{ secrets.SOLYTON_SSH_KEY }}" | tail -n 1
+          echo "Line count:"
+          echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          options: '-o StrictHostKeyChecking=no'
           debug: true
           host: solyton.org  #${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
