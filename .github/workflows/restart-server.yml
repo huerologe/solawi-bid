@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  INPUT_HOST: solyton.org # ${{ secrets.SSH_SOLYTON_HOST }}
+  INPUT_HOST: solyton.org    # ${{ secrets.SSH_SOLYTON_HOST }}
   # INPUT_PASSWORD: ${{ secrets.SSH_SOLYTON_PASSWORD }}
   INPUT_KEY: ${{ secrets.SOLYTON_SSH_KEY }}
 jobs:
