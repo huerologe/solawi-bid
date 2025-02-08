@@ -28,7 +28,7 @@ database {
     url = "DATABASE_URL"
     driver = "DATABASE_DRIVER"
     user = "DATABASE_USER"
-    password = "DATABASE_PASSWORD"
+    password = ""
 }
 
 users {
