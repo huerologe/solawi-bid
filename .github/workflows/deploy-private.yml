@@ -32,6 +32,7 @@ jobs:
     steps:
       - name: Dump db
         run: |
+          rm ${{vars.DATABASE_DUMP}}
           docker exec solawi-bid_database mysqldump -u${{vars.DATABASE_USER}} -p${{secrets.MYSQL_PASSWORD}} ${{vars.MYSQL_DATABASE}} > ${{vars.DATABASE_DUMP }}
   build:
     needs: validation
@@ -124,7 +125,7 @@ jobs:
      runs-on: solyton
      steps:
       - name: Get db-clone
-        run:
+        run: |
           mkdir -p /home/solawi-bid/solawi-bid-database/sql
           cp ${{vars.DATABASE_DUMP}} /home/solawi-bid/solawi-bid-database/sql/setup.sql
           rm ${{vars.DATABASE_DUMP}}
