@@ -32,10 +32,11 @@ jobs:
           echo "Line count:"
           echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
       - name: Debug SSH Connection Verbosely
+        if: false
         run: |
           ssh -vvv -i <(echo "${{ secrets.SOLYTON_SSH_KEY }}") -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} whoami
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.2.0
         with:
           debug: true
           host: solyton.org  #${{ secrets.SSH_SOLYTON_HOST }}
