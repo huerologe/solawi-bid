@@ -1,0 +1,36 @@
+name: Restart Server
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # - main
+      - devops/SMA-145/setup-workflow
+    #paths-ignore:
+    #  - '.github/**'
+  #pull_request:
+  #  branches:
+  #    - main
+  #  paths-ignore:
+  #    - '.github/**'
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  restart:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_SOLYTON_HOST }}
+          username: ${{ secrets.SSH_SOLYTON_USER }}
+          key: ${{ secrets.SOLYTON_SSH_KEY }}
+          port: ${{ secrets.SOLYTON_SSH_PORT }}
+          script: |
+            cd /home/solawi-bid
+            docker-compose down --remove-orphans  # Stop running containers
+            docker-compose up --build -d  # Rebuild and restart containers
+            docker system prune -f  # Cleanup unused Docker images  
