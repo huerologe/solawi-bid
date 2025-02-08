@@ -42,7 +42,6 @@ jobs:
           host: {{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
           password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
-          # key: ${{ secrets.SOLYTON_SSH_KEY }}
           port: ${{ secrets.SOLYTON_SSH_PORT }}
           script: |
             whoami
