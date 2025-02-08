@@ -20,5 +20,6 @@ jobs:
   restart:
     runs-on: solyton
     steps:
+      - uses: actions/checkout@v4
       - name: Restart application
         uses: ./.github/actions/restart-application
