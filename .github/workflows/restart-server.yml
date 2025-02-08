@@ -49,7 +49,7 @@ jobs:
     
 
       - name: Deploy via SSH
-        # if: false
+        if: false
         uses: appleboy/ssh-action@master   #v1.2.0
         with:
           debug: true
@@ -65,3 +65,11 @@ jobs:
             docker-compose down --remove-orphans  # Stop running containers
             docker-compose up --build -d  # Rebuild and restart containers
             docker system prune -f  # Cleanup unused Docker images  
+
+      - name: Act
+        run: |
+          cd /home/solawi-bid
+          ls
+          docker-compose down --remove-orphans  # Stop running containers
+          docker-compose up --build -d  # Rebuild and restart containers
+          docker system prune -f  # Cleanup unused Docker images
