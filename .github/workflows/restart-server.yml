@@ -29,6 +29,8 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
+          options: '-o StrictHostKeyChecking=no'
+          debug: true
           host: solyton.org  #${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
           key: ${{ secrets.SOLYTON_SSH_KEY }}
