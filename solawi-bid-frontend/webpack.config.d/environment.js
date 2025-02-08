@@ -5,6 +5,5 @@ var definePlugin = new webpack.DefinePlugin(
    {
       "PROCESS_ENV": JSON.stringify(dotenv.parsed)
    }
-)
-
-config.plugins.push(definePlugin)
+);
+config.plugins.push(definePlugin);

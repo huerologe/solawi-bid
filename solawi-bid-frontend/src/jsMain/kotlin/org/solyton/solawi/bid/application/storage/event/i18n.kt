@@ -19,7 +19,7 @@ import org.solyton.solawi.bid.module.i18n.data.locale
 import org.solyton.solawi.bid.module.i18n.data.locales
 
 
-fun Storage<Application>.langLoaded (): Boolean  {
+fun Storage<Application>.   langLoaded (): Boolean  {
 
     val languageStorage = (this * i18N * language)
     val localesStorage = (this * i18N * locales)
