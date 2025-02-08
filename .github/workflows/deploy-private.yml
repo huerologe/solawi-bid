@@ -101,6 +101,7 @@ jobs:
         if: always()
         run: |
           rm -rf deploy/
+
   restart:
      needs:
         - deploy-application
