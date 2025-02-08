@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  INPUT_HOST: ${{ secrets.SSH_SOLYTON_HOST }}
+  INPUT_HOST: solyton.org # ${{ secrets.SSH_SOLYTON_HOST }}
 jobs:
   restart:
     runs-on: self-hosted
@@ -39,7 +39,7 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           debug: true
-          host: ${{ secrets.SSH_SOLYTON_HOST }}
+          host: solyton.org #${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
           # key: ${{ secrets.SOLYTON_SSH_KEY }}
           password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
