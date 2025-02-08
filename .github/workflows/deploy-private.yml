@@ -7,7 +7,8 @@ on:
       - devops/SMA-145/setup-workflow
     paths-ignore:
       # - '.github/**'
-      - '.github/workflows/restart-server.yml'
+    paths:
+      '.github/workflows/deploy-private.yml'
   pull_request:
     branches:
       - main
