@@ -110,6 +110,7 @@ jobs:
      steps:
       - name: Get db-clone
         run:
+          mkdir -p /home/solawi-bid/solawi-bid-database/sql/
           cp ${{vars.DATABASE_DUMP}} /home/solawi-bid/solawi-bid-database/sql/setup.sql
       - name: Restart application
         run: |
