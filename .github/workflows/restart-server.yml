@@ -24,7 +24,7 @@ env:
   INPUT_KEY: ${{ secrets.SOLYTON_SSH_KEY }}
 jobs:
   restart:
-    runs-on: solyton-runner
+    runs-on: solyton
     steps:
       - uses: actions/checkout@v4
       - name: Debug SSH Key
