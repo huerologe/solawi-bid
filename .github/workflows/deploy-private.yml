@@ -79,7 +79,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: solyton
+    runs-on: self-hosted
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -91,7 +91,14 @@ jobs:
           mv deploy/solawi-bid-database/e.env deploy/solawi-bid-database/.env
           
           rsync -avr -e 'ssh -p ${{ secrets.SOLYTON_SSH_PORT }}' --delete deploy/ ${{ vars.SOLYTON }}
-
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -rf deploy/
+  restart:
+     needs: deploy
+     runs-on: solyton
+     steps:
       - name: Restart application
         run: |
           cd /home/solawi-bid
@@ -99,8 +106,5 @@ jobs:
           docker-compose up --build -d  # Rebuild and restart containers
           docker system prune -f  # Cleanup unused Docker images
 
-      - name: Cleanup
-        if: always()
-        run: |
-          rm -rf deploy/
+      
           
