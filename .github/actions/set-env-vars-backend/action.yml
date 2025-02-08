@@ -77,4 +77,4 @@ runs:
         sed -i 's/APPLICATION_OWNER_USERNAME/${{inputs.appOwnerUsername}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         sed -i 's/APPLICATION_OWNER_PASSWORD/${{inputs.appOwnerPassword}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
     
-        cat solawi-bid-backend/build/resources/main/application.conf.dist
+        # cat solawi-bid-backend/build/resources/main/application.conf.dist

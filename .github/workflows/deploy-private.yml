@@ -1,14 +1,6 @@
 name: CD Pipeline
 on:
   workflow_dispatch:
-  push:
-    branches:
-      # - main
-      # - devops/SMA-145/setup-workflow
-    paths-ignore:
-      # - '.github/**'
-    paths:
-      '.github/workflows/deploy-private.yml'
   pull_request:
     types:
       - closed

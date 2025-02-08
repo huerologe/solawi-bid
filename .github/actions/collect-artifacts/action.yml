@@ -39,10 +39,7 @@ runs:
         cp solawi-bid-frontend/docker/httpd/extra/httpd-default.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-default.conf
         cp solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf ${{inputs.baseFolder}}/solawi-bid-frontend/docker/httpd/extra/httpd-vhosts.conf
         
-        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/
-        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/
-        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/
-        # mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/
+       
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/assets/
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/css/
         mkdir -p ${{inputs.baseFolder}}/solawi-bid-frontend/build/dist/js/productionExecutable/i18n/
