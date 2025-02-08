@@ -5,8 +5,8 @@ on:
     branches:
       # - main
       - devops/SMA-145/setup-workflow
-    #paths-ignore:
-    #  - '.github/**'
+    paths:
+      - '.github/workflows/restart-server.yml'
   #pull_request:
   #  branches:
   #    - main
@@ -16,6 +16,8 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  INPUT_HOST: ${{ secrets.SSH_SOLYTON_HOST }}
 jobs:
   restart:
     runs-on: self-hosted
