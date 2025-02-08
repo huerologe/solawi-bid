@@ -46,8 +46,7 @@ jobs:
           echo "${{ secrets.SOLYTON_SSH_KEY }}" > /tmp/id_ed25519
           chmod 600 /tmp/id_ed25519
           ssh -i /tmp/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} 'echo SSH connected!'
-      
-
+    
 
       - name: Deploy via SSH
         # if: false
