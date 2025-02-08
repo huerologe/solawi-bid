@@ -5,8 +5,9 @@ on:
     branches:
       # - main
       - devops/SMA-145/setup-workflow
-    #paths-ignore:
-    #  - '.github/**'
+    paths-ignore:
+      # - '.github/**'
+      - '.github/workflows/restart-server.yml'
   pull_request:
     branches:
       - main
