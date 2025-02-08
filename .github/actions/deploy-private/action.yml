@@ -1,0 +1,9 @@
+name: Deploy Private
+description: Deploy application to private server
+runs:
+  using: composite
+  steps:
+
+    - shell: bash
+      name: Collect stuff in one
+      run:
