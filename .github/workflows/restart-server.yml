@@ -46,6 +46,7 @@ jobs:
           ssh -i /tmp/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} 'echo SSH connected!'
       
 
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
