@@ -31,7 +31,9 @@ jobs:
           echo "${{ secrets.SOLYTON_SSH_KEY }}" | tail -n 1
           echo "Line count:"
           echo "${{ secrets.SOLYTON_SSH_KEY }}" | wc -l
-
+      - name: Debug SSH Connection Verbosely
+        run: |
+          ssh -vvv -i <(echo "${{ secrets.SOLYTON_SSH_KEY }}") -o StrictHostKeyChecking=no ${{ secrets.SSH_SOLYTON_USER }}@${{ secrets.SSH_SOLYTON_HOST }} whoami
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
