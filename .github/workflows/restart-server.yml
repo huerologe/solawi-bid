@@ -22,7 +22,7 @@ env:
   INPUT_KEY: ${{ secrets.SOLYTON_SSH_KEY }}
 jobs:
   restart:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Debug SSH Key
