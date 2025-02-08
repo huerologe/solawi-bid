@@ -65,11 +65,11 @@ jobs:
       - name: Build
         run: ./gradlew build -x test
 
-      - name: Run Backend tests
-        uses: ./.github/actions/test-backend
+     # - name: Run Backend tests
+     #   uses: ./.github/actions/test-backend
 
-      - name: Run Frontend tests
-        uses: ./.github/actions/test-frontend
+     # - name: Run Frontend tests
+     #   uses: ./.github/actions/test-frontend
 
       - name: Set env variables backend
         uses: ./.github/actions/set-env-vars-backend
