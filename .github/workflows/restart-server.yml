@@ -39,8 +39,9 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           debug: true
-          host: {{ secrets.SSH_SOLYTON_HOST }}
+          host: ${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
+          # key: ${{ secrets.SOLYTON_SSH_KEY }}
           password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
           port: ${{ secrets.SOLYTON_SSH_PORT }}
           script: |
