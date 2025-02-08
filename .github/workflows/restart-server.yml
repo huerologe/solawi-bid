@@ -43,7 +43,7 @@ jobs:
           debug: true
           host: solyton.org #${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
-          # key: ${{ secrets.SOLYTON_SSH_KEY }}
+          key: ${{ secrets.SOLYTON_SSH_KEY }}
           # password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
           port: ${{ secrets.SOLYTON_SSH_PORT }}
           script: |
