@@ -18,7 +18,8 @@ concurrency:
 
 env:
   INPUT_HOST: solyton.org # ${{ secrets.SSH_SOLYTON_HOST }}
-  INPUT_PASSWORD: ${{ secrets.SSH_SOLYTON_PASSWORD }}
+  # INPUT_PASSWORD: ${{ secrets.SSH_SOLYTON_PASSWORD }}
+  INPUT_KEY: ${{ secrets.SOLYTON_SSH_KEY }}
 jobs:
   restart:
     runs-on: self-hosted
@@ -43,7 +44,7 @@ jobs:
           host: solyton.org #${{ secrets.SSH_SOLYTON_HOST }}
           username: ${{ secrets.SSH_SOLYTON_USER }}
           # key: ${{ secrets.SOLYTON_SSH_KEY }}
-          password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
+          # password: ${{ secrets.SSH_SOLYTON_PASSWORD }}
           port: ${{ secrets.SOLYTON_SSH_PORT }}
           script: |
             whoami
