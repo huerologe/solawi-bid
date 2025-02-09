@@ -20,7 +20,6 @@ fun Application.solawiBid(test: Boolean = false) {
         installSerializers()
         installAuthentication(environment.jwt)
         install(DefaultHeaders) {
-
         }
         install(CallLogging) {
                 level = Level.INFO
