@@ -7,6 +7,10 @@ inputs:
   environment:
     description: Env
     required: true
+  ktorPort:
+    description: Env
+    required: true
+    default: "8080"
   #frontendUrl:
   #  description: Env
   #  required: true
@@ -63,6 +67,7 @@ runs:
       shell: bash
       run: |
         sed -i 's/ENVIRONMENT/${{inputs.environment}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
+        sed -i 's/KTOR_PORT/${{inputs.ktorPort}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         
         sed -i 's/JWT_AUDIENCE/${{inputs.jwtAudience}}/g' solawi-bid-backend/build/resources/main/application.conf.dist
         sed -i 's/JWT_DOMAIN/${{inputs.jwtDomain}}/g' solawi-bid-backend/build/resources/main/application.conf.dist

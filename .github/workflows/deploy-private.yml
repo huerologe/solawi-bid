@@ -68,6 +68,7 @@ jobs:
         uses: ./.github/actions/set-env-vars-backend
         with:
           environment: prod
+          ktorPort: ${{ vars.KTOR_PORT }}
           appOwnerUsername: ${{ secrets.APPLICATION_OWNER_USERNAME }}
           appOwnerPassword: ${{ secrets.APPLICATION_OWNER_PASSWORD }}
 
