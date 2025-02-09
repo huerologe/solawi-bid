@@ -53,6 +53,7 @@ services:
       - solawi-bid_database
     networks:
       - backend
+      - reverse-proxy
     restart: always
 
   solawi-bid_database:
