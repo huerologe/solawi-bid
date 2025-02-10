@@ -6,8 +6,8 @@ import io.ktor.server.routing.*
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.authentication.routing.authentication
 import org.solyton.solawi.bid.module.bid.routing.auction
-import org.solyton.solawi.bid.module.bid.routing.bid
 import org.solyton.solawi.bid.module.bid.routing.round
+import org.solyton.solawi.bid.module.bid.routing.sendBid
 import org.solyton.solawi.bid.module.health.routing.health
 import org.solyton.solawi.bid.module.user.routing.user
 
@@ -18,9 +18,7 @@ fun Application.setupRouting(environment: Environment) {
         user(environment){
             authenticate("auth-jwt"){ it() }
         }
-        bid(environment){
-            authenticate("auth-jwt"){ it() }
-        }
+        sendBid(environment)
         auction(environment){
             authenticate("auth-jwt"){ it() }
         }
