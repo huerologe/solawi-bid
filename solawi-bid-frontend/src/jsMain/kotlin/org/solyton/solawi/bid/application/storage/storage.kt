@@ -40,7 +40,7 @@ fun Storage(): Storage<Application> {
     .onInit {
 
         checkCookie()
-        loadLanguage()
+        //loadLanguage()
         checkUserData()
     }
     .onChange { oldApplication, newApplication ->
