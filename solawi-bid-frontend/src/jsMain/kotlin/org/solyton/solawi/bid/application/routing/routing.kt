@@ -23,17 +23,26 @@ import org.solyton.solawi.bid.module.navbar.component.NavBar
 @Composable
 @Suppress("FunctionName")
 fun Routing(storage: Storage<Application>): Routes = Routing("/") {
+    route("bid/send/:cryptoId") {
+        component {
+            SendBidPage(storage, "${parameter("cryptoId")}")
+        }
+    }
     route("login") {
         component { LoginPage(storage) }
     }
     route("solyton") {
         wrap {
             access{
+                // todo:dev far too simple!
                 when((storage * userData).read().isLoggerIn()) {
                     true -> true
-                    false -> {
-                        navigate("/login")
-                        false
+                    false -> when{
+                        currentPath().startsWith("/bid/send") -> true
+                        else ->{
+                            navigate("/login")
+                            false
+                        }
                     }
                 }
             }
@@ -96,11 +105,6 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
             route("test") {
                 component { TestPage() }
             }
-        }
-    }
-    route("bid/send/:cryptoId") {
-        component {
-            SendBidPage(storage, "${parameter("cryptoId")}")
         }
     }
 }
