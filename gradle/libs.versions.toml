@@ -54,6 +54,10 @@ ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm" ,version.ref = 
 ktor-server-netty-jvm ={ module = "io.ktor:ktor-server-netty-jvm" ,version.ref = "ktor"}
 ktor-server-cors = { module = "io.ktor:ktor-server-cors" ,version.ref = "ktor"}
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation" ,version.ref = "ktor"}
+ktor-server-default-headers = { module = "io.ktor:ktor-server-default-headers" ,version.ref = "ktor"}
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging" ,version.ref = "ktor"}
+ktor-server-forwarded-header = { module = "io.ktor:ktor-server-forwarded-header" ,version.ref = "ktor"}
+
 ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm " ,version.ref = "ktor"}
 ktor-http = { module = "io.ktor:ktor-http", version.ref = "ktor"}
 ktor-http-cio = { module = "io.ktor:ktor-http-cio", version.ref = "ktor"}

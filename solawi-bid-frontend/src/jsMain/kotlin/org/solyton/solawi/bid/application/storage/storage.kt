@@ -1,6 +1,9 @@
 package org.solyton.solawi.bid.application.storage
 
 import androidx.compose.runtime.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.storage.onInit
 import org.evoleq.math.state.runOn
@@ -12,6 +15,7 @@ import org.solyton.solawi.bid.application.api.CallApi
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.env.Environment
+import org.solyton.solawi.bid.application.data.env.getEnv
 import org.solyton.solawi.bid.application.storage.event.*
 import org.solyton.solawi.bid.module.user.User
 import kotlin.reflect.KClass
@@ -21,9 +25,9 @@ import kotlin.reflect.KClass
 @Composable
 fun Storage(): Storage<Application> {
     var pulse by remember { mutableStateOf<Int>(0) }
-    // val environment = getEnv()
+
     var application by remember{ mutableStateOf<Application>(Application(
-        environment = Environment("DEV"),
+        environment = Environment(),// Environment("DEV"),
         userData = User("", "","", "", )
     ))}
 
@@ -34,8 +38,9 @@ fun Storage(): Storage<Application> {
         }
     )
     .onInit {
+
         checkCookie()
-        loadLanguage()
+        //loadLanguage()
         checkUserData()
     }
     .onChange { oldApplication, newApplication ->
