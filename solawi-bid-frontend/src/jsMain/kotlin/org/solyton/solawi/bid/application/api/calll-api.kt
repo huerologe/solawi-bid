@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.application.api
 
 import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
+import org.evoleq.compose.modal.Modals
 import org.evoleq.ktorx.api.EndPoint
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.Return
@@ -16,9 +17,12 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
+import org.evoleq.parser.Parser
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl
+import org.solyton.solawi.bid.application.data.failure.Failure
+import org.solyton.solawi.bid.application.data.failure.accept
 import org.solyton.solawi.bid.application.service.isLoggerIn
 import org.solyton.solawi.bid.module.error.component.ErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
@@ -74,7 +78,7 @@ fun <T: Any> Dispatch(writer: Writer<Application, T>): KlState<Storage<Applicati
     result -> State { storage ->
         when(result) {
             is Result.Success -> Result.Return((storage * writer).dispatch()).apply() on result
-            is Result.Failure -> Result.Return(storage.failureWriter().dispatch()).apply() on result
+            is Result.Failure -> Result.Return((storage.failureWriter()).dispatch()).apply() on result.accept()
         }
         result x storage
     }
@@ -91,19 +95,25 @@ fun <T: Any> Debug(debug: Reader<Application, Unit>): KlState<Storage<Applicatio
     }
 }
 
+@MathDsl
+@Suppress("FunctionName")
+fun <T: Any> DebugResult(debug: Result<T>.()->Unit): KlState<Storage<Application>, Result<T>, Result<T>> = {
+    result -> State { storage ->
+        console.log("Debug...")
+        result.debug()
+        console.log("Debug...Done")
+        result x storage
+    }
+}
 
 
 
-fun Storage<Application>.failureWriter(): Writer<Unit, Result.Failure> = {
-    failure: Result.Failure -> {
-        val message = when (failure) {
-            is Result.Failure.Message -> failure.value
-            is Result.Failure.Exception -> failure.value.message ?: "No message provided"
-        }
+fun Storage<Application>.failureWriter(): Writer<Unit, Failure> = Writer{
+    failure: Failure -> {
         val modals = this * modals
         val nextId = modals.nextId()
         modals.put(
-            nextId to ModalData(ModalType.Error,ErrorModal(nextId, errorModalTexts(message), modals))
+            nextId to ModalData(ModalType.Error, ErrorModal(nextId, errorModalTexts(failure.message), modals))
         )
     }
 }
