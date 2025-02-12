@@ -81,6 +81,34 @@ de{
                         title: "Abbrechen"
                     }
                 }
+                states {
+                    opened: "Eröffnet"
+                    started: "Gestartet"
+                    stopped: "Beendet"
+                    evaluated: "Ausgewertet"
+                    closed: "Geschlossen"
+                    frozen: "Eingefrohren"
+                }
+                commands {
+                    start: "Start"
+                    stop: "Stop"
+                    evaluate: "Auswerten"
+                    close: "Schließen"
+                    freeze: "Einfrieren"
+                    null: "-"
+                }
+                bidRoundList {
+                    rounds: "Runden"
+                    item {
+                        buttons {
+                            exportResults {
+                                title: "Export"
+                                tooltip: "Ergebnisse der Bieterunde exportieren"
+                            }
+                        }
+                    }
+                }
+
             }
             auctionPage {
                 title: "Auktion"

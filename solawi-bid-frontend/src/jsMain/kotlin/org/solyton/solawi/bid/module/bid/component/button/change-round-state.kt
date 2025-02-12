@@ -1,10 +1,17 @@
 package org.solyton.solawi.bid.module.bid.component.button
 
 import androidx.compose.runtime.Composable
+import io.ktor.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.language.Lang
+import org.evoleq.language.get
+import org.evoleq.math.Reader
+import org.evoleq.math.Source
+import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.times
@@ -30,9 +37,10 @@ import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 fun ChangeRoundStateButton(
     storage: Storage<Application>,
     auction: Lens<Application, Auction>,
-    round: Round
+    round: Round,
+    texts: Source<Lang.Block>
 ) {
-    // todo:refactor:extract
+    // todo:refactor:extract button and extract trigger
     Button(attrs = {
         onClick {
             CoroutineScope(Job()).launch {
@@ -51,6 +59,10 @@ fun ChangeRoundStateButton(
         }
     }
     ) {
-        Text(RoundState.fromString(round.state).commandName)
+        val commandName: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
+            (lang["commands.${name.toLowerCasePreservingASCIIRules()}"])
+        } }
+
+        Text((texts * commandName(RoundState.fromString(round.state).commandName)).emit())
     }
 }

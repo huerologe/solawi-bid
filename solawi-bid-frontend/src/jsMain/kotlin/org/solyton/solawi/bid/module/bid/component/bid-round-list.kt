@@ -3,6 +3,10 @@ package org.solyton.solawi.bid.module.bid.component
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Horizontal
+import org.evoleq.language.Lang
+import org.evoleq.math.Reader
+import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
@@ -22,18 +26,20 @@ import org.solyton.solawi.bid.module.bid.component.effect.LaunchPresentationOfBi
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
+import org.solyton.solawi.bid.module.bid.data.reader.subComp
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.bid.data.reader.rounds as roundsKey
 
 @Markup
 @Composable
 @Suppress("FunctionName")
 fun BidRoundList(
     storage: Storage<Application>,
-    auction: Lens<Application, Auction>
+    auction: Lens<Application, Auction>,
+    roundTexts: Reader<Unit, Lang.Block>
 ) {
     H2 {
-        // todo:i18n
-        Text("Rounds")
+        Text((roundTexts * subComp("bidRoundList") * roundsKey).emit())
     }
 
     val frontendBaseUrl = with((storage * environment).read()){
@@ -44,7 +50,8 @@ fun BidRoundList(
             storage = storage,
             auction = auction,
             round = round,
-            frontendBaseUrl= frontendBaseUrl
+            frontendBaseUrl= frontendBaseUrl,
+            texts = roundTexts
         )
     }
 }
@@ -56,7 +63,8 @@ fun BidRoundListItem(
     storage: Storage<Application>,
     auction: Lens<Application, Auction>,
     round: Round,
-    frontendBaseUrl: String
+    frontendBaseUrl: String,
+    texts: Reader<Unit, Lang.Block>
 ) {
     // Effects
     when(RoundState.fromString(round.state) ) {
@@ -86,23 +94,27 @@ fun BidRoundListItem(
         LaunchDownloadOfBidRoundResults(
             storage = storage,
             auction = auction,
-            round = round
+            round = round,
+            texts = texts
         )
         QRLinkToRoundPageButton(
             storage = storage,
             auction = auction,
             round = round,
-            frontendBaseUrl= frontendBaseUrl
+            frontendBaseUrl= frontendBaseUrl,
+            texts = texts
         )
         ChangeRoundStateButton(
             storage = storage,
             auction = auction,
-            round = round
+            round = round,
+            texts = texts
         )
         ExportBidRoundResultsButton(
             storage = storage,
             auction = auction,
-            round = round
+            round = round,
+            texts = (texts * subComp("bidRoundList") * subComp("item") * subComp("buttons") * subComp("exportResults") )
         )
     }
 }

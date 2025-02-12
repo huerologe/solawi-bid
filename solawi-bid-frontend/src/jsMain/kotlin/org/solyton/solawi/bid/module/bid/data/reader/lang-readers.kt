@@ -8,6 +8,7 @@ import org.evoleq.math.Reader
 sealed class Component(val path: String) {
     data object AuctionsPage : Component("solyton.auction.auctionsPage")
     data object AuctionPage : Component("solyton.auction.auctionPage")
+    data object Round : Component("solyton.auction.round")
 }
 
 val component: (Component)->Reader<Lang, Lang.Block> = {c -> Reader { lang -> (lang as Lang.Block).component(c.path) }}
@@ -23,3 +24,4 @@ val numberOfShares: Reader<Lang.Block, String> = Reader { lang -> lang["numberOf
 val numberOfBidders: Reader<Lang.Block, String> = Reader { lang -> lang["numberOfBidders"] }
 
 val text: Reader<Lang.Block, String> = Reader { lang -> lang["text"] }
+val rounds: Reader<Lang.Block, String> = Reader { lang -> lang["rounds"] }

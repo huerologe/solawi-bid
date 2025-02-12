@@ -1,130 +1,158 @@
 en{
     solyton{
-            authentication{
-                login{
-                    fields{
-                        username: "Username"
-                        password: "Password"
-                    }
-                    buttons{
-                        ok: "Login"
-                        password-reset: "Reset password"
-                        sign-up: "Sign up"
-                    }
+        authentication{
+            login{
+                fields{
+                    username: "Username"
+                    password: "Password"
+                }
+                buttons{
+                    ok: "Login"
+                    password-reset: "Reset password"
+                    sign-up: "Sign up"
                 }
             }
-            solawi{
-                mainPage{
-                    title: "Solawi Auction App"
-                }
+        }
+        solawi{
+            mainPage{
+                title: "Solawi Auction App"
             }
-            cookieDisclaimer {
-                title: "Cookie Disclaimer"
-                content {
-                    hint: "bla bla bla ..."
-                }
-                okButton {
-                    title: "Ok"
-                }
-                cancelButton {
-                    title: "Cancel"
-                }
+        }
+        cookieDisclaimer {
+            title: "Cookie Disclaimer"
+            content {
+                hint: "bla bla bla ..."
             }
-            auction {
-                createDialog {
-                    title: "Auktion erstellen"
-                    okButton {
-                        title: "Ok"
-                    }
-                    cancelButton {
-                        title: "Abbrechen"
-                    }
-                }
-                updateDialog {
-                    title: "Auktion bearbeiten"
-                    okButton {
-                        title: "Ok"
-                    }
-                    cancelButton {
-                        title: "Abbrechen"
-                    }
-                }
-                importBiddersDialog {
-                    title: "Bieter importieren"
-                    okButton {
-                        title: "Ok"
-                    }
-                    cancelButton {
-                        title: "Abbrechen"
-                    }
-                }
-                round {
-                    bidRoundEvaluationModal {
-                        title: "Evaluation"
-                        okButton {
-                            title: "Accept"
-                        }
-                        cancelButton {
-                            title: "Reject"
-                        }
-                    }
-                    successfulBidInformationModal {
-                        title: "Bid Successfully Transmitted"
-                        message: "Your bid has been transmitted successfully"
-                        amount: "Amount"
-                        numberOfShares: "Shares"
-                        totalAmountPerMonth: "Total Amount per Month"
-                        okButton {
-                            title: "Ok"
-                        }
-                        cancelButton {
-                            title: "Cancel"
-                        }
-                    }
-                }
-                auctionPage {
-                    title: "Auction"
-                    details {
-                        title: "Details"
-                        targetAmount: "Target Amount"
-                        solidarityContribution: "Solidarity Contribution"
-                        date: "Date"
-                        minimalBid: "Minimal Bid"
-                        benchmark: "Benchmark"
-                        numberOfBidders: "Number of Bidders"
-                        numberOfShares: "Number of Shares"
-                    }
-                    buttons {
-                        updateAuction {
-                            text: "Configure Auction"
-                        }
-                        importBidders {
-                            text: "Import Bidders"
-                        }
-                        createRound {
-                            text: "Create new Round"
-                        }
-                    }
-                }
-                auctionsPage {
-                    title: "Auktionen"
-                }
+            okButton {
+                title: "Ok"
             }
-            errors {
-                title: "Fehler"
+            cancelButton {
+                title: "Cancel"
+            }
+        }
+        auction {
+            createDialog {
+                title: "Auktion erstellen"
                 okButton {
                     title: "Ok"
                 }
                 cancelButton {
                     title: "Abbrechen"
                 }
-                messages {
-                    loginFailed: "Login failed"
+            }
+            updateDialog {
+                title: "Auktion bearbeiten"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
                 }
             }
-            locales {
-                de: "German"
-                en: "English"
+            importBiddersDialog {
+                title: "Bieter importieren"
+                okButton {
+                    title: "Ok"
+                }
+                cancelButton {
+                    title: "Abbrechen"
+                }
+            }
+            round {
+                bidRoundEvaluationModal {
+                    title: "Evaluation"
+                    okButton {
+                        title: "Accept"
+                    }
+                    cancelButton {
+                        title: "Reject"
+                    }
+                }
+                successfulBidInformationModal {
+                    title: "Bid Successfully Transmitted"
+                    message: "Your bid has been transmitted successfully"
+                    amount: "Amount"
+                    numberOfShares: "Shares"
+                    totalAmountPerMonth: "Total Amount per Month"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Cancel"
+                    }
+                }
+
+                states {
+                    opened: "Opened"
+                    started: "Started"
+                    stopped: "Stopped"
+                    evaluated: "Evaluated"
+                    closed: "Closed"
+                    frozen: "Frozen"
+                }
+                commands {
+                    start: "Start"
+                    stop: "Stop"
+                    evaluate: "Evaluate"
+                    close: "Close"
+                    freeze: "Freeze"
+                    null: "-"
+                }
+                bidRoundList {
+                    rounds: "Rounds"
+                    item {
+                        buttons {
+                            exportResults {
+                                title: "Export"
+                                tooltip: "Export results of the bid round"
+                            }
+                        }
+                    }
+                }
+            }
+            auctionPage {
+                title: "Auction"
+                details {
+                    title: "Details"
+                    targetAmount: "Target Amount"
+                    solidarityContribution: "Solidarity Contribution"
+                    date: "Date"
+                    minimalBid: "Minimal Bid"
+                    benchmark: "Benchmark"
+                    numberOfBidders: "Number of Bidders"
+                    numberOfShares: "Number of Shares"
+                }
+                buttons {
+                    updateAuction {
+                        text: "Configure Auction"
+                    }
+                    importBidders {
+                        text: "Import Bidders"
+                    }
+                    createRound {
+                        text: "Create new Round"
+                    }
+                }
+            }
+            auctionsPage {
+                title: "Auktionen"
             }
         }
+        errors {
+            title: "Fehler"
+            okButton {
+                title: "Ok"
+            }
+            cancelButton {
+                title: "Abbrechen"
+            }
+            messages {
+                loginFailed: "Login failed"
+            }
+        }
+        locales {
+            de: "German"
+            en: "English"
+        }
+    }
 }

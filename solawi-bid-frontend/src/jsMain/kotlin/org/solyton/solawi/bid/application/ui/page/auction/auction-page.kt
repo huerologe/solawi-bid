@@ -2,10 +2,9 @@ package org.solyton.solawi.bid.application.ui.page.auction
 
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
-import org.evoleq.compose.layout.*
-import org.evoleq.language.Lang
-import org.evoleq.language.component
-import org.evoleq.language.get
+import org.evoleq.compose.layout.Horizontal
+import org.evoleq.compose.layout.PropertiesStyles
+import org.evoleq.compose.layout.PropertyStyles
 import org.evoleq.math.emit
 import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
@@ -30,9 +29,11 @@ import org.solyton.solawi.bid.module.bid.component.BidRoundList
 import org.solyton.solawi.bid.module.bid.component.button.CreateNewRoundButton
 import org.solyton.solawi.bid.module.bid.component.button.ImportBiddersButton
 import org.solyton.solawi.bid.module.bid.component.button.UpdateAuctionButton
-import org.solyton.solawi.bid.module.bid.component.effect.createNewRound
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
-import org.solyton.solawi.bid.module.bid.data.reader.*
+import org.solyton.solawi.bid.module.bid.data.reader.Component
+import org.solyton.solawi.bid.module.bid.data.reader.component
+import org.solyton.solawi.bid.module.bid.data.reader.subComp
+import org.solyton.solawi.bid.module.bid.data.reader.title
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.separator.LineSeparator
 
@@ -102,6 +103,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
 
     BidRoundList(
         storage = storage,
-        auction = auction
+        auction = auction,
+        (storage * i18N * language * component(Component.Round))
     )
 }

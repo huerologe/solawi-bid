@@ -26,7 +26,7 @@ sealed class RoundState : Command {
         override fun toString(): String = "CLOSED"
     }
     data object Frozen: RoundState(){
-        override val commandName: String = "Nul"
+        override val commandName: String = "Null"
         override fun toString(): String = "FROZEN"
     }
 
