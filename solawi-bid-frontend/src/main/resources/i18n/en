@@ -73,6 +73,7 @@ en{
                         message: "Your bid has been transmitted successfully"
                         amount: "Amount"
                         numberOfShares: "Shares"
+                        totalAmountPerMonth: "Total Amount per Month"
                         okButton {
                             title: "Ok"
                         }

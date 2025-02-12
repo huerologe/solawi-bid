@@ -10,12 +10,15 @@ import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.ElementScope
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.bid.data.BidRound
@@ -42,12 +45,12 @@ fun SuccessfulBidInformationModal(
     },
     texts = texts
 ) {
-    // todo:i18n
     val bid = (storage * round).read()
-    Text("Successful Bid")
+    P{Text(texts["message"])}
     Vertical {
-        ReadOnlyProperty(Property("Bid", bid.bidAmount!!))
-        ReadOnlyProperty(Property("NumberOfShares", bid.numberOfShares!!))
+        ReadOnlyProperty(Property(texts["amount"], bid.bidAmount!!))
+        ReadOnlyProperty(Property(texts["numberOfShares"], bid.numberOfShares!!))
+        ReadOnlyProperty(Property(texts["totalAmountPerMonth"], bid.numberOfShares * bid.bidAmount))
     }
 }
 
