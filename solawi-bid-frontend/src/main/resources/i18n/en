@@ -82,6 +82,33 @@ en{
                         }
                     }
                 }
+                auctionPage {
+                    title: "Auction"
+                    details {
+                        title: "Details"
+                        targetAmount: "Target Amount"
+                        solidarityContribution: "Solidarity Contribution"
+                        date: "Date"
+                        minimalBid: "Minimal Bid"
+                        benchmark: "Benchmark"
+                        numberOfBidders: "Number of Bidders"
+                        numberOfShares: "Number of Shares"
+                    }
+                    buttons {
+                        updateAuction {
+                            text: "Configure Auction"
+                        }
+                        importBidders {
+                            text: "Import Bidders"
+                        }
+                        createRound {
+                            text: "Create new Round"
+                        }
+                    }
+                }
+                auctionsPage {
+                    title: "Auktionen"
+                }
             }
             errors {
                 title: "Fehler"

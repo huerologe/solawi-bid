@@ -82,6 +82,33 @@ de{
                     }
                 }
             }
+            auctionPage {
+                title: "Auktion"
+                details {
+                    title: "Details"
+                    targetAmount: "Zielbetrag"
+                    solidarityContribution: "Solibeitrag"
+                    date: "Datum"
+                    minimalBid: "Minimal Gebot"
+                    benchmark: "Richtwert"
+                    numberOfBidders: "Anzahl der Prosumenten"
+                    numberOfShares: "Anzahl der Anteile"
+                }
+                buttons {
+                    updateAuction {
+                        text: "Konfiguration"
+                    }
+                    importBidders {
+                        text: "Bieter Import"
+                    }
+                    createRound {
+                        text: "Neue Runde"
+                    }
+                }
+            }
+            auctionsPage {
+                title: "Auktionen"
+            }
         }
         errors {
             title: "Fehler"

@@ -3,7 +3,11 @@ package org.solyton.solawi.bid.application.ui.page.auction
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.*
+import org.evoleq.language.Lang
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
@@ -19,14 +23,17 @@ import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.auctions
+import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.AuctionDetails
 import org.solyton.solawi.bid.module.bid.component.BidRoundList
 import org.solyton.solawi.bid.module.bid.component.button.CreateNewRoundButton
 import org.solyton.solawi.bid.module.bid.component.button.ImportBiddersButton
 import org.solyton.solawi.bid.module.bid.component.button.UpdateAuctionButton
+import org.solyton.solawi.bid.module.bid.component.effect.createNewRound
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
-import org.solyton.solawi.bid.module.bid.data.reader.countBidders
+import org.solyton.solawi.bid.module.bid.data.reader.*
+import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.separator.LineSeparator
 
 val auctionPropertiesStyles = PropertiesStyles(
@@ -41,25 +48,30 @@ val auctionPropertiesStyles = PropertiesStyles(
 @Composable
 @Suppress("FunctionName")
 fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
-    // Data
-    var newBidders by remember { mutableStateOf<List<NewBidder>>(listOf()) }
-
+    // Effects
     LaunchedEffect(Unit) {
         (storage * actions).read().emit(readAuctions())
     }
 
+    // Data
+    var newBidders by remember { mutableStateOf<List<NewBidder>>(listOf()) }
     val auction = auctions * FirstBy{ it.auctionId == auctionId }
+
+    // Texts
+    val texts = (storage * i18N * language * component(Component.AuctionPage))
+    val details = texts * subComp("details")
+    val buttons = texts * subComp("buttons")
 
     // Markup
     H1 { Text( with((storage * auction).read()) { name }  ) }
     LineSeparator()
     Horizontal(styles = { justifyContent(JustifyContent.SpaceBetween); width(100.percent) }) {
-        // todo:i18n
-        H2 { Text("Details") }
+         H2 { Text((details * title).emit()) }
         Horizontal {
             UpdateAuctionButton(
                 storage = storage,
-                auction = auction
+                auction = auction,
+                texts = buttons * subComp("updateAuction")
             )
             ImportBiddersButton(
                 storage = storage,
@@ -67,11 +79,13 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
                     read = {newBidders},
                     write = {newBidders = it}
                 ),
-                auction = auction
+                auction = auction,
+                texts = buttons * subComp("importBidders")
             )
             CreateNewRoundButton(
                 storage = storage,
-                auction = auction
+                auction = auction,
+                texts = buttons * subComp("createRound")
             )
         }
 
@@ -79,15 +93,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     Horizontal {
         AuctionDetails(
             storage * auction,
-            auctionPropertiesStyles
-        )
-        ReadOnlyProperties(
-            listOf(
-                Property("Date", with((storage * auction).read()) { date }),
-                Property("Number of Bidders", (storage * auction * countBidders).emit()),
-                // todo:dev
-                //Property("Number of Shares", (storage * auction * countBidders).emit())
-            ),
+            details,
             auctionPropertiesStyles
         )
     }
