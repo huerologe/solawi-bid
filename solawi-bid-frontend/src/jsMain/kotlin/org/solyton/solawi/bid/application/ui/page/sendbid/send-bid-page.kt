@@ -1,25 +1,56 @@
 package org.solyton.solawi.bid.application.ui.page.sendbid
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.language.Lang
+import org.evoleq.language.component
+import org.evoleq.math.FirstOrNull
+import org.evoleq.math.map
+import org.evoleq.math.read
+import org.evoleq.optics.lens.FirstBy
+import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Div
-import org.solyton.solawi.bid.application.data.Application
-import org.solyton.solawi.bid.application.data.actions
+import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.ui.style.form.formPageStyle
 import org.solyton.solawi.bid.module.bid.action.sendBidAction
 import org.solyton.solawi.bid.module.bid.component.form.SendBidForm
+import org.solyton.solawi.bid.module.bid.component.modal.showSuccessfulBidInformationModal
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.data.api.ApiBid
+import org.solyton.solawi.bid.module.bid.data.showSuccessMessage
+import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
 @Composable
 @Suppress("FunctionName")
 fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {style { formPageStyle() }}) {
+    val round = bidRounds * FirstOrNull { it.round.link == link }
+    val roundLens = bidRounds * FirstBy { it.round.link == link }
+    val showSuccessMessageModal = storage * round  map {
+        when{
+            it == null -> false
+            else -> it.showSuccessMessage
+        }
+    }
+     if(showSuccessMessageModal.read()) LaunchedEffect(Unit) {
+         val modals = (storage * modals)
+         val texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.round.successfulBidInformationModal")
+
+         modals.showSuccessfulBidInformationModal(
+            storage,
+            roundLens,
+            texts,
+            { (storage * roundLens * showSuccessMessage ).write(false) },
+            { (storage * roundLens * showSuccessMessage ).write(false) }
+        )
+    }
+
     SendBidForm {
         CoroutineScope(Job()).launch {
             (storage * actions).read().emit(

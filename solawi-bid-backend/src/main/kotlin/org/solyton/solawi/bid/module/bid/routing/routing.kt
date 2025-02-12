@@ -18,7 +18,7 @@ import org.solyton.solawi.bid.module.bid.data.api.*
 @KtorDsl
 fun Routing.sendBid(environment: Environment) =  route("bid") {
      post("send") {
-        (Receive<Bid>() * StoreBid * Respond()) runOn Base(call, environment)
+        (Receive<Bid>() * StoreBid * Respond<BidRound>()) runOn Base(call, environment)
     }
 }
 

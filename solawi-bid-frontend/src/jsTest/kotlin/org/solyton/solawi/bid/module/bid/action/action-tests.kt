@@ -85,6 +85,7 @@ class ActionTests{
                     listOf(),
                     listOf(),
                 ),
+                null,
                 null
             )
 
@@ -92,7 +93,7 @@ class ActionTests{
 
             val storedBidRound = (storage * bidRounds).read().first()
 
-            assertEquals(apiBidRound.toDomainType(), storedBidRound )
+            assertEquals(apiBidRound.toDomainType(true), storedBidRound )
         }
     }
 
