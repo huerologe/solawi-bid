@@ -68,6 +68,19 @@ de{
                         title: "Ablehnen"
                     }
                 }
+                successfulBidInformationModal {
+                    title: "Gebot erfolgreich gesendet"
+                    message: "Ihr Gebot wurde erfolgreich gesendet"
+                    amount: "Betrag"
+                    numberOfShares: "Anteile"
+                    totalAmountPerMonth: "Monatlicher Gesamtbetrag"
+                    okButton {
+                        title: "Ok"
+                    }
+                    cancelButton {
+                        title: "Abbrechen"
+                    }
+                }
             }
         }
         errors {

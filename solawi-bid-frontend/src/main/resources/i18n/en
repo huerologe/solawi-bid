@@ -68,6 +68,19 @@ en{
                             title: "Reject"
                         }
                     }
+                    successfulBidInformationModal {
+                        title: "Bid Successfully Transmitted"
+                        message: "Your bid has been transmitted successfully"
+                        amount: "Amount"
+                        numberOfShares: "Shares"
+                        totalAmountPerMonth: "Total Amount per Month"
+                        okButton {
+                            title: "Ok"
+                        }
+                        cancelButton {
+                            title: "Cancel"
+                        }
+                    }
                 }
             }
             errors {

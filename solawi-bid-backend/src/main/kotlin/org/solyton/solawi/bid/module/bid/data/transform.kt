@@ -46,10 +46,10 @@ fun BidRoundEntity.toApiType(fullInfo: Unit? = null): BidRound = BidRound(
     round.toApiType(),
     auction.toApiType(),
     amount,
-
+    null
 )
 
-fun Pair<BidRound, Int>.toBidInfo(): BidInfo = BidInfo(first.amount?: 0.0, second)
+fun Pair<BidRound, Int>.addBidInfo(): BidRound = first.copy(numberOfShares = second)
 
 fun AcceptedRound.toApiType(): ApiAcceptedRound = ApiAcceptedRound(
     round.id.value.toString()
