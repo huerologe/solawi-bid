@@ -125,6 +125,7 @@ fun <Id> Modal(
             backgroundColor(Color.white)
             width(90.percent)
             marginLeft(5.percent)
+            padding(10.px)
         }
     }) {
         //

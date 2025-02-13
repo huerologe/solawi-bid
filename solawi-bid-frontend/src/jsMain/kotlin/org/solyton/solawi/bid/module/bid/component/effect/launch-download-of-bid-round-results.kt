@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import kotlinx.browser.document
 import org.evoleq.compose.Markup
+import org.evoleq.language.Lang
+import org.evoleq.math.Source
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
@@ -23,7 +25,8 @@ import kotlin.js.Date
 fun LaunchDownloadOfBidRoundResults(
     storage: Storage<Application>,
     auction: Lens<Application, Auction>,
-    round: Round
+    round: Round,
+    texts: Source<Lang.Block>
 ) {
     if(round.rawResults.startDownloadOfBidRoundResults) {
         LaunchedEffect(Unit) {

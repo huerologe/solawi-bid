@@ -2,7 +2,10 @@ package org.solyton.solawi.bid.module.bid.component.button
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
+import org.evoleq.language.Lang
+import org.evoleq.math.Reader
 import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
@@ -13,10 +16,7 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.bid.component.effect.TriggerCreateNewRound
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.auctionDetails
-import org.solyton.solawi.bid.module.bid.data.reader.areNotConfigured
-import org.solyton.solawi.bid.module.bid.data.reader.biddersHaveNotBeenImported
-import org.solyton.solawi.bid.module.bid.data.reader.existsRunning
-import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.bid.data.reader.*
 import org.solyton.solawi.bid.module.bid.data.rounds
 
 @Markup
@@ -24,9 +24,9 @@ import org.solyton.solawi.bid.module.bid.data.rounds
 @Suppress("FunctionName")
 fun CreateNewRoundButton(
     storage: Storage<Application>,
-    auction: Lens<Application, Auction>
+    auction: Lens<Application, Auction>,
+    texts : Reader<Unit, Lang.Block>
 ) {
-    // todo:refactor:extract
     Button(attrs = {
         // New rounds can only be created when
         // 1. the auction is configured,
@@ -46,7 +46,6 @@ fun CreateNewRoundButton(
             )
         }
     }) {
-        // todo:i18n
-        Text("Create new Round")
+        Text((texts * text).emit())
     }
 }
