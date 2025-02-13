@@ -33,6 +33,10 @@ de{
         auction {
             createDialog {
                 title: "Auktion erstellen"
+                inputs {
+                    title: "Name"
+                    date: "Datum"
+                }
                 okButton {
                     title: "Ok"
                 }
@@ -42,6 +46,14 @@ de{
             }
             updateDialog {
                 title: "Auktion bearbeiten"
+                inputs {
+                    title: "Name"
+                    date: "Datum"
+                    targetAmount: "Zielbetrag"
+                    solidarityContribution: "Solibeitrag"
+                    minimalBid: "Minimal Gebot"
+                    benchmark: "Richtwert"
+                }
                 okButton {
                     title: "Ok"
                 }
