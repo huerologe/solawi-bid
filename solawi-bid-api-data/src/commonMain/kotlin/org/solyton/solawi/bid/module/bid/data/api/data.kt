@@ -167,7 +167,8 @@ data class BidRound(
     val id: String, //Uuid, //= ZeroUUID,
     val round: Round,
     val auction: Auction,
-    val amount: Double?
+    val amount: Double? = null,
+    val numberOfShares: Int? = null
 )
 
 @Serializable

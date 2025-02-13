@@ -7,7 +7,9 @@ import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.language.Lang
 import org.evoleq.language.component
+import org.evoleq.math.Reader
 import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
@@ -22,8 +24,7 @@ import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.component.modal.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
-import org.solyton.solawi.bid.module.bid.data.reader.existRounds
-import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.bid.data.reader.*
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.i18n.data.language
 
@@ -34,6 +35,7 @@ fun ImportBiddersButton(
     storage: Storage<Application>,
     newBidders: Storage<List<NewBidder>>,
     auction: Lens<Application, Auction>,
+    texts : Reader<Unit, Lang.Block>
 ) {
     Button(attrs = {
         // Bidders can only be imported, if no rounds have been created
@@ -55,7 +57,6 @@ fun ImportBiddersButton(
             )
         }
     }) {
-        // todo:i18n
-        Text("Import Bidders")
+        Text((texts * text).emit())
     }
 }

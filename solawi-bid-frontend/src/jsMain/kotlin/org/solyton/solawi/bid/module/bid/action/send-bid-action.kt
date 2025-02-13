@@ -18,6 +18,6 @@ val sendBidAction: (Bid)-> Action<Application, ApiBid, ApiBidRound> by lazy { { 
         endPoint = Bid::class,
         writer = bidRounds
             merge{ given, incoming -> given.bidRoundId == incoming.bidRoundId }
-            contraMap { apiBidRound: ApiBidRound -> listOf(apiBidRound.toDomainType()) }
+            contraMap { apiBidRound: ApiBidRound -> listOf(apiBidRound.toDomainType(true)) }
     )
 } }

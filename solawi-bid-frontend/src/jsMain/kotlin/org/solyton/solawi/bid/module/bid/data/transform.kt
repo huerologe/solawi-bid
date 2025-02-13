@@ -19,11 +19,13 @@ fun ApiRound.toDomainType(): Round = Round(
 
 )
 
-fun ApiBidRound.toDomainType(): BidRound = BidRound(
+fun ApiBidRound.toDomainType(showSuccessMessage: Boolean = false): BidRound = BidRound(
     id,
+    showSuccessMessage,
     round.toDomainType(),
     auction.toDomainType(),
-    amount
+    amount,
+    numberOfShares
 )
 
 fun ApiAuction.toDomainType(): Auction = Auction(

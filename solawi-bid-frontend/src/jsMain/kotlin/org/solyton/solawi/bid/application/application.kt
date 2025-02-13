@@ -29,6 +29,7 @@ fun Application() = renderComposable("root") {
     installSerializers()
     Style(GlobalStyles)
     Store({ Storage() }) {
+        // todo:dev the complete section needs to be revised
         val environmentSet = (this * environment * set).read()
         if(!environmentSet) LaunchedEffect(Unit) { launch {
             val env = try {
