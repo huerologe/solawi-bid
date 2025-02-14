@@ -99,7 +99,7 @@ de{
                     stopped: "Beendet"
                     evaluated: "Ausgewertet"
                     closed: "Geschlossen"
-                    frozen: "Eingefrohren"
+                    frozen: "Eingefroren"
                 }
                 commands {
                     start: "Start"

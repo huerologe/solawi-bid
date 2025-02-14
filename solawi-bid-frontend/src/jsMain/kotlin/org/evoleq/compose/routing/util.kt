@@ -1,7 +1,10 @@
 package org.evoleq.compose.routing
 
 import androidx.compose.runtime.Composable
+import io.ktor.http.*
 import org.evoleq.math.x
+import org.jetbrains.compose.web.dom.H1
+import org.jetbrains.compose.web.dom.Text
 
 /**
  * Find routes by segment
@@ -165,6 +168,13 @@ fun Routes.compose(path: String): Boolean = with(match(path) ) {
         route.component()
         true
     } else {
+        // Page404()
         false
     }
+}
+
+@RoutingDsl
+@Composable
+fun Page404() {
+    H1{ Text("404 - Page not found") }
 }
