@@ -8,6 +8,10 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.date.today
 import org.evoleq.language.Lang
 import org.evoleq.language.component
+import org.evoleq.language.title
+import org.evoleq.math.Source
+import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.add
@@ -29,7 +33,8 @@ import org.solyton.solawi.bid.module.i18n.data.language
 @Suppress("FunctionName")
 fun CreateAuctionButton(
     storage: Storage<Application>,
-    auction: Lens<Application, Auction>
+    auction: Lens<Application, Auction>,
+    texts: Source<Lang.Block>
 ) {
     Button(attrs = {
         onClick {
@@ -52,6 +57,6 @@ fun CreateAuctionButton(
             }
         }
     } ){
-        Text("Create Auction")
+        Text((texts * title).emit())
     }
 }

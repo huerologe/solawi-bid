@@ -5,6 +5,9 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Horizontal
 import org.evoleq.compose.layout.PropertiesStyles
 import org.evoleq.compose.layout.PropertyStyles
+import org.evoleq.language.component
+import org.evoleq.language.subComp
+import org.evoleq.language.title
 import org.evoleq.math.emit
 import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
@@ -30,10 +33,7 @@ import org.solyton.solawi.bid.module.bid.component.button.CreateNewRoundButton
 import org.solyton.solawi.bid.module.bid.component.button.ImportBiddersButton
 import org.solyton.solawi.bid.module.bid.component.button.UpdateAuctionButton
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
-import org.solyton.solawi.bid.module.bid.data.reader.Component
-import org.solyton.solawi.bid.module.bid.data.reader.component
-import org.solyton.solawi.bid.module.bid.data.reader.subComp
-import org.solyton.solawi.bid.module.bid.data.reader.title
+import org.solyton.solawi.bid.module.bid.data.reader.BidComponent
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.separator.LineSeparator
 
@@ -59,7 +59,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     val auction = auctions * FirstBy{ it.auctionId == auctionId }
 
     // Texts
-    val texts = (storage * i18N * language * component(Component.AuctionPage))
+    val texts = (storage * i18N * language * component(BidComponent.AuctionPage))
     val details = texts * subComp("details")
     val buttons = texts * subComp("buttons")
 
@@ -104,6 +104,6 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
     BidRoundList(
         storage = storage,
         auction = auction,
-        (storage * i18N * language * component(Component.Round))
+        (storage * i18N * language * component(BidComponent.Round))
     )
 }

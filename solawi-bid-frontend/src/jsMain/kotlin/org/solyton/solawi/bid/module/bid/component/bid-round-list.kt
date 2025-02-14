@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Horizontal
 import org.evoleq.language.Lang
+import org.evoleq.language.subComp
 import org.evoleq.math.Reader
 import org.evoleq.math.emit
 import org.evoleq.math.times
@@ -26,7 +27,6 @@ import org.solyton.solawi.bid.module.bid.component.effect.LaunchPresentationOfBi
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
-import org.solyton.solawi.bid.module.bid.data.reader.subComp
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.reader.rounds as roundsKey
 

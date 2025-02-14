@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.language.Lang
 import org.evoleq.language.component
+import org.evoleq.language.text
 import org.evoleq.math.Reader
 import org.evoleq.math.emit
 import org.evoleq.math.times
@@ -24,7 +25,8 @@ import org.solyton.solawi.bid.application.ui.page.auction.action.importBidders
 import org.solyton.solawi.bid.module.bid.component.modal.showImportBiddersModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
-import org.solyton.solawi.bid.module.bid.data.reader.*
+import org.solyton.solawi.bid.module.bid.data.reader.existRounds
+import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.i18n.data.language
 

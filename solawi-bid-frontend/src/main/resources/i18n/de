@@ -30,6 +30,14 @@ de{
                 title: "Abbrechen"
             }
         }
+        dashboardPage {
+            title: "Herzlich Willkommen auf Ihrem Dashboard"
+            auctionsCard {
+                navButton {
+                    title: "Auktionen"
+                }
+            }
+        }
         auction {
             createDialog {
                 title: "Auktion erstellen"
@@ -148,6 +156,11 @@ de{
             }
             auctionsPage {
                 title: "Auktionen"
+                buttons {
+                    createAuction {
+                        title: "Auktion Erstellen"
+                    }
+                }
             }
         }
         errors {
