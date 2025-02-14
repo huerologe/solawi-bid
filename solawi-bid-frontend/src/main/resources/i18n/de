@@ -30,6 +30,14 @@ de{
                 title: "Abbrechen"
             }
         }
+        dashboardPage {
+            title: "Herzlich Willkommen auf Ihrem Dashboard"
+            auctionsCard {
+                navButton {
+                    title: "Auktionen"
+                }
+            }
+        }
         auction {
             createDialog {
                 title: "Auktion erstellen"
@@ -99,7 +107,7 @@ de{
                     stopped: "Beendet"
                     evaluated: "Ausgewertet"
                     closed: "Geschlossen"
-                    frozen: "Eingefrohren"
+                    frozen: "Eingefroren"
                 }
                 commands {
                     start: "Start"
@@ -148,6 +156,11 @@ de{
             }
             auctionsPage {
                 title: "Auktionen"
+                buttons {
+                    createAuction {
+                        title: "Auktion Erstellen"
+                    }
+                }
             }
         }
         errors {

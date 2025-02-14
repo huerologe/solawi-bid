@@ -16,7 +16,7 @@ jobs:
       - name: Try To Dump the Database
         run: |
           mv -f ${{vars.DATABASE_NIGHTLY_BACKUP}} ${{vars.DATABASE_NIGHTLY_BACKUP}}.bak
-          docker exec solawi-bid_database mysqldump -u${{vars.DATABASE_USER}} -p${{secrets.MYSQL_PASSWORD}} ${{vars.MYSQL_DATABASE}} > ${{vars.DATABASE_NIGHTLY_BACKUP }}
+          docker exec solawi-bid_database mysqldump -u${{vars.DATABASE_USER}} -p'${{secrets.MYSQL_PASSWORD}}' ${{vars.MYSQL_DATABASE}} > ${{vars.DATABASE_NIGHTLY_BACKUP }}
 
           if [ $? -ne 0 ]; then
             echo "Database dump failed!"

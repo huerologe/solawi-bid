@@ -3,6 +3,7 @@ package org.solyton.solawi.bid.module.bid.component.button
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.language.Lang
+import org.evoleq.language.text
 import org.evoleq.math.Reader
 import org.evoleq.math.emit
 import org.evoleq.math.times
@@ -16,7 +17,10 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.bid.component.effect.TriggerCreateNewRound
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.auctionDetails
-import org.solyton.solawi.bid.module.bid.data.reader.*
+import org.solyton.solawi.bid.module.bid.data.reader.areNotConfigured
+import org.solyton.solawi.bid.module.bid.data.reader.biddersHaveNotBeenImported
+import org.solyton.solawi.bid.module.bid.data.reader.existsRunning
+import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 
 @Markup
