@@ -59,21 +59,11 @@ services:
       dockerfile: solawi-bid-database/docker/Dockerfile
     container_name: solawi-bid_database
     hostname: solawi-bid_database
-    ports:
-      - "3306:3306"
+    #ports:
+    #  - "3306:3306"
     env_file:
       - solawi-bid-database/.env
     networks:
       - backend
     restart: always
 
-#  adminer:
-#    image: adminer
-#    hostname: adminer
-#    #container_name: adminer
-#    restart: always
-#    ports:
-#      - "8082:8080"
-#    networks:
-#      - frontend
-#      - backend
