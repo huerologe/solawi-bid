@@ -13,27 +13,38 @@ sealed class DeviceType(open val minWidth: Int,open val maxWidth: Int, open val 
     // ...
 
     companion object {
-        fun from(width: Double) = when{
-            width < Mobile.maxWidth -> Mobile
-            width >= Mobile.maxWidth && getDeviceType() == "Mobile" -> Mobile
-            width >= Tablet.minWidth && width < Tablet.maxWidth -> Tablet
-            width >= Tablet.maxWidth && getDeviceType() == "Tablet" -> Tablet
-            width >= Laptop.minWidth && width < Laptop.maxWidth -> Laptop
-            width >= Desktop.minWidth && width < Desktop.maxWidth -> Desktop
-            else -> Huge
-        }
+        fun from(width: Double, pixelRatio: Double, isTouchDevice: Boolean, userAgent: String): DeviceType = getDeviceType(
+            width, pixelRatio, isTouchDevice, userAgent
+        )
     }
 }
 
-fun getDeviceType(): String {
+fun getDeviceType(width: Double, pixelRatio: Double, isTouchDevice: Boolean, userAgent: String): DeviceType {
+    /*
     val width = window.innerWidth
     val pixelRatio = window.devicePixelRatio
     val isTouchDevice = js("('ontouchstart' in window)") as Boolean
+    val userAgent = window.navigator.userAgent.lowercase()
+*
 
+     */
     return when {
-        isTouchDevice && pixelRatio > 1 && width <= 600 -> "Mobile"
-        isTouchDevice && pixelRatio > 1 && width <= 1024 -> "Tablet"
-        else -> "Desktop"
+        // Check for mobile devices (based on touch + pixel ratio + screen width)
+        isTouchDevice && pixelRatio > 1 && width <= DeviceType.Mobile.maxWidth -> DeviceType.Mobile
+
+        // Check for tablets (wider screens but still touch-based)
+        isTouchDevice && pixelRatio > 1 && width >= DeviceType.Tablet.minWidth && width <= 1024 -> DeviceType.Tablet
+
+        // User Agent check for tablets (iPad, PlayBook, etc.)
+        userAgent.contains("ipad") || userAgent.contains("playbook") -> DeviceType.Tablet
+
+        // User Agent check for mobile (iPhone, Android phones)
+        userAgent.contains("iphone") || userAgent.contains("android") && !userAgent.contains("tablet") -> DeviceType.Mobile
+
+        // Default: Desktop
+        width >= DeviceType.Laptop.minWidth && width < DeviceType.Laptop.maxWidth -> DeviceType.Laptop
+        width >= DeviceType.Desktop.minWidth && width < DeviceType.Desktop.maxWidth -> DeviceType.Desktop
+        else -> DeviceType.Huge
     }
 }
 

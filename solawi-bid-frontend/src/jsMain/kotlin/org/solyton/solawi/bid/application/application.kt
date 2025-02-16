@@ -59,11 +59,21 @@ fun Application() = renderComposable("root") {
         if(environmentSet) LaunchedEffect(Unit) {
             if((this@Store * deviceData * mediaType).read() is DeviceType.Empty) {
                 (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
-                (this@Store * deviceData * mediaType).write(DeviceType.from(window.innerWidth.toDouble()))
+                (this@Store * deviceData * mediaType).write(DeviceType.from(
+                    window.innerWidth.toDouble(),
+                    window.devicePixelRatio,
+                    js("('ontouchstart' in window)") as Boolean,
+                    window.navigator.userAgent.lowercase() )
+                )
             }
             window.addEventListener("resize", {
                 (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
-                (this@Store * deviceData * mediaType).write(DeviceType.from(window.innerWidth.toDouble()))
+                (this@Store * deviceData * mediaType).write(DeviceType.from(
+                    window.innerWidth.toDouble(),
+                    window.devicePixelRatio,
+                    js("('ontouchstart' in window)") as Boolean,
+                    window.navigator.userAgent.lowercase()
+                ))
             })
         }
         if(environmentSet) loadLanguage()
