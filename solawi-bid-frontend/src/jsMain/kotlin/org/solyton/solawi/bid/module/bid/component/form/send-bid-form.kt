@@ -26,7 +26,12 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
             screenWidth = window.innerWidth
         })
     }
-    val device = DeviceType.from(screenWidth.toDouble())
+    val device = DeviceType.from(
+        window.innerWidth.toDouble(),
+        window.devicePixelRatio,
+        js("('ontouchstart' in window)") as Boolean,
+        window.navigator.userAgent.lowercase()
+    )
     Div(attrs = {
 
         style { formStyle(device)() }
