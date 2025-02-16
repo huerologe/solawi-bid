@@ -17,6 +17,8 @@ import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
@@ -42,6 +44,9 @@ fun ChangeRoundStateButton(
 ) {
     // todo:refactor:extract button and extract trigger
     Button(attrs = {
+        style {
+            width(200.px)
+        }
         onClick {
             CoroutineScope(Job()).launch {
                 val actions = (storage * actions).read()

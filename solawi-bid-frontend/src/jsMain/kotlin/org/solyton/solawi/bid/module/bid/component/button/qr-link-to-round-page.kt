@@ -13,7 +13,8 @@ import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.css.flexShrink
+import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.css.AlignItems.Companion.Center
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
@@ -32,7 +33,8 @@ fun QRLinkToRoundPageButton(
     auction: Lens<Application, Auction>,
     round: Round,
     frontendBaseUrl: String,
-    texts: Source<Lang.Block>
+    texts: Source<Lang.Block>,
+
 ) {
     val auctionId = (storage * auction * auctionId).read()
     // todo:refactor:extract
@@ -40,6 +42,7 @@ fun QRLinkToRoundPageButton(
         attrs = {
             style {
                 flexShrink(0)
+
             }
             onClick {
                 navigate("/solyton/auctions/${auctionId}/rounds/${round.roundId}")
@@ -52,7 +55,14 @@ fun QRLinkToRoundPageButton(
             64.0
         )
     }
-    Div {
+    Div(attrs = {
+        style {
+            display(DisplayStyle.Flex)
+            justifyContent(JustifyContent.Center)
+            alignItems(AlignItems.Center)
+            width(200.px)
+        }
+    }) {
         val roundState: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
             (lang["states.${name.toLowerCasePreservingASCIIRules()}"])
         } }
