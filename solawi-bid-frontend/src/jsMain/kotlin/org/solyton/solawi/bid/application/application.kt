@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.application
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.browser.window
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
 import org.evoleq.compose.storage.Store
@@ -11,6 +12,10 @@ import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.Style
 import org.jetbrains.compose.web.renderComposable
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.device.screenWidth
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.data.env.getEnv
 import org.solyton.solawi.bid.application.data.env.set
@@ -49,6 +54,18 @@ fun Application() = renderComposable("root") {
                 { app: Application -> app.copy(environment = envi) }
             }).write(env) on Unit
         } }
+
+        // ✅ Listen to window resize and update screenWidth
+        if(environmentSet) LaunchedEffect(Unit) {
+            if((this@Store * deviceData * mediaType).read() is DeviceType.Empty) {
+                (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
+                (this@Store * deviceData * mediaType).write(DeviceType.from(window.innerWidth.toDouble()))
+            }
+            window.addEventListener("resize", {
+                (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
+                (this@Store * deviceData * mediaType).write(DeviceType.from(window.innerWidth.toDouble()))
+            })
+        }
         if(environmentSet) loadLanguage()
 
         when( langLoaded() && environmentSet ) {
