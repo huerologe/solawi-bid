@@ -39,7 +39,7 @@ import org.solyton.solawi.bid.module.user.User
     @ReadOnly val environment: Environment,
     @ReadOnly val api: Api = solawiApi,
     @ReadOnly val actions: MutableSharedFlow<Action<Application, *, *>> = MutableSharedFlow(),
-    @ReadWrite val deviceData: Device = Device(0.0, DeviceType.Empty),
+    @ReadWrite val deviceData: Device = Device(),
     @ReadWrite val modals: Modals<Int> = mapOf(),
     @ReadWrite val i18N: I18N = I18N(),
     @ReadWrite val context: Context = Context(),
