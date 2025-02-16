@@ -19,9 +19,10 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     val userData = storage * user
     val texts = (storage * texts).read() as Lang.Block
     val loginFields = texts.component("solyton.authentication.login.fields")
+    val device = (storage * deviceType).read()
 
     Div(attrs = {
-        style { formStyle() }
+        style { formStyle(device)() }
     }) {
         Div(attrs = { style { fieldStyle() } }) {
             Label(loginFields["username"], id = "username", labelStyle = formLabelStyle)

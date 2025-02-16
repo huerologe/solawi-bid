@@ -17,5 +17,45 @@ object GlobalStyles : StyleSheet() {
             width(100.vw)
             overflow("hidden")
         }
+
+        "container" style {
+            width(80.percent)
+            marginLeft(1.vw)
+            marginRight(1.vw)
+
+            media(mediaMaxWidth(768.px)) {
+                width(98.vw)
+            }
+        }
+
+
     }
+/*
+    val container by style {
+        width(80.percent)
+        marginLeft(1.vw)
+        marginRight(1.vw)
+
+        media(mediaMaxWidth(768.px)) {
+            self{width(98.vw)}
+        }
+    }
+*/
+    val formStyle by style {
+        display(DisplayStyle.Flex)
+        flexDirection(FlexDirection.Column)
+        width(50.percent)
+        padding(10.px)
+        borderRadius(8.px)
+        backgroundColor(Color.whitesmoke)
+
+
+        media(mediaMaxWidth(768.px)) {
+            self{width(80.vw)}
+        }
+    }
+
+
+
+
 }
