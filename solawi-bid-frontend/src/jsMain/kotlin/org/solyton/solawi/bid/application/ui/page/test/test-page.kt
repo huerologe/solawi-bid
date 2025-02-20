@@ -5,7 +5,7 @@ import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.TextInput
-import org.solyton.solawi.bid.application.ui.style.form.textInputStyle
+import org.solyton.solawi.bid.application.ui.style.form.desktopTextInputStyle
 import org.solyton.solawi.bid.module.qrcode.QRCodeSvg
 
 @Markup
@@ -19,7 +19,7 @@ fun TestPage() {
     Div {
 
         TextInput(text) {
-            style { textInputStyle() }
+            style { desktopTextInputStyle() }
             id("qr-string")
             onInput {
                 text = it.value.trim()
