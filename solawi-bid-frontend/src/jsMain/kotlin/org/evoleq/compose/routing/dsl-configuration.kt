@@ -60,7 +60,7 @@ class RoutesConfiguration : Configuration<Routes> {
 
     @RoutingDsl
     fun nonProdRoute(path: String, env: String, routesConfiguration: RoutesConfiguration.()->Unit) {
-        if(env.toLowerCasePreservingASCIIRules() != "prod" ) {
+        if(env.toLowerCasePreservingASCIIRules() !in listOf( "prod", "production" ) ) {
             route(path,routesConfiguration)
         }
     }

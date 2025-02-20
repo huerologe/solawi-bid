@@ -110,8 +110,6 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
         "test",
         (storage * environment * type).read()
     ){
-        //val env = (storage * environment * type).read().toLowerCasePreservingASCIIRules()
-        //if(env != "prod") route("test"){
         route("page") {
             component { TestPage() }
         }
