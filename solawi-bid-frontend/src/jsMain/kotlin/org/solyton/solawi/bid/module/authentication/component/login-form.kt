@@ -54,17 +54,6 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
             ) {
                 login()
             }
-
-            /*
-            Button(attrs = {
-                onClick {
-                    login()
-                }
-            }) {
-                Text(buttonTexts["ok"])
-            }
-
-             */
             /* Deactivate for the moment
             todo:dev reactivate
             Button{

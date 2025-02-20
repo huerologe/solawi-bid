@@ -44,7 +44,6 @@ fun AuctionsPage(storage: Storage<Application>) = Div{
     val texts = (storage * i18N * language * component(BidComponent.AuctionsPage))
 
     // Markup
-    // todo:i18n
     H1 { Text((texts * title).emit()) }
     CreateAuctionButton(
         storage = storage,

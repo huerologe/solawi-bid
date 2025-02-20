@@ -46,6 +46,12 @@ fun CancelButton(texts: Source<String>,deviceType: DeviceType, onClick: ()->Unit
 @Markup
 @Composable
 @Suppress("FunctionName")
+fun StdButton(texts: Source<String>,deviceType: Source<DeviceType>, onClick: ()->Unit) =
+    StdButton(texts, deviceType.emit(), onClick)
+
+@Markup
+@Composable
+@Suppress("FunctionName")
 fun StdButton(texts: Source<String>,deviceType: DeviceType, onClick: ()->Unit) = Button(
     attrs = {
         style {

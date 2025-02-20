@@ -16,7 +16,6 @@ import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Action
 import org.solyton.solawi.bid.application.api.solawiApi
 import org.solyton.solawi.bid.application.data.device.Device
-import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.BidRound
