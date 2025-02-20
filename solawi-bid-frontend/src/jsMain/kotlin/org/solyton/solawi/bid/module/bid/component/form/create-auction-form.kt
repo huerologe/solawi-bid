@@ -48,21 +48,21 @@ fun AuctionModal(
     texts = texts
 ) {
 
-    Div(attrs = {style { desktopFormStyle() }}) {
+    Div(attrs = {style { formDesktopStyle() }}) {
 
-        Div(attrs = {style { desktopFieldStyle() }}) {
-            Label("Name", id = "name" , labelStyle = desktopFormLabelStyle)
+        Div(attrs = {style { fieldDesktopStyle() }}) {
+            Label("Name", id = "name" , labelStyle = formLabelDesktopStyle)
             TextInput((auction * name).read()) {
                 id("name")
-                style { desktopTextInputStyle() }
+                style { textInputDesktopStyle() }
                 onInput { (auction * name).write(it.value) }
             }
         }
-        Div(attrs = {style { desktopFieldStyle() }}) {
-            Label("Datum", id = "date" , labelStyle = desktopFormLabelStyle)
+        Div(attrs = {style { fieldDesktopStyle() }}) {
+            Label("Datum", id = "date" , labelStyle = formLabelDesktopStyle)
             DateInput((auction * date).read().format(Locale.Iso)) {
                 id("date")
-                style { desktopDateInputStyle() }
+                style { dateInputDesktopStyle() }
                 onInput {
                     (auction * date).write(it.value.parse(Locale.Iso))
                 }

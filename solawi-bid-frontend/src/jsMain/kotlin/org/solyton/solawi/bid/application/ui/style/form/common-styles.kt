@@ -13,8 +13,8 @@ fun formPageStyle(device: DeviceType): StyleScope.()->Unit = {
     backgroundColor(Color.white)
     height(100.vh) // Full viewport height
     when{
-        device > DeviceType.Tablet -> mobileFormPageStyle()
-        else -> desktopFormPageStyle()
+        device > DeviceType.Tablet -> formPageMobileStyle()
+        else -> formPageDesktopStyle()
     }
 }
 
@@ -31,38 +31,38 @@ fun formStyle(device: DeviceType): StyleScope.()->Unit = {
     flexDirection(FlexDirection.Column)
     backgroundColor(Color.whitesmoke)
     when{
-        device > DeviceType.Tablet -> desktopFormStyle()
-        else -> mobileFormStyle()
+        device > DeviceType.Tablet -> formDesktopStyle()
+        else -> formMobileStyle()
     }
 }
 
 fun formLabelStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopFormLabelStyle
-    else -> mobileFormLabelStyle
+    device > DeviceType.Tablet -> formLabelDesktopStyle
+    else -> formLabelMobileStyle
 }
 
 
 fun textInputStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopTextInputStyle
-    else -> mobileTextInputStyle
+    device > DeviceType.Tablet -> textInputDesktopStyle
+    else -> textInputMobileStyle
 }
 
 fun numberInputStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopNumberInputStyle
-    else -> mobileNumberInputStyle
+    device > DeviceType.Tablet -> numberInputDesktopStyle
+    else -> numberInputMobileStyle
 }
 
 fun formControlBarStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopFormControlBarStyle
-    else -> mobileFormControlBarStyle
+    device > DeviceType.Tablet -> formControlBarDesktopStyle
+    else -> formControlBarMobileStyle
 }
 
 fun dateInputStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopDateInputStyle
-    else -> mobileDateInputStyle
+    device > DeviceType.Tablet -> dateInputDesktopStyle
+    else -> dateInputMobileStyle
 }
 
 fun formButtonStyle(device: DeviceType): StyleScope.()->Unit = when {
-    device > DeviceType.Tablet -> desktopFormButtonStyle
-    else -> mobileFormButtonStyle
+    device > DeviceType.Tablet -> formButtonDesktopStyle
+    else -> formButtonMobileStyle
 }

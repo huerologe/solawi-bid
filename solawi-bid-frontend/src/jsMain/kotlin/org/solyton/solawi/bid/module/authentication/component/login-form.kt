@@ -11,6 +11,7 @@ import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.authentication.data.*
+import org.solyton.solawi.bid.module.control.button.SubmitButton
 
 @Markup
 @Composable
@@ -24,28 +25,37 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     Div(attrs = {
         style { formStyle(device)() }
     }) {
-        Div(attrs = { style { desktopFieldStyle() } }) {
-            Label(loginFields["username"], id = "username", labelStyle = desktopFormLabelStyle)
+        Div(attrs = { style { fieldDesktopStyle() } }) {
+            Label(loginFields["username"], id = "username", labelStyle = formLabelDesktopStyle)
 
             TextInput((userData * username).read()) {
-                style { desktopTextInputStyle() }
+                style { textInputDesktopStyle() }
                 id("username")
                 onInput {
                     (userData * username).write(it.value)
                 }
             }
         }
-        Div(attrs = { style { desktopFieldStyle() } }) {
-            Label(loginFields["password"], id = "password", labelStyle = desktopFormLabelStyle)
+        Div(attrs = { style { fieldDesktopStyle() } }) {
+            Label(loginFields["password"], id = "password", labelStyle = formLabelDesktopStyle)
             PasswordInput((userData * password).read()) {
-                style { desktopTextInputStyle() }
+                style { textInputDesktopStyle() }
                 id("password")
                 onInput { (userData * password).write(it.value) }
             }
         }
 
-        Div(attrs = {style { desktopFormControlBarStyle() }}) {
+        Div(attrs = {style { formControlBarDesktopStyle() }}) {
             val buttonTexts = texts.component("solyton.authentication.login.buttons")
+
+            SubmitButton(
+                { _-> buttonTexts["ok"]},
+                device
+            ) {
+                login()
+            }
+
+            /*
             Button(attrs = {
                 onClick {
                     login()
@@ -53,6 +63,8 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
             }) {
                 Text(buttonTexts["ok"])
             }
+
+             */
             /* Deactivate for the moment
             todo:dev reactivate
             Button{

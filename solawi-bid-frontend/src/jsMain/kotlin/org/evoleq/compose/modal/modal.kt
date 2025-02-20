@@ -39,12 +39,14 @@ fun <Id> ModalLayer(
             flexDirection(FlexDirection.Column)
             justifyContent(JustifyContent.FlexEnd)
             alignItems(AlignItems.Center)
+            marginBottom(100.px)
         }
         SubLayer("Dialogs",
             zIndex +2,
             modals.components(ModalType.Dialog)
         ) {
             flexDirection(FlexDirection.Column)
+            justifyContent(JustifyContent.Center)
             alignItems(AlignItems.Center)
         }
         SubLayer("Error",

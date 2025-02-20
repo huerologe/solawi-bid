@@ -1,6 +1,7 @@
 package org.evoleq.compose.routing
 
 import androidx.compose.runtime.Composable
+import io.ktor.util.*
 import org.evoleq.compose.Markup
 import org.evoleq.configuration.Configuration
 
@@ -54,6 +55,13 @@ class RoutesConfiguration : Configuration<Routes> {
             if (newSegment is RouteSegment.Static) {
                 routes.add(0, newRoutes)
             }
+        }
+    }
+
+    @RoutingDsl
+    fun nonProdRoute(path: String, env: String, routesConfiguration: RoutesConfiguration.()->Unit) {
+        if(env.toLowerCasePreservingASCIIRules() != "prod" ) {
+            route(path,routesConfiguration)
         }
     }
 

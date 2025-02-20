@@ -1,11 +1,16 @@
 package org.solyton.solawi.bid.application.routing
 
 import androidx.compose.runtime.Composable
+import io.ktor.util.*
 import org.evoleq.compose.routing.*
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.env.Environment
+import org.solyton.solawi.bid.application.data.env.env
+import org.solyton.solawi.bid.application.data.env.type
+import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.data.navbar.navBar
 import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.application.service.isLoggerIn
@@ -16,6 +21,7 @@ import org.solyton.solawi.bid.application.ui.page.auction.RoundPage
 import org.solyton.solawi.bid.application.ui.page.dashboard.DashboardPage
 import org.solyton.solawi.bid.application.ui.page.login.LoginPage
 import org.solyton.solawi.bid.application.ui.page.sendbid.SendBidPage
+import org.solyton.solawi.bid.application.ui.page.test.FontsPage
 import org.solyton.solawi.bid.application.ui.page.test.MobileTestPage
 import org.solyton.solawi.bid.application.ui.page.test.TestPage
 import org.solyton.solawi.bid.module.navbar.component.NavBar
@@ -34,13 +40,13 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
     }
     route("solyton") {
         wrap {
-            access{
+            access {
                 // todo:dev far too simple!
-                when((storage * userData).read().isLoggerIn()) {
+                when ((storage * userData).read().isLoggerIn()) {
                     true -> true
-                    false -> when{
+                    false -> when {
                         currentPath().startsWith("/bid/send") -> true
-                        else ->{
+                        else -> {
                             navigate("/login")
                             false
                         }
@@ -72,7 +78,7 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                         AuctionPage(storage, parameter("auctionId")!!)
                     }
                     route("rounds/:roundId") {
-                        component{
+                        component {
                             val auctionId = parameter("auctionId")!!
                             val roundId = parameter("roundId")!!
 
@@ -84,7 +90,7 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                             )
                         }
 
-                        route("evaluation"){
+                        route("evaluation") {
                             component {
                                 BidRoundEvaluationPage(
                                     storage,
@@ -95,20 +101,25 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     }
                 }
             }
-
-
-
             route("logout") {
-
-                component{Text("Logged out")}
+                component { Text("Logged out") }
             }
-
-            route("test") {
-                component { TestPage() }
-            }
-            route("test-mobile") {
-                component { MobileTestPage(storage) }
-            }
+        }
+    }
+    nonProdRoute(
+        "test",
+        (storage * environment * type).read()
+    ){
+        //val env = (storage * environment * type).read().toLowerCasePreservingASCIIRules()
+        //if(env != "prod") route("test"){
+        route("page") {
+            component { TestPage() }
+        }
+        route("mobile") {
+            component { MobileTestPage(storage) }
+        }
+        route("fonts") {
+            component { FontsPage() }
         }
     }
 }
