@@ -61,3 +61,8 @@ fun dateInputStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> desktopDateInputStyle
     else -> mobileDateInputStyle
 }
+
+fun formButtonStyle(device: DeviceType): StyleScope.()->Unit = when {
+    device > DeviceType.Tablet -> desktopFormButtonStyle
+    else -> mobileFormButtonStyle
+}

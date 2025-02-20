@@ -17,6 +17,8 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Div
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.ui.effect.LaunchSetDeviceData
 import org.solyton.solawi.bid.application.ui.style.form.desktopFormPageStyle
 import org.solyton.solawi.bid.module.bid.action.sendBidAction
 import org.solyton.solawi.bid.module.bid.component.form.SendBidForm
@@ -50,8 +52,8 @@ fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {styl
             { (storage * roundLens * showSuccessMessage ).write(false) }
         )
     }
-
-    SendBidForm {
+    LaunchSetDeviceData(storage * deviceData)
+    SendBidForm((storage * deviceData * mediaType).read()) {
         CoroutineScope(Job()).launch {
             (storage * actions).read().emit(
                 sendBidAction((it to link).toApiType())

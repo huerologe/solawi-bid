@@ -17,21 +17,8 @@ import org.solyton.solawi.bid.module.bid.service.isDouble
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun SendBidForm(sendBid: (Bid)->Unit)  {
-    var screenWidth by remember { mutableStateOf(window.innerWidth) }
+fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
 
-    // ✅ Listen to window resize and update screenWidth
-    LaunchedEffect(Unit) {
-        window.addEventListener("resize", {
-            screenWidth = window.innerWidth
-        })
-    }
-    val device = DeviceType.from(
-        window.innerWidth.toDouble(),
-        window.devicePixelRatio,
-        js("('ontouchstart' in window)") as Boolean,
-        window.navigator.userAgent.lowercase()
-    )
     Div(attrs = {
         style { formStyle(device)() }
     }) {
@@ -39,6 +26,7 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
         var amount by remember { mutableStateOf("0.0") }
 
         Div(attrs = { style { fieldStyle(device)() } }) {
+            // todo:i18n
             Label("Email", id = "email", labelStyle = formLabelStyle(device))
             TextInput(email) {
                 id("email")
@@ -47,6 +35,8 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
             }
         }
         Div(attrs = { style { fieldStyle(device)() } }) {
+
+            // todo:i18n
             Label("Betrag", id = "amount", labelStyle = formLabelStyle(device))
             TextInput(amount) {
                 id("amount")
@@ -60,10 +50,12 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
 
             Div(attrs = { style { formControlBarStyle(device)() } }) {
                 Button(attrs = {
+                    style { formButtonStyle(device) }
                     onClick {
                         sendBid(Bid(email, amount.toDouble()))
                     }
                 }) {
+                    // todo:i18n
                     Text("Gebot senden")
                 }
             }

@@ -50,3 +50,8 @@ val desktopNumberInputStyle: StyleScope.()->Unit by lazy {{
 val desktopDateInputStyle: StyleScope.()->Unit by lazy {{
     backgroundColor(Color.white)
 }}
+
+val desktopFormButtonStyle: StyleScope.()->Unit by lazy {{
+    //fontSize(mobileFontSizeFactor.em)
+    //width(100.percent)
+}}
