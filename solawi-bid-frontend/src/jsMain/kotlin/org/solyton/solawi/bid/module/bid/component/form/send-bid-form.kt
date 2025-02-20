@@ -33,38 +33,32 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
         window.navigator.userAgent.lowercase()
     )
     Div(attrs = {
-
         style { formStyle(device)() }
-        // classes(formStyle)
     }) {
-
-
-
         var email by remember { mutableStateOf("") }
         var amount by remember { mutableStateOf("0.0") }
 
-        Div(attrs = { style { fieldStyle() } }) {
-            Label("Email", id = "email", labelStyle = formLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label("Email", id = "email", labelStyle = formLabelStyle(device))
             TextInput(email) {
                 id("email")
-                style { textInputStyle() }
+                style { textInputStyle(device)() }
                 onInput { email = it.value }
             }
         }
-        Div(attrs = { style { fieldStyle() } }) {
-            Label("Betrag", id = "amount", labelStyle = formLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label("Betrag", id = "amount", labelStyle = formLabelStyle(device))
             TextInput(amount) {
                 id("amount")
-                style { textInputStyle() }
+                style { textInputStyle(device)() }
                 onInput {
-                    console.log(it.value)
                     amount = if (it.value.isDouble(Locale.Iso)) {
                         it.value
                     } else {amount}
                 }
             }
 
-            Div(attrs = { style { formControlBarStyle() } }) {
+            Div(attrs = { style { formControlBarStyle(device)() } }) {
                 Button(attrs = {
                     onClick {
                         sendBid(Bid(email, amount.toDouble()))
@@ -76,4 +70,3 @@ fun SendBidForm(sendBid: (Bid)->Unit)  {
         }
     }
 }
-

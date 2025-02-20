@@ -17,7 +17,7 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Div
 import org.solyton.solawi.bid.application.data.*
-import org.solyton.solawi.bid.application.ui.style.form.formPageStyle
+import org.solyton.solawi.bid.application.ui.style.form.desktopFormPageStyle
 import org.solyton.solawi.bid.module.bid.action.sendBidAction
 import org.solyton.solawi.bid.module.bid.component.form.SendBidForm
 import org.solyton.solawi.bid.module.bid.component.modal.showSuccessfulBidInformationModal
@@ -29,7 +29,7 @@ import org.solyton.solawi.bid.module.i18n.data.language
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {style { formPageStyle() }}) {
+fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {style { desktopFormPageStyle() }}) {
     val round = bidRounds * FirstOrNull { it.round.link == link }
     val roundLens = bidRounds * FirstBy { it.round.link == link }
     val showSuccessMessageModal = storage * round  map {
