@@ -17,63 +17,48 @@ import org.solyton.solawi.bid.module.bid.service.isDouble
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun SendBidForm(sendBid: (Bid)->Unit)  {
-    var screenWidth by remember { mutableStateOf(window.innerWidth) }
+fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
 
-    // ✅ Listen to window resize and update screenWidth
-    LaunchedEffect(Unit) {
-        window.addEventListener("resize", {
-            screenWidth = window.innerWidth
-        })
-    }
-    val device = DeviceType.from(
-        window.innerWidth.toDouble(),
-        window.devicePixelRatio,
-        js("('ontouchstart' in window)") as Boolean,
-        window.navigator.userAgent.lowercase()
-    )
     Div(attrs = {
-
         style { formStyle(device)() }
-        // classes(formStyle)
     }) {
-
-
-
         var email by remember { mutableStateOf("") }
         var amount by remember { mutableStateOf("0.0") }
 
-        Div(attrs = { style { fieldStyle() } }) {
-            Label("Email", id = "email", labelStyle = formLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            // todo:i18n
+            Label("Email", id = "email", labelStyle = formLabelStyle(device))
             TextInput(email) {
                 id("email")
-                style { textInputStyle() }
+                style { textInputStyle(device)() }
                 onInput { email = it.value }
             }
         }
-        Div(attrs = { style { fieldStyle() } }) {
-            Label("Betrag", id = "amount", labelStyle = formLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+
+            // todo:i18n
+            Label("Betrag", id = "amount", labelStyle = formLabelStyle(device))
             TextInput(amount) {
                 id("amount")
-                style { textInputStyle() }
+                style { textInputStyle(device)() }
                 onInput {
-                    console.log(it.value)
                     amount = if (it.value.isDouble(Locale.Iso)) {
                         it.value
                     } else {amount}
                 }
             }
 
-            Div(attrs = { style { formControlBarStyle() } }) {
+            Div(attrs = { style { formControlBarStyle(device)() } }) {
                 Button(attrs = {
+                    style { formButtonStyle(device) }
                     onClick {
                         sendBid(Bid(email, amount.toDouble()))
                     }
                 }) {
+                    // todo:i18n
                     Text("Gebot senden")
                 }
             }
         }
     }
 }
-

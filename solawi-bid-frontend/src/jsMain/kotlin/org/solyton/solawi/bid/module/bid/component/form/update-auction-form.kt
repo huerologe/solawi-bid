@@ -46,32 +46,32 @@ fun UpdateAuctionModal(
     texts = texts
 ) {
 
-    Div(attrs = {style { formStyle() }}) {
+    Div(attrs = {style { desktopFormStyle() }}) {
 
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Name", id = "name" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Name", id = "name" , labelStyle = desktopFormLabelStyle)
             TextInput((auction * name).read()) {
                 id("name")
-                style { textInputStyle() }
+                style { desktopTextInputStyle() }
                 onInput { (auction * name).write(it.value) }
             }
         }
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Datum", id = "date" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Datum", id = "date" , labelStyle = desktopFormLabelStyle)
             DateInput((auction * date).read().format(Locale.Iso)) {
                 id("date")
-                style { dateInputStyle() }
+                style { desktopDateInputStyle() }
                 onInput {
                     (auction * date).write(it.value.parse(Locale.Iso))
                 }
             }
         }
 
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Benchmark", id = "benchmark" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Benchmark", id = "benchmark" , labelStyle = desktopFormLabelStyle)
             TextInput (onNullEmpty((auction * auctionDetails * benchmark).read()){it}) {
                 id("benchmark")
-                style { numberInputStyle() }
+                style { desktopNumberInputStyle() }
                 onInput {
                     onIsDouble(it.value) {
                         (auction * auctionDetails * benchmark).write(toDouble())
@@ -80,11 +80,11 @@ fun UpdateAuctionModal(
             }
         }
 
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Target Amount", id = "targetAmount" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Target Amount", id = "targetAmount" , labelStyle = desktopFormLabelStyle)
             TextInput(onNullEmpty((auction * auctionDetails * targetAmount).read()){it}) {
                 id("targetAmount")
-                style { numberInputStyle() }
+                style { desktopNumberInputStyle() }
                 onInput {
                     onIsDouble(it.value) {
                         (auction * auctionDetails * targetAmount).write(toDouble())
@@ -92,11 +92,11 @@ fun UpdateAuctionModal(
                 }
             }
         }
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Solidarity Contribution", id = "solidarityContribution" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Solidarity Contribution", id = "solidarityContribution" , labelStyle = desktopFormLabelStyle)
             TextInput(onNullEmpty((auction * auctionDetails * solidarityContribution).read()){it}) {
                 id("solidarityContribution")
-                style { numberInputStyle() }
+                style { desktopNumberInputStyle() }
                 onInput {
                     onIsDouble(it.value) {
                         (auction * auctionDetails * solidarityContribution).write(toDouble())
@@ -104,11 +104,11 @@ fun UpdateAuctionModal(
                 }
             }
         }
-        Div(attrs = {style { fieldStyle() }}) {
-            Label("Minimal Bid", id = "minimalBid" , labelStyle = formLabelStyle)
+        Div(attrs = {style { desktopFieldStyle() }}) {
+            Label("Minimal Bid", id = "minimalBid" , labelStyle = desktopFormLabelStyle)
             TextInput(onNullEmpty((auction * auctionDetails * minimalBid).read()){it}) {
                 id("minimalBid")
-                style { numberInputStyle() }
+                style { desktopNumberInputStyle() }
                 onInput {
                     onIsDouble(it.value) {
                         (auction * auctionDetails * minimalBid ).write(toDouble())

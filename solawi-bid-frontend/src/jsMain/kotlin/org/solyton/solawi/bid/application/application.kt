@@ -25,6 +25,7 @@ import org.solyton.solawi.bid.application.storage.Storage
 import org.solyton.solawi.bid.application.storage.event.langLoaded
 import org.solyton.solawi.bid.application.storage.event.loadLanguage
 import org.solyton.solawi.bid.application.ui.UI
+import org.solyton.solawi.bid.application.ui.effect.LaunchSetDeviceData
 import org.solyton.solawi.bid.application.ui.style.GlobalStyles
 import org.solyton.solawi.bid.module.loading.component.Loading
 
@@ -56,26 +57,8 @@ fun Application() = renderComposable("root") {
         } }
 
         // ✅ Listen to window resize and update screenWidth
-        if(environmentSet) LaunchedEffect(Unit) {
-            if((this@Store * deviceData * mediaType).read() is DeviceType.Empty) {
-                (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
-                (this@Store * deviceData * mediaType).write(DeviceType.from(
-                    window.innerWidth.toDouble(),
-                    window.devicePixelRatio,
-                    js("('ontouchstart' in window)") as Boolean,
-                    window.navigator.userAgent.lowercase() )
-                )
-            }
-            window.addEventListener("resize", {
-                (this@Store * deviceData * screenWidth).write(window.innerWidth.toDouble())
-                (this@Store * deviceData * mediaType).write(DeviceType.from(
-                    window.innerWidth.toDouble(),
-                    window.devicePixelRatio,
-                    js("('ontouchstart' in window)") as Boolean,
-                    window.navigator.userAgent.lowercase()
-                ))
-            })
-        }
+        if(environmentSet) LaunchSetDeviceData(this@Store * deviceData)
+
         if(environmentSet) loadLanguage()
 
         when( langLoaded() && environmentSet ) {
