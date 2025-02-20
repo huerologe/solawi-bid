@@ -54,8 +54,4 @@ object GlobalStyles : StyleSheet() {
             self{width(80.vw)}
         }
     }
-
-
-
-
 }

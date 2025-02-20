@@ -24,29 +24,28 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     Div(attrs = {
         style { formStyle(device)() }
     }) {
-        Div(attrs = { style { fieldStyle() } }) {
-            Label(loginFields["username"], id = "username", labelStyle = formLabelStyle)
+        Div(attrs = { style { desktopFieldStyle() } }) {
+            Label(loginFields["username"], id = "username", labelStyle = desktopFormLabelStyle)
 
             TextInput((userData * username).read()) {
-                style { textInputStyle() }
+                style { desktopTextInputStyle() }
                 id("username")
                 onInput {
                     (userData * username).write(it.value)
                 }
             }
         }
-        Div(attrs = { style { fieldStyle() } }) {
-            Label(loginFields["password"], id = "password", labelStyle = formLabelStyle)
+        Div(attrs = { style { desktopFieldStyle() } }) {
+            Label(loginFields["password"], id = "password", labelStyle = desktopFormLabelStyle)
             PasswordInput((userData * password).read()) {
-                style { textInputStyle() }
+                style { desktopTextInputStyle() }
                 id("password")
                 onInput { (userData * password).write(it.value) }
             }
         }
 
-        Div(attrs = {style { formControlBarStyle() }}) {
+        Div(attrs = {style { desktopFormControlBarStyle() }}) {
             val buttonTexts = texts.component("solyton.authentication.login.buttons")
-
             Button(attrs = {
                 onClick {
                     login()
@@ -54,9 +53,12 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
             }) {
                 Text(buttonTexts["ok"])
             }
+            /* Deactivate for the moment
+            todo:dev reactivate
             Button{
                 Text("Registrieren")
             }
+             */
         }
     }
 }
