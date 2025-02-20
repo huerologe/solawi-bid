@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.application.ui.page.test
 
 import androidx.compose.runtime.Composable
+import org.evoleq.compose.Markup
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.padding
 import org.jetbrains.compose.web.css.px
@@ -8,7 +9,9 @@ import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.ui.style.font.DesktopFonts
 import org.solyton.solawi.bid.application.ui.style.font.setFont
 
+@Markup
 @Composable
+@Suppress("FunctionName")
 fun FontsPage() {
 
             val fonts = DesktopFonts
