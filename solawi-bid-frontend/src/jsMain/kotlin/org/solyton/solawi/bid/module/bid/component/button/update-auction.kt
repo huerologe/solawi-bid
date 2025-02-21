@@ -16,10 +16,8 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
-import org.solyton.solawi.bid.application.data.Application
-import org.solyton.solawi.bid.application.data.actions
-import org.solyton.solawi.bid.application.data.i18N
-import org.solyton.solawi.bid.application.data.modals
+import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
@@ -52,6 +50,7 @@ fun UpdateAuctionButton(
             (storage * modals).showUpdateAuctionModal(
                 auction =  storage * auction,
                 texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
+                device = storage * deviceData * mediaType.get,
                 cancel = {}
             ) {
                 CoroutineScope(Job()).launch {
@@ -61,7 +60,9 @@ fun UpdateAuctionButton(
                         actions.emit( configureAuction(auction) )
                     } catch(exception: Exception) {
                         (storage * modals).showErrorModal(
-                            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'")
+                            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'"),
+                            storage * deviceData * mediaType.get
+
                         )
                     }
                 }

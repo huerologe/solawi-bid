@@ -17,6 +17,7 @@ import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl
 import org.solyton.solawi.bid.application.data.failure.Failure
@@ -111,7 +112,16 @@ fun Storage<Application>.failureWriter(): Writer<Unit, Failure> = Writer{
         val modals = this * modals
         val nextId = modals.nextId()
         modals.put(
-            nextId to ModalData(ModalType.Error, ErrorModal(nextId, errorModalTexts(failure.message), modals))
+            item = nextId to ModalData(
+                ModalType.Error,
+                ErrorModal(
+                    id = nextId,
+                    texts = errorModalTexts(failure.message),
+                    modals = modals,
+
+                    device = this@failureWriter * deviceData * mediaType.get,
+                )
+            )
         )
     }
 }

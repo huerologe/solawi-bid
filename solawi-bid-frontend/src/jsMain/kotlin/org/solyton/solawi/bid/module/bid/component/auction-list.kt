@@ -21,6 +21,8 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.action.deleteAuctionAction
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
@@ -118,6 +120,7 @@ fun AuctionListItem(
             (modals).showUpdateAuctionModal(
                 auction =  auction,
                 texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
+                device = device,
                 cancel = {}
             ) {
                 dispatchConfiguration()

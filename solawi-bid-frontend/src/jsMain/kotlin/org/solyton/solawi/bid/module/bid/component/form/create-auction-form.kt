@@ -11,6 +11,7 @@ import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
+import org.evoleq.math.Source
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
@@ -19,6 +20,7 @@ import org.jetbrains.compose.web.dom.DateInput
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.TextInput
+import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
@@ -34,11 +36,13 @@ fun AuctionModal(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
     auction: Storage<Auction>,
+    device: Source<DeviceType>,
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
     id,
     modals,
+    device,
     onOk = {
         update()
     },
@@ -75,6 +79,7 @@ fun AuctionModal(
 fun Storage<Modals<Int>>.showAuctionModal(
     auction: Storage<Auction>,
     texts: Lang.Block,
+    device: Source<DeviceType>,
     cancel: ()->Unit,
     update: ()->Unit
 ) = with(nextId()) {
@@ -85,6 +90,7 @@ fun Storage<Modals<Int>>.showAuctionModal(
             texts,
             this@showAuctionModal,
             auction,
+            device,
             cancel,
             update
         )

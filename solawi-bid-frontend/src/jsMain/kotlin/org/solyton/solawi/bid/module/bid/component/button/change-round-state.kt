@@ -23,6 +23,8 @@ import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.application.ui.page.auction.action.changeRoundState
 import org.solyton.solawi.bid.module.bid.data.Auction
@@ -57,7 +59,8 @@ fun ChangeRoundStateButton(
                     )
                 } catch(exception: Exception) {
                     (storage * modals).showErrorModal(
-                        errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ChangeRoundState'")
+                        texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ChangeRoundState'"),
+                        device = storage * deviceData * mediaType.get,
                     )
                 }
             }

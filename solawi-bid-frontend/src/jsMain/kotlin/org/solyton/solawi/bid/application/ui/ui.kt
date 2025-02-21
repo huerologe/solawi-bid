@@ -9,6 +9,7 @@ import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.routing.Routing
 import org.solyton.solawi.bid.module.cookie.component.CookieDisclaimer
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -30,8 +31,9 @@ import org.solyton.solawi.bid.module.i18n.data.language
         // visits the page for the first time or cleared the cookies
         CookieDisclaimer(
             texts.component("solyton.cookieDisclaimer"),
-            storage * modals,
-            storage * cookieDisclaimer
+            modals = storage * modals,
+            device = storage * deviceData * mediaType.get,
+            cookieDisclaimer = storage * cookieDisclaimer
         )
         // All pages shall be wrapped in a container
         Container(storage * deviceData.get ){

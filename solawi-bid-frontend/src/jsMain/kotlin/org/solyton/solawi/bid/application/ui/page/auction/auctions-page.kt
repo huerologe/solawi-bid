@@ -64,7 +64,8 @@ fun AuctionsPage(storage: Storage<Application>) = Div{
                 actions.emit( it )
             } catch(exception: Exception) {
                 (storage * modals).showErrorModal(
-                    errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${it.name}'")
+                    texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${it.name}'"),
+                    device = storage * deviceData * mediaType.get,
                 )
             }
         }

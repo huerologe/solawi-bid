@@ -14,6 +14,8 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.application.ui.page.auction.action.exportBidRoundResults
 import org.solyton.solawi.bid.module.bid.data.Auction
@@ -69,7 +71,8 @@ suspend fun CoroutineScope.exportBidRoundResults(
         )
     } catch(exception: Exception) {
         (storage * modals).showErrorModal(
-            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ExportBidRound'")
+            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ExportBidRound'"),
+            storage * deviceData * mediaType.get
         )
     }
 }

@@ -4,10 +4,15 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.language.Block
 import org.evoleq.language.get
+import org.evoleq.math.Source
+import org.evoleq.math.emit
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.remove
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
+import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.module.control.button.CancelButton
+import org.solyton.solawi.bid.module.control.button.SubmitButton
 import org.w3c.dom.HTMLElement
 
 typealias Modals<Id> = Map<Id, ModalData>//@Composable ElementScope<HTMLElement>.() -> Unit>
@@ -107,6 +112,7 @@ fun SubLayer(name: String, index: Int, modals: List<@Composable ElementScope<HTM
 fun <Id> Modal(
     id: Id,
     modals: Storage<Modals<Id>>,
+    device: Source<DeviceType>,
     onOk: ()->Unit,
     onCancel: (()->Unit)?,
     texts: Block,
@@ -184,6 +190,14 @@ fun <Id> Modal(
             }
         }) {
             if(onCancel != null) {
+                CancelButton(
+                    {texts["cancelButton.title"]},
+                    device.emit()
+                ) {
+                    onCancel()
+                    id.close()
+                }
+                /*
                 Button({
                     onClick {
                         onCancel()
@@ -192,7 +206,17 @@ fun <Id> Modal(
                 }) {
                     Text(texts["cancelButton.title"])
                 }
+
+                 */
             }
+            SubmitButton(
+                {texts["okButton.title"]},
+                device.emit()
+            ) {
+                onOk()
+                id.close()
+            }
+            /*
             Button({
                 onClick {
                     onOk()
@@ -201,6 +225,8 @@ fun <Id> Modal(
             }) {
                 Text(texts["okButton.title"])
             }
+
+             */
         }
     }
 }

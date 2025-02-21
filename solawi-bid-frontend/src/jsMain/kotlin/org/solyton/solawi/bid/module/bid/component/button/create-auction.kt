@@ -45,6 +45,7 @@ fun CreateAuctionButton(
     (storage * modals).showAuctionModal(
         auction = storage * auction,
         texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog"),
+        device = storage * deviceData * mediaType.get,
         cancel = {(storage * auctions).remove { it.auctionId == DEFAULT_AUCTION_ID }}
     ) {
         CoroutineScope(Job()).launch {
@@ -53,7 +54,8 @@ fun CreateAuctionButton(
                 actions.emit( createAuction(auction) )
             } catch(exception: Exception) {
                 (storage * modals).showErrorModal(
-                    errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateAuction'")
+                    texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateAuction'"),
+                    device = storage * deviceData * mediaType.get,
                 )
             }
         }
