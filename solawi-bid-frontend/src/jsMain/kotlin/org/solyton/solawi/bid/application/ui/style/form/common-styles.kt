@@ -1,10 +1,11 @@
 package org.solyton.solawi.bid.application.ui.style.form
 
+import org.evoleq.compose.Style
 import org.jetbrains.compose.web.css.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.data.device.compareTo
 
-
+@Style
 fun formPageStyle(device: DeviceType): StyleScope.()->Unit = {
     display(DisplayStyle.Flex)
     flexDirection(FlexDirection.Column)
@@ -18,6 +19,7 @@ fun formPageStyle(device: DeviceType): StyleScope.()->Unit = {
     }
 }
 
+@Style
 fun fieldStyle(device: DeviceType): StyleScope.()->Unit = {
     width(100.percent)
     display(DisplayStyle.Flex)
@@ -26,6 +28,7 @@ fun fieldStyle(device: DeviceType): StyleScope.()->Unit = {
     justifyContent(JustifyContent.Center)
 }
 
+@Style
 fun formStyle(device: DeviceType): StyleScope.()->Unit = {
     display(DisplayStyle.Flex)
     flexDirection(FlexDirection.Column)
@@ -36,32 +39,37 @@ fun formStyle(device: DeviceType): StyleScope.()->Unit = {
     }
 }
 
+@Style
 fun formLabelStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> formLabelDesktopStyle
     else -> formLabelMobileStyle
 }
 
-
+@Style
 fun textInputStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> textInputDesktopStyle
     else -> textInputMobileStyle
 }
 
+@Style
 fun numberInputStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> numberInputDesktopStyle
     else -> numberInputMobileStyle
 }
 
+@Style
 fun formControlBarStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> formControlBarDesktopStyle
     else -> formControlBarMobileStyle
 }
 
+@Style
 fun dateInputStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> dateInputDesktopStyle
     else -> dateInputMobileStyle
 }
 
+@Style
 fun formButtonStyle(device: DeviceType): StyleScope.()->Unit = when {
     device > DeviceType.Tablet -> formButtonDesktopStyle
     else -> formButtonMobileStyle

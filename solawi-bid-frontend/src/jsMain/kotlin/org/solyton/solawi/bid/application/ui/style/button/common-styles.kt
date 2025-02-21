@@ -1,9 +1,11 @@
 package org.solyton.solawi.bid.application.ui.style.button
 
+import org.evoleq.compose.Style
 import org.jetbrains.compose.web.css.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.data.device.compareTo
 
+@Style
 fun buttonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     backgroundColor(Color.white)
     borderRadius(5.px)
@@ -11,6 +13,7 @@ fun buttonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     cursor("pointer")
 }
 
+@Style
 fun submitButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     buttonStyle(deviceType)()
     backgroundColor(Color.seagreen)
@@ -20,6 +23,7 @@ fun submitButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     }
 }
 
+@Style
 fun cancelButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     buttonStyle(deviceType)()
     backgroundColor(Color.crimson)

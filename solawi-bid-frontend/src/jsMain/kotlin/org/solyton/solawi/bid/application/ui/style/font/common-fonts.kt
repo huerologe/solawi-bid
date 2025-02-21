@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.style.font
 
+import org.evoleq.compose.Style
 import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.*
 
@@ -11,6 +12,7 @@ data class Font(
     val color: CSSColorValue? = null
 )
 
+@Style
 fun StyleScope.setFont(font: Font) {
     fontSize(font.size)
     font.weight?.apply { fontWeight(font.weight) }
