@@ -28,11 +28,11 @@ jobs:
           PR_COUNT=$(gh pr list --base main --head develop --state open --json number --jq 'length')
           echo "PR_COUNT=$PR_COUNT" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PR_ACCESS_TOKEN }}
 
       - name: Create PR if none exists
         if: env.PR_COUNT == '0'
         run: |
           gh pr create --base main --head develop --title "Merge develop into main" --body "This PR merges the latest changes from develop into main."
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PR_ACCESS_TOKEN }}
