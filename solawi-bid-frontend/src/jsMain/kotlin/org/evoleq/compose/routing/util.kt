@@ -1,7 +1,6 @@
 package org.evoleq.compose.routing
 
 import androidx.compose.runtime.Composable
-import io.ktor.http.*
 import org.evoleq.math.x
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text

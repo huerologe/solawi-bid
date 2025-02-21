@@ -2,7 +2,6 @@ package org.solyton.solawi.bid.application.api
 
 import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
-import org.evoleq.compose.modal.Modals
 import org.evoleq.ktorx.api.EndPoint
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.Return
@@ -17,7 +16,6 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
-import org.evoleq.parser.Parser
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl

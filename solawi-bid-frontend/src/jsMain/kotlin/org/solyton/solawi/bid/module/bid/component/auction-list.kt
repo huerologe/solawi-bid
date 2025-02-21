@@ -3,7 +3,6 @@ package org.solyton.solawi.bid.module.bid.component
 import androidx.compose.runtime.Composable
 import kotlinx.coroutines.DelicateCoroutinesApi
 import org.evoleq.compose.Markup
-import org.evoleq.compose.attribute.disabled
 import org.evoleq.compose.date.format
 import org.evoleq.compose.modal.Modals
 import org.evoleq.compose.routing.navigate
@@ -18,7 +17,6 @@ import org.evoleq.optics.storage.Action
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application

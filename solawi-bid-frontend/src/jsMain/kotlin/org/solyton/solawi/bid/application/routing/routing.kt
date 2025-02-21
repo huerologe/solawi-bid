@@ -1,14 +1,11 @@
 package org.solyton.solawi.bid.application.routing
 
 import androidx.compose.runtime.Composable
-import io.ktor.util.*
 import org.evoleq.compose.routing.*
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
-import org.solyton.solawi.bid.application.data.env.Environment
-import org.solyton.solawi.bid.application.data.env.env
 import org.solyton.solawi.bid.application.data.env.type
 import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.data.navbar.navBar

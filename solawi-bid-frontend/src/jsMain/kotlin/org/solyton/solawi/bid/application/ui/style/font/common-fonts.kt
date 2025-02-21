@@ -1,7 +1,6 @@
 package org.solyton.solawi.bid.application.ui.style.font
 
 import org.evoleq.compose.Style
-import org.jetbrains.compose.web.attributes.AttrsScope
 import org.jetbrains.compose.web.css.*
 
 data class Font(

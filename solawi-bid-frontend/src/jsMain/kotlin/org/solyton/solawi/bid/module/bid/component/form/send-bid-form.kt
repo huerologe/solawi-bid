@@ -1,7 +1,6 @@
 package org.solyton.solawi.bid.module.bid.component.form
 
 import androidx.compose.runtime.*
-import kotlinx.browser.window
 import org.evoleq.compose.Markup
 import org.evoleq.compose.label.Label
 import org.evoleq.language.Locale

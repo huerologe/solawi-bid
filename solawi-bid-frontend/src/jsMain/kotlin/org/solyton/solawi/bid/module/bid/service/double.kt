@@ -1,8 +1,6 @@
 package org.solyton.solawi.bid.module.bid.service
 
 import org.evoleq.language.Locale
-import org.evoleq.math.fixDoubleString
-import org.evoleq.math.isDouble
 import kotlin.math.pow
 import kotlin.math.roundToInt
 

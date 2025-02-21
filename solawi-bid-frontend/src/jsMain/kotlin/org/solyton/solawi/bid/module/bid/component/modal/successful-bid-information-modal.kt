@@ -10,7 +10,6 @@ import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
-import org.evoleq.language.component
 import org.evoleq.language.get
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
