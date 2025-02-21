@@ -21,15 +21,13 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.DeviceType
-import org.solyton.solawi.bid.application.data.device.mediaType
-import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.action.deleteAuctionAction
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name
-import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.bid.data.reader.auctionAccepted
 import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.I18N
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -114,7 +112,7 @@ fun AuctionListItem(
         StdButton(
             {"Edit"},
             device,
-            (auction * roundAccepted).emit()
+            (auction * auctionAccepted).emit()
         ) {
             // open edit dialog
             (modals).showUpdateAuctionModal(
@@ -131,7 +129,7 @@ fun AuctionListItem(
         StdButton(
             {"Delete"},
             device,
-            (auction * roundAccepted).emit()
+            (auction * auctionAccepted).emit()
         ) {
             dispatchDelete()
         }
