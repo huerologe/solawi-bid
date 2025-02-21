@@ -10,17 +10,12 @@ import org.evoleq.language.Lang
 import org.evoleq.language.get
 import org.evoleq.math.Reader
 import org.evoleq.math.Source
-import org.evoleq.math.emit
 import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.css.px
-import org.jetbrains.compose.web.css.width
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.device.mediaType
@@ -46,7 +41,18 @@ fun ChangeRoundStateButton(
     texts: Source<Lang.Block>
 ) {
     val commandName: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
-        (lang["commands.${name.toLowerCasePreservingASCIIRules()}"])
+        console.log(name)
+        when (name) {
+            RoundState.Evaluated.commandName -> "Bewerten"
+            /*
+            RoundState.Closed.commandName, RoundState.Frozen.commandName -> when{
+                (storage * auction * roundAccepted).emit() -> "Akzeptiert"
+                else -> "Abgelehnt"
+            }
+
+             */
+            else -> (lang["commands.${name.toLowerCasePreservingASCIIRules()}"])
+        }
     } }
 
     StdButton(

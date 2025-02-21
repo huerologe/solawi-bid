@@ -8,9 +8,13 @@ import org.solyton.solawi.bid.module.bid.data.AuctionDetails
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 
-val roundAccepted: Reader<Auction, Boolean> = Reader {
+val auctionAccepted: Reader<Auction, Boolean> = Reader {
     it.acceptedRoundId != null && it.acceptedRoundId.isUuid()
 }
+
+val roundAccepted: (String)-> Reader<Auction, Boolean> = {roundId:String -> Reader {
+    it.acceptedRoundId == roundId
+} }
 
 val countBidders: Reader<Auction, Int> = Reader {
     it.bidderIds.distinct().size

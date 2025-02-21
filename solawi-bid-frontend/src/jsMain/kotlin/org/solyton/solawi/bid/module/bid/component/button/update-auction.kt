@@ -14,15 +14,13 @@ import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds
-import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.bid.data.reader.auctionAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.error.component.showErrorModal
@@ -39,7 +37,7 @@ fun UpdateAuctionButton(
 ) {
     // Auction can only be configured, if no rounds have been created
     val isDisabled = (storage * auction * rounds * existRounds).emit() ||
-        (storage * auction * roundAccepted).emit()
+        (storage * auction * auctionAccepted).emit()
 
     StdButton(
         texts * text,

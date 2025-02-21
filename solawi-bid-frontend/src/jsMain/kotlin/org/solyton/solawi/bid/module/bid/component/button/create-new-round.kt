@@ -10,9 +10,6 @@ import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.attributes.disabled
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.data.deviceData
@@ -22,7 +19,7 @@ import org.solyton.solawi.bid.module.bid.data.auctionDetails
 import org.solyton.solawi.bid.module.bid.data.reader.areNotConfigured
 import org.solyton.solawi.bid.module.bid.data.reader.biddersHaveNotBeenImported
 import org.solyton.solawi.bid.module.bid.data.reader.existsRunning
-import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.bid.data.reader.auctionAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.control.button.StdButton
 
@@ -42,7 +39,7 @@ fun CreateNewRoundButton(
     val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
         (storage * auction * auctionDetails * areNotConfigured).emit() ||
         (storage * auction * biddersHaveNotBeenImported).emit() ||
-        (storage * auction * roundAccepted).emit()
+        (storage * auction * auctionAccepted).emit()
 
     StdButton(
         texts * text,
