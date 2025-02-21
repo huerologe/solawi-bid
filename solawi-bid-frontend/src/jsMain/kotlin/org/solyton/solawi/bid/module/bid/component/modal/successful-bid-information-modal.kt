@@ -10,7 +10,6 @@ import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
-import org.evoleq.language.component
 import org.evoleq.language.get
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
@@ -21,6 +20,8 @@ import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.module.bid.data.BidRound
 import org.w3c.dom.HTMLElement
 
@@ -37,6 +38,7 @@ fun SuccessfulBidInformationModal(
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
     id,
     modals,
+    storage * deviceData * mediaType.get,
     onOk = {
         update()
     },

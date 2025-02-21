@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.math.FirstOrNull
@@ -19,19 +20,20 @@ import org.jetbrains.compose.web.dom.Div
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.ui.effect.LaunchSetDeviceData
-import org.solyton.solawi.bid.application.ui.style.form.desktopFormPageStyle
+import org.solyton.solawi.bid.application.ui.style.form.formPageDesktopStyle
 import org.solyton.solawi.bid.module.bid.action.sendBidAction
 import org.solyton.solawi.bid.module.bid.component.form.SendBidForm
 import org.solyton.solawi.bid.module.bid.component.modal.showSuccessfulBidInformationModal
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.data.api.ApiBid
 import org.solyton.solawi.bid.module.bid.data.showSuccessMessage
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {style { desktopFormPageStyle() }}) {
+fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {style { formPageDesktopStyle() }}) {
     val round = bidRounds * FirstOrNull { it.round.link == link }
     val roundLens = bidRounds * FirstBy { it.round.link == link }
     val showSuccessMessageModal = storage * round  map {
@@ -59,6 +61,9 @@ fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {styl
                 sendBidAction((it to link).toApiType())
             )
         }
+    }
+    StdButton({"QR Code"}, storage * deviceData * mediaType.get) {
+        navigate("/bid/qr-code/$link")
     }
 }
 

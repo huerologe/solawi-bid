@@ -10,20 +10,19 @@ import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.language.title
 import org.evoleq.math.Source
-import org.evoleq.math.emit
 import org.evoleq.math.times
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.add
 import org.evoleq.optics.storage.remove
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.ui.page.auction.action.createAuction
 import org.solyton.solawi.bid.module.bid.component.form.DEFAULT_AUCTION_ID
 import org.solyton.solawi.bid.module.bid.component.form.showAuctionModal
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -35,28 +34,30 @@ fun CreateAuctionButton(
     storage: Storage<Application>,
     auction: Lens<Application, Auction>,
     texts: Source<Lang.Block>
-) {
-    Button(attrs = {
-        onClick {
-            ((storage * auctions).add(Auction(auctionId= DEFAULT_AUCTION_ID, "", today())))
-            (storage * modals).showAuctionModal(
-                auction = storage * auction,
-                texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog"),
-                cancel = {(storage * auctions).remove { it.auctionId == DEFAULT_AUCTION_ID }}
-            ) {
-                CoroutineScope(Job()).launch {
-                    val actions = (storage * actions).read()
-                    try {
-                        actions.emit( createAuction(auction) )
-                    } catch(exception: Exception) {
-                        (storage * modals).showErrorModal(
-                            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateAuction'")
-                        )
-                    }
-                }
+) = StdButton(
+    texts * title,
+    storage * deviceData * mediaType.get
+){
+    // Add auction with dummy id to the store
+    ((storage * auctions).add(Auction(auctionId = DEFAULT_AUCTION_ID, "", today())))
+
+    // Show the auction modal
+    (storage * modals).showAuctionModal(
+        auction = storage * auction,
+        texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.createDialog"),
+        device = storage * deviceData * mediaType.get,
+        cancel = {(storage * auctions).remove { it.auctionId == DEFAULT_AUCTION_ID }}
+    ) {
+        CoroutineScope(Job()).launch {
+            val actions = (storage * actions).read()
+            try {
+                actions.emit( createAuction(auction) )
+            } catch(exception: Exception) {
+                (storage * modals).showErrorModal(
+                    texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'CreateAuction'"),
+                    device = storage * deviceData * mediaType.get,
+                )
             }
         }
-    } ){
-        Text((texts * title).emit())
     }
 }

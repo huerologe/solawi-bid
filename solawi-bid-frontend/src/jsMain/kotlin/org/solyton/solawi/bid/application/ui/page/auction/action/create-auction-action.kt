@@ -7,8 +7,8 @@ import org.evoleq.optics.storage.Action
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.bid.data.Auction
-import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
 import org.solyton.solawi.bid.module.bid.data.api.ApiAuction
+import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
 
 fun createAuction(auction: Lens<Application, Auction >) =
     Action<Application, CreateAuction, ApiAuction>(

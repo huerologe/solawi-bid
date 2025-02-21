@@ -9,6 +9,7 @@ import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.language.get
+import org.evoleq.math.Source
 import org.evoleq.math.x
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
@@ -16,6 +17,7 @@ import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
+import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.module.cookie.data.CookieDisclaimer
 import org.solyton.solawi.bid.module.cookie.data.isConfirmed
 import org.solyton.solawi.bid.module.cookie.data.isShown
@@ -26,6 +28,7 @@ import org.solyton.solawi.bid.module.cookie.data.isShown
 fun CookieDisclaimer(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
+    device: Source<DeviceType>,
     cookieDisclaimer: Storage<CookieDisclaimer>
 ) = Div {
     if (//NOT((cookieDisclaimer * isConfirmed).OR(cookieDisclaimer* isShown)()
@@ -39,7 +42,8 @@ fun CookieDisclaimer(
                     id,
                     texts,
                     modals,
-                    cookieDisclaimer
+                    cookieDisclaimer,
+                    device
                 )
             )
         }
@@ -53,13 +57,15 @@ fun CookieDisclaimerModal(
     id: Int,
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
-    cookieDisclaimer: Storage<CookieDisclaimer>
+    cookieDisclaimer: Storage<CookieDisclaimer>,
+    device: Source<DeviceType>,
 ): ModalData/*@Composable ElementScope<HTMLElement>.()->Unit*/
 = ModalData(
     ModalType.CookieDisclaimer ,
     Modal(
         id,
         modals,
+        device,
         onOk = {
             (cookieDisclaimer * isConfirmed).write(true)
             (cookieDisclaimer * isShown).write(false)

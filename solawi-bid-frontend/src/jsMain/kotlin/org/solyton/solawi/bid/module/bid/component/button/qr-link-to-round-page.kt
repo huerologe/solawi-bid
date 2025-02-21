@@ -14,7 +14,6 @@ import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.css.AlignItems.Companion.Center
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
@@ -54,19 +53,5 @@ fun QRLinkToRoundPageButton(
             "$frontendBaseUrl/bid/send/${round.link}",
             64.0
         )
-    }
-    Div(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            justifyContent(JustifyContent.Center)
-            alignItems(AlignItems.Center)
-            width(200.px)
-        }
-    }) {
-        val roundState: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
-            (lang["states.${name.toLowerCasePreservingASCIIRules()}"])
-        } }
-
-        Text((texts * roundState(RoundState.fromString(round.state).toString())).emit())
     }
 }

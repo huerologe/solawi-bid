@@ -4,18 +4,18 @@ import org.jetbrains.compose.web.css.*
 
 const val mobileFontSizeFactor = 1.6
 
-val mobileFormPageStyle: StyleScope.()->Unit by lazy { {
+val formPageMobileStyle: StyleScope.()->Unit by lazy { {
     width(94.percent)
     marginLeft(3.percent)
 } }
 
-val mobileFormStyle: StyleScope.()->Unit by lazy {{
+val formMobileStyle: StyleScope.()->Unit by lazy {{
     width(100.percent)
     padding(20.px)
     borderRadius(16.px)
 }}
 
-val mobileFieldStyle: StyleScope.()->Unit by lazy {{
+val fieldMobileStyle: StyleScope.()->Unit by lazy {{
     width(100.percent)
     display(DisplayStyle.Flex)
     flexDirection(FlexDirection.Column)
@@ -23,12 +23,12 @@ val mobileFieldStyle: StyleScope.()->Unit by lazy {{
     justifyContent(JustifyContent.Center)
 }}
 
-val mobileFormLabelStyle: StyleScope.()->Unit by lazy { {
+val formLabelMobileStyle: StyleScope.()->Unit by lazy { {
     marginTop(20.px)
     width(100.percent)
 } }
 
-val mobileFormControlBarStyle: StyleScope.()->Unit by lazy { {
+val formControlBarMobileStyle: StyleScope.()->Unit by lazy { {
     fontSize(mobileFontSizeFactor.em)
     marginTop(20.px)
     width(100.percent)
@@ -39,24 +39,24 @@ val mobileFormControlBarStyle: StyleScope.()->Unit by lazy { {
     //justifyContent(JustifyContent.Center)
 } }
 
-val mobileTextInputStyle: StyleScope.()->Unit by lazy {{
+val textInputMobileStyle: StyleScope.()->Unit by lazy {{
     fontSize(mobileFontSizeFactor.em)
     marginTop(20.px)
     width(100.percent)
 }}
 
-val mobileNumberInputStyle: StyleScope.()->Unit by lazy {{
+val numberInputMobileStyle: StyleScope.()->Unit by lazy {{
     fontSize(mobileFontSizeFactor.em)
     marginTop(20.px)
     width(100.percent)
 }}
 
-val mobileDateInputStyle: StyleScope.()->Unit by lazy {{
+val dateInputMobileStyle: StyleScope.()->Unit by lazy {{
     fontSize(mobileFontSizeFactor.em)
     backgroundColor(Color.white)
 }}
 
-val mobileFormButtonStyle: StyleScope.()->Unit by lazy {{
+val formButtonMobileStyle: StyleScope.()->Unit by lazy {{
     property("font-size", "${mobileFontSizeFactor.em} !important" )
     //fontSize(mobileFontSizeFactor.em)
     marginTop(20.px)

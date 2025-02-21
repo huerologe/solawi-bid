@@ -19,6 +19,7 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.*
+import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
 import org.solyton.solawi.bid.module.bid.component.AuctionList
 import org.solyton.solawi.bid.module.bid.component.button.CreateAuctionButton
@@ -44,7 +45,6 @@ fun AuctionsPage(storage: Storage<Application>) = Div{
     val texts = (storage * i18N * language * component(BidComponent.AuctionsPage))
 
     // Markup
-    // todo:i18n
     H1 { Text((texts * title).emit()) }
     CreateAuctionButton(
         storage = storage,
@@ -52,14 +52,20 @@ fun AuctionsPage(storage: Storage<Application>) = Div{
         texts = texts * subComp("buttons") * subComp("createAuction")
     )
 
-    AuctionList(storage * auctions, storage * i18N, storage * modals){
+    AuctionList(
+        storage * auctions,
+        storage * i18N,
+        storage * modals,
+        storage * deviceData * mediaType.get
+    ){
         CoroutineScope(Job()).launch {
             val actions = (storage * actions).read()
             try {
                 actions.emit( it )
             } catch(exception: Exception) {
                 (storage * modals).showErrorModal(
-                    errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${it.name}'")
+                    texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${it.name}'"),
+                    device = storage * deviceData * mediaType.get,
                 )
             }
         }
