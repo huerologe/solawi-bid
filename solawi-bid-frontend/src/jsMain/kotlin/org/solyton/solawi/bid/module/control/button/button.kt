@@ -60,6 +60,7 @@ fun StdButton(texts: Source<String>, deviceType: DeviceType, isDisabled: Boolean
             buttonStyle(deviceType)()
         }
         onClick {
+            if(isDisabled) return@onClick
             onClick()
         }
     }

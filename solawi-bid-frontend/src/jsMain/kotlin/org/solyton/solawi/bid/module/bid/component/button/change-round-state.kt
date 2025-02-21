@@ -32,6 +32,7 @@ import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.api.nextState
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 
@@ -44,6 +45,31 @@ fun ChangeRoundStateButton(
     round: Round,
     texts: Source<Lang.Block>
 ) {
+    val commandName: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
+        (lang["commands.${name.toLowerCasePreservingASCIIRules()}"])
+    } }
+
+    StdButton(
+        texts * commandName(RoundState.fromString(round.state).commandName),
+            storage * deviceData * mediaType.get
+    ) {
+        // todo:refactor:extract trigger
+        CoroutineScope(Job()).launch {
+            val actions = (storage * actions).read()
+            try {
+                actions.emit( changeRoundState(
+                    RoundState.fromString(round.state).nextState(),
+                    auction * rounds * FirstBy { it.roundId == round.roundId })
+                )
+            } catch(exception: Exception) {
+                (storage * modals).showErrorModal(
+                    texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ChangeRoundState'"),
+                    device = storage * deviceData * mediaType.get,
+                )
+            }
+        }
+    }
+    /*
     // todo:refactor:extract button and extract trigger
     Button(attrs = {
         style {
@@ -73,4 +99,6 @@ fun ChangeRoundStateButton(
 
         Text((texts * commandName(RoundState.fromString(round.state).commandName)).emit())
     }
+
+     */
 }

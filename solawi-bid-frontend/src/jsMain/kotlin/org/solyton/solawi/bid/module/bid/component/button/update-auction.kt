@@ -24,6 +24,7 @@ import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds
 import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.error.component.showErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -36,6 +37,37 @@ fun UpdateAuctionButton(
     auction: Lens<Application, Auction>,
     texts: Reader<Unit, Lang.Block>
 ) {
+    // Auction can only be configured, if no rounds have been created
+    val isDisabled = (storage * auction * rounds * existRounds).emit() ||
+        (storage * auction * roundAccepted).emit()
+
+    StdButton(
+        texts * text,
+        storage * deviceData * mediaType.get,
+        isDisabled
+    ) {
+        (storage * modals).showUpdateAuctionModal(
+            auction =  storage * auction,
+            texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
+            device = storage * deviceData * mediaType.get,
+            cancel = {}
+        ) {
+            CoroutineScope(Job()).launch {
+                val action = configureAuction(auction)
+                val actions = (storage * actions).read()
+                try {
+                    actions.emit( configureAuction(auction) )
+                } catch(exception: Exception) {
+                    (storage * modals).showErrorModal(
+                        errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'"),
+                        storage * deviceData * mediaType.get
+
+                    )
+                }
+            }
+        }
+    }
+    /*
     Button( attrs = {
         // Auction can only be configured, if no rounds have been created
         val isDisabled = (storage * auction * rounds * existRounds).emit() ||
@@ -71,4 +103,6 @@ fun UpdateAuctionButton(
     } ){
         Text((texts * text).emit())
     }
+
+     */
 }

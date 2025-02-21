@@ -26,6 +26,7 @@ import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.existRounds
 import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
@@ -37,6 +38,28 @@ fun ImportBiddersButton(
     auction: Lens<Application, Auction>,
     texts : Reader<Unit, Lang.Block>
 ) {
+    val isDisabled = (storage * auction * rounds * existRounds).emit() ||
+        (storage * auction * roundAccepted).emit()
+
+    StdButton(
+        texts * text,
+        storage * deviceData * mediaType.get,
+        isDisabled
+    ) {
+        (storage * modals).showImportBiddersModal(
+            storage * auction,
+            texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.importBiddersDialog"),
+            setBidders = { newBidders.write(it) },
+            device = storage * deviceData * mediaType.get,
+            cancel = {},
+            update = {
+                CoroutineScope(Job()).launch {
+                    (storage * actions).read().emit(importBidders(newBidders.read(), auction))
+                }
+            }
+        )
+    }
+/*
     Button(attrs = {
         // Bidders can only be imported, if no rounds have been created
         val isDisabled = (storage * auction * rounds * existRounds).emit() ||
@@ -60,4 +83,5 @@ fun ImportBiddersButton(
     }) {
         Text((texts * text).emit())
     }
+    */
 }
