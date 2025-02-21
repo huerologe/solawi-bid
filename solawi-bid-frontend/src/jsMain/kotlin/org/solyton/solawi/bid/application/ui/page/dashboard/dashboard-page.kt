@@ -17,8 +17,11 @@ import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.ui.page.dashboard.data.DashboardComponent
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
@@ -47,21 +50,11 @@ fun DashboardPage(storage: Storage<Application>) {
 @Composable
 @Suppress("FunctionName")
 fun AuctionsCard(storage: Storage<Application>, texts: Source<Lang.Block>) {
-    val navButton = texts * subComp("navButton")
-    Button(
-        attrs = {
-            onClick {
-                /*
-                CoroutineScope(Job()).launch {
-                //LaunchedEffect(Unit) {
-                    (storage * actions).read().emit(readAuctions())
-                }
-
-                 */
-                navigate("/solyton/auctions")
-            }
-        }
-    ) {
-        Text((navButton * title).emit())
+    val navButton: Source<Lang.Block> = texts * subComp("navButton")
+    StdButton(
+        navButton * title,
+        storage * deviceData * mediaType.get)
+    {
+        navigate("/solyton/auctions")
     }
 }
