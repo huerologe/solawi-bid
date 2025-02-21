@@ -54,18 +54,4 @@ fun QRLinkToRoundPageButton(
             64.0
         )
     }
-    Div(attrs = {
-        style {
-            display(DisplayStyle.Flex)
-            justifyContent(JustifyContent.Center)
-            alignItems(AlignItems.Center)
-            width(200.px)
-        }
-    }) {
-        val roundState: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
-            (lang["states.${name.toLowerCasePreservingASCIIRules()}"])
-        } }
-
-        Text((texts * roundState(RoundState.fromString(round.state).toString())).emit())
-    }
 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.math.FirstOrNull
@@ -26,6 +27,7 @@ import org.solyton.solawi.bid.module.bid.component.modal.showSuccessfulBidInform
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.data.api.ApiBid
 import org.solyton.solawi.bid.module.bid.data.showSuccessMessage
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.language
 
 @Markup
@@ -59,6 +61,9 @@ fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {styl
                 sendBidAction((it to link).toApiType())
             )
         }
+    }
+    StdButton({"QR Code"}, storage * deviceData * mediaType.get) {
+        navigate("/bid/qr-code/$link")
     }
 }
 

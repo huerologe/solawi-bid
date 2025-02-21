@@ -20,6 +20,7 @@ import org.solyton.solawi.bid.application.ui.page.auction.RoundPage
 import org.solyton.solawi.bid.application.ui.page.dashboard.DashboardPage
 import org.solyton.solawi.bid.application.ui.page.login.LoginPage
 import org.solyton.solawi.bid.application.ui.page.sendbid.SendBidPage
+import org.solyton.solawi.bid.application.ui.page.sendbid.ShowQRCodePage
 import org.solyton.solawi.bid.application.ui.page.test.FontsPage
 import org.solyton.solawi.bid.application.ui.page.test.MobileTestPage
 import org.solyton.solawi.bid.application.ui.page.test.TestPage
@@ -29,9 +30,16 @@ import org.solyton.solawi.bid.module.navbar.component.NavBar
 @Composable
 @Suppress("FunctionName")
 fun Routing(storage: Storage<Application>): Routes = Routing("/") {
-    route("bid/send/:cryptoId") {
-        component {
-            SendBidPage(storage, "${parameter("cryptoId")}")
+    route("bid") {
+        route("send/:cryptoId") {
+            component {
+                SendBidPage(storage, "${parameter("cryptoId")}")
+            }
+        }
+        route("qr-code/:cryptoId") {
+            component {
+                ShowQRCodePage(storage, "${parameter("cryptoId")}")
+            }
         }
     }
     route("login") {
