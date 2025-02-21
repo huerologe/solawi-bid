@@ -11,6 +11,7 @@ import org.evoleq.optics.storage.remove
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.application.ui.style.button.buttonStyle
 import org.solyton.solawi.bid.module.control.button.CancelButton
 import org.solyton.solawi.bid.module.control.button.SubmitButton
 import org.w3c.dom.HTMLElement
@@ -147,7 +148,11 @@ fun <Id> Modal(
                 }
             }) {
                 Button({
-                        classes("button")
+                        //classes("button")
+                    style{
+                        buttonStyle(device.emit())()
+                        backgroundColor(Color.crimson)
+                    }
                     onClick { id.close() }
                 }) {
                     I({
@@ -197,17 +202,6 @@ fun <Id> Modal(
                     onCancel()
                     id.close()
                 }
-                /*
-                Button({
-                    onClick {
-                        onCancel()
-                        id.close()
-                    }
-                }) {
-                    Text(texts["cancelButton.title"])
-                }
-
-                 */
             }
             SubmitButton(
                 {texts["okButton.title"]},
@@ -216,17 +210,6 @@ fun <Id> Modal(
                 onOk()
                 id.close()
             }
-            /*
-            Button({
-                onClick {
-                    onOk()
-                    id.close()
-                }
-            }) {
-                Text(texts["okButton.title"])
-            }
-
-             */
         }
     }
 }
