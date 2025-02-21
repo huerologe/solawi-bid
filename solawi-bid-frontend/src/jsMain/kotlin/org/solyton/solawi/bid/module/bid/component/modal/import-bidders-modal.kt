@@ -15,8 +15,6 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.jetbrains.compose.web.dom.ElementScope
-import org.jetbrains.compose.web.dom.H2
-import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
@@ -46,7 +44,6 @@ fun ImportBiddersModal(
         texts = texts
     ) {
         var isProcessingFileContent by remember{ mutableStateOf(false) }
-        H2 { Text("Drop files here") }
 
         Dropzone(
             onProcessingStarted = {isProcessingFileContent = true},
@@ -54,11 +51,9 @@ fun ImportBiddersModal(
         ) { files ->
             files.filter { it.name.endsWith("csv") }.map {
                 readFileContent(it) { content ->
-                    console.log(content)
                     setBidders(parseCsv(content).map {
                         NewBidder(it["Email"]!!,0, it["Anteile"]!!.toInt())
                     })
-
                 }
             }
         }

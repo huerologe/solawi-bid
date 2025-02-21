@@ -35,7 +35,7 @@ fun ExportBidRoundResultsButton(
     // todo:refactor:extract
     Button(attrs= {
         style {
-            width(200.px)
+            width(100.px)
             buttonStyle((storage * deviceData * mediaType).read())()
         }
         onClick {
