@@ -48,7 +48,7 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
     route("solyton") {
         wrap {
             access {
-                // todo:dev improve
+                // todo:dev improve it
                 when ((storage * userData).read().isLoggerIn()) {
                     true -> true
                     false -> when {
