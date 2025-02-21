@@ -10,6 +10,7 @@ import org.evoleq.compose.routing.navigate
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
 import org.evoleq.language.component
+import org.evoleq.math.Source
 import org.evoleq.math.emit
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
@@ -21,6 +22,7 @@ import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.page.auction.action.configureAuction
 import org.solyton.solawi.bid.module.bid.action.deleteAuctionAction
 import org.solyton.solawi.bid.module.bid.component.form.showUpdateAuctionModal
@@ -28,6 +30,7 @@ import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name
 import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
+import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.I18N
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.application.data.auctions as auctionLens
@@ -35,7 +38,14 @@ import org.solyton.solawi.bid.application.data.auctions as auctionLens
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun AuctionList(auctions: Storage<List<Auction>>,i18n: Storage<I18N>, modals: Storage<Modals<Int>>, styles: AuctionListStyles = AuctionListStyles(), dispatch: (Action<Application, *, *>) -> Unit) = Div(
+fun AuctionList(
+    auctions: Storage<List<Auction>>,
+    i18n: Storage<I18N>,
+    modals: Storage<Modals<Int>>,
+    device: Source<DeviceType>,
+    styles: AuctionListStyles = AuctionListStyles(),
+    dispatch: (Action<Application, *, *>) -> Unit
+) = Div(
     attrs = {style{styles.wrapper(this)}}
 ) {
     with(auctions.read()) {
@@ -44,6 +54,7 @@ fun AuctionList(auctions: Storage<List<Auction>>,i18n: Storage<I18N>, modals: St
                 auctions * FirstBy<Auction> { it.auctionId == auction.auctionId},
                 i18n,
                 modals,
+                device,
                 styles,
                 dispatchDelete = { dispatch(deleteAuctionAction(auction)) },
                 dispatchConfiguration = {dispatch(configureAuction(auctionLens * FirstBy<Auction> { it.auctionId == auction.auctionId}))    }
@@ -60,6 +71,7 @@ fun AuctionListItem(
     auction: Storage<Auction>,
     i18n: Storage<I18N>,
     modals: Storage<Modals<Int>>,
+    device: Source<DeviceType>,
     styles: AuctionListStyles = AuctionListStyles(),
     dispatchDelete: ()->Unit,
     dispatchConfiguration: ()->Unit
@@ -90,50 +102,37 @@ fun AuctionListItem(
         justifyContent(JustifyContent.End)
         width(20.percent)
     }}) {
-        // Details
-        Button(attrs = {
-            style{
-                // todo:style:button:navigate
-            }
-            onClick {
-                navigate("/solyton/auctions/${auction.read().auctionId}")
-            }
-        }){
-            Text("Details")
+        StdButton(
+            {"Details"},
+            device,
+            false,
+        ) {
+            navigate("/solyton/auctions/${auction.read().auctionId}")
         }
-        // Edit
 
-        Button(attrs = {
-            val isDisabled = (auction * roundAccepted).emit()
-            if(isDisabled) disabled()
-            style{
-                // todo:style:button:edit
+        // Edit
+        StdButton(
+            {"Edit"},
+            device,
+            (auction * roundAccepted).emit()
+        ) {
+            // open edit dialog
+            (modals).showUpdateAuctionModal(
+                auction =  auction,
+                texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
+                cancel = {}
+            ) {
+                dispatchConfiguration()
             }
-            onClick {
-                // open edit dialog
-                (modals).showUpdateAuctionModal(
-                    auction =  auction,
-                    texts = ((i18n * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
-                    cancel = {}
-                ) {
-                    dispatchConfiguration()
-                }
-            }
-        }){
-            Text("Edit")
         }
+
         // Delete
-        Button(attrs = {
-            val isDisabled = (auction * roundAccepted).emit()
-            if(isDisabled) disabled()
-            style{
-                // todo:style:button:delete
-            }
-            onClick {
-                dispatchDelete()
-            }
-        }){
-            Text("Delete")
+        StdButton(
+            {"Delete"},
+            device,
+            (auction * roundAccepted).emit()
+        ) {
+            dispatchDelete()
         }
     }
 }
