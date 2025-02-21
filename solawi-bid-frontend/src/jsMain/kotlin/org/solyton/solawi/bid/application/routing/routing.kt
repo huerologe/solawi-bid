@@ -53,6 +53,7 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     true -> true
                     false -> when {
                         currentPath().startsWith("/bid/send") -> true
+                        currentPath().startsWith("/bid/qr-code") -> true
                         else -> {
                             navigate("/login")
                             false
