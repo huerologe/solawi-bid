@@ -6,6 +6,8 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.env.type
 import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.data.navbar.navBar
@@ -50,13 +52,11 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                     }
                 }
             }
-            layout {
-                {
-                    NavBar(storage * navBar)
-                    // render page
-                    it()
-                }
-            }
+            layout { page -> {
+                NavBar(storage * navBar, storage * deviceData * mediaType.get)
+                // render page
+                page()
+            } }
 
             route("dashboard") {
                 component { DashboardPage(storage) }
