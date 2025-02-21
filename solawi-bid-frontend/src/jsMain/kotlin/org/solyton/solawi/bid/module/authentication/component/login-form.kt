@@ -8,9 +8,12 @@ import org.evoleq.language.component
 import org.evoleq.language.get
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.PasswordInput
+import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.authentication.data.*
+import org.solyton.solawi.bid.module.control.button.SubmitButton
 
 @Markup
 @Composable
@@ -24,34 +27,34 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     Div(attrs = {
         style { formStyle(device)() }
     }) {
-        Div(attrs = { style { desktopFieldStyle() } }) {
-            Label(loginFields["username"], id = "username", labelStyle = desktopFormLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label(loginFields["username"], id = "username", labelStyle = formLabelStyle(device))
 
             TextInput((userData * username).read()) {
-                style { desktopTextInputStyle() }
+                style { textInputStyle(device)() }
                 id("username")
                 onInput {
                     (userData * username).write(it.value)
                 }
             }
         }
-        Div(attrs = { style { desktopFieldStyle() } }) {
-            Label(loginFields["password"], id = "password", labelStyle = desktopFormLabelStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label(loginFields["password"], id = "password", labelStyle = formLabelStyle(device))
             PasswordInput((userData * password).read()) {
-                style { desktopTextInputStyle() }
+                style { textInputStyle(device)() }
                 id("password")
                 onInput { (userData * password).write(it.value) }
             }
         }
 
-        Div(attrs = {style { desktopFormControlBarStyle() }}) {
+        Div(attrs = {style { formControlBarStyle(device) }}) {
             val buttonTexts = texts.component("solyton.authentication.login.buttons")
-            Button(attrs = {
-                onClick {
-                    login()
-                }
-            }) {
-                Text(buttonTexts["ok"])
+
+            SubmitButton(
+                { _-> buttonTexts["ok"]},
+                device
+            ) {
+                login()
             }
             /* Deactivate for the moment
             todo:dev reactivate

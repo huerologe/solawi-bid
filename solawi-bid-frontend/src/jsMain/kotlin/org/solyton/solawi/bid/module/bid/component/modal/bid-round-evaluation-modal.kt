@@ -11,9 +11,12 @@ import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
+import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.module.bid.component.BidRoundEvaluation
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.w3c.dom.HTMLElement
@@ -31,6 +34,7 @@ fun BidRoundEvaluationModal(
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
     id,
     modals,
+    storage * deviceData * mediaType.get,
     onOk = {
         update()
     },

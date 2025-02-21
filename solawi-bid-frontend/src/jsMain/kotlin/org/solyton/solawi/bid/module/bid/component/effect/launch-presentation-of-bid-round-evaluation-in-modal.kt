@@ -2,6 +2,8 @@ package org.solyton.solawi.bid.module.bid.component.effect
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
@@ -39,6 +41,21 @@ fun LaunchPresentationOfBidRoundEvaluationInModal(
         }
     }
 }
+
+@Markup
+@Suppress("FunctionName")
+fun TriggerPresentationOfBidRoundEvaluationInModal(
+    storage: Storage<Application>,
+    auction: Lens<Application, Auction>,
+    round: Round
+) = CoroutineScope(Job()) .launch{
+    showBidRoundEvaluationModal(
+        storage = storage,
+        auction = auction,
+        round = round
+    )
+}
+
 
 @Markup
 suspend fun showBidRoundEvaluationModal(

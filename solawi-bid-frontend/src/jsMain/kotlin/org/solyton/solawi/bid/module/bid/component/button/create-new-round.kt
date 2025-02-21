@@ -14,6 +14,8 @@ import org.jetbrains.compose.web.attributes.disabled
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.module.bid.component.effect.TriggerCreateNewRound
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.auctionDetails
@@ -22,6 +24,7 @@ import org.solyton.solawi.bid.module.bid.data.reader.biddersHaveNotBeenImported
 import org.solyton.solawi.bid.module.bid.data.reader.existsRunning
 import org.solyton.solawi.bid.module.bid.data.reader.roundAccepted
 import org.solyton.solawi.bid.module.bid.data.rounds
+import org.solyton.solawi.bid.module.control.button.StdButton
 
 @Markup
 @Composable
@@ -31,25 +34,24 @@ fun CreateNewRoundButton(
     auction: Lens<Application, Auction>,
     texts : Reader<Unit, Lang.Block>
 ) {
-    Button(attrs = {
-        // New rounds can only be created when
-        // 1. the auction is configured,
-        // 2. the bidders have been imported and
-        // 3. There are no open or running rounds
-        // 4. auction has no accepted round
-        val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
-            (storage * auction * auctionDetails * areNotConfigured).emit() ||
-            (storage * auction * biddersHaveNotBeenImported).emit() ||
-            (storage * auction * roundAccepted).emit()
-        if(isDisabled) disabled()
-        onClick {
-            if(isDisabled) return@onClick
-            TriggerCreateNewRound(
-                storage = storage,
-                auction = auction
-            )
-        }
-    }) {
-        Text((texts * text).emit())
+    // New rounds can only be created when
+    // 1. the auction is configured,
+    // 2. the bidders have been imported and
+    // 3. There are no open or running rounds
+    // 4. auction has no accepted round
+    val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
+        (storage * auction * auctionDetails * areNotConfigured).emit() ||
+        (storage * auction * biddersHaveNotBeenImported).emit() ||
+        (storage * auction * roundAccepted).emit()
+
+    StdButton(
+        texts * text,
+        storage * deviceData * mediaType.get,
+        isDisabled
+    ) {
+        TriggerCreateNewRound(
+            storage = storage,
+            auction = auction
+        )
     }
 }

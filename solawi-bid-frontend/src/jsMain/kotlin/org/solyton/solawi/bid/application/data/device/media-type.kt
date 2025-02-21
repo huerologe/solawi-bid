@@ -1,7 +1,5 @@
 package org.solyton.solawi.bid.application.data.device
 
-import kotlinx.browser.window
-
 sealed class DeviceType(open val minWidth: Int,open val maxWidth: Int, open val order: Int) {
     data object Empty: DeviceType(0,0, 0)
     data object Mobile : DeviceType(0,600, 1)

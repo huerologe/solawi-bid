@@ -10,12 +10,14 @@ import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.csv.parseCsv
 import org.evoleq.language.Lang
+import org.evoleq.math.Source
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Text
+import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.w3c.dom.HTMLElement
@@ -27,12 +29,14 @@ fun ImportBiddersModal(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
     auction: Storage<Auction>,
+    device: Source<DeviceType>,
     setBidders: (List<NewBidder>)->Unit,
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
         id,
         modals,
+        device,
         onOk = {
             update()
         },
@@ -67,6 +71,7 @@ fun ImportBiddersModal(
 fun Storage<Modals<Int>>.showImportBiddersModal(
     auction: Storage<Auction>,
     texts: Lang.Block,
+    device: Source<DeviceType>,
     setBidders: (List<NewBidder>)->Unit,
     cancel: ()->Unit,
     update: ()->Unit
@@ -78,6 +83,7 @@ fun Storage<Modals<Int>>.showImportBiddersModal(
             texts,
             this@showImportBiddersModal,
             auction,
+            device,
             setBidders,
             cancel,
             update

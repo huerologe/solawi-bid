@@ -8,14 +8,14 @@ body{
     padding: 0;
     box-sizing: border-box;
 }
-
+/*
 Button {
     background-color: white;
     border-radius: var(--button-border-radius);
     padding: var(--button-padding);
     cursor: pointer;
 }
-
+*/
 Select {
     background-color: white;
     color: black;
