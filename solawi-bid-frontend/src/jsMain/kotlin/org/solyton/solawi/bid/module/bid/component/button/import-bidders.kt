@@ -59,29 +59,4 @@ fun ImportBiddersButton(
             }
         )
     }
-/*
-    Button(attrs = {
-        // Bidders can only be imported, if no rounds have been created
-        val isDisabled = (storage * auction * rounds * existRounds).emit() ||
-            (storage * auction * roundAccepted).emit()
-        if(isDisabled) disabled()
-        onClick {
-            if(isDisabled) return@onClick
-            (storage * modals).showImportBiddersModal(
-                storage * auction,
-                texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.importBiddersDialog"),
-                setBidders = { newBidders.write(it) },
-                device = storage * deviceData * mediaType.get,
-                cancel = {},
-                update = {
-                    CoroutineScope(Job()).launch {
-                        (storage * actions).read().emit(importBidders(newBidders.read(), auction))
-                    }
-                }
-            )
-        }
-    }) {
-        Text((texts * text).emit())
-    }
-    */
 }

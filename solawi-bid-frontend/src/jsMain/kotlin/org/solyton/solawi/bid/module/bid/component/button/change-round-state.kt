@@ -69,36 +69,4 @@ fun ChangeRoundStateButton(
             }
         }
     }
-    /*
-    // todo:refactor:extract button and extract trigger
-    Button(attrs = {
-        style {
-            width(200.px)
-        }
-        onClick {
-            CoroutineScope(Job()).launch {
-                val actions = (storage * actions).read()
-                try {
-                    actions.emit( changeRoundState(
-                        RoundState.fromString(round.state).nextState(),
-                        auction * rounds * FirstBy { it.roundId == round.roundId })
-                    )
-                } catch(exception: Exception) {
-                    (storage * modals).showErrorModal(
-                        texts = errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action 'ChangeRoundState'"),
-                        device = storage * deviceData * mediaType.get,
-                    )
-                }
-            }
-        }
-    }
-    ) {
-        val commandName: (String) -> Reader<Lang.Block, String> = {name -> Reader {lang:Lang.Block ->
-            (lang["commands.${name.toLowerCasePreservingASCIIRules()}"])
-        } }
-
-        Text((texts * commandName(RoundState.fromString(round.state).commandName)).emit())
-    }
-
-     */
 }

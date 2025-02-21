@@ -54,28 +54,4 @@ fun CreateNewRoundButton(
             auction = auction
         )
     }
-    /*
-    Button(attrs = {
-        // New rounds can only be created when
-        // 1. the auction is configured,
-        // 2. the bidders have been imported and
-        // 3. There are no open or running rounds
-        // 4. auction has no accepted round
-        val isDisabled = (storage * auction * rounds * existsRunning).emit() ||
-            (storage * auction * auctionDetails * areNotConfigured).emit() ||
-            (storage * auction * biddersHaveNotBeenImported).emit() ||
-            (storage * auction * roundAccepted).emit()
-        if(isDisabled) disabled()
-        onClick {
-            if(isDisabled) return@onClick
-            TriggerCreateNewRound(
-                storage = storage,
-                auction = auction
-            )
-        }
-    }) {
-        Text((texts * text).emit())
-    }
-
-     */
 }

@@ -67,42 +67,4 @@ fun UpdateAuctionButton(
             }
         }
     }
-    /*
-    Button( attrs = {
-        // Auction can only be configured, if no rounds have been created
-        val isDisabled = (storage * auction * rounds * existRounds).emit() ||
-            (storage * auction * roundAccepted).emit()
-        if(isDisabled) attr("disabled", "true")
-        style{
-            // todo:style:button:edit
-        }
-        onClick {
-            // open configuration dialog
-            if(isDisabled) return@onClick
-            (storage * modals).showUpdateAuctionModal(
-                auction =  storage * auction,
-                texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.updateDialog"),
-                device = storage * deviceData * mediaType.get,
-                cancel = {}
-            ) {
-                CoroutineScope(Job()).launch {
-                    val action = configureAuction(auction)
-                    val actions = (storage * actions).read()
-                    try {
-                        actions.emit( configureAuction(auction) )
-                    } catch(exception: Exception) {
-                        (storage * modals).showErrorModal(
-                            errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'"),
-                            storage * deviceData * mediaType.get
-
-                        )
-                    }
-                }
-            }
-        }
-    } ){
-        Text((texts * text).emit())
-    }
-
-     */
 }
