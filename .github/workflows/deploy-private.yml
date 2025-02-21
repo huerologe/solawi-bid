@@ -11,11 +11,11 @@ on:
 concurrency:
   group: cd-${{ github.ref }}
   cancel-in-progress: false
-
 jobs:
   validation:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    environment: Production
     steps:
       - run: echo "todo"
   clone-database:
