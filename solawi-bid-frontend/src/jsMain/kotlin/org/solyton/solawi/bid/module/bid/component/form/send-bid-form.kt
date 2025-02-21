@@ -12,6 +12,7 @@ import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.service.isDouble
+import org.solyton.solawi.bid.module.control.button.SubmitButton
 
 @Markup
 @Composable
@@ -48,14 +49,11 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
             }
 
             Div(attrs = { style { formControlBarStyle(device)() } }) {
-                Button(attrs = {
-                    style { formButtonStyle(device) }
-                    onClick {
-                        sendBid(Bid(email, amount.toDouble()))
-                    }
-                }) {
-                    // todo:i18n
-                    Text("Gebot senden")
+                SubmitButton(
+                    {"Gebot senden"},
+                    device
+                ) {
+                    sendBid(Bid(email, amount.toDouble()))
                 }
             }
         }

@@ -11,6 +11,15 @@ fun buttonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     borderRadius(5.px)
     padding(4.px, 8.px)
     cursor("pointer")
+    minWidth(100.px)
+}
+
+@Style
+fun symbolicButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
+    backgroundColor(Color.white)
+    borderRadius(5.px)
+    padding(4.px, 8.px)
+    cursor("pointer")
 }
 
 @Style

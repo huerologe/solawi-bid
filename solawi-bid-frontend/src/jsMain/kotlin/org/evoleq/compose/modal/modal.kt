@@ -12,6 +12,7 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.button.buttonStyle
+import org.solyton.solawi.bid.application.ui.style.button.symbolicButtonStyle
 import org.solyton.solawi.bid.module.control.button.CancelButton
 import org.solyton.solawi.bid.module.control.button.SubmitButton
 import org.w3c.dom.HTMLElement
@@ -150,7 +151,7 @@ fun <Id> Modal(
                 Button({
                         //classes("button")
                     style{
-                        buttonStyle(device.emit())()
+                        symbolicButtonStyle(device.emit())()
                         backgroundColor(Color.crimson)
                     }
                     onClick { id.close() }
