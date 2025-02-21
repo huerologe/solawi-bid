@@ -25,27 +25,27 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
     Div(attrs = {
         style { formStyle(device)() }
     }) {
-        Div(attrs = { style { fieldDesktopStyle() } }) {
-            Label(loginFields["username"], id = "username", labelStyle = formLabelDesktopStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label(loginFields["username"], id = "username", labelStyle = formLabelStyle(device))
 
             TextInput((userData * username).read()) {
-                style { textInputDesktopStyle() }
+                style { textInputStyle(device)() }
                 id("username")
                 onInput {
                     (userData * username).write(it.value)
                 }
             }
         }
-        Div(attrs = { style { fieldDesktopStyle() } }) {
-            Label(loginFields["password"], id = "password", labelStyle = formLabelDesktopStyle)
+        Div(attrs = { style { fieldStyle(device)() } }) {
+            Label(loginFields["password"], id = "password", labelStyle = formLabelStyle(device))
             PasswordInput((userData * password).read()) {
-                style { textInputDesktopStyle() }
+                style { textInputStyle(device)() }
                 id("password")
                 onInput { (userData * password).write(it.value) }
             }
         }
 
-        Div(attrs = {style { formControlBarDesktopStyle() }}) {
+        Div(attrs = {style { formControlBarStyle(device) }}) {
             val buttonTexts = texts.component("solyton.authentication.login.buttons")
 
             SubmitButton(
