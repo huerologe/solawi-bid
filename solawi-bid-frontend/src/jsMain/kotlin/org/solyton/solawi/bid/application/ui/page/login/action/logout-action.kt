@@ -7,6 +7,7 @@ import org.solyton.solawi.bid.application.data.userData
 import org.solyton.solawi.bid.module.authentication.data.api.Logout
 import org.solyton.solawi.bid.module.localstorage.api.write
 import org.solyton.solawi.bid.module.user.accessToken
+import org.solyton.solawi.bid.module.user.password
 import org.solyton.solawi.bid.module.user.refreshToken
 import org.solyton.solawi.bid.module.user.username
 
@@ -22,7 +23,8 @@ val logoutAction: Action<Application, Logout, Unit> by lazy {
             app.userData {
                 refreshToken { "" }.
                 accessToken { "" }.
-                username { "" }
+                username { "" }.
+                password { "" }
         }}}
     )
 }
