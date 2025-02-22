@@ -20,6 +20,7 @@ import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.module.bid.component.modal.showBidRoundEvaluationModal
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.Round
+import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.i18n.data.language
 
@@ -67,7 +68,7 @@ suspend fun showBidRoundEvaluationModal(
         storage = storage,
         round = (auction * rounds * FirstBy { it.roundId == round.roundId }),// round.bidRoundEvaluationModal
         texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.round.bidRoundEvaluationModal"),
-        cancel = {
+        cancel = if(round.state != RoundState.Frozen.toString()) {{
             //todo:decide start new round on button click?
             TriggerChangeRoundState(
                 storage = storage,
@@ -79,8 +80,8 @@ suspend fun showBidRoundEvaluationModal(
                 auction = auction
             )
 
-        },
-        update = {
+        }} else {{}},
+        update = if(round.state != RoundState.Frozen.toString()) {{
             TriggerChangeRoundState(
                 storage = storage,
                 auction = auction,
@@ -92,6 +93,6 @@ suspend fun showBidRoundEvaluationModal(
                 auction = auction,
                 round = round
             )
-        }
+        }} else {{}}
     )
 }
