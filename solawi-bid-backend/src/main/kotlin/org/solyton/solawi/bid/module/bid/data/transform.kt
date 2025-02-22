@@ -31,7 +31,7 @@ fun AuctionEntity.toApiType(): Auction = Auction(
     },
     acceptedRoundId = AcceptedRoundEntity.find{
         AcceptedRoundsTable.auctionId eq id.value
-    }.firstOrNull()?.id?.value.toString()
+    }.firstOrNull()?.round?.id?.value.toString()
 
 )
 
