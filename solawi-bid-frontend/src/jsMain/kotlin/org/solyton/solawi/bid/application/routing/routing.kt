@@ -12,7 +12,7 @@ import org.solyton.solawi.bid.application.data.env.type
 import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.data.navbar.navBar
 import org.solyton.solawi.bid.application.data.userData
-import org.solyton.solawi.bid.application.service.isLoggerIn
+import org.solyton.solawi.bid.application.service.seemsToBeLoggerIn
 import org.solyton.solawi.bid.application.ui.page.auction.AuctionPage
 import org.solyton.solawi.bid.application.ui.page.auction.AuctionsPage
 import org.solyton.solawi.bid.application.ui.page.auction.BidRoundEvaluationPage
@@ -49,8 +49,11 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
         wrap {
             access {
                 // todo:dev improve it
-                when ((storage * userData).read().isLoggerIn()) {
-                    true -> true
+                when ((storage * userData).read().seemsToBeLoggerIn()) {
+                    true -> {
+                        //TriggerIsLoggedInEffect(storage)
+                        true
+                    }
                     false -> when {
                         currentPath().startsWith("/bid/send") -> true
                         currentPath().startsWith("/bid/qr-code") -> true
