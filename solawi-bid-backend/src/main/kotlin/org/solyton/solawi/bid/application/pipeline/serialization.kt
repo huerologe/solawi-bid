@@ -14,6 +14,7 @@ fun Application.installSerializers() {
     serializers[Boolean::class] = Boolean.serializer()
     serializers[String::class] = String.serializer()
     serializers[Double::class] = Double.serializer()
+    serializers[Unit::class] = Unit.serializer()
     // Result serializers
     serializers[Result::class] = ResultSerializer
     serializers[Result.Success::class] = ResultSerializer
@@ -30,6 +31,7 @@ fun Application.installSerializers() {
     serializers[AccessToken::class] = AccessToken.serializer()
     serializers[IsLoggedIn::class] = IsLoggedIn.serializer()
     serializers[LoggedInAs::class] = LoggedInAs.serializer()
+    serializers[Logout::class] = Logout.serializer()
     // Bid serializers
     serializers[Bid::class] = Bid.serializer()
     serializers[BidRound::class] = BidRound.serializer()

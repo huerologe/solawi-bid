@@ -19,6 +19,7 @@ import org.solyton.solawi.bid.application.ui.page.auction.BidRoundEvaluationPage
 import org.solyton.solawi.bid.application.ui.page.auction.RoundPage
 import org.solyton.solawi.bid.application.ui.page.dashboard.DashboardPage
 import org.solyton.solawi.bid.application.ui.page.login.LoginPage
+import org.solyton.solawi.bid.application.ui.page.login.effect.LaunchLogoutEffect
 import org.solyton.solawi.bid.application.ui.page.sendbid.SendBidPage
 import org.solyton.solawi.bid.application.ui.page.sendbid.ShowQRCodePage
 import org.solyton.solawi.bid.application.ui.page.test.FontsPage
@@ -65,7 +66,7 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                 }
             }
             layout { page -> {
-                NavBar(storage * navBar, storage * deviceData * mediaType.get)
+                NavBar(storage, storage * navBar, storage * deviceData * mediaType.get)
                 // render page
                 page()
             } }
@@ -95,7 +96,6 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                                 storage,
                                 auctionId,
                                 roundId
-                                //storage * auctions * FirstBy { it.auctionId == auctionId } * rounds * FirstBy { it.roundId == roundId }
                             )
                         }
 
@@ -111,7 +111,10 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                 }
             }
             route("logout") {
-                component { Text("Logged out") }
+                component {
+                    Text("Logged out")
+                    LaunchLogoutEffect(storage)
+                }
             }
         }
     }

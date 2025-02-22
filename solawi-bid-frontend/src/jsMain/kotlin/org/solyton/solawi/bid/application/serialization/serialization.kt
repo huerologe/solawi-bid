@@ -18,6 +18,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<String>(String.serializer())
         add<Boolean>(Boolean.serializer())
         add<Double>(Double.serializer())
+        add<Unit>(Unit.serializer())
         add(Nothing::class, Unit.serializer())
        // add(List::class, ListSerializer)
         //...

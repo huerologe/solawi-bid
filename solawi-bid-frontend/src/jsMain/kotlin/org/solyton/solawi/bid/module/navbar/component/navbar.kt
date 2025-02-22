@@ -13,9 +13,13 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.attributes.selected
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.*
-import org.solyton.solawi.bid.application.data.device.Device
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Option
+import org.jetbrains.compose.web.dom.Select
+import org.jetbrains.compose.web.dom.Text
+import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.application.ui.page.login.effect.TriggerLogoutEffect
 import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.i18n.data.locale
@@ -27,6 +31,7 @@ import org.solyton.solawi.bid.module.navbar.data.i18n
 @Composable
 @Suppress("FunctionName")
 fun NavBar(
+    storage: Storage<Application>,
     navBar: Storage<NavBar>,
     device: Source<DeviceType>
 ) = Div({
@@ -59,6 +64,7 @@ fun NavBar(
 
     Div({style { width(50.px) }}) {  }
 
+    // todo:dev: extract
     Div({classes("select")}) {
         Select {
             (i18n * locales).read().forEach { s ->
@@ -77,4 +83,19 @@ fun NavBar(
             }
         }
     }
+    // todo:dev: extract
+    Div({classes("select")}) {
+        Select {
+
+                Option("Logout", {
+
+                    onClick {
+                        TriggerLogoutEffect(storage )
+                    }
+                }) {
+                    Text("Logout")
+                }
+            }
+        }
+
 }
