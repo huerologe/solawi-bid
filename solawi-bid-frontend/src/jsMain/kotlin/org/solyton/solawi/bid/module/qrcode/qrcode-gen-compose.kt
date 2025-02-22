@@ -4,6 +4,8 @@ import androidx.compose.runtime.*
 import kotlinx.browser.document
 import kotlinx.coroutines.launch
 import org.evoleq.compose.Markup
+import org.jetbrains.compose.web.css.CSSNumeric
+import org.jetbrains.compose.web.css.CSSNumericValue
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.Button
@@ -20,7 +22,14 @@ external object QRCode {
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun QRCodeSvg(id: String, data: String, size: Double = 256.0, download: Boolean = false) {
+fun QRCodeSvg(id: String, data: String, size: Double = 256.0, download: Boolean = false) =
+    QRCodeSvg(id, data, size.px, download)
+
+
+@Markup
+@Composable
+@Suppress("FunctionName")
+fun QRCodeSvg(id: String, data: String, size: CSSNumeric, download: Boolean = false) {
     var qrSvg by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(data) {
@@ -34,7 +43,7 @@ fun QRCodeSvg(id: String, data: String, size: Double = 256.0, download: Boolean 
     Div(attrs = {
         id("qr-container-$id")
         style {
-            width(size.px)
+            width(size)
         }
     }) {
         qrSvg?.let { svgContent ->
