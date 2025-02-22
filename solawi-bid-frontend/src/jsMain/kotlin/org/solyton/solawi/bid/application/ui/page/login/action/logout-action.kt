@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.page.login.action
 
+import org.evoleq.compose.Markup
 import org.evoleq.optics.storage.Action
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.userData
@@ -9,6 +10,7 @@ import org.solyton.solawi.bid.module.user.accessToken
 import org.solyton.solawi.bid.module.user.refreshToken
 import org.solyton.solawi.bid.module.user.username
 
+@Markup
 val logoutAction: Action<Application, Logout, Unit> by lazy {
     Action<Application, Logout, Unit>(
         name = "Logout",
