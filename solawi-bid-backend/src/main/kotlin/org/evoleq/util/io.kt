@@ -33,6 +33,11 @@ fun  Principle(): Action<Result<JWTPrincipal>> = ApiAction {
 
 
 
+
+@KtorDsl
+@Suppress("FunctionName")
+fun <T : Any> Success(): KlAction<Result<T>, Result<Boolean>> = KlAction { _ -> Action { r -> Result.Success(true) to  r } }
+
 @KtorDsl
 @Suppress("FunctionName")
 suspend inline fun <reified T : Any>  ReceiveContextual(): Action<Result<Contextual<T>>> = Principle() * {

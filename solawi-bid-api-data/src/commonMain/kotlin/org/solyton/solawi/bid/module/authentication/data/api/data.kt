@@ -44,6 +44,18 @@ data class AccessToken(
     val accessToken: String
 )
 
+@Serializable
+data class IsLoggedIn(
+    val refreshToken: String
+)
+@Serializable
+data class LoggedInAs(
+    val username: String,
+    val accessToken: String,
+    val refreshToken: String,
+)
+
+
 /*
 @Serializable
 data class Session(

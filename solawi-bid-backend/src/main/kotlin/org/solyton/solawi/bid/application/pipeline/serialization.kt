@@ -28,6 +28,8 @@ fun Application.installSerializers() {
     serializers[LoggedIn::class] = LoggedIn.serializer()
     serializers[RefreshToken::class] = RefreshToken.serializer()
     serializers[AccessToken::class] = AccessToken.serializer()
+    serializers[IsLoggedIn::class] = IsLoggedIn.serializer()
+    serializers[LoggedInAs::class] = LoggedInAs.serializer()
     // Bid serializers
     serializers[Bid::class] = Bid.serializer()
     serializers[BidRound::class] = BidRound.serializer()

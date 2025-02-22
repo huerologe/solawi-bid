@@ -4,11 +4,24 @@ import org.evoleq.compose.routing.navigate
 import org.evoleq.optics.storage.Storage
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.module.localstorage.api.write
+import org.solyton.solawi.bid.module.user.User
 
 fun Storage<Application>.onLogin(oldApplication: Application, newApplication: Application) {
-    if(newApplication.userData != oldApplication.userData && newApplication.userData.accessToken != "") {
-        write("accessToken", newApplication.userData.accessToken)
-        write("refreshToken", newApplication.userData.refreshToken)
-        navigate("/solyton/dashboard")
+
+    if(accessDataChanged( newApplication.userData, oldApplication.userData )) {
+        if(newApplication.userData.accessToken != "") write("accessToken", newApplication.userData.accessToken)
+        if(newApplication.userData.refreshToken != "") write("refreshToken", newApplication.userData.refreshToken)
+        if(
+            newApplication.userData.accessToken != "" &&
+            newApplication.userData.refreshToken != ""
+        ) {
+            navigate("/solyton/dashboard")
+        } else {
+            navigate("/login")
+        }
     }
 }
+
+fun accessDataChanged(newUser: User, oldUser: User): Boolean =
+    newUser.accessToken != oldUser.accessToken ||
+    newUser.refreshToken != oldUser.refreshToken

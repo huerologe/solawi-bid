@@ -1,10 +1,7 @@
 package org.solyton.solawi.bid.application.api
 
 import org.evoleq.ktorx.api.Api
-import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
-import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.data.api.Logout
-import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
+import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.bid.data.api.*
 
 val solawiApi by lazy {
@@ -18,6 +15,9 @@ val solawiApi by lazy {
     ).post<Logout, Unit>(
         key = Logout::class,
         url = "logout"
+    ).patch<IsLoggedIn, LoggedInAs>(
+        key = IsLoggedIn::class,
+        url = "is-logged-in"
     )
 
     // Auction

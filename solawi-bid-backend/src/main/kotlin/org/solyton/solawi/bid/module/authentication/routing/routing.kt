@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.authentication.routing
 
+// import org.solyton.solawi.bid.application.plugin.AuthenticationHolder.Companion.jwtPrincipal
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -11,14 +12,21 @@ import org.evoleq.util.Base
 import org.evoleq.util.Receive
 import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
-// import org.solyton.solawi.bid.application.plugin.AuthenticationHolder.Companion.jwtPrincipal
+import org.solyton.solawi.bid.module.authentication.action.IsLoggedIn
 import org.solyton.solawi.bid.module.authentication.action.Login
 import org.solyton.solawi.bid.module.authentication.action.Refresh
 import org.solyton.solawi.bid.module.authentication.action.revokeRefreshToken
+import org.solyton.solawi.bid.module.authentication.data.api.LoggedInAs
 import org.solyton.solawi.bid.module.authentication.data.api.Login
 import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
 
 fun Routing.authentication(environment: Environment) {
+
+        patch("/is-logged-in") {
+            IsLoggedIn(jwt = environment.jwt) * Respond<LoggedInAs>() runOn Base(call, environment)
+        }
+
+
     // Login endpoint
     post("/login") {
         Receive<Login>() * Login(jwt = environment.jwt) * Respond() runOn Base(call, environment)
@@ -40,6 +48,8 @@ fun Routing.authentication(environment: Environment) {
             call.respond(HttpStatusCode.BadRequest, "Refresh token is required for logout")
         }
     }
+
+
 /*
     // Secure endpoint example
     authenticate("auth-jwt") {
