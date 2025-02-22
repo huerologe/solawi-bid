@@ -12,7 +12,7 @@ val solawiApi by lazy {
     ).post<RefreshToken,LoggedIn>(
         key = RefreshToken::class,
         url = "refresh"
-    ).post<Logout, Unit>(
+    ).patch<Logout, Unit>(
         key = Logout::class,
         url = "logout"
     ).patch<IsLoggedIn, LoggedInAs>(

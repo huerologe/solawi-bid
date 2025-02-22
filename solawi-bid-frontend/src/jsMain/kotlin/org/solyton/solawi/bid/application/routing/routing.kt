@@ -95,7 +95,6 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
                                 storage,
                                 auctionId,
                                 roundId
-                                //storage * auctions * FirstBy { it.auctionId == auctionId } * rounds * FirstBy { it.roundId == roundId }
                             )
                         }
 
