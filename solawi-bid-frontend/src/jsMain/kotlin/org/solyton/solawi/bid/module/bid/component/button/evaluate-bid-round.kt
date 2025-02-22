@@ -31,7 +31,7 @@ fun EvaluateBidRoundButton(
         // todo:i18n
         {"Evaluation"},
         storage * deviceData * mediaType.get,
-        isDisabled
+        true //isDisabled todo:dev enable button and fix loading issues
     ) {
         if(round.bidRoundEvaluation.weightedBids.isEmpty()) {
             CoroutineScope(Job()).launch {

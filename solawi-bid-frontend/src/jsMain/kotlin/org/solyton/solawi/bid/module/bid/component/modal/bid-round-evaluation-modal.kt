@@ -2,16 +2,15 @@ package org.solyton.solawi.bid.module.bid.component.modal
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
-import org.evoleq.compose.modal.Modal
-import org.evoleq.compose.modal.ModalData
-import org.evoleq.compose.modal.ModalType
-import org.evoleq.compose.modal.Modals
+import org.evoleq.compose.modal.*
 import org.evoleq.language.Lang
 import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.Application
@@ -29,7 +28,7 @@ fun BidRoundEvaluationModal(
     modals: Storage<Modals<Int>>,
     storage: Storage<Application>,
     round: Lens<Application, Round>,
-    cancel: ()->Unit,
+    cancel: (()->Unit)?,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
     id,
@@ -38,10 +37,13 @@ fun BidRoundEvaluationModal(
     onOk = {
         update()
     },
-    onCancel = {
-        cancel()
-    },
-    texts = texts
+    onCancel = cancel,
+    texts = texts,
+    styles = ModalStyles(
+        containerStyle = {
+            height(90.vh)
+        }
+    )
 ) {
     // todo:i18n
     Text("Evaluation of Bid Round")
@@ -57,7 +59,7 @@ fun Storage<Modals<Int>>.showBidRoundEvaluationModal(
     round: Lens<Application, Round>,
     texts: Lang.Block,
 
-    cancel: ()->Unit,
+    cancel: (()->Unit)?,
     update: ()->Unit
 ) = with(nextId()) {
     put(this to ModalData(

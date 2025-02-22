@@ -17,6 +17,7 @@ import org.solyton.solawi.bid.application.ui.style.button.symbolicButtonStyle
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
 import org.solyton.solawi.bid.module.control.button.CancelButton
+import org.solyton.solawi.bid.module.control.button.ColoredButton
 import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.control.button.SubmitButton
 
@@ -67,7 +68,8 @@ fun BidProcess(texts: Source<Lang.Block>, device: Source<DeviceType>, round: Rou
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun Arrow(device: Source<DeviceType>) = Div({
+fun Arrow(device: Source<DeviceType>) = StdButton({"-->"},device ){}
+/*Div({
     //classes("button")
     style{
         symbolicButtonStyle(device.emit())()
@@ -83,7 +85,7 @@ fun Arrow(device: Source<DeviceType>) = Div({
         style { fontSize(48.px) }
     })
 }
-
+*/
 
     //StdButton({"-->"},device ){}
 
@@ -91,7 +93,7 @@ fun Arrow(device: Source<DeviceType>) = Div({
 @Composable
 @Suppress("FunctionName")
 fun State(device: Source<DeviceType>, title:String, state: String, currentState: String ) = when(state) {
-    currentState -> SubmitButton({ title }, device.emit(),) {}
+    currentState -> ColoredButton(Color.seagreen, { title }, device.emit(),) {}
     else -> StdButton({ title }, device.emit(),) {}
 }
 
@@ -100,8 +102,8 @@ fun State(device: Source<DeviceType>, title:String, state: String, currentState:
 @Suppress("FunctionName")
 fun EndState(device: Source<DeviceType>, title:String, state: String, currentState: String , accepted: Boolean) = when(state) {
     currentState -> when{
-        accepted -> SubmitButton({ "Angenommen" }, device.emit(),) {}
-        else -> CancelButton({ "Abgelehnt" }, device.emit(),) {}
+        accepted -> ColoredButton(Color.seagreen,{ "Angenommen" }, device.emit(),) {}
+        else -> ColoredButton(Color.crimson,{ "Abgelehnt" }, device.emit(),) {}
     }
     else -> StdButton({ "?" }, device.emit(),) {}
 }

@@ -80,7 +80,7 @@ suspend fun showBidRoundEvaluationModal(
                 auction = auction
             )
 
-        }} else {{}},
+        }} else null,
         update = if(round.state != RoundState.Frozen.toString()) {{
             TriggerChangeRoundState(
                 storage = storage,

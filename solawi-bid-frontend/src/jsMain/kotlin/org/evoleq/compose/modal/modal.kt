@@ -118,6 +118,7 @@ fun <Id> Modal(
     onOk: ()->Unit,
     onCancel: (()->Unit)?,
     texts: Block,
+    styles: ModalStyles = ModalStyles(),
     content: @Composable ElementScope<HTMLElement>.()->Unit
 ):  @Composable ElementScope<HTMLElement>.()->Unit = {
 
@@ -136,6 +137,7 @@ fun <Id> Modal(
             width(90.percent)
             marginLeft(5.percent)
             padding(10.px)
+            with(styles){containerStyle()}
         }
     }) {
         //

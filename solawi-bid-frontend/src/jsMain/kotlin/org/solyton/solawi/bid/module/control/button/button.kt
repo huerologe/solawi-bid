@@ -5,6 +5,9 @@ import org.evoleq.compose.Markup
 import org.evoleq.math.Source
 import org.evoleq.math.emit
 import org.jetbrains.compose.web.attributes.disabled
+import org.jetbrains.compose.web.css.CSSColorValue
+import org.jetbrains.compose.web.css.Color
+import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.device.DeviceType
@@ -61,6 +64,23 @@ fun StdButton(texts: Source<String>, deviceType: DeviceType, isDisabled: Boolean
         }
         onClick {
             if(isDisabled) return@onClick
+            onClick()
+        }
+    }
+) {
+    Text(texts.emit())
+}
+
+@Markup
+@Composable
+@Suppress("FunctionName")
+fun ColoredButton(color: CSSColorValue, texts: Source<String>, deviceType: DeviceType, onClick: ()->Unit) = Button(
+    attrs = {
+        style {
+            submitButtonStyle(deviceType)()
+            backgroundColor(color)
+        }
+        onClick {
             onClick()
         }
     }
