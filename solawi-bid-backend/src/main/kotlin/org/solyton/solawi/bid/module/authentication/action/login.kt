@@ -4,6 +4,7 @@ import io.ktor.util.*
 import org.evoleq.exposedx.transaction.resultTransaction
 import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.bindSuspend
+import org.evoleq.math.MathDsl
 import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
@@ -13,13 +14,11 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import org.solyton.solawi.bid.application.environment.JWT
-import org.solyton.solawi.bid.module.authentication.data.api.AccessToken
-import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
-import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
+import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.authentication.exception.AuthenticationException
 import org.solyton.solawi.bid.module.authentication.service.generateAccessToken
 import org.solyton.solawi.bid.module.authentication.service.generateRefreshToken
+import org.solyton.solawi.bid.module.authentication.service.isUuid
 import org.solyton.solawi.bid.module.db.schema.Token
 import org.solyton.solawi.bid.module.db.schema.Tokens
 import org.solyton.solawi.bid.module.db.schema.User
@@ -32,7 +31,7 @@ import java.util.*
 /**
  * secret, etc, is to be provided by the environment
  */
-@KtorDsl
+@MathDsl
 @Suppress("FunctionName")
 fun Login(jwt: JWT) = KlAction<Result<Login>, Result<LoggedIn>> {
     result -> DbAction {
@@ -41,7 +40,7 @@ fun Login(jwt: JWT) = KlAction<Result<Login>, Result<LoggedIn>> {
         } }  x database
     }
 }
-@KtorDsl
+@MathDsl
 @Suppress("FunctionName")
 fun Refresh(jwt: JWT) = KlAction<Result<RefreshToken>, Result<AccessToken>> {
     result -> DbAction {
@@ -99,10 +98,17 @@ fun Transaction.validateRefreshToken(refreshToken: String): Boolean {
     }
 }
 
-// Revoke a refresh token
-fun revokeRefreshToken(refreshToken: String) {
-    transaction {
-        Tokens.deleteWhere { Tokens.refreshToken eq UUID.fromString(refreshToken) }
+@MathDsl
+@Suppress("FunctionName")
+fun LogoutUser() = KlAction<Result<Logout>, Result<Unit>> {
+    result -> DbAction {
+        database -> result bindSuspend { data ->   resultTransaction(database) {
+            revokeRefreshToken(data.refreshToken)
+        } }  x database
     }
 }
 
+// Revoke a refresh token
+fun revokeRefreshToken(refreshToken: String) {
+    if(refreshToken.isUuid()) Tokens.deleteWhere { Tokens.refreshToken eq UUID.fromString(refreshToken) }
+}
