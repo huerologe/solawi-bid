@@ -3,8 +3,8 @@ name: Create PR from feature-creation to develop
 on:
   push:
     branches:
-      - 'feature/*'
-      - 'defect/*'
+      - 'feature/**'
+      - 'defect/**'
     paths-ignore:
       - '.github/**'
 
