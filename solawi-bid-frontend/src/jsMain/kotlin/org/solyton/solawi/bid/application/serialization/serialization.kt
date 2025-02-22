@@ -5,10 +5,7 @@ import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.evoleq.ktorx.result.add
 import org.evoleq.ktorx.result.serializers
-import org.solyton.solawi.bid.module.authentication.data.api.LoggedIn
-import org.solyton.solawi.bid.module.authentication.data.api.Login
-import org.solyton.solawi.bid.module.authentication.data.api.Logout
-import org.solyton.solawi.bid.module.authentication.data.api.RefreshToken
+import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.bid.data.api.*
 
 
@@ -36,6 +33,8 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<LoggedIn>(LoggedIn.serializer())
         add<RefreshToken>(RefreshToken.serializer())
         add<Logout>(Logout.serializer())
+        add<IsLoggedIn>(IsLoggedIn.serializer())
+        add<LoggedInAs>(LoggedInAs.serializer())
 
         // Auctions
         add<CreateAuction>(CreateAuction.serializer())

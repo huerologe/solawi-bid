@@ -22,7 +22,7 @@ import org.solyton.solawi.bid.application.data.env.backendPort
 import org.solyton.solawi.bid.application.data.env.backendUrl
 import org.solyton.solawi.bid.application.data.failure.Failure
 import org.solyton.solawi.bid.application.data.failure.accept
-import org.solyton.solawi.bid.application.service.isLoggerIn
+import org.solyton.solawi.bid.application.service.seemsToBeLoggerIn
 import org.solyton.solawi.bid.module.error.component.ErrorModal
 import org.solyton.solawi.bid.module.error.lang.errorModalTexts
 
@@ -52,7 +52,7 @@ fun <S : Any,T : Any> Call(action: Action<Application, S, T>): KlState<Storage<A
         val port = (storage * environment * backendPort).read()
         val user = (storage * userData).read()
 
-        val isLoggedIn = user.isLoggerIn()
+        val isLoggedIn = user.seemsToBeLoggerIn()
         val url = baseUrl + "/" + call.url
 
         with(application.client(isLoggedIn)) {
