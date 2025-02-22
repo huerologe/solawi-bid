@@ -25,7 +25,7 @@ fun symbolicButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
 @Style
 fun submitButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     buttonStyle(deviceType)()
-    backgroundColor(Color.seagreen)
+    // backgroundColor(Color.seagreen)
     when{
         deviceType > DeviceType.Tablet -> submitButtonDesktopStyle()
         else -> submitButtonMobileStyle()
@@ -35,5 +35,5 @@ fun submitButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
 @Style
 fun cancelButtonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     buttonStyle(deviceType)()
-    backgroundColor(Color.crimson)
+    // backgroundColor(Color.crimson)
 }

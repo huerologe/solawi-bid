@@ -152,7 +152,7 @@ fun <Id> Modal(
                         //classes("button")
                     style{
                         symbolicButtonStyle(device.emit())()
-                        backgroundColor(Color.crimson)
+                        // backgroundColor(Color.crimson)
                     }
                     onClick { id.close() }
                 }) {
