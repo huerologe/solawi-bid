@@ -9,17 +9,12 @@ import org.evoleq.math.Reader
 import org.evoleq.math.Source
 import org.evoleq.math.emit
 import org.evoleq.math.times
-import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.I
+import org.jetbrains.compose.web.css.Color
 import org.solyton.solawi.bid.application.data.device.DeviceType
-import org.solyton.solawi.bid.application.ui.style.button.symbolicButtonStyle
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.api.RoundState
-import org.solyton.solawi.bid.module.control.button.CancelButton
 import org.solyton.solawi.bid.module.control.button.ColoredButton
 import org.solyton.solawi.bid.module.control.button.StdButton
-import org.solyton.solawi.bid.module.control.button.SubmitButton
 
 
 @Markup
