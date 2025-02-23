@@ -53,7 +53,7 @@ fun UpdateAuctionModal(
     texts = texts,
     styles = auctionModalStyles(device),
 ) {
-
+    // todo:i18n
     Div(attrs = {style { formDesktopStyle() }}) {
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
@@ -112,6 +112,7 @@ fun UpdateAuctionModal(
                 }
             }
         }
+        /*
         Div(attrs = {style { fieldDesktopStyle() }}) {
             Label("Minimal Bid", id = "minimalBid" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * minimalBid).read()){it}) {
@@ -124,6 +125,8 @@ fun UpdateAuctionModal(
                 }
             }
         }
+
+         */
     }
 }
 
