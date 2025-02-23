@@ -101,6 +101,7 @@ fun AuctionListItem(
         width(20.percent)
     }}) {
         StdButton(
+            // todo:i18n
             {"Details"},
             device,
             false,
@@ -110,6 +111,7 @@ fun AuctionListItem(
 
         // Edit
         StdButton(
+            // todo:i18n
             {"Edit"},
             device,
             (auction * auctionAccepted).emit()
@@ -127,6 +129,7 @@ fun AuctionListItem(
 
         // Delete
         StdButton(
+            // todo:i18n
             {"Delete"},
             device,
             (auction * auctionAccepted).emit()
