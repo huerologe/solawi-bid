@@ -4,6 +4,8 @@ import org.evoleq.compose.Style
 import org.jetbrains.compose.web.css.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.data.device.compareTo
+import org.solyton.solawi.bid.application.ui.style.font.LargeMobileFonts
+import org.solyton.solawi.bid.application.ui.style.font.setFont
 
 @Style
 fun buttonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
@@ -12,6 +14,11 @@ fun buttonStyle(deviceType: DeviceType): StyleScope.()->Unit = {
     padding(4.px, 8.px)
     cursor("pointer")
     minWidth(100.px)
+    if(deviceType <= DeviceType.Tablet) {
+        width(100.percent)
+        height(50.px)
+        setFont(LargeMobileFonts.button)
+    }
 }
 
 @Style
