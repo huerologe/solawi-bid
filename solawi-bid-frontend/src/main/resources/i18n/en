@@ -34,7 +34,7 @@ en{
             title: "Welcome to your Dashboard"
             auctionsCard {
                 navButton {
-                    title: "Auktionen"
+                    title: "Auctions"
                 }
             }
         }

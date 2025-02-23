@@ -11,6 +11,8 @@ import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.math.Source
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
@@ -53,11 +55,13 @@ fun AuctionModal(
     texts = texts,
     styles = auctionModalStyles(device),
 ) {
+    // input texts
+    val inputs: Lang.Block = texts.component("inputs")
 
     Div(attrs = {style { formDesktopStyle() }}) {
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Name", id = "name" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["title"], id = "name" , labelStyle = formLabelDesktopStyle)
             TextInput((auction * name).read()) {
                 id("name")
                 style { textInputDesktopStyle() }
@@ -65,7 +69,7 @@ fun AuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Datum", id = "date" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["date"], id = "date" , labelStyle = formLabelDesktopStyle)
             DateInput((auction * date).read().format(Locale.Iso)) {
                 id("date")
                 style { dateInputDesktopStyle() }
