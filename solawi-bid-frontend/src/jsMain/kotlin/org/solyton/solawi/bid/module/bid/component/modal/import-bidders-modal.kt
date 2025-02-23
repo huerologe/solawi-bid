@@ -16,6 +16,7 @@ import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.jetbrains.compose.web.dom.ElementScope
 import org.solyton.solawi.bid.application.data.device.DeviceType
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.w3c.dom.HTMLElement
@@ -41,7 +42,8 @@ fun ImportBiddersModal(
         onCancel = {
             cancel()
         },
-        texts = texts
+        texts = texts,
+        styles = auctionModalStyles(device),
     ) {
         var isProcessingFileContent by remember{ mutableStateOf(false) }
 

@@ -22,7 +22,7 @@ fun Dropzone(
     Div(
         attrs = {
             style {
-                height(80.vh)
+                height(70.vh)
                 padding(16.px)
                 border(2.px, LineStyle.Dashed, if (isDragging) Color.green else Color.gray)
                 textAlign("center")
@@ -53,6 +53,7 @@ fun Dropzone(
             }
         }
     ) {
+        // todo:i18n
         Text(if (isDragging) "Drop files here" else "Drag and drop files here or click to upload")
     }
 }

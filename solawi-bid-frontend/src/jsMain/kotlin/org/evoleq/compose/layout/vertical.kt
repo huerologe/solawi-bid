@@ -2,10 +2,7 @@ package org.evoleq.compose.layout
 
 import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
-import org.jetbrains.compose.web.css.DisplayStyle
-import org.jetbrains.compose.web.css.FlexDirection
-import org.jetbrains.compose.web.css.display
-import org.jetbrains.compose.web.css.flexDirection
+import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.w3c.dom.HTMLElement
@@ -13,10 +10,11 @@ import org.w3c.dom.HTMLElement
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun Vertical(content: @Composable ElementScope<HTMLElement>.()->Unit) {
+fun Vertical(style: StyleScope.()->Unit = {}, content: @Composable ElementScope<HTMLElement>.()->Unit) {
     Div({
         style {
-            display(DisplayStyle("flex"))
+            style()
+            display(DisplayStyle.Flex)
             flexDirection(FlexDirection.Column)
         }
     }) {

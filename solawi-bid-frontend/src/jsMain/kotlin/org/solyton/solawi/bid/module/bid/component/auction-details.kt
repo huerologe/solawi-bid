@@ -30,7 +30,7 @@ fun AuctionDetails(
         listOf(
             Property((texts * targetAmount).emit(), "${details.targetAmount?:"-"}"),
             Property((texts * benchmark).emit(), "${details.benchmark?:"-"}"),
-            Property((texts * minimalBid).emit(), "${details.minimalBid?:"-"}"),
+            // Property((texts * minimalBid).emit(), "${details.minimalBid?:"-"}"),
             Property((texts * solidarityContribution).emit(), "${details.solidarityContribution?:"-"}")
         ),
         styles

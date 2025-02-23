@@ -6,6 +6,7 @@ import org.evoleq.compose.layout.Vertical
 import org.evoleq.compose.routing.navigate
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.vw
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.mediaType
 import org.solyton.solawi.bid.application.data.deviceData
@@ -26,6 +27,7 @@ fun ShowQRCodePage(storage: Storage<Application>, cryptoPartOfLink: String) {
 
 
         QRCodeSvg(
+            size = 90.vw,
             id = "does-not-matter-in-this-context",
             data = fullLink,
             download = false
