@@ -8,6 +8,8 @@ import org.evoleq.compose.label.Label
 import org.evoleq.compose.modal.*
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.math.Source
 import org.evoleq.math.emit
 import org.evoleq.math.onIsDouble
@@ -53,11 +55,13 @@ fun UpdateAuctionModal(
     texts = texts,
     styles = auctionModalStyles(device),
 ) {
-    // todo:i18n
+    // input texts
+    val inputs: Lang.Block = texts.component("inputs")
+
     Div(attrs = {style { formDesktopStyle() }}) {
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Name", id = "name" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["title"], id = "name" , labelStyle = formLabelDesktopStyle)
             TextInput((auction * name).read()) {
                 id("name")
                 style { textInputDesktopStyle() }
@@ -65,7 +69,7 @@ fun UpdateAuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Datum", id = "date" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["date"], id = "date" , labelStyle = formLabelDesktopStyle)
             DateInput((auction * date).read().format(Locale.Iso)) {
                 id("date")
                 style { dateInputDesktopStyle() }
@@ -76,7 +80,7 @@ fun UpdateAuctionModal(
         }
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Benchmark", id = "benchmark" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["benchmark"], id = "benchmark" , labelStyle = formLabelDesktopStyle)
             TextInput (onNullEmpty((auction * auctionDetails * benchmark).read()){it}) {
                 id("benchmark")
                 style { numberInputDesktopStyle() }
@@ -89,7 +93,7 @@ fun UpdateAuctionModal(
         }
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Target Amount", id = "targetAmount" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["targetAmount"], id = "targetAmount" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * targetAmount).read()){it}) {
                 id("targetAmount")
                 style { numberInputDesktopStyle() }
@@ -101,7 +105,7 @@ fun UpdateAuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Solidarity Contribution", id = "solidarityContribution" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["solidarityContribution"], id = "solidarityContribution" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * solidarityContribution).read()){it}) {
                 id("solidarityContribution")
                 style { numberInputDesktopStyle() }
