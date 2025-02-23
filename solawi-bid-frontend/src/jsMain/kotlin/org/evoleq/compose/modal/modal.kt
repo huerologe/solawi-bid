@@ -137,6 +137,8 @@ fun <Id> Modal(
             width(90.percent)
             marginLeft(5.percent)
             padding(10.px)
+            display(DisplayStyle.Flex)
+            flexDirection(FlexDirection.Column)
             with(styles){containerStyle()}
         }
     }) {
@@ -167,7 +169,9 @@ fun <Id> Modal(
 
         H3({
             style {
+                marginTop(10.px)
                 marginLeft(10.px)
+                marginBottom(10.px)
             }
         }){
             Text(texts["title"])
@@ -185,7 +189,8 @@ fun <Id> Modal(
         }) {
             content()
         }
-
+        // Vertical space
+        Div({style { flexGrow(1) }}){}
         //
         // Footer
         //

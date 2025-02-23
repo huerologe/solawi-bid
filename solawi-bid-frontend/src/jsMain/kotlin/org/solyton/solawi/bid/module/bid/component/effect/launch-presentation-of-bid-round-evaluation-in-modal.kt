@@ -15,6 +15,8 @@ import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.Application
+import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.data.deviceData
 import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.data.modals
 import org.solyton.solawi.bid.module.bid.component.modal.showBidRoundEvaluationModal
@@ -68,6 +70,7 @@ suspend fun showBidRoundEvaluationModal(
         storage = storage,
         round = (auction * rounds * FirstBy { it.roundId == round.roundId }),// round.bidRoundEvaluationModal
         texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.round.bidRoundEvaluationModal"),
+        device = (storage * deviceData * mediaType.get),
         cancel = if(round.state != RoundState.Frozen.toString()) {{
             //todo:decide start new round on button click?
             TriggerChangeRoundState(

@@ -22,6 +22,7 @@ import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.date
 import org.solyton.solawi.bid.module.bid.data.name
@@ -49,7 +50,8 @@ fun AuctionModal(
     onCancel = {
         cancel()
     },
-    texts = texts
+    texts = texts,
+    styles = auctionModalStyles(device),
 ) {
 
     Div(attrs = {style { formDesktopStyle() }}) {

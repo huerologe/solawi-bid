@@ -7,6 +7,6 @@ import org.jetbrains.compose.web.css.px
 
 
 val verticalPageStyle: StyleScope.()->Unit = {
-    marginTop(20.px)
+    // marginTop(20.px)
     paddingTop(20.px)
 }

@@ -5,24 +5,26 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
 import org.evoleq.compose.date.parse
 import org.evoleq.compose.label.Label
-import org.evoleq.compose.modal.Modal
-import org.evoleq.compose.modal.ModalData
-import org.evoleq.compose.modal.ModalType
-import org.evoleq.compose.modal.Modals
+import org.evoleq.compose.modal.*
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
 import org.evoleq.math.Source
+import org.evoleq.math.emit
 import org.evoleq.math.onIsDouble
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.DateInput
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalContainerStyle
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
 import org.solyton.solawi.bid.module.bid.data.*
 import org.solyton.solawi.bid.module.bid.service.onNullEmpty
 import org.w3c.dom.HTMLElement
@@ -38,16 +40,18 @@ fun UpdateAuctionModal(
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
-    id,
-    modals,
-    device,
+    id = id,
+    modals = modals,
+    device = device,
+
     onOk = {
         update()
     },
     onCancel = {
         cancel()
     },
-    texts = texts
+    texts = texts,
+    styles = auctionModalStyles(device),
 ) {
 
     Div(attrs = {style { formDesktopStyle() }}) {
