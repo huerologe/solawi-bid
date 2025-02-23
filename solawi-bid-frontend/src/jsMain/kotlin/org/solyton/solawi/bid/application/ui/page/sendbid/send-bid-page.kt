@@ -47,11 +47,12 @@ fun SendBidPage(storage: Storage<Application>, link: String) = Div(attrs = {styl
          val texts = ((storage * i18N * language).read() as Lang.Block).component("solyton.auction.round.successfulBidInformationModal")
 
          modals.showSuccessfulBidInformationModal(
-            storage,
-            roundLens,
-            texts,
-            { (storage * roundLens * showSuccessMessage ).write(false) },
-            { (storage * roundLens * showSuccessMessage ).write(false) }
+            storage = storage,
+            round = roundLens,
+            texts = texts,
+            device = (storage * deviceData * mediaType.get),
+            cancel = { (storage * roundLens * showSuccessMessage ).write(false) },
+            update = { (storage * roundLens * showSuccessMessage ).write(false) }
         )
     }
     LaunchSetDeviceData(storage * deviceData)

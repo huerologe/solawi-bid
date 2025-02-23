@@ -5,24 +5,28 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
 import org.evoleq.compose.date.parse
 import org.evoleq.compose.label.Label
-import org.evoleq.compose.modal.Modal
-import org.evoleq.compose.modal.ModalData
-import org.evoleq.compose.modal.ModalType
-import org.evoleq.compose.modal.Modals
+import org.evoleq.compose.modal.*
 import org.evoleq.language.Lang
 import org.evoleq.language.Locale
+import org.evoleq.language.component
+import org.evoleq.language.get
 import org.evoleq.math.Source
+import org.evoleq.math.emit
 import org.evoleq.math.onIsDouble
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.css.height
+import org.jetbrains.compose.web.css.vh
 import org.jetbrains.compose.web.dom.DateInput
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.ElementScope
 import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalContainerStyle
+import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
 import org.solyton.solawi.bid.module.bid.data.*
 import org.solyton.solawi.bid.module.bid.service.onNullEmpty
 import org.w3c.dom.HTMLElement
@@ -38,22 +42,26 @@ fun UpdateAuctionModal(
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
-    id,
-    modals,
-    device,
+    id = id,
+    modals = modals,
+    device = device,
+
     onOk = {
         update()
     },
     onCancel = {
         cancel()
     },
-    texts = texts
+    texts = texts,
+    styles = auctionModalStyles(device),
 ) {
+    // input texts
+    val inputs: Lang.Block = texts.component("inputs")
 
     Div(attrs = {style { formDesktopStyle() }}) {
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Name", id = "name" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["title"], id = "name" , labelStyle = formLabelDesktopStyle)
             TextInput((auction * name).read()) {
                 id("name")
                 style { textInputDesktopStyle() }
@@ -61,7 +69,7 @@ fun UpdateAuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Datum", id = "date" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["date"], id = "date" , labelStyle = formLabelDesktopStyle)
             DateInput((auction * date).read().format(Locale.Iso)) {
                 id("date")
                 style { dateInputDesktopStyle() }
@@ -72,7 +80,7 @@ fun UpdateAuctionModal(
         }
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Benchmark", id = "benchmark" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["benchmark"], id = "benchmark" , labelStyle = formLabelDesktopStyle)
             TextInput (onNullEmpty((auction * auctionDetails * benchmark).read()){it}) {
                 id("benchmark")
                 style { numberInputDesktopStyle() }
@@ -85,7 +93,7 @@ fun UpdateAuctionModal(
         }
 
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Target Amount", id = "targetAmount" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["targetAmount"], id = "targetAmount" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * targetAmount).read()){it}) {
                 id("targetAmount")
                 style { numberInputDesktopStyle() }
@@ -97,7 +105,7 @@ fun UpdateAuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
-            Label("Solidarity Contribution", id = "solidarityContribution" , labelStyle = formLabelDesktopStyle)
+            Label(inputs["solidarityContribution"], id = "solidarityContribution" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * solidarityContribution).read()){it}) {
                 id("solidarityContribution")
                 style { numberInputDesktopStyle() }
@@ -108,6 +116,7 @@ fun UpdateAuctionModal(
                 }
             }
         }
+        /*
         Div(attrs = {style { fieldDesktopStyle() }}) {
             Label("Minimal Bid", id = "minimalBid" , labelStyle = formLabelDesktopStyle)
             TextInput(onNullEmpty((auction * auctionDetails * minimalBid).read()){it}) {
@@ -120,6 +129,8 @@ fun UpdateAuctionModal(
                 }
             }
         }
+
+         */
     }
 }
 

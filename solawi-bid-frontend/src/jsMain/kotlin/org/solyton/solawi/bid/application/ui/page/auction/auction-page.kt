@@ -5,6 +5,7 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Horizontal
 import org.evoleq.compose.layout.PropertiesStyles
 import org.evoleq.compose.layout.PropertyStyles
+import org.evoleq.compose.layout.Vertical
 import org.evoleq.language.component
 import org.evoleq.language.subComp
 import org.evoleq.language.title
@@ -27,6 +28,8 @@ import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.i18N
 import org.solyton.solawi.bid.application.ui.page.auction.action.readAuctions
+import org.solyton.solawi.bid.application.ui.style.page.verticalPageStyle
+import org.solyton.solawi.bid.application.ui.style.wrap.Wrap
 import org.solyton.solawi.bid.module.bid.component.AuctionDetails
 import org.solyton.solawi.bid.module.bid.component.BidRoundList
 import org.solyton.solawi.bid.module.bid.component.button.CreateNewRoundButton
@@ -35,7 +38,6 @@ import org.solyton.solawi.bid.module.bid.component.button.UpdateAuctionButton
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.BidComponent
 import org.solyton.solawi.bid.module.i18n.data.language
-import org.solyton.solawi.bid.module.separator.LineSeparator
 
 val auctionPropertiesStyles = PropertiesStyles(
     containerStyle = { width(40.percent) },
@@ -48,62 +50,63 @@ val auctionPropertiesStyles = PropertiesStyles(
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div{
+fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div {
     // Effects
     LaunchedEffect(Unit) {
         (storage * actions).read().emit(readAuctions())
     }
-
     // Data
     var newBidders by remember { mutableStateOf<List<NewBidder>>(listOf()) }
-    val auction = auctions * FirstBy{ it.auctionId == auctionId }
-
+    val auction = auctions * FirstBy { it.auctionId == auctionId }
     // Texts
     val texts = (storage * i18N * language * component(BidComponent.AuctionPage))
     val details = texts * subComp("details")
     val buttons = texts * subComp("buttons")
 
     // Markup
-    H1 { Text( with((storage * auction).read()) { name }  ) }
-    LineSeparator()
-    Horizontal(styles = { justifyContent(JustifyContent.SpaceBetween); width(100.percent) }) {
-         H2 { Text((details * title).emit()) }
-        Horizontal {
-            UpdateAuctionButton(
-                storage = storage,
-                auction = auction,
-                texts = buttons * subComp("updateAuction")
+    Vertical(verticalPageStyle) {
+        Wrap { Horizontal(styles = { justifyContent(JustifyContent.SpaceBetween); width(100.percent) }) {
+            H1 { Text(with((storage * auction).read()) { name }) }
+            Horizontal {
+                UpdateAuctionButton(
+                    storage = storage,
+                    auction = auction,
+                    texts = buttons * subComp("updateAuction")
+                )
+                ImportBiddersButton(
+                    storage = storage,
+                    newBidders = Storage<List<NewBidder>>(
+                        read = { newBidders },
+                        write = { newBidders = it }
+                    ),
+                    auction = auction,
+                    texts = buttons * subComp("importBidders")
+                )
+                CreateNewRoundButton(
+                    storage = storage,
+                    auction = auction,
+                    texts = buttons * subComp("createRound")
+                )
+            }
+        } }
+        //LineSeparator()
+        Wrap { H2 { Text((details * title).emit()) } }
+        Wrap { Horizontal {
+            AuctionDetails(
+                storage * auction,
+                details,
+                auctionPropertiesStyles
             )
-            ImportBiddersButton(
-                storage = storage,
-                newBidders = Storage<List<NewBidder>>(
-                    read = {newBidders},
-                    write = {newBidders = it}
-                ),
-                auction = auction,
-                texts = buttons * subComp("importBidders")
-            )
-            CreateNewRoundButton(
+        } }
+
+        // LineSeparator()
+
+        Wrap {
+            BidRoundList(
                 storage = storage,
                 auction = auction,
-                texts = buttons * subComp("createRound")
+                (storage * i18N * language * component(BidComponent.Round))
             )
         }
-
     }
-    Horizontal {
-        AuctionDetails(
-            storage * auction,
-            details,
-            auctionPropertiesStyles
-        )
-    }
-
-    LineSeparator()
-
-    BidRoundList(
-        storage = storage,
-        auction = auction,
-        (storage * i18N * language * component(BidComponent.Round))
-    )
 }

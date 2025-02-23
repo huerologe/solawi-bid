@@ -15,7 +15,12 @@ fun Storage<Application>.onLogin(oldApplication: Application, newApplication: Ap
             newApplication.userData.accessToken != "" &&
             newApplication.userData.refreshToken != ""
         ) {
-            navigate("/solyton/dashboard")
+            if(
+                oldApplication.userData.accessToken == "" &&
+                oldApplication.userData.refreshToken == ""
+            ) {
+                navigate("/solyton/dashboard")
+            }
         } else {
             navigate("/login")
         }

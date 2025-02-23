@@ -6,11 +6,11 @@ import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
 import org.evoleq.compose.modal.Modals
 import org.evoleq.compose.routing.navigate
-import org.evoleq.language.Lang
-import org.evoleq.language.Locale
-import org.evoleq.language.component
+import org.evoleq.language.*
+import org.evoleq.math.Reader
 import org.evoleq.math.Source
 import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
 import org.evoleq.optics.storage.Action
@@ -100,8 +100,18 @@ fun AuctionListItem(
         justifyContent(JustifyContent.End)
         width(20.percent)
     }}) {
+        val buttons = (i18n *
+            language *
+            subComp("solyton") *
+            subComp("auction") *
+            subComp("auctionsPage") *
+            subComp("auctionList") *
+            subComp("items") *
+            subComp("buttons")
+        )
+
         StdButton(
-            {"Details"},
+            buttons * subComp("details") * title,
             device,
             false,
         ) {
@@ -110,7 +120,7 @@ fun AuctionListItem(
 
         // Edit
         StdButton(
-            {"Edit"},
+            buttons * subComp("edit") * title,
             device,
             (auction * auctionAccepted).emit()
         ) {
@@ -127,7 +137,7 @@ fun AuctionListItem(
 
         // Delete
         StdButton(
-            {"Delete"},
+            buttons * subComp("delete") * title,
             device,
             (auction * auctionAccepted).emit()
         ) {

@@ -34,26 +34,26 @@ en{
             title: "Welcome to your Dashboard"
             auctionsCard {
                 navButton {
-                    title: "Auktionen"
+                    title: "Auctions"
                 }
             }
         }
         auction {
             createDialog {
-                title: "Auktion erstellen"
+                title: "Create Auction"
                 inputs {
                     title: "Name"
-                    date: "Datum"
+                    date: "Date"
                 }
                 okButton {
                     title: "Ok"
                 }
                 cancelButton {
-                    title: "Abbrechen"
+                    title: "Cancel"
                 }
             }
             updateDialog {
-                title: "Auktion bearbeiten"
+                title: "Edit Auction"
                 inputs {
                     title: "Name"
                     date: "Date"
@@ -66,16 +66,16 @@ en{
                     title: "Ok"
                 }
                 cancelButton {
-                    title: "Abbrechen"
+                    title: "Cancel"
                 }
             }
             importBiddersDialog {
-                title: "Bieter importieren"
+                title: "Import Bidders"
                 okButton {
                     title: "Ok"
                 }
                 cancelButton {
-                    title: "Abbrechen"
+                    title: "Cancel"
                 }
             }
             round {
@@ -155,21 +155,36 @@ en{
                 }
             }
             auctionsPage {
-                title: "Auktionen"
+                title: "Auctions"
                 buttons {
                     createAuction {
-                        title: "Auktion Erstellen"
+                        title: "Create Auction"
+                    }
+                }
+                auctionList {
+                    items {
+                        buttons {
+                            details {
+                                title: "Details"
+                            }
+                            edit {
+                                title: "Edit"
+                            }
+                            delete {
+                                title: "Delete"
+                            }
+                        }
                     }
                 }
             }
         }
         errors {
-            title: "Fehler"
+            title: "Error"
             okButton {
                 title: "Ok"
             }
             cancelButton {
-                title: "Abbrechen"
+                title: "Cancel"
             }
             messages {
                 loginFailed: "Login failed"
