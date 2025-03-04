@@ -6,12 +6,14 @@ import org.evoleq.math.emit
 import org.evoleq.math.write
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
+import org.evoleq.optics.storage.read
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.auctions
 import org.solyton.solawi.bid.application.data.bidRounds
+import org.solyton.solawi.bid.application.data.bidderMailAddresses
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.serialization.installSerializers
 import org.solyton.solawi.bid.application.ui.page.auction.action.*
@@ -441,4 +443,46 @@ class ActionTests{
             assertEquals("id", storedAuction.acceptedRoundId)
         }
     }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun addBidders() = runTest {
+
+        val bidders = AddBidders()
+        val addBidders = addBidders(bidders)
+        composition {
+            val storage = TestStorage()
+
+            // Read
+            val biddersData = (storage * addBidders.reader).emit()
+            assertEquals(bidders, biddersData)
+
+        }
+    }
+
+    @OptIn(ComposeWebExperimentalTestsApi::class)
+    @Test fun searchBidders() = runTest {
+
+        val bidders = SearchBidderData(
+            "",
+            "",
+            "",
+        )
+        val addBidders = searchUsernameOfBidder(bidders)
+        composition {
+            val storage = TestStorage()
+
+            // Read
+            val biddersData = (storage * addBidders.reader).emit()
+            assertEquals(bidders, biddersData)
+
+            // Write
+            val mails = listOf("dev")
+            (storage * addBidders.writer).write(BidderMails(mails)) on Unit
+
+            val storedNails = (storage * bidderMailAddresses.get).emit()
+            assertEquals(mails, storedNails.emails)
+
+        }
+    }
+
 }
