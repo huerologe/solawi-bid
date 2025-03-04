@@ -9,12 +9,16 @@ import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
-import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
-import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
+import org.solyton.solawi.bid.module.db.schema.Auction
+import org.solyton.solawi.bid.module.db.schema.Auctions
+import org.solyton.solawi.bid.module.db.schema.Bidder
 import java.util.*
 
 @MathDsl
@@ -144,3 +148,64 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
 
     return addBidders(auction, bidders)
 }
+
+
+@MathDsl
+@Suppress("FunctionName")
+val SearchBidderMails: KlAction<Result<SearchBidderData>, Result<BidderMails>> = KlAction{bidders: Result<SearchBidderData> -> DbAction {
+    database: Database -> bidders bindSuspend  {
+        resultTransaction(database) {
+            BidderMails(searchBidderMails(it))
+        }
+    } x database
+}}
+
+fun Transaction.searchBidderMails(searchBidderData: SearchBidderData): List<String> {
+    val operations = listOf<Op<Boolean>?>(
+        if(searchBidderData.firstname.isNotBlank()){ SearchBiddersTable.firstname eq searchBidderData.firstname } else {null},
+        if(searchBidderData.lastname.isNotBlank()){ SearchBiddersTable.lastname eq searchBidderData.lastname } else {null},
+        if(searchBidderData.email.isNotBlank()){ SearchBiddersTable.email eq searchBidderData.email } else {null},
+        if(searchBidderData.relatedEmails.isNotEmpty()) { SearchBiddersTable.relatedEmails columnContainsAny searchBidderData.relatedEmails} else {null},
+        if(searchBidderData.relatedNames.isNotEmpty()) { SearchBiddersTable.relatedNames columnContainsAny searchBidderData.relatedNames} else {null}
+    )
+    .filter{it != null}
+    .reduceOrNull{
+        acc, item ->
+        acc?.and(item!!)
+    } ?: Op.FALSE
+
+    return SearchBidderEntity.find (operations).map{ it.email }
+}
+
+infix fun Column<String>.columnContainsAny( values: List<String>): Op<Boolean> {
+    return values.map { this like "%$it%" }
+        .reduceOrNull { acc, op -> (acc or op) as LikeEscapeOp } ?: Op.FALSE
+}
+
+
+fun String.containsOneOf(strings: List<String>): Boolean = when  {
+        strings.isEmpty() -> false
+        contains(strings.first()) ->  true
+        else ->containsOneOf(strings.drop(1))
+    }
+
+
+@MathDsl
+@Suppress("FunctionName")
+val AddBidders: KlAction<Result<AddBidders>, Result<Unit>> = KlAction{ bidders: Result<AddBidders> -> DbAction {
+    database: Database -> bidders bindSuspend  { data ->
+        resultTransaction(database) {
+            SearchBiddersTable.deleteAll()
+            data.bidders.forEach {
+                SearchBidderEntity.new {
+                    firstname = it.firstname
+                    lastname = it.lastname
+                    email = it.email
+                    relatedEmails = it.relatedEmails.joinToString(",") { it }
+                    relatedNames = it.relatedNames.joinToString(",") { it }
+                }
+            }
+        }
+    } x database
+}}
+
