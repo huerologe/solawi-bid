@@ -35,6 +35,7 @@ import org.solyton.solawi.bid.module.bid.component.BidRoundList
 import org.solyton.solawi.bid.module.bid.component.button.CreateNewRoundButton
 import org.solyton.solawi.bid.module.bid.component.button.ImportBiddersButton
 import org.solyton.solawi.bid.module.bid.component.button.UpdateAuctionButton
+import org.solyton.solawi.bid.module.bid.data.api.AddBidders
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.BidComponent
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -57,6 +58,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div {
     }
     // Data
     var newBidders by remember { mutableStateOf<List<NewBidder>>(listOf()) }
+    var addBidders by remember { mutableStateOf<AddBidders>(AddBidders()) }
     val auction = auctions * FirstBy { it.auctionId == auctionId }
     // Texts
     val texts = (storage * i18N * language * component(BidComponent.AuctionPage))
@@ -78,6 +80,10 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div {
                     newBidders = Storage<List<NewBidder>>(
                         read = { newBidders },
                         write = { newBidders = it }
+                    ),
+                    addBidders = Storage<AddBidders>(
+                        read = { addBidders },
+                        write = { addBidders = it }
                     ),
                     auction = auction,
                     texts = buttons * subComp("importBidders")

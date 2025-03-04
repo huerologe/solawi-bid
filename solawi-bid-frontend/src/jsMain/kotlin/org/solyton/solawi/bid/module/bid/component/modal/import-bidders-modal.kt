@@ -18,6 +18,8 @@ import org.jetbrains.compose.web.dom.ElementScope
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
 import org.solyton.solawi.bid.module.bid.data.Auction
+import org.solyton.solawi.bid.module.bid.data.api.AddBidders
+import org.solyton.solawi.bid.module.bid.data.api.BidderData
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.w3c.dom.HTMLElement
 
@@ -30,6 +32,7 @@ fun ImportBiddersModal(
     auction: Storage<Auction>,
     device: Source<DeviceType>,
     setBidders: (List<NewBidder>)->Unit,
+    addBidders: (AddBidders)->Unit,
     cancel: ()->Unit,
     update: ()->Unit
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
@@ -53,9 +56,23 @@ fun ImportBiddersModal(
         ) { files ->
             files.filter { it.name.endsWith("csv") }.map {
                 readFileContent(it) { content ->
-                    setBidders(parseCsv(content).map {
+
+                    val parsed = parseCsv(content)
+
+                    setBidders(parsed.map {
                         NewBidder(it["Email"]!!,0, it["Anteile"]!!.toInt())
                     })
+                    addBidders(AddBidders(parsed.map{
+                        BidderData(
+                            it["Vorname"]!!,
+                            it["Nachname"]!!,
+                            it["Email"]!!,
+                            it["Anteile"]!!.toInt(),
+                            it["Eier-Anteile"]!!.toInt(),
+                            it["Emails"]!!.split(",").map { it.trim() },
+                            it["Data"]!!.split(",").map { it.trim() },
+                        )
+                    }))
                 }
             }
         }
@@ -70,6 +87,7 @@ fun Storage<Modals<Int>>.showImportBiddersModal(
     texts: Lang.Block,
     device: Source<DeviceType>,
     setBidders: (List<NewBidder>)->Unit,
+    addBidders: (AddBidders)->Unit,
     cancel: ()->Unit,
     update: ()->Unit
 ) = with(nextId()) {
@@ -82,6 +100,7 @@ fun Storage<Modals<Int>>.showImportBiddersModal(
             auction,
             device,
             setBidders,
+            addBidders,
             cancel,
             update
         )

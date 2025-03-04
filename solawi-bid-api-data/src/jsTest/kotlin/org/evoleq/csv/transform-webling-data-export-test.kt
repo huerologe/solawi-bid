@@ -36,8 +36,10 @@ class TransformWeblingDataExportTest {
                     it["E-Mail7"]!!,
                     it["E-Mail8"]!!,
                 ).filter { it.isNotBlank() },
-                listOf(it["Vorname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() },
-                listOf(it["Nachname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() },
+                listOf(
+                    *listOf(it["Vorname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() }.toTypedArray(),
+                    *listOf(it["Nachname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() }.toTypedArray()
+                ),
             )
         }
 
@@ -46,7 +48,7 @@ class TransformWeblingDataExportTest {
         val newCsv = """k
             |Vorname;Nachname;Email;Anteile;Eier-Anteile;Emails;Data
             |${searchData.joinToString("\n") { 
-                "${it.firstname};${it.lastname};${it.email};${it.numberOfShares};${it.numberOfEggShares};${it.relatedEmails.joinToString(",") { it }};${listOf(*it.relatedFirstnames.toTypedArray(), *it.relatedLastnames.toTypedArray()).joinToString(",") { it }}"
+                "${it.firstname};${it.lastname};${it.email};${it.numberOfShares};${it.numberOfEggShares};${it.relatedEmails.joinToString(",") { it }};${it.relatedNames.joinToString(",") { it }}"
         }}
         """.trimMargin()
 

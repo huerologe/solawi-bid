@@ -14,8 +14,7 @@ object SearchBidders : UUIDTable("search-bidders") {
     val lastname = varchar("lastname", 256)
     val email = varchar("email", 256)
     val relatedEmails = varchar("related_emails", 2048)
-    val relatedFirstnames = varchar("related_firstnames", 2048)
-    val relatedLastnames = varchar("related_lastnames", 2048)
+    val relatedNames = varchar("related_names", 2048)
 }
 
 class SearchBidder(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -24,6 +23,5 @@ class SearchBidder(id: EntityID<UUID>) : UUIDEntity(id) {
     var lastname by SearchBidders.lastname
     var email by SearchBidders.email
     var relatedEmails by SearchBidders.relatedEmails
-    var relatedFirstnames by SearchBidders.relatedFirstnames
-    var relatedLastnames by SearchBidders.relatedLastnames
+    var relatedNames by SearchBidders.relatedNames
 }

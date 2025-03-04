@@ -11,6 +11,7 @@ import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
@@ -161,7 +162,11 @@ val SearchBidderMails: KlAction<Result<SearchBidderData>, Result<BidderMails>> =
 
 fun Transaction.searchBidderMails(searchBidderData: SearchBidderData): List<String> {
     val operations = listOf<Op<Boolean>?>(
-        if(searchBidderData.firstname.isNotBlank()){ SearchBiddersTable.firstname eq searchBidderData.firstname } else {null}
+        if(searchBidderData.firstname.isNotBlank()){ SearchBiddersTable.firstname eq searchBidderData.firstname } else {null},
+        if(searchBidderData.lastname.isNotBlank()){ SearchBiddersTable.lastname eq searchBidderData.lastname } else {null},
+        if(searchBidderData.email.isNotBlank()){ SearchBiddersTable.email eq searchBidderData.email } else {null},
+        if(searchBidderData.relatedEmails.isNotEmpty()) { SearchBiddersTable.relatedEmails columnContainsAny searchBidderData.relatedEmails} else {null},
+        if(searchBidderData.relatedNames.isNotEmpty()) { SearchBiddersTable.relatedNames columnContainsAny searchBidderData.relatedNames} else {null}
     )
     .filter{it != null}
     .reduceOrNull{
@@ -171,6 +176,19 @@ fun Transaction.searchBidderMails(searchBidderData: SearchBidderData): List<Stri
 
     return SearchBidderEntity.find (operations).map{ it.email }
 }
+
+infix fun Column<String>.columnContainsAny( values: List<String>): Op<Boolean> {
+    return values.map { this like "%$it%" }
+        .reduceOrNull { acc, op -> (acc or op) as LikeEscapeOp } ?: Op.FALSE
+}
+
+
+fun String.containsOneOf(strings: List<String>): Boolean = when  {
+        strings.isEmpty() -> false
+        contains(strings.first()) ->  true
+        else ->containsOneOf(strings.drop(1))
+    }
+
 
 @MathDsl
 @Suppress("FunctionName")
@@ -183,9 +201,8 @@ val AddBidders: KlAction<Result<AddBidders>, Result<Unit>> = KlAction{ bidders: 
                     firstname = it.firstname
                     lastname = it.lastname
                     email = it.email
-                    relatedEmails = relatedEmails
-                    relatedLastnames = relatedLastnames
-                    relatedFirstnames = relatedFirstnames
+                    relatedEmails = it.relatedEmails.joinToString(",") { it }
+                    relatedNames = it.relatedNames.joinToString(",") { it }
                 }
             }
         }
