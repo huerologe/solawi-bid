@@ -24,6 +24,11 @@ data class BidderData(
 )
 
 @Serializable
+data class AddBidders(
+    val bidders: List<BidderData> = listOf(),
+)
+
+@Serializable
 data class BidderMails(
     val emails: List<String> = listOf(),
 )

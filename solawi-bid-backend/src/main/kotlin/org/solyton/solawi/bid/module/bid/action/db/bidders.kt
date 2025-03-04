@@ -9,12 +9,15 @@ import org.evoleq.math.x
 import org.evoleq.util.DbAction
 import org.evoleq.util.KlAction
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
-import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
-import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.bid.data.toApiType
 import org.solyton.solawi.bid.module.db.BidRoundException
 import org.solyton.solawi.bid.module.db.schema.*
+import org.solyton.solawi.bid.module.db.schema.Auction
+import org.solyton.solawi.bid.module.db.schema.Auctions
+import org.solyton.solawi.bid.module.db.schema.Bidder
 import java.util.*
 
 @MathDsl
@@ -144,3 +147,48 @@ fun Transaction.addBidders(auctionId: UUID, bidders: List<NewBidder>): AuctionEn
 
     return addBidders(auction, bidders)
 }
+
+
+@MathDsl
+@Suppress("FunctionName")
+val SearchBidderMails: KlAction<Result<SearchBidderData>, Result<BidderMails>> = KlAction{bidders: Result<SearchBidderData> -> DbAction {
+    database: Database -> bidders bindSuspend  {
+        resultTransaction(database) {
+            BidderMails(searchBidderMails(it))
+        }
+    } x database
+}}
+
+fun Transaction.searchBidderMails(searchBidderData: SearchBidderData): List<String> {
+    val operations = listOf<Op<Boolean>?>(
+        if(searchBidderData.firstname.isNotBlank()){ SearchBiddersTable.firstname eq searchBidderData.firstname } else {null}
+    )
+    .filter{it != null}
+    .reduceOrNull{
+        acc, item ->
+        acc?.and(item!!)
+    } ?: Op.FALSE
+
+    return SearchBidderEntity.find (operations).map{ it.email }
+}
+
+@MathDsl
+@Suppress("FunctionName")
+val AddBidders: KlAction<Result<AddBidders>, Result<Unit>> = KlAction{ bidders: Result<AddBidders> -> DbAction {
+    database: Database -> bidders bindSuspend  { data ->
+        resultTransaction(database) {
+            SearchBiddersTable.deleteAll()
+            data.bidders.forEach {
+                SearchBidderEntity.new {
+                    firstname = it.firstname
+                    lastname = it.lastname
+                    email = it.email
+                    relatedEmails = relatedEmails
+                    relatedLastnames = relatedLastnames
+                    relatedFirstnames = relatedFirstnames
+                }
+            }
+        }
+    } x database
+}}
+

@@ -81,4 +81,12 @@ val solawiApi by lazy {
         key = Bid::class,
         url = "bid/send"
     )
+    // Search Bidders
+    .patch<SearchBidderData, BidderMails>(
+        key = SearchBidderData::class,
+        url = "bidders/search"
+    )
+    .post<AddBidders, Unit>(
+        key = AddBidders::class, "bidders/add"
+    )
 }

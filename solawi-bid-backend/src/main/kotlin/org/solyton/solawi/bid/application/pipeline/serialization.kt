@@ -72,4 +72,5 @@ fun Application.installSerializers() {
     serializers[BidderMails::class] = BidderMails.serializer()
     serializers[BidderData::class] = BidderData.serializer()
     serializers[SearchBidderData::class] = SearchBidderData.serializer()
+    serializers[AddBidders::class] = AddBidders.serializer()
 }

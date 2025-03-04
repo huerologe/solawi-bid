@@ -105,3 +105,17 @@ fun Routing.round(environment: Environment,authenticate: Routing.(Route.() -> Ro
 
         }
     }
+
+@KtorDsl
+fun Routing.bidders(environment: Environment,authenticate: Routing.(Route.() -> Route)-> Route) =
+    authenticate{
+        route("bidders") {
+            patch("search") {
+                Receive<SearchBidderData>() * SearchBidderMails * Respond<BidderMails>() runOn Base(call, environment)
+            }
+            post("add") {
+                Receive<AddBidders>() * AddBidders * Respond<Unit>() runOn Base(call, environment)
+            }
+
+        }
+    }

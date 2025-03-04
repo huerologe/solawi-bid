@@ -74,5 +74,6 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<BidderMails>(BidderMails.serializer())
         add<BidderData>(BidderData.serializer())
         add<SearchBidderData>(SearchBidderData.serializer())
+        add<AddBidders>(AddBidders.serializer())
     }
 } }
