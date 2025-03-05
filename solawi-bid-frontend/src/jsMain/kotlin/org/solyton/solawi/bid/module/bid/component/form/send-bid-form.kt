@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.module.bid.component.form
 
 import androidx.compose.runtime.*
+import io.ktor.util.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.label.Label
 import org.evoleq.language.Locale
@@ -53,7 +54,10 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                     {"Gebot senden"},
                     device
                 ) {
-                    sendBid(Bid(email, amount.toDouble()))
+                    sendBid(Bid(
+                        email.toLowerCasePreservingASCIIRules(),
+                        amount.toDouble()
+                    ))
                 }
             }
         }
