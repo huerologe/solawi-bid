@@ -175,7 +175,24 @@ de{
                             }
                         }
                     }
-
+                }
+            }
+            searchBiddersPage{
+                title: "Bieter durchsuchen"
+                buttons {
+                    search {
+                        title: "Suchen"
+                    }
+                }
+                inputs {
+                    firstname: "Vorname"
+                    lastname: "Nachnahme"
+                    emailAddress: "Email Adresse"
+                    relatedEmailAddresses: "Weitere Email Adressen"
+                    relatedData: "Weitere Daten"
+                }
+                results {
+                    title: "Email Adressen"
                 }
             }
         }
