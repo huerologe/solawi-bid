@@ -8,11 +8,8 @@ import org.solyton.solawi.bid.application.pipeline.installCors
 import org.solyton.solawi.bid.application.pipeline.installDatabase
 import org.solyton.solawi.bid.application.pipeline.installSerializers
 import org.solyton.solawi.bid.module.authentication.migrations.authenticationMigrations
-import org.solyton.solawi.bid.module.bid.routing.auction
-import org.solyton.solawi.bid.module.bid.routing.sendBid
-import org.solyton.solawi.bid.module.bid.routing.bid
+import org.solyton.solawi.bid.module.bid.routing.*
 import org.solyton.solawi.bid.module.bid.routing.migrations.bidRoutingMigrations
-import org.solyton.solawi.bid.module.bid.routing.round
 
 
 fun Application.bidTest() {
@@ -31,6 +28,9 @@ fun Application.bidTest() {
             this.it()
         }
         round(environment){
+            this.it()
+        }
+        bidders(environment){
             this.it()
         }
     }
