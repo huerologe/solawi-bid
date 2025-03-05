@@ -65,7 +65,7 @@ fun SearchBiddersPage(storage: Storage<Application>) = Div {
                         lastname = lstname,
                         email = email,
                         relatedEmails = emails.split(",").map{it.trim()}.filter { it.isNotBlank() },
-                        relatedNames = listOf()
+                        relatedNames = data.split(",").map{it.trim()}.filter { it.isNotBlank() }
                     )
                     CoroutineScope(Job()).launch {
                         (storage * actions).read().emit(searchUsernameOfBidder(searchBidderData))
