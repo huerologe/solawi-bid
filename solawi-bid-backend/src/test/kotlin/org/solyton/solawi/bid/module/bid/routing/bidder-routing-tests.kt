@@ -13,10 +13,7 @@ import org.evoleq.ktorx.result.Result
 import org.evoleq.ktorx.result.ResultSerializer
 import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
-import org.solyton.solawi.bid.module.bid.data.api.Auction
-import org.solyton.solawi.bid.module.bid.data.api.CreateAuction
-import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
-import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.bid.data.api.*
 import java.io.File
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
@@ -68,6 +65,49 @@ class BidderTests {
             assertIs<Result.Success<Auction>>(importBiddersResult)
             val nextAuction = importBiddersResult.data
             assertTrue{ nextAuction.bidderIds.isNotEmpty() }
+        }
+    }
+
+
+
+
+    @Api@Test
+    fun addBidders() = runBlocking {
+        testApplication {
+            environment {
+                // Load the HOCON file explicitly with the file path
+                val configFile = File("src/test/resources/bid.api.test.conf")
+                config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
+
+            }
+            application { }
+            // create Auction
+            val addBiddersText = client.post("/bidders/add") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        AddBidders.serializer(),
+                        AddBidders( listOf(
+                            BidderData(
+                                firstname = "firstname",
+                                lastname = "lastname",
+                                email = "mail@example.com",
+                                numberOfShares = 1,
+                                numberOfEggShares = 1,
+                                relatedEmails = listOf(
+                                    "mail1@example.com",
+                                ),
+                                relatedNames = listOf(
+                                    "Bidder"
+                                )
+                            )
+                        ) )
+                    )
+                )
+            }.bodyAsText()
+            val auctionResult = Json.decodeFromString(ResultSerializer, addBiddersText)
+            assertIs<Result.Success<Auction>>(auctionResult)
+
         }
     }
 }
