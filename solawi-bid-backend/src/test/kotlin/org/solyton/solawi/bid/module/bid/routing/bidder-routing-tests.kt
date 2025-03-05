@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.solyton.solawi.bid.Api
 import org.solyton.solawi.bid.module.bid.data.api.*
 import java.io.File
+import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
@@ -105,8 +106,63 @@ class BidderTests {
                     )
                 )
             }.bodyAsText()
-            val auctionResult = Json.decodeFromString(ResultSerializer, addBiddersText)
-            assertIs<Result.Success<Auction>>(auctionResult)
+            val addBiddersResult = Json.decodeFromString(ResultSerializer, addBiddersText)
+            assertIs<Result.Success<Auction>>(addBiddersResult)
+
+        }
+    }
+
+    @Api@Test
+    fun searchBidders() = runBlocking {
+        testApplication {
+            environment {
+                // Load the HOCON file explicitly with the file path
+                val configFile = File("src/test/resources/bid.api.test.conf")
+                config = HoconApplicationConfig(ConfigFactory.parseFile(configFile))
+
+            }
+            application { }
+            // create Auction
+            val addBiddersText = client.post("/bidders/add") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        AddBidders.serializer(),
+                        AddBidders( listOf(
+                            BidderData(
+                                firstname = "firstname",
+                                lastname = "lastname",
+                                email = "mail@example.com",
+                                numberOfShares = 1,
+                                numberOfEggShares = 1,
+                                relatedEmails = listOf(
+                                    "mail1@example.com",
+                                ),
+                                relatedNames = listOf(
+                                    "Bidder"
+                                )
+                            )
+                        ) )
+                    )
+                )
+            }.bodyAsText()
+            val addBiddersResult = Json.decodeFromString(ResultSerializer, addBiddersText)
+            assertIs<Result.Success<Auction>>(addBiddersResult)
+
+
+            val searchBidderText = client.patch("/bidders/search") {
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                setBody(
+                    Json.encodeToString(
+                        SearchBidderData.serializer(),
+                        SearchBidderData("firstname",)
+                    )
+                )
+            }.bodyAsText()
+            val searchBiddersResult = Json.decodeFromString(ResultSerializer, searchBidderText)
+            assertIs<Result.Success<BidderMails>>(searchBiddersResult)
+
+            assertEquals(listOf("mail@example.com"), searchBiddersResult.data.emails)
 
         }
     }

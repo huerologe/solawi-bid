@@ -6,9 +6,9 @@ typealias ApiBidderMails = BidderMails
 
 @Serializable
 data class SearchBidderData(
-    val firstname: String,
-    val lastname: String,
-    val email: String,
+    val firstname: String = "",
+    val lastname: String = "",
+    val email: String = "",
     val relatedEmails: List<String> = listOf(),
     val relatedNames: List<String> = listOf()
 )
