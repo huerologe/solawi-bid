@@ -43,7 +43,6 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                 }
             }
             // todo:i18n
-            //if(!emailValid) {P(attrs={style{color(Color.crimson)}}){Text("Keine valide email Adresse")}}else{P{Text(" ")}}
             P(attrs={style{color(if(!emailValid){Color.crimson}else{Color.transparent})}}){Text("Keine valide email Adresse")}
         }
         Div(attrs = { style { fieldStyle(device)() } }) {
@@ -59,7 +58,6 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                 }
             }
             // todo:i18n
-            // if(!amountValid) {P(attrs={style{color(Color.crimson)}}){Text("Kein valider Betrag")}}else{P{Text(" ")}}
             P(attrs={style{color(if(!amountValid){Color.crimson}else{Color.transparent})}}){Text("Kein valider Betrag")}
             Div(attrs = { style { formControlBarStyle(device)() } }) {
                 SubmitButton(
