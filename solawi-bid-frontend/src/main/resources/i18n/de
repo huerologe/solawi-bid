@@ -186,7 +186,7 @@ de{
                 }
                 inputs {
                     firstname: "Vorname"
-                    lastname: "Nachnahme"
+                    lastname: "Nachname"
                     emailAddress: "Email Adresse"
                     relatedEmailAddresses: "Weitere Email Adressen"
                     relatedData: "Weitere Daten"

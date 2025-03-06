@@ -29,10 +29,11 @@ fun CookieDisclaimer(
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
     device: Source<DeviceType>,
-    cookieDisclaimer: Storage<CookieDisclaimer>
+    cookieDisclaimer: Storage<CookieDisclaimer>,
+    excluded: Boolean = false
 ) = Div {
-    if (//NOT((cookieDisclaimer * isConfirmed).OR(cookieDisclaimer* isShown)()
-        !((cookieDisclaimer * isConfirmed).read() || (cookieDisclaimer * isShown).read())
+    if (
+        !excluded && !((cookieDisclaimer * isConfirmed).read() || (cookieDisclaimer * isShown).read())
     ) {
 
         with(modals.nextId()) {
