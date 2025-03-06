@@ -12,6 +12,7 @@ import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.GlobalStyles.style
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.Bid
+import org.solyton.solawi.bid.module.bid.service.isDecimal
 import org.solyton.solawi.bid.module.bid.service.isDouble
 import org.solyton.solawi.bid.module.bid.service.toDecimal
 import org.solyton.solawi.bid.module.control.button.SubmitButton
@@ -42,7 +43,8 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                 }
             }
             // todo:i18n
-            if(!emailValid) {P(attrs={style{color(Color.crimson)}}){Text("Keine valide email Adresse")}}else{P{Text(" ")}}
+            //if(!emailValid) {P(attrs={style{color(Color.crimson)}}){Text("Keine valide email Adresse")}}else{P{Text(" ")}}
+            P(attrs={style{color(if(!emailValid){Color.crimson}else{Color.transparent})}}){Text("Keine valide email Adresse")}
         }
         Div(attrs = { style { fieldStyle(device)() } }) {
 
@@ -53,11 +55,12 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                 style { textInputStyle(device)() }
                 onInput {
                     amount = it.value
-                    amountValid = it.value.isDouble()
+                    amountValid = it.value.isDecimal(2)
                 }
             }
             // todo:i18n
-            if(!amountValid) {P(attrs={style{color(Color.crimson)}}){Text("Kein valider Betrag")}}else{P{Text(" ")}}
+            // if(!amountValid) {P(attrs={style{color(Color.crimson)}}){Text("Kein valider Betrag")}}else{P{Text(" ")}}
+            P(attrs={style{color(if(!amountValid){Color.crimson}else{Color.transparent})}}){Text("Kein valider Betrag")}
             Div(attrs = { style { formControlBarStyle(device)() } }) {
                 SubmitButton(
                     {"Gebot senden"},

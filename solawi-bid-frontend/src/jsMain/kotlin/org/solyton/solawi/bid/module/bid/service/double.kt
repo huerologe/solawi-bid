@@ -20,6 +20,14 @@ fun String.isDouble(): Boolean =
     isDouble(Locale.De) ||
     isDouble(Locale.Iso)
 
+fun String.isDecimal(precision: Int): Boolean =
+    with(replace(",",".")) { when {
+        !isDouble() -> false
+        !contains(".") ->true
+        else -> split(".")[1].length <= precision
+    } }
+
+
 fun String.toDecimal(): Double = when{
     isDouble() -> replace(",", ".").toDouble()
     else -> throw Exception("Not a Double")
