@@ -49,7 +49,7 @@ val solawiApi by lazy {
     // Round
     .get<GetRound, Round>(
         key = GetRound::class,
-        url = "round/create"
+        url = "round/create---nonsense"
     )
     .post<CreateRound, Round>(
         key = CreateRound::class,
