@@ -18,12 +18,14 @@ import org.solyton.solawi.bid.application.ui.style.button.submitButtonStyle
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun SubmitButton(texts: Source<String>,deviceType: DeviceType, onClick: ()->Unit) = Button(
+fun SubmitButton(texts: Source<String>,deviceType: DeviceType,disabled: Boolean = false, onClick: ()->Unit) = Button(
     attrs = {
+        if(disabled) disabled()
         style {
             submitButtonStyle(deviceType)()
         }
         onClick {
+            if(disabled) return@onClick
             onClick()
         }
     }
@@ -34,12 +36,14 @@ fun SubmitButton(texts: Source<String>,deviceType: DeviceType, onClick: ()->Unit
 @Markup
 @Composable
 @Suppress("FunctionName")
-fun CancelButton(texts: Source<String>,deviceType: DeviceType, onClick: ()->Unit) = Button(
+fun CancelButton(texts: Source<String>,deviceType: DeviceType, disabled: Boolean = false, onClick: ()->Unit) = Button(
     attrs = {
+        if(disabled) disabled()
         style {
             cancelButtonStyle(deviceType)()
         }
         onClick {
+            if(disabled) return@onClick
             onClick()
         }
     }
