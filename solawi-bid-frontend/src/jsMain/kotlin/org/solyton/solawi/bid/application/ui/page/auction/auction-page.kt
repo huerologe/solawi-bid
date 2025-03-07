@@ -6,10 +6,12 @@ import org.evoleq.compose.layout.Horizontal
 import org.evoleq.compose.layout.PropertiesStyles
 import org.evoleq.compose.layout.PropertyStyles
 import org.evoleq.compose.layout.Vertical
+import org.evoleq.language.Locale
 import org.evoleq.language.component
 import org.evoleq.language.subComp
 import org.evoleq.language.title
 import org.evoleq.math.emit
+import org.evoleq.math.map
 import org.evoleq.math.times
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
@@ -39,6 +41,7 @@ import org.solyton.solawi.bid.module.bid.data.api.AddBidders
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
 import org.solyton.solawi.bid.module.bid.data.reader.BidComponent
 import org.solyton.solawi.bid.module.i18n.data.language
+import org.solyton.solawi.bid.module.i18n.data.locale
 
 val auctionPropertiesStyles = PropertiesStyles(
     containerStyle = { width(40.percent) },
@@ -100,6 +103,7 @@ fun AuctionPage(storage: Storage<Application>, auctionId: String) = Div {
         Wrap { Horizontal {
             AuctionDetails(
                 storage * auction,
+                storage * i18N * locale.get map {l -> Locale.from(l)},
                 details,
                 auctionPropertiesStyles
             )
