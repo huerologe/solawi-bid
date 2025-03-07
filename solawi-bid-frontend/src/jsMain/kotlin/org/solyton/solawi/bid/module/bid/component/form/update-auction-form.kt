@@ -1,6 +1,6 @@
 package org.solyton.solawi.bid.module.bid.component.form
 
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.date.format
 import org.evoleq.compose.date.parse
@@ -17,12 +17,10 @@ import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.evoleq.optics.transform.times
+import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.vh
-import org.jetbrains.compose.web.dom.DateInput
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.ElementScope
-import org.jetbrains.compose.web.dom.TextInput
+import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.component.styles.auctionModalContainerStyle
@@ -69,11 +67,17 @@ fun UpdateAuctionModal(
             }
         }
         Div(attrs = {style { fieldDesktopStyle() }}) {
+            // State
+            val initDate = (auction * date).read().format(Locale.Iso)
+            var dateString by remember{ mutableStateOf( initDate ) }
+
             Label(inputs["date"], id = "date" , labelStyle = formLabelDesktopStyle)
-            DateInput((auction * date).read().format(Locale.Iso)) {
+            Input(InputType.Date) {
                 id("date")
+                value(dateString)
                 style { dateInputDesktopStyle() }
                 onInput {
+                    dateString = it.value
                     (auction * date).write(it.value.parse(Locale.Iso))
                 }
             }
