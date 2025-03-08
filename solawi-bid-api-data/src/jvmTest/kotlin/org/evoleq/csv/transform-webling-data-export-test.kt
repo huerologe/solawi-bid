@@ -1,22 +1,30 @@
 package org.evoleq.csv
 
 import org.solyton.solawi.bid.module.bid.data.api.BidderData
+import java.io.File
 import kotlin.test.Test
 
 class TransformWeblingDataExportTest {
+    /*
 
-    // @Test
+    @Test
     fun transformTest() {
 
-        val parsed = parseCsv(text)
+        val parsed = parseCsv(sourceFile.readText())
 
         val keys = parsed.first().keys
-        println(keys)
+
+        println("""
+            |
+            |keys = $keys
+            |
+        """.trimMargin())
+
 
         val searchData = parsed.filter{
             try{
                 it["Anzahl Anteile"]!!.toInt()
-                it["E-Mail*"]!!.isNotBlank()
+                it["E-Mail*"]!!.isNotBlank() && it["Depot"]!!.isNotBlank() && !exclude.contains(it["E-Mail*"]!!)
             } catch (e:Exception){
                 false
             }
@@ -37,29 +45,31 @@ class TransformWeblingDataExportTest {
                     it["E-Mail8"]!!,
                 ).filter { it.isNotBlank() },
                 listOf(
-                    *listOf(it["Vorname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() }.toTypedArray(),
-                    *listOf(it["Nachname (Mitanteilsnehmer*)"]!!).filter { it.isNotBlank() }.toTypedArray()
+                    *listOf(it["Vorname (Mitanteilsnehmer*)"]!!).filter {jt -> jt.isNotBlank() }.toTypedArray(),
+                    *listOf(it["Nachname (Mitanteilsnehmer*)"]!!).filter { jt ->jt.isNotBlank() }.toTypedArray()
                 ),
             )
         }
 
-        println(searchData.first())
 
-        val newCsv = """k
+
+        println("""
+            |
+            |searchData = ${searchData.first()}
+            |
+            """)
+
+        val newCsv = """
             |Vorname;Nachname;Email;Anteile;Eier-Anteile;Emails;Data
             |${searchData.joinToString("\n") { 
-                "${it.firstname};${it.lastname};${it.email};${it.numberOfShares};${it.numberOfEggShares};${it.relatedEmails.joinToString(",") { it }};${it.relatedNames.joinToString(",") { it }}"
+                "${it.firstname};${it.lastname};${it.email};${it.numberOfShares};${it.numberOfEggShares};${it.relatedEmails.joinToString(",") { jt -> jt }};${it.relatedNames.joinToString(",") { jt -> jt }}"
         }}
         """.trimMargin()
 
-        println(newCsv)
-
+        //println(newCsv)
+        targetFile.writeText(newCsv)
        // console.log(keys)
 
     }
-
-}
-
-val text by lazy{
-    ""
+*/
 }
