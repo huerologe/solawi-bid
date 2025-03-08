@@ -6,7 +6,6 @@ import org.evoleq.math.emit
 import org.evoleq.math.write
 import org.evoleq.optics.lens.FirstBy
 import org.evoleq.optics.lens.times
-import org.evoleq.optics.storage.read
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.testutils.ComposeWebExperimentalTestsApi
 import org.jetbrains.compose.web.testutils.runTest
@@ -19,6 +18,7 @@ import org.solyton.solawi.bid.application.serialization.installSerializers
 import org.solyton.solawi.bid.application.ui.page.auction.action.*
 import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.bidder.BidderInfo
 import org.solyton.solawi.bid.module.bid.data.rawResults
 import org.solyton.solawi.bid.module.bid.data.rounds
 import org.solyton.solawi.bid.module.bid.data.toDomainType
@@ -121,13 +121,13 @@ class ActionTests{
                 name= "name",
                 date = LocalDate(1,1,1),
                 rounds = listOf(),
-                bidderIds = listOf("1")
+                bidderInfo = listOf(ApiBidderInfo("1",1))
             )
 
             (storage * action.writer).write(apiAuction) on Unit
 
             val nextAuction = (storage * auctionLens).read()
-            assertEquals( listOf("1"), nextAuction.bidderIds,)
+            assertEquals( listOf(BidderInfo("1", 1)), nextAuction.bidderInfo,)
         }
     }
 
@@ -156,7 +156,7 @@ class ActionTests{
                 name= "name",
                 date = LocalDate(1,1,1),
                 rounds = listOf(),
-                bidderIds = listOf("1"),
+                bidderInfo = listOf(ApiBidderInfo("1",1)),
                 auctionDetails = AuctionDetails.SolawiTuebingen(
                     2.0,2.0,2.0,2.0
                 )
@@ -192,7 +192,7 @@ class ActionTests{
                 name= "name",
                 date = LocalDate(1,1,1),
                 rounds = listOf(),
-                bidderIds = listOf("1"),
+                bidderInfo = listOf(ApiBidderInfo("1",1)),
                 auctionDetails = AuctionDetails.SolawiTuebingen(
                     2.0,2.0,2.0,2.0
                 )

@@ -5,6 +5,7 @@ import org.solyton.solawi.bid.module.bid.data.api.*
 import org.solyton.solawi.bid.module.db.schema.AcceptedRound
 import org.solyton.solawi.bid.module.db.schema.AcceptedRoundEntity
 import org.solyton.solawi.bid.module.db.schema.AcceptedRoundsTable
+import org.solyton.solawi.bid.module.db.schema.BidderDetailsSolawiTuebingenEntity
 import org.solyton.solawi.bid.module.db.schema.Auction as AuctionEntity
 import org.solyton.solawi.bid.module.db.schema.BidRound as BidRoundEntity
 import org.solyton.solawi.bid.module.db.schema.Round as RoundEntity
@@ -22,9 +23,12 @@ fun AuctionEntity.toApiType(): Auction = Auction(
     }} catch(e:Exception){
         listOf()
     },
-    bidderIds = try {
+    bidderInfo = try {
         bidders.toList().map {
-            it.id.value.toString()
+            ApiBidderInfo(
+                it.id.value.toString(),
+                it.numberOfShares
+            )
         }
     }catch(e:Exception){
         listOf()

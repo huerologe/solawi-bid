@@ -10,6 +10,7 @@ import org.solyton.solawi.bid.module.bid.data.Auction
 import org.solyton.solawi.bid.module.bid.data.api.ApiAuction
 import org.solyton.solawi.bid.module.bid.data.api.ImportBidders
 import org.solyton.solawi.bid.module.bid.data.api.NewBidder
+import org.solyton.solawi.bid.module.bid.data.bidder.BidderInfo
 import org.solyton.solawi.bid.module.bid.data.toDomainType
 
 fun importBidders(newBidders: List<NewBidder>, auction: Lens<Application, Auction>) =
@@ -21,6 +22,6 @@ fun importBidders(newBidders: List<NewBidder>, auction: Lens<Application, Auctio
             name = apiAuction.name,
             date = apiAuction.date,
             rounds = apiAuction.rounds.map{it.toDomainType()},
-            bidderIds = apiAuction.bidderIds
+            bidderInfo = apiAuction.bidderInfo.map { BidderInfo(it.id, it.numberOfShares) }
         )} }
     )

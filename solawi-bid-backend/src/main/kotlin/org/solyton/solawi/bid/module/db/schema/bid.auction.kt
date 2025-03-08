@@ -25,6 +25,18 @@ class Auction(id: EntityID<UUID>) : UUIDEntity(id) {
     var date by Auctions.date
     var type by AuctionType referencedOn Auctions.typeId
     val rounds: SizedIterable<Round> by Round referrersOn Rounds.auction
+    /*
+    val bidders: List<Bidder>
+        get() = with(bidders0){
+            val details = BidderDetailsSolawiTuebingenEntity.find{BidderDetailsSolawiTuebingenTable.bidderId inList bidders0.map { it.id }}
+            bidders0.map{
+                it.numberOfShares = details.find { det -> det.id == it.id }?.numberOfShares?:0
+                it
+            }
+
+        }
+    */
+
     var bidders: SizedIterable<Bidder> by Bidder via AuctionBidders
     val bidRounds: SizedIterable<BidRound> by BidRound referrersOn BidRounds.auction
 }

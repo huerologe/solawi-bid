@@ -61,7 +61,7 @@ class AuctionTests {
             auctionId = UUID.fromString( auction.id),
             bidders
         ).toApiType()
-        assertEquals(bidders.size, auctionWithBidders.bidderIds.size)
+        assertEquals(bidders.size, auctionWithBidders.bidderInfo.size)
 
     }
 
@@ -93,7 +93,7 @@ class AuctionTests {
             auctionId = UUID.fromString( auction.id),
             bidders
         ).toApiType()
-        assertEquals(bidders.size, auctionWithBidders.bidderIds.size)
+        assertEquals(bidders.size, auctionWithBidders.bidderInfo.size)
 
         val newBidders = listOf<NewBidder>(
             NewBidder("name1",1,1),
