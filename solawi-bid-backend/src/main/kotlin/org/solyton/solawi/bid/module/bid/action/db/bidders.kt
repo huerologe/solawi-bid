@@ -25,7 +25,9 @@ import java.util.*
 val ImportBidders = KlAction{bidders: Result<ImportBidders> -> DbAction {
     database: Database -> bidders bindSuspend  {
         resultTransaction(database) {
-            importBidders(auctionId = UUID.fromString(it.auctionId), it.bidders).toApiType()
+            importBidders(auctionId = UUID.fromString(it.auctionId), it.bidders).toApiType().copy(
+                bidderInfo = getBidderDetails(it.bidders).map{det -> det.toBidderInfo()}
+            )
         }
     } x database
 }}
@@ -82,6 +84,15 @@ fun Transaction.getBidderDetails(bidder: Bidder): BidderDetailsEntity =
 
 fun Transaction.getBidderDetails(auction: Auction): SizedIterable<BidderDetailsEntity> {
     val bidderIds = auction.bidders.map { it.id.value }
+    val details = BidderDetailsSolawiTuebingenEntity.find {
+        BidderDetailsSolawiTuebingenTable.bidderId inList bidderIds
+    }
+    return details
+}
+
+fun Transaction.getBidderDetails(bidders: List<NewBidder>): SizedIterable<BidderDetailsEntity> {
+    val usernames = bidders.map { it.username }
+    val bidderIds = BidderEntity.find{ BiddersTable.username inList usernames }.map { it.id }.toList()
     val details = BidderDetailsSolawiTuebingenEntity.find {
         BidderDetailsSolawiTuebingenTable.bidderId inList bidderIds
     }
