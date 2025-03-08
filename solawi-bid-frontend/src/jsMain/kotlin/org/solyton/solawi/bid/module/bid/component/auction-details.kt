@@ -42,7 +42,7 @@ fun AuctionDetails(
             Property((texts * date).emit(), with(auction.read()) { date.format(locale.emit()) }),
             Property((texts * numberOfBidders).emit(), (auction * countBidders).emit()),
             // todo:dev count number of shares
-            Property((texts * numberOfShares).emit(), "---" /*(auction * countShares).emit()*/)
+            Property((texts * numberOfShares).emit(),(auction * countShares).emit())
         ),
         styles
     )

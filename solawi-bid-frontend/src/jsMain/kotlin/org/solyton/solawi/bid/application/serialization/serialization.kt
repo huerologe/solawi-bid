@@ -50,6 +50,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         // Bid / Bidder
         add<Bid>(Bid.serializer())
         add<Bidder>(Bidder.serializer())
+        add<BidderInfo>(BidderInfo.serializer())
         add<NewBidder>(NewBidder.serializer())
         add<ImportBidders>(ImportBidders.serializer())
         add<DeleteBidders>(DeleteBidders.serializer())

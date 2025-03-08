@@ -2,6 +2,7 @@ package org.solyton.solawi.bid.module.bid.data
 
 import kotlinx.datetime.LocalDate
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.bid.data.bidder.BidderInfo
 import org.solyton.solawi.bid.module.bid.data.evaluation.BidRoundEvaluation
 import org.solyton.solawi.bid.module.bid.data.evaluation.BidRoundPreEvaluation
 import org.solyton.solawi.bid.module.bid.data.evaluation.WeightedBid
@@ -33,7 +34,10 @@ fun ApiAuction.toDomainType(): Auction = Auction(
     name = name,
     date = with(date){ LocalDate(year, monthNumber, dayOfMonth) },
     rounds = rounds.map { round -> round.toDomainType() },
-    bidderIds = bidderIds,
+    bidderInfo = bidderInfo.map { info -> BidderInfo(
+        info.id,
+        info.numberOfShares
+    ) },
     auctionDetails = auctionDetails.toDomainType(),
     acceptedRoundId = acceptedRoundId
 )

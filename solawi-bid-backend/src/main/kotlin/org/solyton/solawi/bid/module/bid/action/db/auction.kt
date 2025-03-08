@@ -46,7 +46,10 @@ fun Transaction.createAuction(name: String, date: LocalDate, type: String = "SOL
 val ReadAuctions = KlAction<Result<GetAuctions>, Result<ApiAuctions>> {
     _ -> DbAction { database ->  resultTransaction(database){
         val auctions = readAuctions().map {
-            it.toApiType().copy(auctionDetails = getAuctionDetails(it))
+            it.toApiType().copy(
+                bidderInfo = getBidderDetails(it).map {det  -> det.toBidderInfo()},
+                auctionDetails = getAuctionDetails(it)
+            )
         }
         ApiAuctions(auctions)
 
@@ -158,7 +161,10 @@ fun Transaction.configureAuction(auction: ConfigureAuction): ApiAuction {
 
 
         this
-    }.toApiType().copy(auctionDetails = auctionDetails)
+    }.toApiType().copy(
+        bidderInfo = getBidderDetails(auctionEntity).map{det -> det.toBidderInfo()},
+        auctionDetails = auctionDetails
+    )
 }
 
 fun Transaction.setAuctionDetails(auction: AuctionEntity, auctionDetails: AuctionDetails): AuctionDetails =
@@ -186,4 +192,7 @@ fun Transaction.setAuctionDetails(auction: AuctionEntity, auctionDetails: Auctio
         }
     }
 
-
+fun BidderDetails.toBidderInfo(): BidderInfo = when(this) {
+    is BidderDetails.SolawiTuebingen -> BidderInfo(bidder.id.value.toString(), numberOfShares)
+    // else -> throw Exception("No such BidderDetails")
+}

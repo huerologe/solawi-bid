@@ -55,10 +55,8 @@ fun ImportBiddersButton(
             cancel = {},
             update = {
                 CoroutineScope(Job()).launch {
-                    (storage * actions).read().emit(importBidders(newBidders.read(), auction))
                     (storage * actions).read().emit(addBidders(addBidders.read()))
-
-
+                    (storage * actions).read().emit(importBidders(newBidders.read(), auction))
                 }
             }
         )
