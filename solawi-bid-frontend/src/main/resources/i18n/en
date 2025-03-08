@@ -177,6 +177,24 @@ en{
                     }
                 }
             }
+            searchBiddersPage{
+                title: "Search Bidders"
+                buttons {
+                    search {
+                        title: "Search"
+                    }
+                }
+                inputs {
+                    firstname: "Firstname"
+                    lastname: "Lastname"
+                    emailAddress: "Email Address"
+                    relatedEmailAddresses: "Related Email Adsresses"
+                    relatedData: "Related Data"
+                }
+                results {
+                    title: "Email Addresses"
+                }
+            }
         }
         errors {
             title: "Error"

@@ -15,6 +15,24 @@ fun String.isDouble(locale: Locale): Boolean = when(locale){
     is Locale.De -> Regex("^-?\\d*,?\\d+\$").matches(this)
 }
 
+fun String.isDouble(): Boolean =
+    isDouble(Locale.En) ||
+    isDouble(Locale.De) ||
+    isDouble(Locale.Iso)
+
+fun String.isDecimal(precision: Int): Boolean =
+    with(replace(",",".")) { when {
+        !isDouble() -> false
+        !contains(".") ->true
+        else -> split(".")[1].length <= precision
+    } }
+
+
+fun String.toDecimal(): Double = when{
+    isDouble() -> replace(",", ".").toDouble()
+    else -> throw Exception("Not a Double")
+}
+
 fun <T > onNullEmpty(value: T?, manipulate: (String)->String = {s -> s}): String = when{
     value == null -> ""
     else -> manipulate("$value")

@@ -49,7 +49,7 @@ val solawiApi by lazy {
     // Round
     .get<GetRound, Round>(
         key = GetRound::class,
-        url = "round/create"
+        url = "round/create---nonsense"
     )
     .post<CreateRound, Round>(
         key = CreateRound::class,
@@ -80,5 +80,13 @@ val solawiApi by lazy {
     .post<Bid,BidRound> (
         key = Bid::class,
         url = "bid/send"
+    )
+    // Search Bidders
+    .patch<SearchBidderData, BidderMails>(
+        key = SearchBidderData::class,
+        url = "bidders/search"
+    )
+    .post<AddBidders, Unit>(
+        key = AddBidders::class, "bidders/add"
     )
 }

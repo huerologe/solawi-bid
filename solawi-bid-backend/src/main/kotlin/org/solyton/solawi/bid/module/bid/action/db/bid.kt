@@ -52,7 +52,8 @@ fun Transaction.storeBid(bid: Bid): BidRoundEntity {
     // create a new one otherwise
     val bidRound = BidRoundEntity.find {
         (BidRounds.auction eq round.auction.id.value) and
-        (BidRounds.round eq round.id.value)
+        (BidRounds.round eq round.id.value) and
+        (BidRounds.bidder eq bidder.id.value)
     }.firstOrNull()
     return if(bidRound != null) {
         bidRound.amount = bid.amount

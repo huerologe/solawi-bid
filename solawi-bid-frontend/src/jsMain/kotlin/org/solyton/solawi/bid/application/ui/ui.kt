@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import org.evoleq.compose.Markup
 import org.evoleq.compose.layout.Container
 import org.evoleq.compose.modal.ModalLayer
+import org.evoleq.compose.routing.currentPath
 import org.evoleq.language.Block
 import org.evoleq.language.component
 import org.evoleq.optics.storage.Storage
@@ -33,7 +34,8 @@ import org.solyton.solawi.bid.module.i18n.data.language
             texts.component("solyton.cookieDisclaimer"),
             modals = storage * modals,
             device = storage * deviceData * mediaType.get,
-            cookieDisclaimer = storage * cookieDisclaimer
+            cookieDisclaimer = storage * cookieDisclaimer,
+            excluded = currentPath().startsWith("/bid")
         )
         // All pages shall be wrapped in a container
         Container(storage * deviceData.get ){
