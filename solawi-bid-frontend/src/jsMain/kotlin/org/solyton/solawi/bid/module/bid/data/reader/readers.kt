@@ -17,13 +17,13 @@ val roundAccepted: (String)-> Reader<Auction, Boolean> = {roundId:String -> Read
 } }
 
 val countBidders: Reader<Auction, Int> = Reader {
-    it.bidderIds.distinct().size
+    it.bidderInfo.map{info -> info.bidderId}.distinct().size
 }
 
 val biddersHaveNotBeenImported = countBidders map { it <= 0 }
 
 val countShares: Reader<Auction, Int> = Reader {
-    it.bidderIds.distinct().size
+    it.bidderInfo.sumOf { info -> info.numberOfShares }
 }
 
 val existRounds: Reader<List<Round>, Boolean> = Reader {

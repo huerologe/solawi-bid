@@ -7,6 +7,7 @@ import org.solyton.solawi.bid.module.bid.data.validation.ValidationException
 typealias ApiBid = Bid
 typealias ApiNewBidder = NewBidder
 typealias ApiBidder = Bidder
+typealias ApiBidderInfo = BidderInfo
 typealias ApiBidRound = BidRound
 typealias ApiRound = Round
 typealias ApiAuction = Auction
@@ -56,6 +57,12 @@ data class Bidder(
        // if(numberOfParts < 0) throw BidRoundException.IllegalNumberOfParts(numberOfParts)
     }
 }
+
+@Serializable
+data class BidderInfo(
+    val id: String,
+    val numberOfShares: Int,
+)
 
 @Serializable
 data class  PreRound(
@@ -115,7 +122,7 @@ data class Auction(
     val name: String,
     val date: LocalDate,
     val rounds: List<Round> = listOf(),
-    val bidderIds: List<String> = listOf(),
+    val bidderInfo: List<BidderInfo> = listOf(),
     val auctionDetails: AuctionDetails = AuctionDetails.Empty,
     val acceptedRoundId: String? = null
 )

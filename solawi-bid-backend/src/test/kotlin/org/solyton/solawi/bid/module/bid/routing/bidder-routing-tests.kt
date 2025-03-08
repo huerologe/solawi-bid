@@ -65,7 +65,7 @@ class BidderTests {
             )
             assertIs<Result.Success<Auction>>(importBiddersResult)
             val nextAuction = importBiddersResult.data
-            assertTrue{ nextAuction.bidderIds.isNotEmpty() }
+            assertTrue{ nextAuction.bidderInfo.isNotEmpty() }
         }
     }
 
