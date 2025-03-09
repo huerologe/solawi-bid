@@ -13,7 +13,7 @@ import org.evoleq.util.DbAction
 import org.jetbrains.exposed.sql.SizedIterable
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.solyton.solawi.bid.module.db.schema.Users
-import org.solyton.solawi.bid.module.user.data.api.User
+import org.solyton.solawi.bid.module.user.data.api.UserD
 import java.util.*
 import org.solyton.solawi.bid.module.db.schema.User as UserEntity
 
@@ -27,7 +27,7 @@ suspend fun getAllUsers() = DbAction {
     } x database
  } map { userEntities: SizedIterable<UserEntity> ->
     userEntities.map { userEntity ->
-        User(
+        UserD(
             userEntity.id.value,
             userEntity.username,
             userEntity.password

@@ -7,6 +7,9 @@ import org.evoleq.ktorx.result.add
 import org.evoleq.ktorx.result.serializers
 import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.bid.data.api.*
+import org.solyton.solawi.bid.module.user.data.api.CreateUser
+import org.solyton.solawi.bid.module.user.data.api.User
+import org.solyton.solawi.bid.module.user.data.api.Users
 
 
 fun installSerializers() { if(serializers.isEmpty()) {
@@ -47,6 +50,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<DeleteAuctions>(DeleteAuctions.serializer())
         add<UpdateAuctions>(UpdateAuctions.serializer())
         add<ConfigureAuction>(ConfigureAuction.serializer())
+
         // Bid / Bidder
         add<Bid>(Bid.serializer())
         add<Bidder>(Bidder.serializer())
@@ -55,6 +59,7 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<ImportBidders>(ImportBidders.serializer())
         add<DeleteBidders>(DeleteBidders.serializer())
         add<BidRound>(BidRound.serializer())
+
         // Round
         add<Round>(Round.serializer())
         add<GetRound>(GetRound.serializer())
@@ -71,10 +76,16 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<WeightedBid>(WeightedBid.serializer())
         add<AcceptRound>(AcceptRound.serializer())
         add<AcceptedRound>(AcceptedRound.serializer())
+
         // Search Bidders
         add<BidderMails>(BidderMails.serializer())
         add<BidderData>(BidderData.serializer())
         add<SearchBidderData>(SearchBidderData.serializer())
         add<AddBidders>(AddBidders.serializer())
+
+        // UserManagement
+        add<CreateUser>(CreateUser.serializer())
+        add<User>(User.serializer())
+        add<Users>(Users.serializer())
     }
 } }
