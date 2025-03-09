@@ -43,6 +43,7 @@ fun Percentile(box: Box, maxHeight: Double) {
     }/*{flexGrow(1)}*/) {
         Div(attrs = {
             style {
+                if(top == 100.0) {minHeight(1.px)}
                 flex(top.percent)
                 width(100.percent)
                 backgroundColor(Color.transparent)

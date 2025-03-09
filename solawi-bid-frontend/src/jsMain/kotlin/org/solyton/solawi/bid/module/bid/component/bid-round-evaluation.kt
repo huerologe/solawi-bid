@@ -8,13 +8,15 @@ import org.evoleq.optics.lens.Lens
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H4
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.formLabelStyle
 import org.solyton.solawi.bid.application.ui.style.form.textInputStyle
 import org.solyton.solawi.bid.application.ui.style.wrap.Wrap
-import org.solyton.solawi.bid.module.bid.component.form.isEmail
 import org.solyton.solawi.bid.module.bid.data.Round
 import org.solyton.solawi.bid.module.bid.data.bidRoundEvaluation
 import org.solyton.solawi.bid.module.separator.LineSeparator
