@@ -1,6 +1,7 @@
 package org.solyton.solawi.bid.module.user
 
 import org.solyton.solawi.bid.application.permission.Right
+import org.solyton.solawi.bid.module.user.data.User
 import org.solyton.solawi.bid.shared.ValueWithDescription
 
 

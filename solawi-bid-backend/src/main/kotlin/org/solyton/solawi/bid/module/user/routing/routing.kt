@@ -10,9 +10,11 @@ import org.evoleq.util.Receive
 import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
 import org.solyton.solawi.bid.module.user.action.CreateNewUser
-import org.solyton.solawi.bid.module.user.action.getAllUsers
+import org.solyton.solawi.bid.module.user.action.GetAllUsers
 import org.solyton.solawi.bid.module.user.data.api.CreateUser
+import org.solyton.solawi.bid.module.user.data.api.GetUsers
 import org.solyton.solawi.bid.module.user.data.api.User
+import org.solyton.solawi.bid.module.user.data.api.Users
 
 @KtorDsl
 fun Routing.user(environment: Environment, authenticate: Routing.(Route.() -> Route)-> Route) {
@@ -22,7 +24,7 @@ fun Routing.user(environment: Environment, authenticate: Routing.(Route.() -> Ro
 
                 // val principal = call.authentication.principal<JWTPrincipal>()
                 // val userId = principal?.payload?.subject ?: "Unknown"
-                getAllUsers() runOn Base(call, environment)
+                Receive(GetUsers) * GetAllUsers * Respond<Users>() runOn Base(call, environment)
             }
 
             post("create") {
