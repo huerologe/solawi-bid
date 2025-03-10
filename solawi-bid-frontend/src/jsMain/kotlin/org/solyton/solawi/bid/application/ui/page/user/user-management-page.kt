@@ -62,6 +62,7 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
                 H1 { Text("User Management") }
                 Horizontal {
                     StdButton(
+                        // todo:i18n
                         {"Nutzer erstellen"},
                         (storage * deviceData * mediaType.get),
                         (storage * userData.get ).emit().isNotGranted(Right.Application.Users.manage)
@@ -90,6 +91,7 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
             }
         }
         Wrap {
+            // todo:i18n
             H2{Text("Registrierte Nutzer")}
             (storage * managedUsers).read().forEach { user ->
                 Wrap({marginTop(10.px)}){ Horizontal {
@@ -98,11 +100,13 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
                     Space()
                     Horizontal {
                         StdButton(
+                            // todo:i18n
                             {"Edit"},
                             storage * deviceData * mediaType.get,
                             true
                         ){}
                         StdButton(
+                            // todo:i18n
                             {"Delete"},
                             storage * deviceData * mediaType.get,
                             true
