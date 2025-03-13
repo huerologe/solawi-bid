@@ -69,6 +69,12 @@ fun DashboardPage(storage: Storage<Application>) {
             }){
                 Wrap { H3 { Text("Bieter Suche") } }
             }
+
+            Card({
+                navigate("/manual")
+            }){
+                Wrap { H3 { Text("Bieter Suche") } }
+            }
             /*
             Wrap({width(25.percent)}) {
                 Text("Management")
