@@ -149,9 +149,10 @@ fun HowToBidPage(application: Storage<Application>) {
                 }
                 Div({style {
                     padding(20.px)
+                    marginLeft(20.px)
                 }}){
                         P { Text("Wenn dein Gebot erfolgreich übermittelt wurde, erhält du eine Rückmeldung, die folgende Daten enthält:") }
-                        Ul {
+                        Ul({style { marginLeft(20.px) }}) {
                             Li { Text("  1. Das Gebot") }
                             Li { Text("  2. Die Anzahl deiner gebuchten Anteile") }
                             Li { Text("  3. Den Gesamtbetrag (Anzahl Anteile x Gebot)") }

@@ -73,7 +73,7 @@ fun DashboardPage(storage: Storage<Application>) {
             Card({
                 navigate("/manual")
             }){
-                Wrap { H3 { Text("Bieter Suche") } }
+                Wrap { H3 { Text("Gebrauchsanleitung") } }
             }
             /*
             Wrap({width(25.percent)}) {
