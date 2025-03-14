@@ -185,6 +185,8 @@ fun <Id> Modal(
                 maxWidth(80.pc)
                 marginLeft(10.px)
                 marginBottom(10.px)
+                minHeight(1.px)
+                maxHeight(80.vh)
             }
         }) {
             content()

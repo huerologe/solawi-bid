@@ -61,7 +61,7 @@ fun MobileDevice(scale: Double, content: @Composable ElementScope<HTMLElement>.(
                 color(Color.darkgray)
                 cursor("pointer")
             }
-            onClick { screenColor = if (screenColor == Color.white) Color.lightgray else Color.white }
+            // onClick { screenColor = if (screenColor == Color.white) Color.lightgray else Color.white }
         }) {
             content()
         }
