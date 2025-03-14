@@ -31,18 +31,7 @@ fun BidRoundEvaluation(storage: Storage<Application>, round: Lens<Application, R
     val evaluation = (storage * round * bidRoundEvaluation).read()
     // todo:i18n
 
-    Vertical({
-        marginTop(10.px)
-        overflowY("auto")
-        // Scrollbar custom styling
-        property("scrollbar-width", "thin") // Thin scrollbar (Firefox)
-        property("scrollbar-color", "${Color.blue} ${Color.lightgray}") // Track & Thumb color
-
-        // For WebKit (Chrome, Safari)
-        property("::-webkit-scrollbar", "width: 6px")
-        property("::-webkit-scrollbar-thumb", "background-color: ${Color.blue}; border-radius: 3px")
-        property("::-webkit-scrollbar-track", "background-color: ${Color.lightgray}")
-    }){
+    Vertical(scrollableStyle){
         Wrap {
             H4{Text("Target achieved")}
             ReadOnlyProperty(Property("Target Amount", evaluation.auctionDetails.targetAmount))

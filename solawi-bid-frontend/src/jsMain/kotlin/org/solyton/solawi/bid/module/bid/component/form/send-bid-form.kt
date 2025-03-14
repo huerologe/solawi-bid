@@ -4,16 +4,16 @@ import androidx.compose.runtime.*
 import io.ktor.util.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.label.Label
-import org.evoleq.language.Locale
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.P
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.TextInput
 import org.solyton.solawi.bid.application.data.device.DeviceType
-import org.solyton.solawi.bid.application.ui.style.GlobalStyles.style
 import org.solyton.solawi.bid.application.ui.style.form.*
 import org.solyton.solawi.bid.module.bid.data.Bid
 import org.solyton.solawi.bid.module.bid.service.isDecimal
-import org.solyton.solawi.bid.module.bid.service.isDouble
 import org.solyton.solawi.bid.module.bid.service.toDecimal
 import org.solyton.solawi.bid.module.control.button.SubmitButton
 
@@ -33,7 +33,7 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
 
         Div(attrs = { style { fieldStyle(device)() } }) {
             // todo:i18n
-            Label("Email", id = "email", labelStyle = formLabelStyle(device))
+            Label("Email Adresse", id = "email", labelStyle = formLabelStyle(device))
             TextInput(email) {
                 id("email")
                 style { textInputStyle(device)() }
@@ -43,12 +43,12 @@ fun SendBidForm(device: DeviceType, sendBid: (Bid)->Unit)  {
                 }
             }
             // todo:i18n
-            P(attrs={style{color(if(!emailValid){Color.crimson}else{Color.transparent})}}){Text("Keine valide email Adresse")}
+            P(attrs={style{color(if(!emailValid){Color.crimson}else{Color.transparent})}}){Text("Keine valide Email Adresse")}
         }
         Div(attrs = { style { fieldStyle(device)() } }) {
 
             // todo:i18n
-            Label("Betrag", id = "amount", labelStyle = formLabelStyle(device))
+            Label("Betrag (pro Anteil)", id = "amount", labelStyle = formLabelStyle(device))
             TextInput(amount) {
                 id("amount")
                 style { textInputStyle(device)() }
