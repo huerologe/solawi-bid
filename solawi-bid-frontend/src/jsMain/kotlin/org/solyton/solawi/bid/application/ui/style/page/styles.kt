@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.application.ui.style.page
 
+import org.evoleq.compose.layout.scrollableStyle
 import org.jetbrains.compose.web.css.StyleScope
 import org.jetbrains.compose.web.css.marginTop
 import org.jetbrains.compose.web.css.paddingTop

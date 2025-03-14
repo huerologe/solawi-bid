@@ -35,7 +35,7 @@ import org.solyton.solawi.bid.module.i18n.data.language
             modals = storage * modals,
             device = storage * deviceData * mediaType.get,
             cookieDisclaimer = storage * cookieDisclaimer,
-            excluded = currentPath().startsWith("/bid")
+            excluded = currentPath().startsWith("/bid") || currentPath().startsWith("/manual")
         )
         // All pages shall be wrapped in a container
         Container(storage * deviceData.get ){

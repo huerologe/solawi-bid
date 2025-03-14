@@ -31,27 +31,16 @@ fun BidRoundEvaluation(storage: Storage<Application>, round: Lens<Application, R
     val evaluation = (storage * round * bidRoundEvaluation).read()
     // todo:i18n
 
-    Vertical({
-        marginTop(10.px)
-        overflowY("auto")
-        // Scrollbar custom styling
-        property("scrollbar-width", "thin") // Thin scrollbar (Firefox)
-        property("scrollbar-color", "${Color.blue} ${Color.lightgray}") // Track & Thumb color
-
-        // For WebKit (Chrome, Safari)
-        property("::-webkit-scrollbar", "width: 6px")
-        property("::-webkit-scrollbar-thumb", "background-color: ${Color.blue}; border-radius: 3px")
-        property("::-webkit-scrollbar-track", "background-color: ${Color.lightgray}")
-    }){
+    Vertical(scrollableStyle){
         Wrap {
-            H4{Text("Target achieved")}
-            ReadOnlyProperty(Property("Target Amount", evaluation.auctionDetails.targetAmount))
-            ReadOnlyProperty(Property("Achieved Amount", evaluation.totalSumOfWeightedBids),)
+            H4{Text("Ziel erreicht")}
+            ReadOnlyProperty(Property("Zielsumme", evaluation.auctionDetails.targetAmount))
+            ReadOnlyProperty(Property("Erreichte Summe", evaluation.totalSumOfWeightedBids),)
             LineSeparator()
             val difference = evaluation.totalSumOfWeightedBids - evaluation.auctionDetails.targetAmount!!
             ReadOnlyProperty(
                 Property(
-                    "Difference",
+                    "Differenz",
                     difference
                 ),
                 PropertyStyles().copy (
@@ -65,18 +54,18 @@ fun BidRoundEvaluation(storage: Storage<Application>, round: Lens<Application, R
             )
         }
         Wrap {
-            H4{Text("Ration max / min")}
+            H4{Text("Verhältnis max / min")}
 
             val minimalBid = evaluation.weightedBids.minBy { bid -> bid.bid }
             val maximalBid = evaluation.weightedBids.maxBy { bid -> bid.bid }
 
-            ReadOnlyProperty(Property("Minimal Bid (bid / shares)", "${minimalBid.bid} / ${minimalBid.weight}"))
-            ReadOnlyProperty(Property("Maximal Bid (bid / shares)", "${maximalBid.bid} / ${maximalBid.weight}"))
-            ReadOnlyProperty(Property("Ratio max / min", maximalBid.bid / minimalBid.bid))
+            ReadOnlyProperty(Property("Minimal Gebot (Gebot / Anteile)", "${minimalBid.bid} / ${minimalBid.weight}"))
+            ReadOnlyProperty(Property("Maximal Gebot (Gebot / Anteile)", "${maximalBid.bid} / ${maximalBid.weight}"))
+            ReadOnlyProperty(Property("Verhältnis max / min", maximalBid.bid / minimalBid.bid))
         }
 
         Wrap {
-            H4{Text("Distribution")}
+            H4{Text("Verteilung")}
             var max by remember { mutableStateOf(310.0) }
             var min by remember { mutableStateOf(0.0) }
             var resolution by remember{ mutableStateOf(30) }
@@ -105,7 +94,7 @@ fun BidRoundEvaluation(storage: Storage<Application>, round: Lens<Application, R
                         }
                     }
                     Vertical {
-                        Label("Resolution", id = "resolution", labelStyle = formLabelStyle(DeviceType.Desktop))
+                        Label("Auflösung", id = "resolution", labelStyle = formLabelStyle(DeviceType.Desktop))
                         TextInput(resolution.toString()) {
                             id("resolution")
                             style { textInputStyle(DeviceType.Desktop)() }
