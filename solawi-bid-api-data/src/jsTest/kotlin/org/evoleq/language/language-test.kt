@@ -1,7 +1,10 @@
 package org.evoleq.language
 
+import org.evoleq.parser.ParsingResult
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class LanguageTest {
 
@@ -107,5 +110,45 @@ class LanguageTest {
         }
         assertEquals(expected, merged)
     }
+    @Test fun mergeComponents() {
+        val c1 = """
+            |de{
+            |   module{
+                |   component1{
+                |       name: "c1"
+                |   }
+            |   }
+            |}
+        """.trimMargin()
+        val c2 = """
+            |de{
+            |   module{
+                |   component2{
+                |       name: "c2"
+                |   }
+            |   }
+            |}
+        """.trimMargin()
+        val b1Result = LanguageP().run(c1)
+        assertTrue{b1Result.result != null}
+        val b1 = b1Result.result!!
+        val b2Result = LanguageP().run(c2)
+        assertTrue{b2Result.result != null}
+        val b2 = b2Result.result!!
 
+        val merged = b1.merge(b2)
+
+        println(merged)
+
+        val components = (merged as Block).component(
+            "module"
+        )
+        assertEquals(2, components.value.size)
+
+        val comp1 = components.component("component1")
+        val comp2 = components.component("component2")
+
+        assertEquals("c1", comp1["name"])
+        assertEquals("c2", comp2["name"])
+    }
 }
