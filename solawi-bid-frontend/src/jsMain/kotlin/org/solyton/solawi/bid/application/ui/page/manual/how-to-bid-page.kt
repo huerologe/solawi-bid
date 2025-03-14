@@ -10,6 +10,7 @@ import org.evoleq.compose.routing.navigate
 import org.evoleq.math.Reader
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
+import org.evoleq.parser.Whitespace
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.Application
@@ -39,8 +40,10 @@ fun HowToBidPage(application: Storage<Application>) {
         write = {{}}
     )
 
-    var bid by remember { mutableStateOf(85.0) }
-    val numberOfShares by remember { mutableStateOf(2) }
+    var email by remember { mutableStateOf("") }
+    var bid by remember { mutableStateOf(0.0) }
+    var numberOfShares by remember { mutableStateOf(2) }
+
     Vertical({
         verticalPageStyle()
         scrollableStyle()
@@ -58,12 +61,16 @@ fun HowToBidPage(application: Storage<Application>) {
             Horizontal {
                 Div({/*style { width(210.px) }*/}) {
                     MobileDevice(scale) {
-                        QRCodeSvg(
-                            id = "#qr-code-id-0",
-                            size = 90.percent,
-                            data = "fjkdajfkdajkdajfkdjaödj",
-                            download = false
-                        )
+                        Vertical {
+                            QRCodeSvg(
+                                id = "#qr-code-id-0",
+                                size = 90.percent,
+                                data = "fjkdajfkdajkdajfkdjaödj",
+                                download = false
+                            )
+                            Space()
+                            StdButton({ "Zur Website" }, DeviceType.Mobile) {}
+                        }
                     }
                 }
                 Div({style {
@@ -79,7 +86,9 @@ fun HowToBidPage(application: Storage<Application>) {
                 MobileDevice(scale) {
                     Vertical({padding(5.percent)}) {
                         SendBidForm((storage * deviceData * mediaType).read()) {
-                            newBid -> bid = newBid.amount
+                            newBid ->
+                                bid = newBid.amount
+                                email = newBid.username
                         }
                         Div({ style { flexGrow(1) } }) {}
                         Wrap {
@@ -94,13 +103,10 @@ fun HowToBidPage(application: Storage<Application>) {
                 Div({style {
                     padding(20.px)
                 }}) {
-
                         P{Text("Gib bei Email die Email Adresse ein, unter der Du bei der Solawi registriert bist")}
                         P{Text("Unter Gebot gibst Du bitte dein Gebot ein, das du für einen Anteil bezahlen möchtest. Wenn du mehrere Anteile gebucht hast, wird dein Gebot durch die Software entsprechend gewertet.")}
                         P{Text("Sende dein Gebot ab, indem du auf den Button \"Gebot Senden\" drückst")}
                         P{Text("Du erhälts dann ein Feedback, ob dein Gebot angenommen wurde oder nicht. Falls dein Gebot nicht angenommen werden kann, überprüfe bitte deine Angaben. Wenn es dennoch nicht funktioniert, dann wende dich bitte ans Personal")}
-
-
                 }
             }
         }
