@@ -146,7 +146,7 @@ fun BidRoundListItem(
             )
             // todo:i18n
             StdButton({ "Bieten" }, storage * deviceData * mediaType.get) {
-                navigate("/bid/send/$${round.link}")
+                navigate("/bid/send/${round.link}")
             }
         }
     }
