@@ -4,9 +4,7 @@ package org.solyton.solawi.bid.application.api
 import org.evoleq.ktorx.api.Api
 import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.bid.data.api.*
-import org.solyton.solawi.bid.module.user.data.api.CreateUser
-import org.solyton.solawi.bid.module.user.data.api.GetUsers
-import org.solyton.solawi.bid.module.user.data.api.Users
+import org.solyton.solawi.bid.module.user.data.api.*
 
 val solawiApi by lazy {
     // Authentication
@@ -95,12 +93,16 @@ val solawiApi by lazy {
     )
 
     // User Management
-    .post<CreateUser, Unit>(
+    .post<CreateUser, User>(
         key = CreateUser::class,
         url = "users/create"
     )
     .get<GetUsers, Users>(
         key = GetUsers::class,
         url = "users/all"
+    )
+    .patch<ChangePassword, User>(
+        key = ChangePassword::class,
+        url = "users/change-password"
     )
 }

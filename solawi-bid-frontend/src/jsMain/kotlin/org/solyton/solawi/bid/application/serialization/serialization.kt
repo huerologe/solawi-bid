@@ -7,10 +7,7 @@ import org.evoleq.ktorx.result.add
 import org.evoleq.ktorx.result.serializers
 import org.solyton.solawi.bid.module.authentication.data.api.*
 import org.solyton.solawi.bid.module.bid.data.api.*
-import org.solyton.solawi.bid.module.user.data.api.CreateUser
-import org.solyton.solawi.bid.module.user.data.api.GetUsers
-import org.solyton.solawi.bid.module.user.data.api.User
-import org.solyton.solawi.bid.module.user.data.api.Users
+import org.solyton.solawi.bid.module.user.data.api.*
 
 
 fun installSerializers() { if(serializers.isEmpty()) {
@@ -89,5 +86,6 @@ fun installSerializers() { if(serializers.isEmpty()) {
         add<User>(User.serializer())
         add<Users>(Users.serializer())
         add<GetUsers>(GetUsers.serializer())
+        add<ChangePassword>(ChangePassword.serializer())
     }
 } }

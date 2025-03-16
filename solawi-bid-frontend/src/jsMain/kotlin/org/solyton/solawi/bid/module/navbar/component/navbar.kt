@@ -86,7 +86,14 @@ fun NavBar(
     // todo:dev: extract
     Div({classes("select")}) {
         Select {
+                Option("MyData", {
 
+                    onClick {
+                        navigate("/solyton/private/data")
+                    }
+                }) {
+                    Text("Meine Daten")
+                }
                 Option("Logout", {
 
                     onClick {
