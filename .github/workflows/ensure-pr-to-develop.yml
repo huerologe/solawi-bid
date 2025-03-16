@@ -5,6 +5,7 @@ on:
     branches:
       - 'feature/**'
       - 'defect/**'
+      - 'version/**'
     paths-ignore:
       - '.github/**'
 
