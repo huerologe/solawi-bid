@@ -6,6 +6,8 @@ import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.insert
 import org.solyton.solawi.bid.module.db.schema.AcceptedRoundEntity
 import org.solyton.solawi.bid.module.db.schema.AcceptedRoundsTable
+import org.solyton.solawi.bid.module.db.schema.AuctionEntity
+import org.solyton.solawi.bid.module.db.schema.RoundEntity
 import java.util.UUID
 
 /**
@@ -31,9 +33,15 @@ class Migration1742401223055(
      * Upwards migration
      */
     override suspend fun Transaction.up() {
-        AcceptedRoundsTable.insert{
-            it[roundId] = UUID.fromString("edc429ee-8181-4401-bc8c-d0fb3504b6f3")
-            it[auctionId] = UUID.fromString("bbadd2c5-9b14-4714-9ccb-c6f0a599834d")
+
+        val auction = AuctionEntity.findById(UUID.fromString("bbadd2c5-9b14-4714-9ccb-c6f0a599834d"))
+        val round = RoundEntity.findById(UUID.fromString("edc429ee-8181-4401-bc8c-d0fb3504b6f3"))
+
+        if(auction == null || round == null) return@up
+
+        AcceptedRoundEntity.new {
+            this.auction = auction
+            this.round = round
         }
     }
 
