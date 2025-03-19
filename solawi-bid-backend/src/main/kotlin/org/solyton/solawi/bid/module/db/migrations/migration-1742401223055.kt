@@ -37,11 +37,11 @@ class Migration1742401223055(
         val auction = AuctionEntity.findById(UUID.fromString("bbadd2c5-9b14-4714-9ccb-c6f0a599834d"))
         val round = RoundEntity.findById(UUID.fromString("edc429ee-8181-4401-bc8c-d0fb3504b6f3"))
 
-        if(auction != null && round != null) {
-            AcceptedRoundEntity.new {
-                this.auction = auction
-                this.round = round
-            }
+        if(auction == null || round == null) return@up
+
+        AcceptedRoundEntity.new {
+            this.auction = auction
+            this.round = round
         }
     }
 
