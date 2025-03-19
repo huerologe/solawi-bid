@@ -49,7 +49,7 @@ fun Refresh(jwt: JWT) = KlAction<Result<RefreshToken>, Result<AccessToken>> {
             if(!validateRefreshToken(refreshToken))
                 throw AuthenticationException.InvalidOrExpiredToken
             val user = User.find{ Users.username eq data.username }.firstOrNull()
-                ?: throw UserManagementException.UserDoesNotExist(data.username)
+                ?: throw UserManagementException.UserDoesNotExist.Username(data.username)
 
             val newAccessToken = generateAccessToken(user.id.value.toString(), jwt)
                 AccessToken(newAccessToken)
@@ -59,7 +59,7 @@ fun Refresh(jwt: JWT) = KlAction<Result<RefreshToken>, Result<AccessToken>> {
 
 fun Transaction.login(login: Login, jwt: JWT): LoggedIn {
     val user = User.find{ Users.username eq login.username }.firstOrNull()
-        ?: throw UserManagementException.UserDoesNotExist(login.username)
+        ?: throw UserManagementException.UserDoesNotExist.Username(login.username)
 
     if(!credentialsAreOK(login.password, user.password))
         throw UserManagementException.WrongCredentials

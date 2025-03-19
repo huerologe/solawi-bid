@@ -1,5 +1,6 @@
 package org.solyton.solawi.bid.module.user.modal
 
+
 import androidx.compose.runtime.*
 import org.evoleq.compose.Markup
 import org.evoleq.compose.label.Label
@@ -28,12 +29,13 @@ import org.w3c.dom.HTMLElement
 
 @Markup
 @Suppress("FunctionName")
-fun CreateUserModal(
+fun ChangePasswordModal(
     id: Int,
     texts: Lang.Block,
     modals: Storage<Modals<Int>>,
     device: Source<DeviceType>,
-    setUserData: (username: String, password: String) -> Unit,
+    storedPassword: String,
+    setUserData: (password: String) -> Unit,
     cancel: ()->Unit,
     update: ()->Unit,
 ): @Composable ElementScope<HTMLElement>.()->Unit = Modal(
@@ -50,28 +52,28 @@ fun CreateUserModal(
     texts = texts,
     styles = auctionModalStyles(device),
 ) {
-    var username by remember{ mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordRepeat by remember { mutableStateOf("") }
+    var oldPassword by remember{ mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var newPasswordRepeat by remember { mutableStateOf("") }
     var passwordCombinationCheck by remember { mutableStateOf<PasswordCombinationCheck>(PasswordCombinationCheck.Empty) }
 
     Vertical {
         Div(attrs = { style { formDesktopStyle() } }) {
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Username", id = "username", labelStyle = formLabelDesktopStyle)
-                TextInput(username) {
-                    id("username")
+                Label("Altes Passwort", id = "oldPassword", labelStyle = formLabelDesktopStyle)
+                PasswordInput(oldPassword) {
+                    id("oldPassword")
                     style { textInputDesktopStyle() }
                     onInput {
-                        username = it.value
+                        oldPassword = it.value
                         passwordCombinationCheck = onPasswordCombinationValid(
-                            value = password,
-                            null,
-                            null,
-                            password,
-                            passwordRepeat
+                            value = newPassword,
+                            storedPassword,
+                            oldPassword,
+                            newPassword,
+                            newPasswordRepeat
                         ) {
-                                pw : String -> setUserData(username, pw)
+                                pw : String -> setUserData(pw)
                         }
                     }
                 }
@@ -79,42 +81,38 @@ fun CreateUserModal(
 
             Div(attrs = { style { fieldDesktopStyle() } }) {
                 Label("Passwort", id = "password", labelStyle = formLabelDesktopStyle)
-                PasswordInput(password) {
+                PasswordInput(newPassword) {
                     id("password")
                     style { textInputDesktopStyle() }
                     onInput {
-                        password = it.value
-                        if(password.isNotBlank() && password == passwordRepeat) {
-                            setUserData(username, password)
-                        }
+                        newPassword = it.value
                         passwordCombinationCheck = onPasswordCombinationValid(
-                            value = password,
-                            null,
-                            null,
-                            password,
-                            passwordRepeat
+                            value = newPassword,
+                            storedPassword,
+                            oldPassword,
+                            newPassword,
+                            newPasswordRepeat
                         ) {
-                                pw : String -> setUserData(username, pw)
+                                pw : String -> setUserData(pw)
                         }
-
                     }
                 }
             }
             Div(attrs = { style { fieldDesktopStyle() } }) {
                 Label("Passwort wiederholen", id = "repeat-password", labelStyle = formLabelDesktopStyle)
-                PasswordInput(passwordRepeat) {
+                PasswordInput(newPasswordRepeat) {
                     id("repeat-password")
                     style { textInputDesktopStyle() }
                     onInput {
-                        passwordRepeat = it.value
+                        newPasswordRepeat = it.value
                         passwordCombinationCheck = onPasswordCombinationValid(
-                            value = password,
-                            null,
-                            null,
-                            password,
-                            passwordRepeat
+                            value = newPassword,
+                            storedPassword,
+                            oldPassword,
+                            newPassword,
+                            newPasswordRepeat
                         ) {
-                                pw : String -> setUserData(username, pw)
+                            pw : String -> setUserData(pw)
                         }
                     }
                 }
@@ -133,27 +131,30 @@ fun CreateUserModal(
                     Text(message)
                 }
             }
-
         }
     }
+
 }
 
+
+
 @Markup
-fun Storage<Modals<Int>>.showCreateUserModal(
+fun Storage<Modals<Int>>.showChangePasswordModal(
     texts: Lang.Block,
     device: Source<DeviceType>,
-    setUserData: (username: String, password: String) -> Unit,
+    storedPassword: String,
+    setUserData: (password: String) -> Unit,
     cancel: ()->Unit,
     update: ()->Unit,
 ) = with(nextId()) {
     put(this to ModalData(
         ModalType.Dialog,
-        CreateUserModal(
+        ChangePasswordModal(
             this,
             texts,
-            this@showCreateUserModal,
+            this@showChangePasswordModal,
             device,
-
+            storedPassword,
             setUserData,
             cancel,
             update,

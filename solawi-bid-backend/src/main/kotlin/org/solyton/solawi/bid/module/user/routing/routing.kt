@@ -9,12 +9,10 @@ import org.evoleq.util.Base
 import org.evoleq.util.Receive
 import org.evoleq.util.Respond
 import org.solyton.solawi.bid.application.environment.Environment
+import org.solyton.solawi.bid.module.user.action.ChangePassword
 import org.solyton.solawi.bid.module.user.action.CreateNewUser
 import org.solyton.solawi.bid.module.user.action.GetAllUsers
-import org.solyton.solawi.bid.module.user.data.api.CreateUser
-import org.solyton.solawi.bid.module.user.data.api.GetUsers
-import org.solyton.solawi.bid.module.user.data.api.User
-import org.solyton.solawi.bid.module.user.data.api.Users
+import org.solyton.solawi.bid.module.user.data.api.*
 
 @KtorDsl
 fun Routing.user(environment: Environment, authenticate: Routing.(Route.() -> Route)-> Route) {
@@ -29,6 +27,10 @@ fun Routing.user(environment: Environment, authenticate: Routing.(Route.() -> Ro
 
             post("create") {
                 Receive<CreateUser>() * CreateNewUser * Respond<User>() runOn Base(call, environment)
+            }
+
+            patch("change-password") {
+                Receive<ChangePassword>() * ChangePassword * Respond<User>() runOn Base(call, environment)
             }
         }
     }

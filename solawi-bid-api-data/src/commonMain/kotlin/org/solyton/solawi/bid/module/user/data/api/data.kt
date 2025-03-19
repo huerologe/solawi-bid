@@ -2,11 +2,8 @@ package org.solyton.solawi.bid.module.user.data.api
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class CreateUser(
-    val username: String,
-    val password: String
-)
+typealias ApiUser = User
+typealias ApiUsers = Users
 
 @Serializable
 data class User(
@@ -17,6 +14,18 @@ data class User(
 @Serializable
 data class Users(
     val all: List<User>
+)
+
+@Serializable
+data class CreateUser(
+    val username: String,
+    val password: String
+)
+
+@Serializable
+data class ChangePassword(
+    val username: String,
+    val password: String
 )
 
 @Serializable
