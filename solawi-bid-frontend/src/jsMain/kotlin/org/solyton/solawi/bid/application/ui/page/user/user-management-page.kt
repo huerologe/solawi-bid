@@ -11,12 +11,14 @@ import org.evoleq.compose.layout.Vertical
 import org.evoleq.language.Lang
 import org.evoleq.language.component
 import org.evoleq.math.emit
+import org.evoleq.math.on
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.transform.times
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import org.solyton.solawi.bid.application.data.*
 import org.solyton.solawi.bid.application.data.device.mediaType
+import org.solyton.solawi.bid.application.effect.trigger
 import org.solyton.solawi.bid.application.permission.Right
 import org.solyton.solawi.bid.application.ui.page.user.action.createUser
 import org.solyton.solawi.bid.application.ui.page.user.action.getUsers
@@ -39,8 +41,9 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
 
     LaunchedEffect(Unit) {
         launch {
-
             val action = getUsers()
+            trigger(action) on storage
+            /*
             val actions = (storage * actions).read()
             try {
                 actions.emit( action )
@@ -50,6 +53,7 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
                     storage * deviceData * mediaType.get
                 )
             }
+             */
         }
     }
 
