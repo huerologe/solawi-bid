@@ -5,7 +5,7 @@ import org.evoleq.language.LangComponent
 import org.evoleq.language.get
 import org.evoleq.math.Reader
 
-sealed class BidComponent(override val path: String): LangComponent {
+sealed class BidComponent(override val path: String, override val value: String = "solyton.auction"): LangComponent {
     data object AuctionsPage : BidComponent("solyton.auction.auctionsPage")
     data object AuctionPage : BidComponent("solyton.auction.auctionPage")
     data object SearchBiddersPage : BidComponent("solyton.auction.searchBiddersPage")

@@ -1,0 +1,20 @@
+de {
+    solyton {
+        user {
+            managementPage {
+            }
+            privatePage {
+                buttons {
+                    changePassword {
+                        title: "Passwort ändern"
+                    }
+                }
+                dialogs {
+                    changePassword {
+                        title: "Passwort ändern"
+                    }
+                }
+            }
+        }
+    }
+}
