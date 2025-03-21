@@ -151,4 +151,252 @@ class LanguageTest {
         assertEquals("c1", comp1["name"])
         assertEquals("c2", comp2["name"])
     }
+
+
+    @Test fun realExample() {
+        val c1 = "de{\n" +
+            "    solyton{\n" +
+            "        authentication{\n" +
+            "            login{\n" +
+            "                fields{\n" +
+            "                    username: \"Nutzername\"\n" +
+            "                    password: \"Passwort\"\n" +
+            "                }\n" +
+            "                buttons{\n" +
+            "                    ok: \"Login\"\n" +
+            "                    password-reset: \"Passwort zurücksetzen\"\n" +
+            "                    sign-up: \"Registrieren\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "        }\n" +
+            "        solawi{\n" +
+            "            mainPage{\n" +
+            "                title: \"Solawi Bieter App\"\n" +
+            "            }\n" +
+            "        }\n" +
+            "        cookieDisclaimer {\n" +
+            "            title: \"Cookie Richtlinie\"\n" +
+            "            content {\n" +
+            "                hint: \"Wir verwenden Cookies um das User Experience auf unserer Website kontinuierlich zu verbessern. Dazu speichern wir die bevorzugte Sprache des Nutzers.\"\n" +
+            "            }\n" +
+            "            okButton {\n" +
+            "                title: \"Ok\"\n" +
+            "            }\n" +
+            "            cancelButton {\n" +
+            "                title: \"Abbrechen\"\n" +
+            "            }\n" +
+            "        }\n" +
+            "        dashboardPage {\n" +
+            "            title: \"Herzlich Willkommen auf Ihrem Dashboard\"\n" +
+            "            auctionsCard {\n" +
+            "                navButton {\n" +
+            "                    title: \"Auktionen\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "        }\n" +
+            "        auction {\n" +
+            "            createDialog {\n" +
+            "                title: \"Auktion erstellen\"\n" +
+            "                inputs {\n" +
+            "                    title: \"Name\"\n" +
+            "                    date: \"Datum\"\n" +
+            "                }\n" +
+            "                okButton {\n" +
+            "                    title: \"Ok\"\n" +
+            "                }\n" +
+            "                cancelButton {\n" +
+            "                    title: \"Abbrechen\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "            updateDialog {\n" +
+            "                title: \"Auktion bearbeiten\"\n" +
+            "                inputs {\n" +
+            "                    title: \"Name\"\n" +
+            "                    date: \"Datum\"\n" +
+            "                    targetAmount: \"Zielbetrag\"\n" +
+            "                    solidarityContribution: \"Solibeitrag\"\n" +
+            "                    minimalBid: \"Minimal Gebot\"\n" +
+            "                    benchmark: \"Richtwert\"\n" +
+            "                }\n" +
+            "                okButton {\n" +
+            "                    title: \"Ok\"\n" +
+            "                }\n" +
+            "                cancelButton {\n" +
+            "                    title: \"Abbrechen\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "            importBiddersDialog {\n" +
+            "                title: \"Bieter importieren\"\n" +
+            "                okButton {\n" +
+            "                    title: \"Ok\"\n" +
+            "                }\n" +
+            "                cancelButton {\n" +
+            "                    title: \"Abbrechen\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "            round {\n" +
+            "                bidRoundEvaluationModal {\n" +
+            "                    title: \"Evaluation\"\n" +
+            "                    okButton {\n" +
+            "                        title: \"Annehmen\"\n" +
+            "                    }\n" +
+            "                    cancelButton {\n" +
+            "                        title: \"Ablehnen\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "                successfulBidInformationModal {\n" +
+            "                    title: \"Gebot erfolgreich gesendet\"\n" +
+            "                    message: \"Ihr Gebot wurde erfolgreich gesendet\"\n" +
+            "                    amount: \"Betrag\"\n" +
+            "                    numberOfShares: \"Anteile\"\n" +
+            "                    totalAmountPerMonth: \"Monatlicher Gesamtbetrag\"\n" +
+            "                    okButton {\n" +
+            "                        title: \"Ok\"\n" +
+            "                    }\n" +
+            "                    cancelButton {\n" +
+            "                        title: \"Abbrechen\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "                states {\n" +
+            "                    opened: \"Eröffnet\"\n" +
+            "                    started: \"Gestartet\"\n" +
+            "                    stopped: \"Beendet\"\n" +
+            "                    evaluated: \"Ausgewertet\"\n" +
+            "                    closed: \"Geschlossen\"\n" +
+            "                    frozen: \"Eingefroren\"\n" +
+            "                }\n" +
+            "                commands {\n" +
+            "                    start: \"Start\"\n" +
+            "                    stop: \"Stop\"\n" +
+            "                    evaluate: \"Auswerten\"\n" +
+            "                    close: \"Schließen\"\n" +
+            "                    freeze: \"Einfrieren\"\n" +
+            "                    null: \"-\"\n" +
+            "                }\n" +
+            "                bidRoundList {\n" +
+            "                    rounds: \"Runden\"\n" +
+            "                    item {\n" +
+            "                        buttons {\n" +
+            "                            exportResults {\n" +
+            "                                title: \"Export\"\n" +
+            "                                tooltip: \"Ergebnisse der Bieterunde exportieren\"\n" +
+            "                            }\n" +
+            "                        }\n" +
+            "                    }\n" +
+            "                }\n" +
+            "\n" +
+            "            }\n" +
+            "            auctionPage {\n" +
+            "                title: \"Auktion\"\n" +
+            "                details {\n" +
+            "                    title: \"Details\"\n" +
+            "                    targetAmount: \"Zielbetrag\"\n" +
+            "                    solidarityContribution: \"Solibeitrag\"\n" +
+            "                    date: \"Datum\"\n" +
+            "                    minimalBid: \"Minimal Gebot\"\n" +
+            "                    benchmark: \"Richtwert\"\n" +
+            "                    numberOfBidders: \"Anzahl der Prosumenten\"\n" +
+            "                    numberOfShares: \"Anzahl der Anteile\"\n" +
+            "                }\n" +
+            "                buttons {\n" +
+            "                    updateAuction {\n" +
+            "                        text: \"Konfiguration\"\n" +
+            "                    }\n" +
+            "                    importBidders {\n" +
+            "                        text: \"Bieter Import\"\n" +
+            "                    }\n" +
+            "                    createRound {\n" +
+            "                        text: \"Neue Runde\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "            }\n" +
+            "            auctionsPage {\n" +
+            "                title: \"Auktionen\"\n" +
+            "                buttons {\n" +
+            "                    createAuction {\n" +
+            "                        title: \"Auktion Erstellen\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "                auctionList {\n" +
+            "                    items {\n" +
+            "                        buttons {\n" +
+            "                            details {\n" +
+            "                                title: \"Details\"\n" +
+            "                            }\n" +
+            "                            edit {\n" +
+            "                                title: \"Bearbeiten\"\n" +
+            "                            }\n" +
+            "                            delete {\n" +
+            "                                title: \"Loschen\"\n" +
+            "                            }\n" +
+            "                        }\n" +
+            "                    }\n" +
+            "                }\n" +
+            "            }\n" +
+            "            searchBiddersPage{\n" +
+            "                title: \"Bieter durchsuchen\"\n" +
+            "                buttons {\n" +
+            "                    search {\n" +
+            "                        title: \"Suchen\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "                inputs {\n" +
+            "                    firstname: \"Vorname\"\n" +
+            "                    lastname: \"Nachname\"\n" +
+            "                    emailAddress: \"Email Adresse\"\n" +
+            "                    relatedEmailAddresses: \"Weitere Email Adressen\"\n" +
+            "                    relatedData: \"Weitere Daten\"\n" +
+            "                }\n" +
+            "                results {\n" +
+            "                    title: \"Email Adressen\"\n" +
+            "                }\n" +
+            "            }\n" +
+            "        }\n" +
+            "        errors {\n" +
+            "            title: \"Fehler\"\n" +
+            "            okButton {\n" +
+            "                title: \"Ok\"\n" +
+            "            }\n" +
+            "            cancelButton {\n" +
+            "                title: \"Abbrechen\"\n" +
+            "            }\n" +
+            "            messages {\n" +
+            "                loginFailed: \"Login fehlgeschlagen\"\n" +
+            "            }\n" +
+            "        }\n" +
+            "        locales{\n" +
+            "            de: \"Deutsch\"\n" +
+            "            en: \"Englisch\"\n" +
+            "        }\n" +
+            "    }\n" +
+            "}"
+
+        val c2 = "de{\n" +
+            "    solyton{\n" +
+            "        user {\n" +
+            "            managementPage {\n" +
+            "                title: \"\"\n" +
+            "            }\n" +
+            "            privatePage {\n" +
+            "                title: \"\"\n" +
+            "                buttons {\n" +
+            "                    changePassword {\n" +
+            "                        title: \"Passwort ändern\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "                dialogs {\n" +
+            "                    changePassword {\n" +
+            "                        title: \"Passwort ändern\"\n" +
+            "                    }\n" +
+            "                }\n" +
+            "            }\n" +
+            "        }\n" +
+            "    }\n" +
+            "}"
+
+        val lang = LanguageP().run(c1).result!!
+        val l = LanguageP().run(c2).result!!
+
+        val r = lang.merge(l)
+    }
 }
