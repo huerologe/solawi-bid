@@ -20,7 +20,7 @@ import org.solyton.solawi.bid.module.i18n.data.locale
 import org.solyton.solawi.bid.module.i18n.data.locales
 
 
-fun Storage<Application>.   langLoaded (): Boolean  {
+fun Storage<Application>.langLoaded (): Boolean  {
 
     val languageStorage = (this * i18N * language)
     val localesStorage = (this * i18N * locales)
@@ -42,7 +42,8 @@ fun Storage<Application>.onLocaleChanged(oldApplication: Application, newApplica
                         write(app.copy(
                             i18N = app.i18N.copy(
                                 locale = newApplication.i18N.locale,
-                                language = this
+                                language = this,
+                                loadedComponents = listOf()
                             )
                         ) )
                         writeLang(newApplication.i18N.locale)
