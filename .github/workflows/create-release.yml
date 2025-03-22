@@ -35,7 +35,7 @@ jobs:
           fi
 
           # Extract the first three digits (ignore the last digit)
-          BASE_VERSION=$(echo $LATEST_TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+/\1/')
+          BASE_VERSION=v$(echo $LATEST_TAG | sed -E 's/v([0-9]+\.[0-9]+\.[0-9]+)\.[0-9]+/\1/')
           
           # Export the base version to use in the release step
           echo "BASE_VERSION=$BASE_VERSION" >> $GITHUB_ENV
@@ -44,6 +44,10 @@ jobs:
         env:
           PUSH_TAGS_PAT: ${{ secrets.PUSH_TAGS_PAT }}  # Use the custom token here
         run: |
+          # Set up release information
+          RELEASE_NAME="Release $BASE_VERSION"
+          BODY="This is the stable release of $BASE_VERSION."
+          
           # Create the GitHub Release from the base version (without the last digit)
           curl -X POST \
             -H "Authorization: token $PUSH_TAGS_PAT" \
