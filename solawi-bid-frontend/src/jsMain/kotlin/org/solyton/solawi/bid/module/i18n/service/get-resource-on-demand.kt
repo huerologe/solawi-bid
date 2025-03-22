@@ -2,9 +2,9 @@ package org.solyton.solawi.bid.module.i18n.service
 
 import org.evoleq.language.*
 import org.evoleq.parser.ParsingResult
-import org.solyton.solawi.bid.module.i18n.data.Environment
 import org.solyton.solawi.bid.module.i18n.api.localizeResource
 import org.solyton.solawi.bid.module.i18n.data.ComponentLookup
+import org.solyton.solawi.bid.module.i18n.data.Environment
 
 suspend fun Environment.readLang(component: String): Lang {
     val resultString = localizeResource(component)
@@ -29,8 +29,7 @@ suspend fun Environment.componentOnDemand(langComponent: LangComponent, lang: La
         )
     }
     val componentBaseBath = langComponent.value
-    val loadedComponent = readLang("$locale.$componentBaseBath")  as Lang.Block
-    println(loadedComponent)
+    val loadedComponent = readLang("$locale.$componentBaseBath") as Lang.Block
 
     return ComponentLookup(
         loadedComponent,

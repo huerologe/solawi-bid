@@ -9,7 +9,10 @@ import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
+import org.evoleq.language.title
 import org.evoleq.math.Source
+import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
@@ -22,15 +25,20 @@ import org.solyton.solawi.bid.application.ui.style.form.formDesktopStyle
 import org.solyton.solawi.bid.application.ui.style.form.formLabelDesktopStyle
 import org.solyton.solawi.bid.application.ui.style.form.textInputDesktopStyle
 import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
+import org.solyton.solawi.bid.module.user.data.reader.errors
+import org.solyton.solawi.bid.module.user.data.reader.inputs
+import org.solyton.solawi.bid.module.user.data.reader.repeatPassword
 import org.solyton.solawi.bid.module.user.service.PasswordCombinationCheck
 import org.solyton.solawi.bid.module.user.service.onPasswordCombinationValid
 import org.w3c.dom.HTMLElement
+import org.solyton.solawi.bid.module.user.data.reader.password as passwordReader
+import org.solyton.solawi.bid.module.user.data.reader.username as usernameReader
 
 @Markup
 @Suppress("FunctionName")
 fun CreateUserModal(
     id: Int,
-    texts: Lang.Block,
+    texts: Source<Lang.Block>,
     modals: Storage<Modals<Int>>,
     device: Source<DeviceType>,
     setUserData: (username: String, password: String) -> Unit,
@@ -47,7 +55,7 @@ fun CreateUserModal(
     onCancel = {
         cancel()
     },
-    texts = texts,
+    texts = texts.emit(),
     styles = auctionModalStyles(device),
 ) {
     var username by remember{ mutableStateOf("") }
@@ -55,10 +63,12 @@ fun CreateUserModal(
     var passwordRepeat by remember { mutableStateOf("") }
     var passwordCombinationCheck by remember { mutableStateOf<PasswordCombinationCheck>(PasswordCombinationCheck.Empty) }
 
+    val inputs = texts * inputs
+
     Vertical {
         Div(attrs = { style { formDesktopStyle() } }) {
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Username", id = "username", labelStyle = formLabelDesktopStyle)
+                Label((inputs * usernameReader * title).emit(), id = "username", labelStyle = formLabelDesktopStyle)
                 TextInput(username) {
                     id("username")
                     style { textInputDesktopStyle() }
@@ -78,7 +88,7 @@ fun CreateUserModal(
             }
 
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Passwort", id = "password", labelStyle = formLabelDesktopStyle)
+                Label((inputs * passwordReader * title).emit(), id = "password", labelStyle = formLabelDesktopStyle)
                 PasswordInput(password) {
                     id("password")
                     style { textInputDesktopStyle() }
@@ -101,7 +111,7 @@ fun CreateUserModal(
                 }
             }
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Passwort wiederholen", id = "repeat-password", labelStyle = formLabelDesktopStyle)
+                Label((inputs * repeatPassword * title).emit(), id = "repeat-password", labelStyle = formLabelDesktopStyle)
                 PasswordInput(passwordRepeat) {
                     id("repeat-password")
                     style { textInputDesktopStyle() }
@@ -120,13 +130,10 @@ fun CreateUserModal(
                 }
             }
 
-            val  message: String? = when(passwordCombinationCheck) {
-                PasswordCombinationCheck.Passed, PasswordCombinationCheck.Empty -> null
-                PasswordCombinationCheck.WrongPassword -> "Falsches Passwort"
-                PasswordCombinationCheck.RequirementsViolated -> "Passwortanforderungen verletzt"
-                PasswordCombinationCheck.RepeatedPasswordMismatch -> "Pawwörter stimmen nicht überein"
-                PasswordCombinationCheck.NewPasswordEqualsStoredPassword -> "Das neue Passwort muss sich vom alten unterscheiden"
-            }
+            val  message: String? = messageFrom(
+                passwordCombinationCheck,
+                texts * errors
+            )
 
             if(message != null) {
                 Div({ style { color(Color.crimson) } }){
@@ -140,7 +147,7 @@ fun CreateUserModal(
 
 @Markup
 fun Storage<Modals<Int>>.showCreateUserModal(
-    texts: Lang.Block,
+    texts: Source<Lang.Block>,
     device: Source<DeviceType>,
     setUserData: (username: String, password: String) -> Unit,
     cancel: ()->Unit,

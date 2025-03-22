@@ -2,16 +2,93 @@ en {
     solyton {
         user {
             managementPage {
+                title: "User Management"
+                buttons {
+                    createUser {
+                        title: "Create User"
+                    }
+                }
+                dialogs {
+                    createUser {
+                        title: "Create User"
+                        inputs {
+                            username {
+                                title: "Username"
+                            }
+                            password {
+                                title: "Password"
+                            }
+                            repeatPassword{
+                                title: "Repeat Password"
+                            }
+                        }
+                        okButton {
+                            title: "Ok"
+                        }
+                        cancelButton {
+                            title: "Cancel"
+                        }
+                        errors {
+                            wrongPassword: "Wrong Password"
+                            requirementsViolated: "Passwordrequirements violated"
+                            repeatedPasswordMismatch: "Passwword mismatch"
+                            newPasswordEqualsOld: "New password must be different from old password"
+                        }
+                    }
+                }
+                registeredUsers {
+                    title: "Registered Users"
+                    buttons {
+                        edit {
+                            title: "Edit"
+                        }
+                        delete {
+                            title: "Delete"
+                        }
+                    }
+                }
             }
             privatePage {
+                title: "Personal Data"
                 buttons {
                     changePassword {
-                        title: "Passwort ändern"
+                        title: "Change Password"
+                    }
+                }
+                personalData {
+                    title: "Your data"
+                    properties {
+                        username{
+                            value: "Username"
+                        }
                     }
                 }
                 dialogs {
                     changePassword {
-                        title: "Passwort ändern"
+                        title: "Change Password"
+                        inputs {
+                            oldPassword {
+                                title: "Old Password"
+                            }
+                            newPassword {
+                                title: "New Password"
+                            }
+                            repeatPassword {
+                                title: "Repeat Password"
+                            }
+                        }
+                        errors {
+                            wrongPassword: "Wrong Password"
+                            requirementsViolated: "Passwordrequirements violated"
+                            repeatedPasswordMismatch: "Passwword mismatch"
+                            newPasswordEqualsOld: "New password must be different from old password"
+                        }
+                        okButton {
+                            title: "Ok"
+                        }
+                        cancelButton {
+                            title: "Cancel"
+                        }
                     }
                 }
             }
