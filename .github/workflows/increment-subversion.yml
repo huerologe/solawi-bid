@@ -43,4 +43,4 @@ jobs:
           TOKEN: ${{ secrets.PUSH_TAGS_PAT }}
         run: |
           git tag $NEW_TAG
-          git push https://x-access-token:${PAT_TOKEN}@github.com/doctor-smith/solawi-bid.git $NEW_TAG
+          git push https://x-access-token:${TOKEN}@github.com/doctor-smith/solawi-bid.git $NEW_TAG
