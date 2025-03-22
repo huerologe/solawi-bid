@@ -58,9 +58,10 @@ jobs:
       - name: Update versions.toml
         run: |
           # Replace the version in versions.toml
-          sed -i 's/solawi = ".*"/solawi = "'"${{ inputs.new_version }}"'"/' ./gradle/libs.versions.toml
-
+          sed -i 's/solawi = ".*"/solawi = "'"${{ inputs.new_version }}"'"/' gradle/libs.versions.toml
+      
           echo "✅ libs.versions.toml updated with version ${{ inputs.new_version }}"
+          cat gradle/libs.versions.toml
 
       # Step 5: Commit the updated version file
       - name: Commit changes
