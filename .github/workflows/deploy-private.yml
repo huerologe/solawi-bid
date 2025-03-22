@@ -128,3 +128,8 @@ jobs:
           docker-compose down --remove-orphans  # Stop running containers
           docker-compose up --build -d  # Rebuild and restart containers
           docker system prune -f  # Cleanup unused Docker images
+
+  create-release:
+    needs:
+      - restart
+    uses: ./.github/workflows/create-release.yml
