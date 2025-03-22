@@ -1,4 +1,4 @@
-name: Auto Increment version Tag
+name: Auto Increment Version Tag
 
 on:
   push:
