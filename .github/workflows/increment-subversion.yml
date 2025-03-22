@@ -6,6 +6,9 @@ on:
       - develop  # Runs only when PRs are merged into 'dev'
   workflow_call:
 
+permissions:
+  contents: write  # Grants permission to push tags
+
 jobs:
   tag:
     runs-on: ubuntu-latest
