@@ -24,6 +24,7 @@ import org.solyton.solawi.bid.application.ui.page.sendbid.ShowQRCodePage
 import org.solyton.solawi.bid.application.ui.page.test.FontsPage
 import org.solyton.solawi.bid.application.ui.page.test.MobileTestPage
 import org.solyton.solawi.bid.application.ui.page.test.TestPage
+import org.solyton.solawi.bid.application.ui.page.user.PrivateUserPage
 import org.solyton.solawi.bid.application.ui.page.user.UserManagementPage
 import org.solyton.solawi.bid.module.navbar.component.NavBar
 
@@ -82,7 +83,9 @@ fun Routing(storage: Storage<Application>): Routes = Routing("/") {
             route("dashboard") {
                 component { DashboardPage(storage) }
             }
-
+            route("private/data") {
+                component { PrivateUserPage(storage) }
+            }
             route("management") {
                 component{
                     UserManagementPage(storage)
