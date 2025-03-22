@@ -18,6 +18,9 @@ fun <T> Reader<Unit, T>.read(): T = this(Unit)
 fun <T> Source<T>.emit(): T = this(Unit)
 
 @MathDsl
+fun <T> Source(emit: ()->T): Source<T> = Reader { emit() }
+
+@MathDsl
 operator fun <E, F, T> Reader<E, F>.times(other: Reader<F, T>): Reader<E, T> = this map other
 
 @MathDsl

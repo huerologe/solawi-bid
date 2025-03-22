@@ -10,19 +10,26 @@ import org.evoleq.compose.modal.ModalData
 import org.evoleq.compose.modal.ModalType
 import org.evoleq.compose.modal.Modals
 import org.evoleq.language.Lang
+import org.evoleq.language.title
 import org.evoleq.math.Source
+import org.evoleq.math.emit
+import org.evoleq.math.times
 import org.evoleq.optics.storage.Storage
 import org.evoleq.optics.storage.nextId
 import org.evoleq.optics.storage.put
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.ElementScope
+import org.jetbrains.compose.web.dom.PasswordInput
+import org.jetbrains.compose.web.dom.Text
 import org.solyton.solawi.bid.application.data.device.DeviceType
 import org.solyton.solawi.bid.application.ui.style.form.fieldDesktopStyle
 import org.solyton.solawi.bid.application.ui.style.form.formDesktopStyle
 import org.solyton.solawi.bid.application.ui.style.form.formLabelDesktopStyle
 import org.solyton.solawi.bid.application.ui.style.form.textInputDesktopStyle
 import org.solyton.solawi.bid.module.bid.component.styles.auctionModalStyles
+import org.solyton.solawi.bid.module.user.data.reader.*
 import org.solyton.solawi.bid.module.user.service.PasswordCombinationCheck
 import org.solyton.solawi.bid.module.user.service.onPasswordCombinationValid
 import org.w3c.dom.HTMLElement
@@ -31,7 +38,7 @@ import org.w3c.dom.HTMLElement
 @Suppress("FunctionName")
 fun ChangePasswordModal(
     id: Int,
-    texts: Lang.Block,
+    texts: Source<Lang.Block>,
     modals: Storage<Modals<Int>>,
     device: Source<DeviceType>,
     storedPassword: String,
@@ -49,29 +56,31 @@ fun ChangePasswordModal(
     onCancel = {
         cancel()
     },
-    texts = texts,
+    texts = texts.emit(),
     styles = auctionModalStyles(device),
 ) {
-    var oldPassword by remember{ mutableStateOf("") }
-    var newPassword by remember { mutableStateOf("") }
-    var newPasswordRepeat by remember { mutableStateOf("") }
-    var passwordCombinationCheck by remember { mutableStateOf<PasswordCombinationCheck>(PasswordCombinationCheck.Empty) }
+    var oldPasswordState by remember{ mutableStateOf("") }
+    var newPasswordState by remember { mutableStateOf("") }
+    var newPasswordRepeatState by remember { mutableStateOf("") }
+    var passwordCombinationCheckState by remember { mutableStateOf<PasswordCombinationCheck>(PasswordCombinationCheck.Empty) }
+
+    val inputs = texts * inputs
 
     Vertical {
         Div(attrs = { style { formDesktopStyle() } }) {
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Altes Passwort", id = "oldPassword", labelStyle = formLabelDesktopStyle)
-                PasswordInput(oldPassword) {
+                Label((inputs * oldPassword * title).emit(), id = "oldPassword", labelStyle = formLabelDesktopStyle)
+                PasswordInput(oldPasswordState) {
                     id("oldPassword")
                     style { textInputDesktopStyle() }
                     onInput {
-                        oldPassword = it.value
-                        passwordCombinationCheck = onPasswordCombinationValid(
-                            value = newPassword,
+                        oldPasswordState = it.value
+                        passwordCombinationCheckState = onPasswordCombinationValid(
+                            value = newPasswordState,
                             storedPassword,
-                            oldPassword,
-                            newPassword,
-                            newPasswordRepeat
+                            oldPasswordState,
+                            newPasswordState,
+                            newPasswordRepeatState
                         ) {
                                 pw : String -> setUserData(pw)
                         }
@@ -80,18 +89,18 @@ fun ChangePasswordModal(
             }
 
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Passwort", id = "password", labelStyle = formLabelDesktopStyle)
-                PasswordInput(newPassword) {
+                Label((inputs * newPassword * title).emit(), id = "password", labelStyle = formLabelDesktopStyle)
+                PasswordInput(newPasswordState) {
                     id("password")
                     style { textInputDesktopStyle() }
                     onInput {
-                        newPassword = it.value
-                        passwordCombinationCheck = onPasswordCombinationValid(
-                            value = newPassword,
+                        newPasswordState = it.value
+                        passwordCombinationCheckState = onPasswordCombinationValid(
+                            value = newPasswordState,
                             storedPassword,
-                            oldPassword,
-                            newPassword,
-                            newPasswordRepeat
+                            oldPasswordState,
+                            newPasswordState,
+                            newPasswordRepeatState
                         ) {
                                 pw : String -> setUserData(pw)
                         }
@@ -99,18 +108,18 @@ fun ChangePasswordModal(
                 }
             }
             Div(attrs = { style { fieldDesktopStyle() } }) {
-                Label("Passwort wiederholen", id = "repeat-password", labelStyle = formLabelDesktopStyle)
-                PasswordInput(newPasswordRepeat) {
+                Label((inputs * repeatPassword * title).emit(), id = "repeat-password", labelStyle = formLabelDesktopStyle)
+                PasswordInput(newPasswordRepeatState) {
                     id("repeat-password")
                     style { textInputDesktopStyle() }
                     onInput {
-                        newPasswordRepeat = it.value
-                        passwordCombinationCheck = onPasswordCombinationValid(
-                            value = newPassword,
+                        newPasswordRepeatState = it.value
+                        passwordCombinationCheckState = onPasswordCombinationValid(
+                            value = newPasswordState,
                             storedPassword,
-                            oldPassword,
-                            newPassword,
-                            newPasswordRepeat
+                            oldPasswordState,
+                            newPasswordState,
+                            newPasswordRepeatState
                         ) {
                             pw : String -> setUserData(pw)
                         }
@@ -118,13 +127,11 @@ fun ChangePasswordModal(
                 }
             }
 
-            val  message: String? = when(passwordCombinationCheck) {
-                PasswordCombinationCheck.Passed, PasswordCombinationCheck.Empty -> null
-                PasswordCombinationCheck.WrongPassword -> "Falsches Passwort"
-                PasswordCombinationCheck.RequirementsViolated -> "Passwortanforderungen verletzt"
-                PasswordCombinationCheck.RepeatedPasswordMismatch -> "Pawwörter stimmen nicht überein"
-                PasswordCombinationCheck.NewPasswordEqualsStoredPassword -> "Das neue Passwort muss sich vom alten unterscheiden"
-            }
+            val  message: String? = messageFrom(
+                passwordCombinationCheckState,
+                texts * errors
+            )
+
 
             if(message != null) {
                 Div({ style { color(Color.crimson) } }){
@@ -140,7 +147,7 @@ fun ChangePasswordModal(
 
 @Markup
 fun Storage<Modals<Int>>.showChangePasswordModal(
-    texts: Lang.Block,
+    texts: Source<Lang.Block>,
     device: Source<DeviceType>,
     storedPassword: String,
     setUserData: (password: String) -> Unit,

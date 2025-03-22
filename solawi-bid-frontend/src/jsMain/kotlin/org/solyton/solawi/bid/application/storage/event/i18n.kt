@@ -12,6 +12,7 @@ import org.evoleq.optics.transform.times
 import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.environment
 import org.solyton.solawi.bid.application.data.i18N
+import org.solyton.solawi.bid.application.service.useI18nTransform
 import org.solyton.solawi.bid.module.cookie.api.writeLang
 import org.solyton.solawi.bid.module.i18n.api.i18n
 import org.solyton.solawi.bid.module.i18n.data.language
@@ -19,7 +20,7 @@ import org.solyton.solawi.bid.module.i18n.data.locale
 import org.solyton.solawi.bid.module.i18n.data.locales
 
 
-fun Storage<Application>.   langLoaded (): Boolean  {
+fun Storage<Application>.langLoaded (): Boolean  {
 
     val languageStorage = (this * i18N * language)
     val localesStorage = (this * i18N * locales)
@@ -36,12 +37,13 @@ fun Storage<Application>.onLocaleChanged(oldApplication: Application, newApplica
             val app = read()
             val environment = (this@onLocaleChanged * environment).read()
             try {
-                with(LanguageP().run(environment.i18n(newApplication.i18N.locale)).result) {
+                with(LanguageP().run(environment.useI18nTransform().i18n(newApplication.i18N.locale)).result) {
                     if (this != null) {
                         write(app.copy(
                             i18N = app.i18N.copy(
                                 locale = newApplication.i18N.locale,
-                                language = this
+                                language = this,
+                                loadedComponents = listOf()
                             )
                         ) )
                         writeLang(newApplication.i18N.locale)
@@ -70,14 +72,14 @@ fun Storage<Application>.loadLanguage() {
 
     if (!langLoaded()) {
         LaunchedEffect(Unit) {
-            val rawLocale = environment.read().i18n(localeStorage.read())
+            val rawLocale = environment.read().useI18nTransform().i18n(localeStorage.read())
             val locale = LanguageP().run(rawLocale).result
             with(locale) {
                 if (this != null) {
                     languageStorage.write(this)
                 }
             }
-            with(LanguageP().run(environment.read().i18n("locales")).result) {
+            with(LanguageP().run(environment.read().useI18nTransform().i18n("locales")).result) {
                 if (this != null) {
                     localesStorage.write((this as Lang.Block).value.map { it.key })
                 }

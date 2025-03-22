@@ -1,0 +1,98 @@
+de {
+    solyton {
+        user {
+            managementPage {
+                title: "Nutzer Verwaltung"
+                buttons {
+                    createUser {
+                        title: "Nutzer erstellen"
+                    }
+                }
+                dialogs {
+                    createUser {
+                        title: "Nutzer erstellen"
+                        inputs {
+                            username {
+                                title: "Nutzername"
+                            }
+                            password {
+                                title: "Passwort"
+                            }
+                            repeatPassword{
+                                title: "Passwort wiederholen"
+                            }
+                        }
+                        okButton {
+                            title: "Ok"
+                        }
+                        cancelButton {
+                            title: "Abbrechen"
+                        }
+                        errors {
+                            wrongPassword: "Falsches Passwort"
+                            requirementsViolated: "Passwortanforferungen verletzt"
+                            repeatedPasswordMismatch: "Passwörter stimmen nicht überein"
+                            newPasswordEqualsOld: "Das neue Passwort muss sich vom alten unterscheiden"
+                        }
+                    }
+                }
+                registeredUsers {
+                    title: "Registrierte Nutzer"
+                    buttons {
+                        edit {
+                            title: "Bearbeiten"
+                        }
+                        delete {
+                            title: "Löschen"
+                        }
+                    }
+                }
+            }
+            privatePage {
+                title: "Persönliche Daten"
+                buttons {
+                    changePassword {
+                        title: "Passwort ändern"
+                    }
+                }
+                personalData {
+                    title: "Deine Daten"
+                    properties {
+                        username {
+                            value: "Nutzername"
+                        }
+                    }
+                }
+                dialogs {
+                    changePassword {
+                        title: "Passwort Ändern"
+                        inputs {
+                            oldPassword {
+                                title: "Altes Passwort"
+                            }
+                            newPassword {
+                                title: "Neues Passwort"
+                            }
+                            repeatPassword {
+                                title: "Passwort wiederholen"
+                            }
+                        }
+                        errors {
+                            wrongPassword: "Falsches Passwort"
+                            requirementsViolated: "Passwortanforferungen verletzt"
+                            repeatedPasswordMismatch: "Passwörter stimmen nicht überein"
+                            newPasswordEqualsOld: "Das neue Passwort muss sich vom alten unterscheiden"
+                        }
+                        okButton {
+                            title: "Ok"
+                        }
+                        cancelButton {
+                            title: "Abbrechen"
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ tailrec fun List<Lang>.merge(list: List<Lang>): List<Lang> = when{
     list.isEmpty() -> this
     else -> {
         val merged = merge(list.first())
-        merged.merge(drop(1))
+        merged.merge(list.drop(1))
     }
 }
 
