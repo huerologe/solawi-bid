@@ -15,7 +15,6 @@ jobs:
 
       # Step 1: Ensure the workflow runs only on "develop" branch
       - name: Validate branch
-        if: false
         run: |
           if [[ "${{ github.ref }}" != "refs/heads/develop" ]]; then
             echo "❌ This workflow can only be run on the 'develop' branch!"
@@ -25,8 +24,6 @@ jobs:
       # Step 2: Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
-        #with:
-        #  fetch-depth: 0  # Ensure all tags are fetched
 
       # Step 3: Validate if the new version is greater than existing ones
       - name: Validate version
@@ -61,7 +58,6 @@ jobs:
           sed -i 's/solawi = ".*"/solawi = "'"${{ inputs.new_version }}"'"/' gradle/libs.versions.toml
       
           echo "✅ libs.versions.toml updated with version ${{ inputs.new_version }}"
-          cat gradle/libs.versions.toml
 
       # Step 5: Commit the updated version file
       - name: Commit changes
@@ -74,7 +70,6 @@ jobs:
 
       # Step 6: Create a new tag in the format "vx.y.z.0"
       - name: Create and push new tag
-        if: false
         run: |
           STABLE_VERSION="v${{ inputs.new_version }}"
           NEW_TAG="$STABLE_VERSION.0"
