@@ -1,8 +1,11 @@
 package org.solyton.solawi.bid.module.db.repository
 
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
 import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
+
+fun ContextEntity.rootId(): EntityID<UUID> = root?.id?:id
 
 fun ContextEntity.ancestors(): SizedIterable<ContextEntity> {
     if(root == null) {
@@ -51,7 +54,6 @@ fun createRootContext(ContextName: String, user: UserEntity): ContextEntity {
 
 fun ContextEntity.createChild(name: String): ContextEntity {
     val ancestors = ancestors()
-    println(ancestors.map { it.name })
     val maxRight = root?.right?:1
     val siblings = ContextEntity.find {
         ContextsTable.rootId eq root?.id and (ContextsTable.left greater right) and (ContextsTable.right less maxRight)
@@ -77,6 +79,49 @@ fun ContextEntity.createChild(name: String): ContextEntity {
         right = oldRight + 1
         level = childLevel
     }
+}
+
+fun ContextEntity.addChild(newChild: ContextEntity): ContextEntity {
+    val ancestors = ancestors()
+    val maxRight = root?.right?:1
+    val siblings = ContextEntity.find {
+        ContextsTable.rootId eq root?.id and (ContextsTable.left greater right) and (ContextsTable.right less maxRight)
+    }
+    val oldRight = right
+    val diff = newChild.right - newChild.left + 1
+    right += diff
+    ancestors.forEach {
+        it.right += diff
+    }
+    siblings.forEach {
+        it.left += diff
+        it.right += diff
+    }
+    val rootOrg = when{
+        level == 0 -> this
+        else -> root!!
+    }
+    val childLevel = level + 1
+    val childLevelDiff = level - newChild.level + 1
+    val shift = oldRight - newChild.left
+
+
+
+    val descendants = newChild.descendants()
+    descendants.forEach {
+
+       // val descDiff = it.right - it.left
+        it.root = rootOrg
+        it.level += childLevelDiff
+        it.left +=  shift
+        it.right += shift
+    }
+
+    newChild.root = rootOrg
+    newChild.left += shift
+    newChild.right += shift // + diff - 2
+    newChild.level += childLevelDiff
+    return this
 }
 
 fun ContextEntity.removeChild(childId: UUID) : ContextEntity {
@@ -139,3 +184,26 @@ fun ContextEntity.pathAsList(): List<ContextEntity> = when {
 fun ContextEntity.path(): String = pathAsList().join()
 
 fun List<ContextEntity>.join(): String = joinToString("/") { it.name }
+
+data class ContextToNest(val context: ContextEntity,val  names: List<String>, val roots: Set<ContextEntity>)
+
+fun ContextToNest.nest(): ContextToNest = when{
+    names.isEmpty() -> this
+    else -> {
+        val name = names.first()
+        val rest = names.drop(1)
+        val root = roots.firstOrNull { it.name == name }
+        if(root != null) {
+            context.delete()
+            ContextToNest(root, rest, setOf(root)).nest()
+        } else {
+            val found = roots.first().getChildren().firstOrNull { it.name == name }
+            val newContext = when {
+                found != null -> found
+                else -> context.createChild(name)
+            }
+            ContextToNest(newContext, rest, roots).nest()
+        }
+
+    }
+}
