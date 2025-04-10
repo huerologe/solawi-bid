@@ -2,6 +2,8 @@ package org.solyton.solawi.bid.module.db.repository
 
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.solyton.solawi.bid.module.db.ContextException
 import org.solyton.solawi.bid.module.db.schema.*
 import java.util.*
 
@@ -207,3 +209,25 @@ fun ContextToNest.nest(): ContextToNest = when{
 
     }
 }
+/*
+data class IndexedSegment(val index: Int, val segment: String)
+
+fun findContextByPath(path: String): ContextEntity {
+    val pathAsList = path.split("/").mapIndexed{index, segment -> IndexedSegment(index, segment)}
+    val rootSegment = pathAsList.first()
+
+    val rootContext = ContextEntity.find { ContextsTable.name eq rootSegment.segment and (ContextsTable.level eq rootSegment.index) }.firstOrNull()
+        ?: throw ContextException.NoSuchContextPath(path, rootSegment.segment, rootSegment.index)
+
+    if(pathAsList.size == 1) return rootContext
+
+    val last = pathAsList.last()
+    val leafs = ContextEntity.find { ContextsTable.name eq last.segment and (ContextsTable.level eq last.index) and (ContextsTable.rootId eq rootContext.id) }.toList()
+
+    if(leafs.size == 1) return leafs.first()
+
+
+}
+
+
+ */
