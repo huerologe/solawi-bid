@@ -10,6 +10,15 @@ object Right{
     val update = Update
     val delete = Delete
 
+    val readRightRoleContexts = object : ValueWithDescription {
+        override val value: String = "READ_ROLE_RIGHT_CONTEXTS"
+        override val description: String = "Read role-right-contexts of users"
+    }
+
+    val readRightsAndRoles = object : ValueWithDescription {
+        override val value: String = "READ_ROLES_AND_RIGHTS"
+        override val description: String = "Read roles and rights of users"
+    }
 
     object Organization {
         val create = object : ValueWithDescription {
