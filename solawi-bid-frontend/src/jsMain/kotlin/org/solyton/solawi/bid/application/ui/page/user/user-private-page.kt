@@ -39,7 +39,7 @@ import org.solyton.solawi.bid.module.user.data.reader.personalData
 import org.solyton.solawi.bid.module.user.data.reader.properties
 import org.solyton.solawi.bid.module.user.data.reader.value
 import org.solyton.solawi.bid.module.user.data.username
-import org.solyton.solawi.bid.module.user.modal.showChangePasswordModal
+import org.solyton.solawi.bid.module.user.component.modal.showChangePasswordModal
 
 @Markup
 @Composable

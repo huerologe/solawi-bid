@@ -35,7 +35,7 @@ import org.solyton.solawi.bid.module.i18n.data.componentLoaded
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.user.data.api.CreateUser
 import org.solyton.solawi.bid.module.permissions.service.isNotGranted
-import org.solyton.solawi.bid.module.user.modal.showCreateUserModal
+import org.solyton.solawi.bid.module.user.component.modal.showCreateUserModal
 
 @Markup
 @Composable
