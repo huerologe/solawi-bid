@@ -34,7 +34,7 @@ import org.solyton.solawi.bid.module.control.button.StdButton
 import org.solyton.solawi.bid.module.i18n.data.componentLoaded
 import org.solyton.solawi.bid.module.i18n.data.language
 import org.solyton.solawi.bid.module.user.data.api.CreateUser
-import org.solyton.solawi.bid.module.user.isNotGranted
+import org.solyton.solawi.bid.module.permissions.service.isNotGranted
 import org.solyton.solawi.bid.module.user.modal.showCreateUserModal
 
 @Markup

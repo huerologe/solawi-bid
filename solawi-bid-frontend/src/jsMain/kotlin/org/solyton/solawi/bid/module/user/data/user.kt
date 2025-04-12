@@ -7,8 +7,10 @@
 package org.solyton.solawi.bid.module.user.data
 
 import org.evoleq.optics.Lensify
+import org.evoleq.optics.ReadOnly
 import org.evoleq.optics.ReadWrite
 import org.evoleq.optics.lens.Lens
+import org.solyton.solawi.bid.module.permissions.data.Permissions
 
 /**
  * Generator class.
@@ -24,7 +26,8 @@ import org.evoleq.optics.lens.Lens
     @ReadWrite val username: String,
     @ReadWrite val password: String,
     @ReadWrite val accessToken: String,
-    @ReadWrite val refreshToken: String
+    @ReadWrite val refreshToken: String,
+    @ReadOnly val permissions: Permissions
 )
 
 /**
