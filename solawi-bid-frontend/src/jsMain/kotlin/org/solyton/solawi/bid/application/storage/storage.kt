@@ -13,6 +13,7 @@ import org.solyton.solawi.bid.application.data.Application
 import org.solyton.solawi.bid.application.data.actions
 import org.solyton.solawi.bid.application.data.env.Environment
 import org.solyton.solawi.bid.application.storage.event.*
+import org.solyton.solawi.bid.module.permissions.data.Permissions
 import org.solyton.solawi.bid.module.user.data.User
 import kotlin.reflect.KClass
 
@@ -24,7 +25,7 @@ fun Storage(): Storage<Application> {
 
     var application by remember{ mutableStateOf<Application>(Application(
         environment = Environment(),// Environment("DEV"),
-        userData = User("", "","", "", )
+        userData = User("", "","", "", Permissions())
     ))}
 
     return Storage<Application>(

@@ -95,11 +95,13 @@ inline fun <Base: Any, reified I : Any,  reified O : Any, reified P : Any> Actio
 /**
  * Actions are kind of a left module w.r.t multiplication by lenses
  */
-inline operator fun <Whole: Any, Part: Any, reified I : Any, reified O :Any>  Lens<Whole, Part>.times(action: Action<Part, I,O>): Action<Whole, I,O> = Action(
+operator fun <Whole: Any, Part: Any, I : Any, O :Any>  Lens<Whole, Part>.times(action: Action<Part, I,O>): Action<Whole, I,O> = Action(
     reader = action.reader o get,
     name = action.name,
     endPoint = action.endPoint,
-    writer = {o: O -> {w: Whole -> set(action.writer(o)(get(w)))(w)}}
+    writer = {o: O -> {w: Whole -> set(action.writer(o)(get(w)))(w)}},
+    serializer = action.serializer,
+    deserializer = action.deserializer
 )
 
 interface ActionType
