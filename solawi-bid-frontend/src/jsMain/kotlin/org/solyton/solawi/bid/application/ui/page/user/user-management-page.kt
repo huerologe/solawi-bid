@@ -67,18 +67,6 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
         launch {
             val action = getUsers()
             trigger(action) on storage
-            /*
-            val actions = (storage * actions).read()
-            try {
-                actions.dispatch( action )
-            } catch(exception: Exception) {
-                (storage * modals).showErrorModal(
-                    errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'"),
-                    storage * deviceData * mediaType.get
-                )
-            }
-
-             */
         }
     }
 
@@ -106,15 +94,7 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
                         ) {
                             CoroutineScope(Job()).launch {
                                 val action = createUser(useR)
-                                val actions = (storage * actions).read()
-                                try {
-                                    actions.dispatch( action )
-                                } catch(exception: Exception) {
-                                    (storage * modals).showErrorModal(
-                                        errorModalTexts(exception.message?:exception.cause?.message?:"Cannot Emit action '${action.name}'"),
-                                        storage * deviceData * mediaType.get
-                                    )
-                                }
+                                trigger(action) on storage
                             }
                         }
                     }
