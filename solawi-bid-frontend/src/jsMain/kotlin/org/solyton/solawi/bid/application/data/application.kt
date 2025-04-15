@@ -41,14 +41,12 @@ import org.solyton.solawi.bid.module.user.data.managed.ManagedUser
 @Lensify data class Application (
     @ReadOnly val environment: Environment,
     @ReadOnly val api: Api = solawiApi,
-    // TODO replace by MutableSharedFlowActionDispatcher<Application>
-    //@ReadOnly val actions: MutableSharedFlow<Action<Application, *, *>> = MutableSharedFlow(),
     @ReadOnly val actions: MutableSharedFlowActionDispatcher<Application> = MutableSharedFlowActionDispatcher(MutableSharedFlow()),
     @ReadWrite val deviceData: Device = Device(),
     @ReadWrite val modals: Modals<Int> = mapOf(),
     @ReadWrite val i18N: I18N = I18N(),
     @ReadWrite val context: Context = Context(),
-    @ReadWrite val userData: User = User("","","","", Permissions()),
+    @ReadWrite val userData: User = User(),
     @ReadWrite val cookieDisclaimer: CookieDisclaimer = CookieDisclaimer(),
     @ReadWrite val auctions: List<Auction> = listOf(),
     @ReadWrite val bidRounds: List<BidRound> = listOf(),
