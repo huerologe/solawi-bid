@@ -41,8 +41,6 @@ import org.solyton.solawi.bid.module.user.data.managed.ManagedUser
 @Lensify data class Application (
     @ReadOnly val environment: Environment,
     @ReadOnly val api: Api = solawiApi,
-    // TODO replace by MutableSharedFlowActionDispatcher<Application>
-    //@ReadOnly val actions: MutableSharedFlow<Action<Application, *, *>> = MutableSharedFlow(),
     @ReadOnly val actions: MutableSharedFlowActionDispatcher<Application> = MutableSharedFlowActionDispatcher(MutableSharedFlow()),
     @ReadWrite val deviceData: Device = Device(),
     @ReadWrite val modals: Modals<Int> = mapOf(),
