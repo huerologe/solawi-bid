@@ -85,7 +85,6 @@ fun UserManagementPage(storage: Storage<Application>) = Div {
                         (storage * deviceData * mediaType.get),
                         (storage * user.get ).emit().isNotGranted(Right.Application.Users.manage)
                     ) {
-                        console.log("Hahahaha")
                         (storage * modals).showCreateUserModal(
                             texts = dialogs * subComp("createUser"),
                             device = storage * deviceData * mediaType.get,
