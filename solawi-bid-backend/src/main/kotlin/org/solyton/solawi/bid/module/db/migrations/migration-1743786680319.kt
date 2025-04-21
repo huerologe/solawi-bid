@@ -73,6 +73,20 @@ class Migration1743786680319(
             description = Right.readRightRoleContexts.description
         }
 
+        // Application Subscriptions
+        val readAvailableApplications = RightEntity.new {
+            name = Right.Application.Subscriptions.readAvailableApplications.value
+            description = Right.Application.Subscriptions.readAvailableApplications.description
+        }
+        val subscribeApplications = RightEntity.new {
+            name = Right.Application.Subscriptions.subscribeApplications.value
+            description = Right.Application.Subscriptions.subscribeApplications.description
+        }
+        val unsubscribeApplications = RightEntity.new {
+            name = Right.Application.Subscriptions.unsubscribeApplications.value
+            description = Right.Application.Subscriptions.unsubscribeApplications.description
+        }
+
         // Grant owner rights in context APPLICATION
         ////////////////////////////////////////
         // Already granted:
@@ -143,7 +157,11 @@ class Migration1743786680319(
             updateOrganization,
             deleteOrganization,
             // users
-            manageUsers
+            manageUsers,
+            // application subscriptions
+            readAvailableApplications,
+            subscribeApplications,
+            unsubscribeApplications
         )
 
         //val applicationOwner = UserEntity.find {  }
