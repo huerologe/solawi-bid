@@ -155,7 +155,7 @@ fun <Id> Modal(
                 }
             }) {
                 Button({
-                    if(dataId != null) dataId("$dataId-modal-close-x")
+                    if(dataId != null) dataId("$dataId.modal.close-x")
                         //classes("button")
                     style{
                         symbolicButtonStyle(device.emit())()
@@ -171,7 +171,7 @@ fun <Id> Modal(
         }
 
         H3({
-            if(dataId != null) dataId("$dataId-modal-title")
+            if(dataId != null) dataId("$dataId.modal.title")
             style {
                 marginTop(10.px)
                 marginLeft(10.px)
@@ -186,7 +186,7 @@ fun <Id> Modal(
         //
         Div({
 
-            if(dataId != null) dataId("$dataId-modal-content-wrapper")
+            if(dataId != null) dataId("$dataId.modal.content-wrapper")
             style {
                 maxWidth(80.pc)
                 marginLeft(10.px)
@@ -214,7 +214,7 @@ fun <Id> Modal(
                 CancelButton(
                     {texts["cancelButton.title"]},
                     device.emit(),
-                    dataId = "$dataId-modal-close-button",
+                    dataId = "$dataId.modal.close-button",
                 ) {
                     onCancel()
                     id.close()
@@ -223,7 +223,7 @@ fun <Id> Modal(
             SubmitButton(
                 {texts["okButton.title"]},
                 device.emit(),
-                dataId = "$dataId-modal-submit-button",
+                dataId = "$dataId.modal.submit-button",
             ) {
                 onOk()
                 id.close()
