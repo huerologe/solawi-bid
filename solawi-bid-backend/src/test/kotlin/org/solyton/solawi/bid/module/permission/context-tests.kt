@@ -191,4 +191,19 @@ class ContextTests {
         assertEquals(2, root.level)
         assertEquals(3,child.level)
     }
+
+
+    @DbFunctional@Test
+    fun cloneContextTest() = runSimpleH2Test(*neededTables) {
+
+        val context = createRootContext("c_root", )
+        val child = context.createChild("child")
+
+        val cloned = cloneContext(context.id.value, "_clone")
+
+        assertEquals(2, cloned.size)
+        cloned.forEach {
+            assertTrue{it.name.endsWith("_clone")}
+        }
+    }
 }
