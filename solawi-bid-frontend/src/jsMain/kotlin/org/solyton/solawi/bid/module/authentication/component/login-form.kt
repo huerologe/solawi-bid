@@ -33,7 +33,7 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
 
             TextInput((userData * username).read()) {
                 style { textInputStyle(device)() }
-                dataId("login-form-username")
+                dataId("login-form.input.username")
                 id("username")
                 onInput {
                     (userData * username).write(it.value)
@@ -44,7 +44,7 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
             Label(loginFields["password"], id = "password", labelStyle = formLabelStyle(device))
             PasswordInput((userData * password).read()) {
                 style { textInputStyle(device)() }
-                attr("data-id", "login-form-password")
+                attr("data-id", "login-form.input.password")
                 id("password")
                 onInput { (userData * password).write(it.value) }
             }
@@ -56,7 +56,7 @@ fun LoginForm(storage: Storage<LoginForm>, login: ()->Unit) {
             SubmitButton(
                 texts = { _-> buttonTexts["ok"]},
                 deviceType = device,
-                dataId = "login-form-submit-button",
+                dataId = "login-form.submit-button",
             ) {
                 login()
             }
