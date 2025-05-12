@@ -21,7 +21,7 @@ repositories {
 }
 
 group = libs.versions.solytonGroup
-version = libs.versions.solawi
+version = libs.versions.solawi.get()
 
 kotlin {
     js(IR) {
@@ -37,6 +37,7 @@ kotlin {
                 // kotlin coroutines
                 implementation(libs.kotlinx.coroutines.core)
 
+                implementation("org.jetbrains.lets-plot:lets-plot-kotlin-js:4.10.0")
 
                 // ktor client
                 implementation(libs.ktor.client.core)
@@ -60,7 +61,6 @@ kotlin {
 
                 // qr todo "Add dependency to lib, if possible"
                 implementation(npm("qrcode", "1.5.1"))
-
             }
         }
 
