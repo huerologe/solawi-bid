@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.mpp)
     alias(libs.plugins.serialization)
      `maven-publish`
+    alias(libs.plugins.detekt)
 }
 
 
@@ -89,3 +90,9 @@ publishing {
     }
 }
 
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config = files("$rootDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
+}

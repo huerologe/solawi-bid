@@ -24,6 +24,7 @@ jjwt = "0.11.5"
 mindrot-jbcrypt = "0.4"
 cdimascio-dotenv-kotlin =  "6.4.1"
 evoleq-exposedx-migrations = "1"
+detekt = "1.23.1"
 
 
 [libraries]
@@ -73,6 +74,7 @@ cdimascio-dotenv-kotlin = { module = "io.github.cdimascio:dotenv-kotlin", versio
 
 
 [plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}
 jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor-plugin" }
 serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

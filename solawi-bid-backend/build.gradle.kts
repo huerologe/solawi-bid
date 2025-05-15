@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.shadow)
     id("org.evoleq.exposedx.migration")
     // id("jacoco") // JaCoCo plugin <-
+    alias(libs.plugins.detekt)
 }
 
 group = libs.versions.solytonGroup
@@ -204,3 +205,9 @@ migrations {
     }
 }
 
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config = files("$rootDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
+}

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.serialization)
     id("org.evoleq.math.cat.gradle.optics")
+    alias(libs.plugins.detekt)
 }
 
 repositories {
@@ -139,4 +140,11 @@ afterEvaluate {
         versions.webpackDevServer.version = "4.10.0"//"4.0.0"
         versions.webpackCli.version = "5.1.0"//""4.10.0"
     }
+}
+
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config = files("$rootDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+    allRules = false
 }
