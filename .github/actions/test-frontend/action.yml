@@ -35,5 +35,5 @@ runs:
         artifact: JS-Test-Report
         path: "*.xml"
         reporter: java-junit
-        badge-title:
+        badge-title: JsTests
       if: steps.changes.outputs.frontend == 'true'

@@ -35,7 +35,7 @@ runs:
       uses: dorny/test-reporter@v2
       with:
         name: ${{inputs.reportName}} Test Results
-        badge-title: ${{inputs.reportName}}
+        badge-title: ${{inputs.reportName}}Tests
         artifact: ${{inputs.reportName}}-Test-Report
         path: "*.xml"
         reporter: java-junit
