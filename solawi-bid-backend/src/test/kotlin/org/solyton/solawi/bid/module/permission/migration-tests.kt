@@ -52,12 +52,14 @@ class MigrationTests {
             { Migration1743786680319(database) }
         )
 
-        val r = suspendedTransactionAsync {
+        // val r =
+        suspendedTransactionAsync {
             SchemaUtils.drop(*neededTables)
             migrations.runOn(database)
          }.await()
         delay(1000)
-        val s = suspendedTransactionAsync {
+        // val s =
+        suspendedTransactionAsync {
             // Application Context
             // Exists:  APPLICATION, ORGANIZATION
             // Deleted: APPLICATION/ORGANIZATION

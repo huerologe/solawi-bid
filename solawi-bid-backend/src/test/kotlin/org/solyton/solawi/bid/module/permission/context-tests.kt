@@ -9,6 +9,7 @@ import org.solyton.solawi.bid.module.db.schema.*
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@Suppress("VariableNaming")
 class ContextTests {
 
     val neededTables = arrayOf (
@@ -111,7 +112,8 @@ class ContextTests {
         contextsToMigrate.forEach {
             val names =it.name.split("/")
 
-            val contexts = ContextToNest(it, names, setOf(root)).nest()
+            // val contexts =
+            ContextToNest(it, names, setOf(root)).nest()
         }
         val rootContext = ContextEntity.find{Contexts.name eq "ROOT"}
         assertEquals(1, rootContext.count())

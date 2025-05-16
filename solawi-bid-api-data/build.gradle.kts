@@ -92,7 +92,7 @@ publishing {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config = files("$rootDir/config/detekt/detekt.yml")
+    config = files("$rootDir/detekt/detekt.yml")
     buildUponDefaultConfig = true
     allRules = false
 }
