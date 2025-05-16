@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.serialization)
     id("org.evoleq.math.cat.gradle.optics")
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kover)
 }
 
 repositories {

@@ -8,6 +8,7 @@ plugins {
     id("org.evoleq.exposedx.migration")
     // id("jacoco") // JaCoCo plugin <-
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kover)
 }
 
 group = libs.versions.solytonGroup
