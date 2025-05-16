@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.serialization)
      `maven-publish`
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kover)
 }
 
 

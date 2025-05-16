@@ -15,4 +15,5 @@ plugins{
     alias(libs.plugins.shadow) apply false
     id("org.evoleq.exposedx.migration") apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kover) apply false
 }
