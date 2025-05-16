@@ -27,9 +27,9 @@ fun ContextEntity.descendants(): SizedIterable<ContextEntity> = with(root?.id?:i
     }.orderBy(ContextsTable.left to org.jetbrains.exposed.sql.SortOrder.ASC)
 }
 
-fun createRootContext(ContextName: String): ContextEntity {
+fun createRootContext(contextName: String): ContextEntity {
     return ContextEntity.new {
-        name = ContextName.replace(" ", "_")
+        name = contextName.replace(" ", "_")
     }
 }
 

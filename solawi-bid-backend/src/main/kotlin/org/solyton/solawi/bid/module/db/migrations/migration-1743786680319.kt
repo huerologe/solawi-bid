@@ -171,14 +171,16 @@ class Migration1743786680319(
         val organizationContext = ContextEntity.find {
             ContextsTable.name eq Context.Organization.value and (ContextsTable.rootId eq null)
         }.first()
-        val applicationManagementContext = ContextEntity.find {
+        // val applicationManagementContext =
+        ContextEntity.find {
             ContextsTable.name eq Value.MANAGEMENT and (ContextsTable.rootId eq organizationContext.id)
         }.first()
 
 
         // Setup Auction Context
         val auctionContext = ContextEntity.find { ContextsTable.name eq Context.Application.value }.first()
-        val auctionOrganizationContext = ContextEntity.find {
+        // val auctionOrganizationContext =
+        ContextEntity.find {
             ContextsTable.name eq Value.ORGANIZATION and (ContextsTable.rootId eq auctionContext.id)
         }.first()
 
